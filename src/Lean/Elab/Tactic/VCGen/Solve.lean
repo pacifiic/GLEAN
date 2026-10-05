@@ -474,16 +474,54 @@ private def applySpecToFootprint (info : WPApp) (specRule : Sym.BackwardRule)
       specProof := target, splitLatticeOp? }
   return some (goal, sgs)
 
-/-- Apply the frame rule to a copy of `goal`, and read the weakest footprint `W` off its split VC
-`pre ⊑ (op ?F W) s⃗`. The copy keeps candidate fall-through possible: committing to the frame rule
-has no undo, so a spec that turns out not to apply leaves the copy orphaned and the goal untouched. -/
-private def commitFrameRule (goal : MVarId) (info : WPApp) (fp : FrameProc) :
+/-- The least guard `fun t⃗ => ⌜t₁ = s₁ ∧ … ∧ tₙ = sₙ⌝ ⊓ pre` for the goal
+`pre ⊑ wp prog Q E s⃗`, and its proof of `pre ⊑ guard s⃗`. The guard is
+`fun t⃗ => ⌜t₁ = s₁ ∧ … ∧ tₙ = sₙ⌝` when `pre` is `⊤`, and `pre` when `n = 0`. -/
+private def mkFrameGuard (g : FrameGuard) (pre : Expr) (ss : Array Expr) : SymM (Expr × Expr) := do
+  let n := ss.size
+  if n == 0 then
+    return (pre, ← mkAppS g.relRefl pre)
+  let andC ← mkConstS ``And
+  let andIntro ← mkConstS ``And.intro
+  -- `φ := t₁ = s₁ ∧ … ∧ tₙ = sₙ`, where `tᵢ` is the loose bound variable `n - 1 - i`;
+  -- `φs := s₁ = s₁ ∧ … ∧ sₙ = sₙ` and `hφs : φs`.
+  let mut φ ← mkAppNS g.eqs[n-1]! #[← mkBVarS 0, ss[n-1]!]
+  let mut φs ← mkAppNS g.eqs[n-1]! #[ss[n-1]!, ss[n-1]!]
+  let mut hφs ← mkAppS g.rfls[n-1]! ss[n-1]!
+  for i in (List.range (n-1)).reverse do
+    let eq ← mkAppNS g.eqs[i]! #[← mkBVarS (n - 1 - i), ss[i]!]
+    let eqs ← mkAppNS g.eqs[i]! #[ss[i]!, ss[i]!]
+    hφs ← mkAppNS andIntro #[eqs, φs, ← mkAppS g.rfls[i]! ss[i]!, hφs]
+    φ ← mkAppNS andC #[eq, φ]
+    φs ← mkAppNS andC #[eqs, φs]
+  let ofφ ← mkAppS g.ofProp φ
+  let hofφs ← mkAppNS g.leOfProp #[pre, φs, hφs]
+  let (body, prf) ←
+    if pre.isAppOf ``Lean.Order.top then
+      pure (ofφ, hofφs)
+    else
+      let ofφs ← mkAppS g.ofProp φs
+      pure (← mkAppNS g.meet #[ofφ, pre],
+        ← mkAppNS g.leMeet #[pre, ofφs, pre, hofφs, ← mkAppS g.relRefl pre])
+  let mut guard := body
+  for i in (List.range n).reverse do
+    guard ← mkLambdaS `t .default g.stateTypes[i]! guard
+  return (guard, prf)
+
+/-- Apply the frame rule to a copy of `goal`, assign its guard, and read the weakest footprint `W`
+off its split VC `pre ⊑ (op ?F W) s⃗`. The copy keeps candidate fall-through possible: committing to
+the frame rule has no undo, so a spec that turns out not to apply leaves the copy orphaned and the
+goal untouched. -/
+private def commitFrameRule (goal : MVarId) (info : WPApp) (fp : FrameProc) (pre : Expr) :
     VCGenM (Expr × FrameBackwardRule × Array MVarId × Expr) := do
   let frule ← mkFrameBackwardRuleCached fp info
   let copy ← mkFreshExprSyntheticOpaqueMVar (← goal.getType)
   let .goals goals ← frule.rule.applyChecked copy.mvarId! m!"frame rule for{indentExpr info.prog}"
     | throwError "frame: failed to apply rule for{indentExpr info.prog}"
   let goals := goals.toArray
+  let (guard, hguard) ← mkFrameGuard frule.guard pre info.excessArgs
+  goals[frule.guardIdx]!.assign guard
+  goals[frule.guardVCIdx]!.assign hguard
   let vcType ← goals[frule.splitVCIdx]!.getType
   let_expr Lean.Order.PartialOrder.rel _ _ _ rhs := vcType
     | throwError "frame: split VC is not an entailment{indentExpr vcType}"
@@ -531,7 +569,7 @@ private def applySpec (scope : Scope) (goal : MVarId) (info : WPApp) (thm : Spec
       unless excessStates.size == info.excessArgs.size do
         throwError "frameproc: the spec must run at {info.excessArgs.size} state arguments \
           for now, got {excessStates.size}"
-      let (copy, frule, goals, W) ← commitFrameRule goal info fp
+      let (copy, frule, goals, W) ← commitFrameRule goal info fp inferInfo.pre
       let some (fgoal, sgs) ←
           applySpecToFootprint info specRule inferInfo.le W excessStates goals[frule.frameIdx]!
             (← splitLatticeOpCallback)

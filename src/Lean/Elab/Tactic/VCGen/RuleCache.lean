@@ -92,7 +92,14 @@ public def mkFrameBackwardRuleCached (fp : FrameProc) (info : WPApp) :
   let key := (ExprPtr.mk info.instWP, info.excessArgs.size)
   if let some rule := (← get).frameBackwardRuleCache[key]? then return rule
   let frule ← mkFrameBackwardRule fp info
-  let frule := { frule with rule := ← frule.rule.shareCommon }
+  let g := frule.guard
+  let share (es : Array Expr) : VCGenM (Array Expr) := es.mapM (shareCommon ·)
+  let guard : FrameGuard := {
+    stateTypes := ← share g.stateTypes, eqs := ← share g.eqs
+    rfls := ← share g.rfls, ofProp := ← shareCommon g.ofProp
+    meet := ← shareCommon g.meet, leOfProp := ← shareCommon g.leOfProp
+    leMeet := ← shareCommon g.leMeet, relRefl := ← shareCommon g.relRefl }
+  let frule := { frule with rule := ← frule.rule.shareCommon, guard }
   modify fun st => { st with frameBackwardRuleCache := st.frameBackwardRuleCache.insert key frule }
   return frule
 

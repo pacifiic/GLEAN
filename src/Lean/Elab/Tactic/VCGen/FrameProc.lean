@@ -31,8 +31,9 @@ spec's precondition. `W` is the weakest footprint the rule leaves.
 goal          : P ⊑ wp prog Q E s⃗
    │ frame rule, introducing ?frame
    ▼
-split VC      : P ⊑ (op ?frame W) s⃗      side goal: Frames op (trans prog) ?frame
+split VC      : P ⊑ (op ?frame W) s⃗      side goal: Frames op (trans prog) ?frame G
    where        W = wp prog (fun a => adj (op ?frame) (Q a)) (adj (opE ?frame) E)
+                G = fun t⃗ => ⌜t⃗ = s⃗⌝ ⊓ P, the least G with P ⊑ G s⃗ (G = P when n = 0)
    │ spec rule, at a target the frameproc named
    ▼
 spec target   : ?footprint ⊑ W t⃗
@@ -51,7 +52,7 @@ spec target   : ?footprint ⊑ W t⃗
    at. The length of `t⃗` picks the rule.
 3. Solver. On `decline`, apply the spec to the goal and hand back its subgoals.
 4. Solver. On `commit`, apply the frame rule to a copy of the goal. This yields `?frame`, `W`, the
-   split VC and the side goal.
+   split VC and the side goal. Assign the guard `G` and prove `P ⊑ G s⃗`.
 5. Solver. Apply the spec at `?footprint ⊑ W t⃗`. On failure, drop the copy and try the next
    candidate.
 6. Solver. Pass `?frame`, `?footprint`, `W`, `specP`, the pre VC and the proof of the spec target
@@ -144,8 +145,28 @@ a `FrameDecision`. The spec's precondition is only visible in phase two, after `
 public abbrev FrameInferenceProc :=
   FrameInferenceInfo → Grind.GrindM FrameDecision
 
-/-- A frame backward rule together with the positions of the schematic frame and the split VC in
-the applied rule's goal list, fixed at rule construction. -/
+/-- The partial applications from which the solver assembles the guard
+`fun t⃗ => ⌜t₁ = s₁ ∧ … ∧ tₙ = sₙ⌝ ⊓ pre` and its proof, for `Pred = σ₁ → … → σₙ → B`. -/
+public structure FrameGuard where
+  /-- The state types `σ⃗`. -/
+  stateTypes : Array Expr
+  /-- `@Eq σᵢ` for each state type. -/
+  eqs : Array Expr
+  /-- `@rfl σᵢ` for each state type. -/
+  rfls : Array Expr
+  /-- `@CompleteLattice.ofProp B inst`. -/
+  ofProp : Expr
+  /-- `@meet B inst`. -/
+  meet : Expr
+  /-- `@CompleteLattice.le_ofProp B inst`. -/
+  leOfProp : Expr
+  /-- `@le_meet B inst`. -/
+  leMeet : Expr
+  /-- `@PartialOrder.rel_refl B inst.toPartialOrder`. -/
+  relRefl : Expr
+
+/-- A frame backward rule together with the positions of its schematic slots and premises in the
+applied rule's goal list, fixed at rule construction. -/
 public structure FrameBackwardRule where
   /-- The backward rule concluding `pre ⊑ wp prog Q E s⃗`. -/
   rule : Lean.Meta.Sym.BackwardRule
@@ -153,6 +174,12 @@ public structure FrameBackwardRule where
   splitVCIdx : Nat
   /-- Position of the schematic frame (of type `R`). -/
   frameIdx : Nat
+  /-- Position of the schematic guard (of type `Pred`). -/
+  guardIdx : Nat
+  /-- Position of the guard premise `pre ⊑ guard s⃗`. -/
+  guardVCIdx : Nat
+  /-- The terms the solver builds the guard from. -/
+  guard : FrameGuard
 
 /-- A frame inference procedure registered with `@[frameproc]`, together with its frame operator.
 `vcgen` selects the one whose `prog` matches the goal program's monad. -/

@@ -850,7 +850,7 @@ namespace ConjunctivePre
 no frame. The preconditions use `∀`/`→` (`bump_spec`), a `wp` applied to the state (`bump2_spec`),
 `if` (`bumpSat_spec`), `match` (`dec_spec`), `Prod.snd` (`bumpE_spec`) and a pair (`retryE_spec`).
 The frame `fun s => s = 3` fails to hold across each program: a framed application leaves an
-unprovable goal such as `WP.Frames meet bump (fun s => s = 3)`. -/
+unprovable goal such as `WP.Frames meet bump (fun s => s = 3) (fun t => ⌜t = s⌝)`. -/
 
 @[irreducible] def bump : StateT Nat Id Unit := modify (· + 1)
 

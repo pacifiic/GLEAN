@@ -447,51 +447,135 @@ public def mkBackwardRuleForSplit
 /-! ## Frame rules -/
 
 /-- Locate the assignable subgoal positions of a frame backward rule: the split VC (the premise
-`pre ⊑ (op F W) s⃗`, found by `opHead`) and the frame `F` read off its right-hand side. -/
-private def analyzeFrameRule (rule : BackwardRule) (opHead : Name) (numExcess : Nat) :
-    MetaM FrameBackwardRule := do
+`pre ⊑ (op F W) s⃗`, found by `opHead`), the frame `F` read off its right-hand side, the guard `P`
+read off the `WP.Frames` premise, and the guard premise `pre ⊑ P s⃗`. -/
+private def analyzeFrameRule (rule : BackwardRule) (opHead : Name) (numExcess : Nat)
+    (guard : FrameGuard) : MetaM FrameBackwardRule := do
   -- The binder telescope of the rule type is the pattern telescope, so `xs` is indexed by the
   -- entries of `resultPos`, which reorders the subgoal binders (non-dependent first) into the
   -- applied rule's goal list.
   let resultPos := rule.resultPos.toArray
   forallTelescope (← Meta.inferType rule.expr) fun xs _ => do
-    let premiseType (listIdx : Nat) : MetaM Expr :=
-      Meta.inferType xs[resultPos[listIdx]!]!
-    let mut found := none
-    -- Find the opApp `op F W` in the split VC that looks like `pre ⊑ (op F W) s`
-    for i in [0:resultPos.size] do
-      let_expr Lean.Order.PartialOrder.rel _ _ _ rhs := (← premiseType i) | continue
-      let opApp := rhs.stripArgsN numExcess
-      if opApp.isAppOf opHead then
-        found := some (i, opApp)
-        break
-    let some (splitVCIdx, opApp) := found
+    let premiseTypes ← resultPos.mapM fun pos => Meta.inferType xs[pos]!
+    let some framesTy := premiseTypes.find? (·.isAppOf ``Std.WP.WP.Frames)
+      | throwError "frame: could not locate the `WP.Frames` premise in the frame rule for \
+          `{opHead}`"
+    let guardVar := framesTy.appArg!
+    let mut splitVC := none
+    let mut guardVC := none
+    for i in [0:premiseTypes.size] do
+      let_expr Lean.Order.PartialOrder.rel _ _ _ rhs := premiseTypes[i]! | continue
+      let rhsHead := rhs.stripArgsN numExcess
+      if rhsHead.isAppOf opHead then
+        splitVC := some (i, rhsHead)
+      else if rhsHead == guardVar then
+        guardVC := some i
+    let some (splitVCIdx, opApp) := splitVC
       | throwError "frame: could not locate the split VC in the frame rule for `{opHead}`"
+    let some guardVCIdx := guardVC
+      | throwError "frame: could not locate the guard premise in the frame rule for `{opHead}`"
     let frameIdx := resultPos.idxOf (xs.idxOf opApp.appFn!.appArg!)
-    return { rule, splitVCIdx, frameIdx }
+    let guardIdx := resultPos.idxOf (xs.idxOf guardVar)
+    return { rule, splitVCIdx, frameIdx, guardIdx, guardVCIdx, guard }
+
+/-- Strip the `Assertion` class abbreviation off a lattice instance:
+`Assertion.toCompleteLattice _ (Assertion.mk _ i)` and `Assertion.mk _ i` become `i`. -/
+private partial def stripAssertionInst (inst : Expr) : Expr :=
+  match_expr inst with
+  | Std.WP.Assertion.mk _ i => stripAssertionInst i
+  | Std.WP.Assertion.toCompleteLattice _ a =>
+    if a.isAppOfArity ``Std.WP.Assertion.mk 2 then stripAssertionInst a else inst
+  | _ => inst
+
+/-- Read the `instCompleteLatticePi` layers off the lattice instance `inst` of
+`σ₁ → … → σₙ → B`: the triple `(σᵢ, βᵢ, fᵢ)` of each layer, and the instance of `B`. -/
+private def peelPiLatticeInst (inst : Expr) (n : Nat) :
+    MetaM (Array (Expr × Expr × Expr) × Expr) := do
+  let mut cur := stripAssertionInst inst
+  let mut layers := #[]
+  for _ in [0:n] do
+    let_expr Lean.Order.instCompleteLatticePi σ β f := cur
+      | throwError "frame: expected a function lattice instance, got{indentExpr cur}"
+    let .lam _ _ body _ := f
+      | throwError "frame: expected a constant family of lattice instances, got{indentExpr f}"
+    if body.hasLooseBVars then
+      throwError "frame: expected a constant family of lattice instances, got{indentExpr f}"
+    layers := layers.push (σ, β, f)
+    cur := stripAssertionInst body
+  return (layers, cur)
 
 /--
 The frame backward rule for a frame operator `op : R → Pred → Pred`, built from the frame rule
-`op_wp_upperAdjoint_le_wp`.
+`meet_op_wp_upperAdjoint_le_wp`.
 
-The rule concludes `pre ⊑ wp prog Q E s⃗` from the split VC `pre ⊑ (op F W) s⃗` and the frame
-condition `WP.Frames op prog F`, with the frame `F` left schematic and the
-weakest footprint `W = wp prog (fun a => upperAdjoint (op F) (Q a)) (upperAdjoint (opE F) E)`
-baked in, so a single rule serves every inferred frame. `analyzeFrameRule` records the positions
-of the schematic slots.
+The rule concludes `pre ⊑ wp prog Q E s⃗` from the guard premise `pre ⊑ P s⃗`, the split VC
+`pre ⊑ (op F W) s⃗` and the frame condition `WP.Frames op prog F P`, with the frame `F` and the
+guard `P` left schematic and the weakest footprint
+`W = wp prog (fun a => upperAdjoint (op F) (Q a)) (upperAdjoint (opE F) E)` baked in, so a single
+rule serves every inferred frame. `analyzeFrameRule` records the positions of the schematic slots.
 -/
 public def mkFrameBackwardRule (fp : FrameProc) (info : WPApp) :
     MetaM FrameBackwardRule := do
-  -- Pin the program and the operator, leaving everything else schematic; instance synthesis
-  -- commits the companion, and `tryMkBackwardRuleFromSpec` turns the unassigned metavariables
-  -- into rule parameters.
+  -- Pin the operator, leaving everything else schematic; instance synthesis commits the companion.
   let op ← fp.mkOpAppM info
-  let specProof ← mkAppOptM ``Std.WP.op_wp_upperAdjoint_le_wp
+  let thm ← mkAppOptM ``Std.WP.meet_op_wp_upperAdjoint_le_wp
     ((info.args.take 7).map some ++ #[none, some op, none, none])
-  let some specThm ← mkSpecTheoremFromStx (← getRef) specProof
-    | throwError "frame: could not build the frame spec for operator{indentExpr op}"
-  let some rule ← (tryMkBackwardRuleFromSpec specThm info).run
-    | throwError "frame: could not build the frame rule for operator{indentExpr op}"
-  analyzeFrameRule rule fp.opHead info.excessArgs.size
+  -- `xs = #[prog, F, P, Q, E, hframes]`, concluding `P ⊓ op F W ⊑ wp prog Q E`.
+  let (xs, _, concl) ← forallMetaTelescope (← instantiateMVars (← Meta.inferType thm))
+  let thm := mkAppN thm xs
+  let_expr PartialOrder.rel _ _ lhs rhs := concl
+    | throwError "frame: unexpected frame rule conclusion{indentExpr concl}"
+  let_expr Lean.Order.meet _ instPred guard opApp := lhs
+    | throwError "frame: unexpected frame rule precondition{indentExpr lhs}"
+  let n := info.excessArgs.size
+  -- The state types and the base lattice `B` of `Pred = σ₁ → … → σₙ → B`.
+  let mut ss := #[]
+  let mut ssTypes := #[]
+  let mut B := info.Pred
+  for _ in [0:n] do
+    let .forallE nm σ body _ ← whnfR B
+      | throwError "frame: expected a function lattice, got{indentExpr B}"
+    if body.hasLooseBVars then
+      throwError "frame: expected a non-dependent function lattice, got{indentExpr B}"
+    ss := ss.push (← mkFreshExprMVar σ (userName := nm))
+    ssTypes := ssTypes.push σ
+    B := body
+  let pre ← mkFreshExprMVar B (userName := `Pre)
+  let guardApplied := mkAppN guard ss
+  let opApplied := mkAppN opApp ss
+  let hguard ← mkFreshExprMVar (← mkAppM ``PartialOrder.rel #[pre, guardApplied])
+    (userName := `guard)
+  let hsplit ← mkFreshExprMVar (← mkAppM ``PartialOrder.rel #[pre, opApplied]) (userName := `vc)
+  -- `pre ⊑ (P ⊓ op F W) s⃗`, distributing the meet over `s⃗` with `meet_apply`.
+  let (layers, instB) ← peelPiLatticeInst instPred n
+  let mut hmeet ← mkAppOptM ``le_meet #[B, instB, pre, guardApplied, opApplied, hguard, hsplit]
+  if n > 0 then
+    let mut eq? : Option Expr := none
+    for k in [0:n] do
+      let (σ, β, f) := layers[k]!
+      let mut e ← mkAppOptM ``meet_apply
+        #[σ, β, f, mkAppN guard (ss.take k), mkAppN opApp (ss.take k), ss[k]!]
+      for j in [k+1:n] do
+        e ← mkCongrFun e ss[j]!
+      eq? ← match eq? with
+        | none => pure (some e)
+        | some p => some <$> mkEqTrans p e
+    hmeet ← mkEqMPR (← mkCongrArg (← mkAppM ``PartialOrder.rel #[pre]) eq?.get!) hmeet
+  let guardData : FrameGuard := {
+    stateTypes := ssTypes
+    eqs := ← ssTypes.mapM fun σ => mkAppOptM ``Eq #[some σ]
+    rfls := ← ssTypes.mapM fun σ => mkAppOptM ``rfl #[some σ]
+    ofProp := ← mkAppOptM ``CompleteLattice.ofProp #[B, instB]
+    meet := ← mkAppOptM ``Lean.Order.meet #[B, instB]
+    leOfProp := ← mkAppOptM ``CompleteLattice.le_ofProp #[B, instB]
+    leMeet := ← mkAppOptM ``le_meet #[B, instB]
+    relRefl := ← mkAppOptM ``PartialOrder.rel_refl
+      #[B, ← mkAppOptM ``CompleteLattice.toPartialOrder #[B, instB]] }
+  let specApplied := mkAppN thm ss
+  let specAppliedTy ← mkAppM ``PartialOrder.rel #[mkAppN lhs ss, mkAppN rhs ss]
+  let prf ← mkAppM ``PartialOrder.rel_trans #[hmeet, ← mkExpectedTypeHint specApplied specAppliedTy]
+  let res ← abstractMVars (← instantiateMVars prf)
+  let rule ← mkBackwardRuleFromExpr res.expr res.paramNames.toList
+  analyzeFrameRule rule fp.opHead n guardData
 
 end Lean.Elab.Tactic.VCGen
