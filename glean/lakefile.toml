@@ -1,0 +1,6 @@
+name = "glean"
+version = "0.1.0"
+defaultTargets = ["Glean"]
+
+[[lean_lib]]
+name = "Glean"

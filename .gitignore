@@ -34,3 +34,7 @@ wdErr.txt
 wdIn.txt
 wdOut.txt
 .claude/worktrees/
+
+# GLEAN local toolchain and scratch files
+/.glean-tools/
+/work/

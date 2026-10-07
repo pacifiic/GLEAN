@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Copyright (c) 2026 GLEAN contributors. Released under Apache 2.0.
+set -euo pipefail
+
+glean_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+local_lake="$glean_dir/../.glean-tools/lean-4.34.1-darwin_aarch64/bin/lake"
+cd "$glean_dir"
+
+if [[ -x "$local_lake" ]]; then
+  exec "$local_lake" "$@"
+elif command -v lake >/dev/null 2>&1; then
+  exec lake "$@"
+else
+  echo "Lean is not installed. Install elan from https://lean-lang.org/install/ and retry." >&2
+  exit 1
+fi
