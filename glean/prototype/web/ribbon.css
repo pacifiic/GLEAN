@@ -1,0 +1,47 @@
+/* Copyright (c) 2026 GLEAN contributors. Released under Apache 2.0. */
+.component-ribbon {
+  flex:0 0 auto;
+  color:var(--ink,#30312e);
+  background:linear-gradient(#f4f4f1,#e1e1dc);
+  border-top:1px solid #fafaf8;
+  border-bottom:1px solid #9d9e96;
+  box-shadow:0 1px 0 #fff inset;
+  user-select:none;
+}
+.ribbon-categories {
+  display:flex;
+  align-items:center;
+  gap:1px;
+  height:25px;
+  padding:0 9px;
+  border-bottom:1px solid #b9b9b3;
+  background:#e9e9e5;
+}
+.ribbon-category {
+  align-self:stretch;
+  padding:0 16px;
+  border:1px solid transparent;
+  border-bottom:0;
+  border-radius:3px 3px 0 0;
+  color:#53564d;
+  background:transparent;
+  font-size:11px;
+}
+.ribbon-category:hover {background:#f6f6f0;}
+.ribbon-category[aria-pressed="true"] {background:#f6f6f1;border-color:#b6b8ad;box-shadow:0 2px 0 #66833f inset;color:#2c4720;font-weight:600;}
+.ribbon-category:focus-visible {outline-offset:-3px;}
+.ribbon-caption {margin-left:auto;font-size:10px;color:#686c60;letter-spacing:.15px;white-space:nowrap;}
+.ribbon-content {display:flex;align-items:stretch;gap:6px;padding:4px 8px 3px;min-height:69px;overflow-x:auto;scrollbar-width:thin;}
+.ribbon-group {flex:0 0 auto;display:flex;flex-direction:column;border:1px solid #b8b9b0;border-radius:2px;background:#f3f3ee;box-shadow:0 1px 0 #fff inset;}
+.ribbon-tools {display:flex;align-items:stretch;gap:2px;padding:2px 5px;flex:1;}
+.ribbon-tool {position:relative;min-width:58px;min-height:41px;padding:2px 7px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:1px solid transparent;border-radius:2px;background:transparent;color:#34392f;font-size:10px;white-space:nowrap;}
+.ribbon-tool:hover {background:linear-gradient(#eff8dd,#cfe4a8);border-color:#8eaa61;box-shadow:0 1px 0 #fff inset;}
+.ribbon-tool:active {background:#c2db95;box-shadow:inset 0 1px 2px #53663540;}
+.ribbon-icon {display:flex;align-items:center;justify-content:center;min-width:28px;height:23px;font:600 23px Georgia,serif;line-height:1;color:#4d632e;text-shadow:0 1px #fff;}
+.ribbon-icon.parameter {min-width:31px;height:19px;margin:2px 0;border:1px solid #968c49;border-radius:6px;font:italic 600 14px Georgia,serif;background:linear-gradient(#fffddb,#dfd78c);color:#514e2c;}
+.ribbon-icon.proof {font:600 21px var(--mono);color:#4c702c;}
+.ribbon-group-label {height:15px;border-top:1px solid #d0d1c7;text-align:center;font-size:9px;line-height:14px;background:linear-gradient(#e7e8df,#d8dacf);color:#626657;letter-spacing:.15px;}
+.ribbon-identity {margin-left:auto;align-self:center;padding:0 10px 0 20px;text-align:right;color:#7a7f6d;white-space:nowrap;font:10px var(--mono);line-height:1.7;}
+.ribbon-identity strong {display:block;font-size:12px;letter-spacing:1px;font-weight:500;color:#59684a;}
+@media (max-width:1000px) {.ribbon-identity {display:none;}}
+@media (max-width:620px) {.ribbon-caption {display:none;}.ribbon-category {padding:0 10px;}.ribbon-tool {min-width:53px;padding:2px 5px;}.ribbon-content {gap:4px;padding-left:5px;padding-right:5px;}}

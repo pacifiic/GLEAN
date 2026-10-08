@@ -1,0 +1,1248 @@
+{
+  "compilerHash": "dbcb649352f61388704214be400d16c597d2c08e5bf826bbe2454b643554850d",
+  "sourceCheckerHash": "89f6aa3a3b4b296dde1b84d11ba3b16d43dab2af9ee2cfae062bfe8f40c563f5",
+  "cases": [
+    {
+      "id": "R12-map",
+      "expected": "valid",
+      "status": "invalid",
+      "passed": false,
+      "fixture": {
+        "version": 3,
+        "name": "map independent audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [],
+        "goal": "3 = 3",
+        "modules": [],
+        "nodes": [
+          {
+            "id": "left0",
+            "kind": "nat",
+            "value": "1"
+          },
+          {
+            "id": "left1",
+            "kind": "nat",
+            "value": "2"
+          },
+          {
+            "id": "left2",
+            "kind": "nat",
+            "value": "3"
+          },
+          {
+            "id": "template",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x = x",
+            "body": "by rfl"
+          },
+          {
+            "id": "map_0",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x = x",
+            "body": "by rfl",
+            "x": 380,
+            "y": 80,
+            "provenance": {
+              "operation": "map",
+              "operationId": "map",
+              "items": [
+                {
+                  "node": "left0",
+                  "output": "out"
+                }
+              ]
+            }
+          },
+          {
+            "id": "map_1",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x = x",
+            "body": "by rfl",
+            "x": 590,
+            "y": 80,
+            "provenance": {
+              "operation": "map",
+              "operationId": "map",
+              "items": [
+                {
+                  "node": "left1",
+                  "output": "out"
+                }
+              ]
+            }
+          },
+          {
+            "id": "map_2",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x = x",
+            "body": "by rfl",
+            "x": 800,
+            "y": 80,
+            "provenance": {
+              "operation": "map",
+              "operationId": "map",
+              "items": [
+                {
+                  "node": "left2",
+                  "output": "out"
+                }
+              ]
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "template_x",
+            "source": "left0",
+            "output": "out",
+            "target": "template",
+            "input": "x"
+          },
+          {
+            "id": "map_0_wire_0",
+            "source": "left0",
+            "output": "out",
+            "target": "map_0",
+            "input": "x"
+          },
+          {
+            "id": "map_1_wire_0",
+            "source": "left1",
+            "output": "out",
+            "target": "map_1",
+            "input": "x"
+          },
+          {
+            "id": "map_2_wire_0",
+            "source": "left2",
+            "output": "out",
+            "target": "map_2",
+            "input": "x"
+          }
+        ],
+        "result": {
+          "node": "map_2",
+          "output": "out"
+        }
+      },
+      "sourceMap": {
+        "root/template": {
+          "startLine": 28,
+          "endLine": 30
+        },
+        "root/map_0": {
+          "startLine": 31,
+          "endLine": 33
+        },
+        "root/map_1": {
+          "startLine": 34,
+          "endLine": 36
+        },
+        "root/map_2": {
+          "startLine": 37,
+          "endLine": 39
+        },
+        "root": {
+          "startLine": 40,
+          "endLine": 49
+        }
+      },
+      "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_4 (x : (gleanTerm% \"Nat\")) : (gleanTerm% \"x = x\") :=\n  (gleanTerm% \"by rfl\")\n\nnoncomputable def glean_component_6 (x : (gleanTerm% \"Nat\")) : (gleanTerm% \"x = x\") :=\n  (gleanTerm% \"by rfl\")\n\nnoncomputable def glean_component_8 (x : (gleanTerm% \"Nat\")) : (gleanTerm% \"x = x\") :=\n  (gleanTerm% \"by rfl\")\n\nnoncomputable def glean_component_10 (x : (gleanTerm% \"Nat\")) : (gleanTerm% \"x = x\") :=\n  (gleanTerm% \"by rfl\")\n\ntheorem glean_proof  : (gleanTerm% \"3 = 3\") :=\n  let glean_component_1 : Nat := 1\n  let glean_component_2 : Nat := 2\n  let glean_component_3 : Nat := 3\n  let glean_component_5 := glean_component_4 (glean_component_1)\n  let glean_component_7 := glean_component_6 (glean_component_1)\n  let glean_component_9 := glean_component_8 (glean_component_2)\n  let glean_component_11 := glean_component_10 (glean_component_3)\n  glean_component_11\n",
+      "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := (gleanExpectedTerm% \"3 = 3\")\n",
+      "result": {
+        "jobId": "00c4c6b8dff148af994d467b05e930aa",
+        "status": "invalid",
+        "phase": "complete",
+        "verified": false,
+        "kernelAccepted": false,
+        "audit": null,
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "독립 커널 재검사 또는 대상 정리의 공리 검사에 실패했습니다."
+          }
+        ],
+        "filename": "Requirement.lean",
+        "projectId": "glean",
+        "target": "glean_proof",
+        "policy": "strict",
+        "sourceHash": "3fda70ef73d29e8505f825cd5fdaa0ccfff8fa7201da3871bbbc03a8c4caf387",
+        "lean": {
+          "output": "Requirement.lean:44:6: warning: Variable name `glean_component_5` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _glean_component_5\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\nRequirement.lean:45:6: warning: Variable name `glean_component_7` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _glean_component_7\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\nRequirement.lean:46:6: warning: Variable name `glean_component_9` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _glean_component_9\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\n/var/folders/bl/_h2n2k_d41g3q3fwxvy0gppr0000gn/T/glean-source-t5awgez1/Auditdf85d477ceb14aa88f3c2af8f3360c3e.lean:66:28: error: unexpected token 'variable'; expected '[', '{', '|', '⦃' or term\n/var/folders/bl/_h2n2k_d41g3q3fwxvy0gppr0000gn/T/glean-source-t5awgez1/Auditdf85d477ceb14aa88f3c2af8f3360c3e.lean:66:37: error: unexpected token '=>'; expected '(', '[', '{' or '⦃'\n/var/folders/bl/_h2n2k_d41g3q3fwxvy0gppr0000gn/T/glean-source-t5awgez1/Auditdf85d477ceb14aa88f3c2af8f3360c3e.lean:68:65: error: unexpected token ')'; expected '(', '[', '{' or '⦃'\n",
+          "durationMs": 10608
+        },
+        "environment": {
+          "schema": 1,
+          "projectId": "glean",
+          "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+          "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+          "projectFiles": {
+            "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+            "lake-manifest.json": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+            "lakefile.lean": null,
+            "lakefile.toml": "a3500f3a6618de5748b6135a580e2b4357a9936564a0a43a9decbdb94f101580"
+          },
+          "sourceStateHash": "8e42ea7f844d4211928454b4232a8b9dc61fcb3192dc8942c803ce6cbd657213",
+          "dependencies": [],
+          "compiledArtifacts": {
+            "kind": "path-size-mtime-metadata",
+            "count": 10089,
+            "hash": "eff39cb727636d1b135ecdb35e3c8e15e665997e6a4f2255310687c6f71cb748"
+          },
+          "leanSearchPaths": [
+            "/Users/moonone/GLEAN/glean/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+          ],
+          "gitCommit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+          "gitDirty": true,
+          "changedLeanInputs": null,
+          "sourceIdentityKind": "source-content-in-parent-git",
+          "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+          "manifestHash": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+          "environmentHash": "917976ff217f0f0fb12d0f5e79d860452ee0b9cabcf892da1d1d35b5e23bed1e",
+          "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+        }
+      }
+    },
+    {
+      "id": "R12-map-wrong-item",
+      "expected": "invalid",
+      "status": "invalid",
+      "passed": true,
+      "fixture": {
+        "version": 3,
+        "name": "map independent audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [],
+        "goal": "3 = 3",
+        "modules": [],
+        "nodes": [
+          {
+            "id": "left0",
+            "kind": "nat",
+            "value": "1"
+          },
+          {
+            "id": "left1",
+            "kind": "script",
+            "inputs": [],
+            "outputType": "Bool",
+            "body": "true"
+          },
+          {
+            "id": "left2",
+            "kind": "nat",
+            "value": "3"
+          },
+          {
+            "id": "template",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x = x",
+            "body": "by rfl"
+          },
+          {
+            "id": "map_0",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x = x",
+            "body": "by rfl",
+            "x": 380,
+            "y": 80,
+            "provenance": {
+              "operation": "map",
+              "operationId": "map",
+              "items": [
+                {
+                  "node": "left0",
+                  "output": "out"
+                }
+              ]
+            }
+          },
+          {
+            "id": "map_1",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x = x",
+            "body": "by rfl",
+            "x": 590,
+            "y": 80,
+            "provenance": {
+              "operation": "map",
+              "operationId": "map",
+              "items": [
+                {
+                  "node": "left1",
+                  "output": "out"
+                }
+              ]
+            }
+          },
+          {
+            "id": "map_2",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x = x",
+            "body": "by rfl",
+            "x": 800,
+            "y": 80,
+            "provenance": {
+              "operation": "map",
+              "operationId": "map",
+              "items": [
+                {
+                  "node": "left2",
+                  "output": "out"
+                }
+              ]
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "template_x",
+            "source": "left0",
+            "output": "out",
+            "target": "template",
+            "input": "x"
+          },
+          {
+            "id": "map_0_wire_0",
+            "source": "left0",
+            "output": "out",
+            "target": "map_0",
+            "input": "x"
+          },
+          {
+            "id": "map_1_wire_0",
+            "source": "left1",
+            "output": "out",
+            "target": "map_1",
+            "input": "x"
+          },
+          {
+            "id": "map_2_wire_0",
+            "source": "left2",
+            "output": "out",
+            "target": "map_2",
+            "input": "x"
+          }
+        ],
+        "result": {
+          "node": "map_2",
+          "output": "out"
+        }
+      },
+      "sourceMap": {
+        "root/left1": {
+          "startLine": 28,
+          "endLine": 30
+        },
+        "root/template": {
+          "startLine": 31,
+          "endLine": 33
+        },
+        "root/map_0": {
+          "startLine": 34,
+          "endLine": 36
+        },
+        "root/map_1": {
+          "startLine": 37,
+          "endLine": 39
+        },
+        "root/map_2": {
+          "startLine": 40,
+          "endLine": 42
+        },
+        "root": {
+          "startLine": 43,
+          "endLine": 52
+        }
+      },
+      "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_2  : (gleanTerm% \"Bool\") :=\n  (gleanTerm% \"true\")\n\nnoncomputable def glean_component_5 (x : (gleanTerm% \"Nat\")) : (gleanTerm% \"x = x\") :=\n  (gleanTerm% \"by rfl\")\n\nnoncomputable def glean_component_7 (x : (gleanTerm% \"Nat\")) : (gleanTerm% \"x = x\") :=\n  (gleanTerm% \"by rfl\")\n\nnoncomputable def glean_component_9 (x : (gleanTerm% \"Nat\")) : (gleanTerm% \"x = x\") :=\n  (gleanTerm% \"by rfl\")\n\nnoncomputable def glean_component_11 (x : (gleanTerm% \"Nat\")) : (gleanTerm% \"x = x\") :=\n  (gleanTerm% \"by rfl\")\n\ntheorem glean_proof  : (gleanTerm% \"3 = 3\") :=\n  let glean_component_1 : Nat := 1\n  let glean_component_3 := glean_component_2 \n  let glean_component_4 : Nat := 3\n  let glean_component_6 := glean_component_5 (glean_component_1)\n  let glean_component_8 := glean_component_7 (glean_component_1)\n  let glean_component_10 := glean_component_9 (glean_component_3)\n  let glean_component_12 := glean_component_11 (glean_component_4)\n  glean_component_12\n",
+      "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := (gleanExpectedTerm% \"3 = 3\")\n",
+      "result": {
+        "jobId": "2b71a3e7c1c9461baac4a2b6d3a41c75",
+        "status": "invalid",
+        "phase": "complete",
+        "verified": false,
+        "kernelAccepted": false,
+        "audit": null,
+        "diagnostics": [
+          {
+            "filename": "Requirement.lean",
+            "line": 49,
+            "column": 47,
+            "severity": "error",
+            "message": "Application type mismatch: The argument\n  glean_component_3\nhas type\n  Bool\nbut is expected to have type\n  Nat\nin the application\n  glean_component_9 glean_component_3"
+          }
+        ],
+        "filename": "Requirement.lean",
+        "projectId": "glean",
+        "target": "glean_proof",
+        "policy": "strict",
+        "sourceHash": "f370b9a060a897d28353be4b20a7c9d88e21113e909784d2d2a7f0361a19aab5",
+        "lean": {
+          "output": "Requirement.lean:49:46: error: Application type mismatch: The argument\n  glean_component_3\nhas type\n  Bool\nbut is expected to have type\n  Nat\nin the application\n  glean_component_9 glean_component_3\n",
+          "durationMs": 1924
+        },
+        "environment": {
+          "schema": 1,
+          "projectId": "glean",
+          "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+          "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+          "projectFiles": {
+            "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+            "lake-manifest.json": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+            "lakefile.lean": null,
+            "lakefile.toml": "a3500f3a6618de5748b6135a580e2b4357a9936564a0a43a9decbdb94f101580"
+          },
+          "sourceStateHash": "8e42ea7f844d4211928454b4232a8b9dc61fcb3192dc8942c803ce6cbd657213",
+          "dependencies": [],
+          "compiledArtifacts": {
+            "kind": "path-size-mtime-metadata",
+            "count": 10089,
+            "hash": "eff39cb727636d1b135ecdb35e3c8e15e665997e6a4f2255310687c6f71cb748"
+          },
+          "leanSearchPaths": [
+            "/Users/moonone/GLEAN/glean/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+          ],
+          "gitCommit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+          "gitDirty": true,
+          "changedLeanInputs": null,
+          "sourceIdentityKind": "source-content-in-parent-git",
+          "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+          "manifestHash": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+          "environmentHash": "917976ff217f0f0fb12d0f5e79d860452ee0b9cabcf892da1d1d35b5e23bed1e",
+          "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+        }
+      }
+    },
+    {
+      "id": "R12-zip",
+      "expected": "valid",
+      "status": "invalid",
+      "passed": false,
+      "fixture": {
+        "version": 3,
+        "name": "zip independent audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [],
+        "goal": "3 + 6 = 3 + 6",
+        "modules": [],
+        "nodes": [
+          {
+            "id": "left0",
+            "kind": "nat",
+            "value": "1"
+          },
+          {
+            "id": "left1",
+            "kind": "nat",
+            "value": "2"
+          },
+          {
+            "id": "left2",
+            "kind": "nat",
+            "value": "3"
+          },
+          {
+            "id": "right0",
+            "kind": "nat",
+            "value": "4"
+          },
+          {
+            "id": "right1",
+            "kind": "nat",
+            "value": "5"
+          },
+          {
+            "id": "right2",
+            "kind": "nat",
+            "value": "6"
+          },
+          {
+            "id": "template",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              },
+              {
+                "id": "y",
+                "name": "y",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x + y = x + y",
+            "body": "by rfl"
+          },
+          {
+            "id": "zip_0",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              },
+              {
+                "id": "y",
+                "name": "y",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x + y = x + y",
+            "body": "by rfl",
+            "x": 380,
+            "y": 80,
+            "provenance": {
+              "operation": "zip",
+              "operationId": "zip",
+              "items": [
+                {
+                  "node": "left0",
+                  "output": "out"
+                },
+                {
+                  "node": "right0",
+                  "output": "out"
+                }
+              ]
+            }
+          },
+          {
+            "id": "zip_1",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              },
+              {
+                "id": "y",
+                "name": "y",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x + y = x + y",
+            "body": "by rfl",
+            "x": 590,
+            "y": 80,
+            "provenance": {
+              "operation": "zip",
+              "operationId": "zip",
+              "items": [
+                {
+                  "node": "left1",
+                  "output": "out"
+                },
+                {
+                  "node": "right1",
+                  "output": "out"
+                }
+              ]
+            }
+          },
+          {
+            "id": "zip_2",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              },
+              {
+                "id": "y",
+                "name": "y",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x + y = x + y",
+            "body": "by rfl",
+            "x": 800,
+            "y": 80,
+            "provenance": {
+              "operation": "zip",
+              "operationId": "zip",
+              "items": [
+                {
+                  "node": "left2",
+                  "output": "out"
+                },
+                {
+                  "node": "right2",
+                  "output": "out"
+                }
+              ]
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "template_x",
+            "source": "left0",
+            "output": "out",
+            "target": "template",
+            "input": "x"
+          },
+          {
+            "id": "template_y",
+            "source": "right0",
+            "output": "out",
+            "target": "template",
+            "input": "y"
+          },
+          {
+            "id": "zip_0_wire_0",
+            "source": "left0",
+            "output": "out",
+            "target": "zip_0",
+            "input": "x"
+          },
+          {
+            "id": "zip_0_wire_1",
+            "source": "right0",
+            "output": "out",
+            "target": "zip_0",
+            "input": "y"
+          },
+          {
+            "id": "zip_1_wire_0",
+            "source": "left1",
+            "output": "out",
+            "target": "zip_1",
+            "input": "x"
+          },
+          {
+            "id": "zip_1_wire_1",
+            "source": "right1",
+            "output": "out",
+            "target": "zip_1",
+            "input": "y"
+          },
+          {
+            "id": "zip_2_wire_0",
+            "source": "left2",
+            "output": "out",
+            "target": "zip_2",
+            "input": "x"
+          },
+          {
+            "id": "zip_2_wire_1",
+            "source": "right2",
+            "output": "out",
+            "target": "zip_2",
+            "input": "y"
+          }
+        ],
+        "result": {
+          "node": "zip_2",
+          "output": "out"
+        }
+      },
+      "sourceMap": {
+        "root/template": {
+          "startLine": 28,
+          "endLine": 30
+        },
+        "root/zip_0": {
+          "startLine": 31,
+          "endLine": 33
+        },
+        "root/zip_1": {
+          "startLine": 34,
+          "endLine": 36
+        },
+        "root/zip_2": {
+          "startLine": 37,
+          "endLine": 39
+        },
+        "root": {
+          "startLine": 40,
+          "endLine": 52
+        }
+      },
+      "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_7 (x : (gleanTerm% \"Nat\")) (y : (gleanTerm% \"Nat\")) : (gleanTerm% \"x + y = x + y\") :=\n  (gleanTerm% \"by rfl\")\n\nnoncomputable def glean_component_9 (x : (gleanTerm% \"Nat\")) (y : (gleanTerm% \"Nat\")) : (gleanTerm% \"x + y = x + y\") :=\n  (gleanTerm% \"by rfl\")\n\nnoncomputable def glean_component_11 (x : (gleanTerm% \"Nat\")) (y : (gleanTerm% \"Nat\")) : (gleanTerm% \"x + y = x + y\") :=\n  (gleanTerm% \"by rfl\")\n\nnoncomputable def glean_component_13 (x : (gleanTerm% \"Nat\")) (y : (gleanTerm% \"Nat\")) : (gleanTerm% \"x + y = x + y\") :=\n  (gleanTerm% \"by rfl\")\n\ntheorem glean_proof  : (gleanTerm% \"3 + 6 = 3 + 6\") :=\n  let glean_component_1 : Nat := 1\n  let glean_component_2 : Nat := 2\n  let glean_component_3 : Nat := 3\n  let glean_component_4 : Nat := 4\n  let glean_component_5 : Nat := 5\n  let glean_component_6 : Nat := 6\n  let glean_component_8 := glean_component_7 (glean_component_1) (glean_component_4)\n  let glean_component_10 := glean_component_9 (glean_component_1) (glean_component_4)\n  let glean_component_12 := glean_component_11 (glean_component_2) (glean_component_5)\n  let glean_component_14 := glean_component_13 (glean_component_3) (glean_component_6)\n  glean_component_14\n",
+      "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := (gleanExpectedTerm% \"3 + 6 = 3 + 6\")\n",
+      "result": {
+        "jobId": "8c286ce985104e6ab9afb5f8e79cdfe3",
+        "status": "invalid",
+        "phase": "complete",
+        "verified": false,
+        "kernelAccepted": false,
+        "audit": null,
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "독립 커널 재검사 또는 대상 정리의 공리 검사에 실패했습니다."
+          }
+        ],
+        "filename": "Requirement.lean",
+        "projectId": "glean",
+        "target": "glean_proof",
+        "policy": "strict",
+        "sourceHash": "6caea5457eb94c6c8eedc2f8bf834ecea3638e9a8f4a19c148972cf2de602410",
+        "lean": {
+          "output": "Requirement.lean:47:6: warning: Variable name `glean_component_8` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _glean_component_8\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\nRequirement.lean:48:6: warning: Variable name `glean_component_10` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _glean_component_10\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\nRequirement.lean:49:6: warning: Variable name `glean_component_12` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _glean_component_12\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\n/var/folders/bl/_h2n2k_d41g3q3fwxvy0gppr0000gn/T/glean-source-91kfydre/Auditd85c9ee13b614800bc2f705816db272a.lean:66:28: error: unexpected token 'variable'; expected '[', '{', '|', '⦃' or term\n/var/folders/bl/_h2n2k_d41g3q3fwxvy0gppr0000gn/T/glean-source-91kfydre/Auditd85c9ee13b614800bc2f705816db272a.lean:66:37: error: unexpected token '=>'; expected '(', '[', '{' or '⦃'\n/var/folders/bl/_h2n2k_d41g3q3fwxvy0gppr0000gn/T/glean-source-91kfydre/Auditd85c9ee13b614800bc2f705816db272a.lean:68:65: error: unexpected token ')'; expected '(', '[', '{' or '⦃'\n",
+          "durationMs": 4170
+        },
+        "environment": {
+          "schema": 1,
+          "projectId": "glean",
+          "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+          "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+          "projectFiles": {
+            "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+            "lake-manifest.json": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+            "lakefile.lean": null,
+            "lakefile.toml": "a3500f3a6618de5748b6135a580e2b4357a9936564a0a43a9decbdb94f101580"
+          },
+          "sourceStateHash": "8e42ea7f844d4211928454b4232a8b9dc61fcb3192dc8942c803ce6cbd657213",
+          "dependencies": [],
+          "compiledArtifacts": {
+            "kind": "path-size-mtime-metadata",
+            "count": 10089,
+            "hash": "eff39cb727636d1b135ecdb35e3c8e15e665997e6a4f2255310687c6f71cb748"
+          },
+          "leanSearchPaths": [
+            "/Users/moonone/GLEAN/glean/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+          ],
+          "gitCommit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+          "gitDirty": true,
+          "changedLeanInputs": null,
+          "sourceIdentityKind": "source-content-in-parent-git",
+          "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+          "manifestHash": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+          "environmentHash": "917976ff217f0f0fb12d0f5e79d860452ee0b9cabcf892da1d1d35b5e23bed1e",
+          "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+        }
+      }
+    },
+    {
+      "id": "R12-product",
+      "expected": "valid",
+      "status": "invalid",
+      "passed": false,
+      "fixture": {
+        "version": 3,
+        "name": "product independent audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [],
+        "goal": "2 + 6 = 2 + 6",
+        "modules": [],
+        "nodes": [
+          {
+            "id": "left0",
+            "kind": "nat",
+            "value": "1"
+          },
+          {
+            "id": "left1",
+            "kind": "nat",
+            "value": "2"
+          },
+          {
+            "id": "right0",
+            "kind": "nat",
+            "value": "4"
+          },
+          {
+            "id": "right1",
+            "kind": "nat",
+            "value": "5"
+          },
+          {
+            "id": "right2",
+            "kind": "nat",
+            "value": "6"
+          },
+          {
+            "id": "template",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              },
+              {
+                "id": "y",
+                "name": "y",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x + y = x + y",
+            "body": "by rfl"
+          },
+          {
+            "id": "product_0",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              },
+              {
+                "id": "y",
+                "name": "y",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x + y = x + y",
+            "body": "by rfl",
+            "x": 380,
+            "y": 80,
+            "provenance": {
+              "operation": "product",
+              "operationId": "product",
+              "items": [
+                {
+                  "node": "left0",
+                  "output": "out"
+                },
+                {
+                  "node": "right0",
+                  "output": "out"
+                }
+              ]
+            }
+          },
+          {
+            "id": "product_1",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              },
+              {
+                "id": "y",
+                "name": "y",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x + y = x + y",
+            "body": "by rfl",
+            "x": 590,
+            "y": 80,
+            "provenance": {
+              "operation": "product",
+              "operationId": "product",
+              "items": [
+                {
+                  "node": "left0",
+                  "output": "out"
+                },
+                {
+                  "node": "right1",
+                  "output": "out"
+                }
+              ]
+            }
+          },
+          {
+            "id": "product_2",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              },
+              {
+                "id": "y",
+                "name": "y",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x + y = x + y",
+            "body": "by rfl",
+            "x": 800,
+            "y": 80,
+            "provenance": {
+              "operation": "product",
+              "operationId": "product",
+              "items": [
+                {
+                  "node": "left0",
+                  "output": "out"
+                },
+                {
+                  "node": "right2",
+                  "output": "out"
+                }
+              ]
+            }
+          },
+          {
+            "id": "product_3",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              },
+              {
+                "id": "y",
+                "name": "y",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x + y = x + y",
+            "body": "by rfl",
+            "x": 1010,
+            "y": 80,
+            "provenance": {
+              "operation": "product",
+              "operationId": "product",
+              "items": [
+                {
+                  "node": "left1",
+                  "output": "out"
+                },
+                {
+                  "node": "right0",
+                  "output": "out"
+                }
+              ]
+            }
+          },
+          {
+            "id": "product_4",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              },
+              {
+                "id": "y",
+                "name": "y",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x + y = x + y",
+            "body": "by rfl",
+            "x": 380,
+            "y": 250,
+            "provenance": {
+              "operation": "product",
+              "operationId": "product",
+              "items": [
+                {
+                  "node": "left1",
+                  "output": "out"
+                },
+                {
+                  "node": "right1",
+                  "output": "out"
+                }
+              ]
+            }
+          },
+          {
+            "id": "product_5",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              },
+              {
+                "id": "y",
+                "name": "y",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x + y = x + y",
+            "body": "by rfl",
+            "x": 590,
+            "y": 250,
+            "provenance": {
+              "operation": "product",
+              "operationId": "product",
+              "items": [
+                {
+                  "node": "left1",
+                  "output": "out"
+                },
+                {
+                  "node": "right2",
+                  "output": "out"
+                }
+              ]
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "template_x",
+            "source": "left0",
+            "output": "out",
+            "target": "template",
+            "input": "x"
+          },
+          {
+            "id": "template_y",
+            "source": "right0",
+            "output": "out",
+            "target": "template",
+            "input": "y"
+          },
+          {
+            "id": "product_0_wire_0",
+            "source": "left0",
+            "output": "out",
+            "target": "product_0",
+            "input": "x"
+          },
+          {
+            "id": "product_0_wire_1",
+            "source": "right0",
+            "output": "out",
+            "target": "product_0",
+            "input": "y"
+          },
+          {
+            "id": "product_1_wire_0",
+            "source": "left0",
+            "output": "out",
+            "target": "product_1",
+            "input": "x"
+          },
+          {
+            "id": "product_1_wire_1",
+            "source": "right1",
+            "output": "out",
+            "target": "product_1",
+            "input": "y"
+          },
+          {
+            "id": "product_2_wire_0",
+            "source": "left0",
+            "output": "out",
+            "target": "product_2",
+            "input": "x"
+          },
+          {
+            "id": "product_2_wire_1",
+            "source": "right2",
+            "output": "out",
+            "target": "product_2",
+            "input": "y"
+          },
+          {
+            "id": "product_3_wire_0",
+            "source": "left1",
+            "output": "out",
+            "target": "product_3",
+            "input": "x"
+          },
+          {
+            "id": "product_3_wire_1",
+            "source": "right0",
+            "output": "out",
+            "target": "product_3",
+            "input": "y"
+          },
+          {
+            "id": "product_4_wire_0",
+            "source": "left1",
+            "output": "out",
+            "target": "product_4",
+            "input": "x"
+          },
+          {
+            "id": "product_4_wire_1",
+            "source": "right1",
+            "output": "out",
+            "target": "product_4",
+            "input": "y"
+          },
+          {
+            "id": "product_5_wire_0",
+            "source": "left1",
+            "output": "out",
+            "target": "product_5",
+            "input": "x"
+          },
+          {
+            "id": "product_5_wire_1",
+            "source": "right2",
+            "output": "out",
+            "target": "product_5",
+            "input": "y"
+          }
+        ],
+        "result": {
+          "node": "product_5",
+          "output": "out"
+        }
+      },
+      "sourceMap": {
+        "root/template": {
+          "startLine": 28,
+          "endLine": 30
+        },
+        "root/product_0": {
+          "startLine": 31,
+          "endLine": 33
+        },
+        "root/product_3": {
+          "startLine": 34,
+          "endLine": 36
+        },
+        "root/product_1": {
+          "startLine": 37,
+          "endLine": 39
+        },
+        "root/product_4": {
+          "startLine": 40,
+          "endLine": 42
+        },
+        "root/product_2": {
+          "startLine": 43,
+          "endLine": 45
+        },
+        "root/product_5": {
+          "startLine": 46,
+          "endLine": 48
+        },
+        "root": {
+          "startLine": 49,
+          "endLine": 63
+        }
+      },
+      "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_6 (x : (gleanTerm% \"Nat\")) (y : (gleanTerm% \"Nat\")) : (gleanTerm% \"x + y = x + y\") :=\n  (gleanTerm% \"by rfl\")\n\nnoncomputable def glean_component_8 (x : (gleanTerm% \"Nat\")) (y : (gleanTerm% \"Nat\")) : (gleanTerm% \"x + y = x + y\") :=\n  (gleanTerm% \"by rfl\")\n\nnoncomputable def glean_component_10 (x : (gleanTerm% \"Nat\")) (y : (gleanTerm% \"Nat\")) : (gleanTerm% \"x + y = x + y\") :=\n  (gleanTerm% \"by rfl\")\n\nnoncomputable def glean_component_12 (x : (gleanTerm% \"Nat\")) (y : (gleanTerm% \"Nat\")) : (gleanTerm% \"x + y = x + y\") :=\n  (gleanTerm% \"by rfl\")\n\nnoncomputable def glean_component_14 (x : (gleanTerm% \"Nat\")) (y : (gleanTerm% \"Nat\")) : (gleanTerm% \"x + y = x + y\") :=\n  (gleanTerm% \"by rfl\")\n\nnoncomputable def glean_component_16 (x : (gleanTerm% \"Nat\")) (y : (gleanTerm% \"Nat\")) : (gleanTerm% \"x + y = x + y\") :=\n  (gleanTerm% \"by rfl\")\n\nnoncomputable def glean_component_18 (x : (gleanTerm% \"Nat\")) (y : (gleanTerm% \"Nat\")) : (gleanTerm% \"x + y = x + y\") :=\n  (gleanTerm% \"by rfl\")\n\ntheorem glean_proof  : (gleanTerm% \"2 + 6 = 2 + 6\") :=\n  let glean_component_1 : Nat := 1\n  let glean_component_2 : Nat := 2\n  let glean_component_3 : Nat := 4\n  let glean_component_4 : Nat := 5\n  let glean_component_5 : Nat := 6\n  let glean_component_7 := glean_component_6 (glean_component_1) (glean_component_3)\n  let glean_component_9 := glean_component_8 (glean_component_1) (glean_component_3)\n  let glean_component_11 := glean_component_10 (glean_component_2) (glean_component_3)\n  let glean_component_13 := glean_component_12 (glean_component_1) (glean_component_4)\n  let glean_component_15 := glean_component_14 (glean_component_2) (glean_component_4)\n  let glean_component_17 := glean_component_16 (glean_component_1) (glean_component_5)\n  let glean_component_19 := glean_component_18 (glean_component_2) (glean_component_5)\n  glean_component_19\n",
+      "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := (gleanExpectedTerm% \"2 + 6 = 2 + 6\")\n",
+      "result": {
+        "jobId": "adaf1a268ed946c28cb4ef1f2ff95b1d",
+        "status": "invalid",
+        "phase": "complete",
+        "verified": false,
+        "kernelAccepted": false,
+        "audit": null,
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "독립 커널 재검사 또는 대상 정리의 공리 검사에 실패했습니다."
+          }
+        ],
+        "filename": "Requirement.lean",
+        "projectId": "glean",
+        "target": "glean_proof",
+        "policy": "strict",
+        "sourceHash": "b6c92e1501114a88ddfe8bf2dc2eedf044de4a0ccbe68fa6c34920ca086180a4",
+        "lean": {
+          "output": "Requirement.lean:55:6: warning: Variable name `glean_component_7` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _glean_component_7\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\nRequirement.lean:56:6: warning: Variable name `glean_component_9` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _glean_component_9\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\nRequirement.lean:57:6: warning: Variable name `glean_component_11` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _glean_component_11\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\nRequirement.lean:58:6: warning: Variable name `glean_component_13` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _glean_component_13\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\nRequirement.lean:59:6: warning: Variable name `glean_component_15` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _glean_component_15\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\nRequirement.lean:60:6: warning: Variable name `glean_component_17` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _glean_component_17\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\n/var/folders/bl/_h2n2k_d41g3q3fwxvy0gppr0000gn/T/glean-source-8s3hts6k/Auditaf5b0e19dacc4812bb7aa1cb2a210671.lean:66:28: error: unexpected token 'variable'; expected '[', '{', '|', '⦃' or term\n/var/folders/bl/_h2n2k_d41g3q3fwxvy0gppr0000gn/T/glean-source-8s3hts6k/Auditaf5b0e19dacc4812bb7aa1cb2a210671.lean:66:37: error: unexpected token '=>'; expected '(', '[', '{' or '⦃'\n/var/folders/bl/_h2n2k_d41g3q3fwxvy0gppr0000gn/T/glean-source-8s3hts6k/Auditaf5b0e19dacc4812bb7aa1cb2a210671.lean:68:65: error: unexpected token ')'; expected '(', '[', '{' or '⦃'\n",
+          "durationMs": 4418
+        },
+        "environment": {
+          "schema": 1,
+          "projectId": "glean",
+          "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+          "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+          "projectFiles": {
+            "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+            "lake-manifest.json": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+            "lakefile.lean": null,
+            "lakefile.toml": "a3500f3a6618de5748b6135a580e2b4357a9936564a0a43a9decbdb94f101580"
+          },
+          "sourceStateHash": "8e42ea7f844d4211928454b4232a8b9dc61fcb3192dc8942c803ce6cbd657213",
+          "dependencies": [],
+          "compiledArtifacts": {
+            "kind": "path-size-mtime-metadata",
+            "count": 10089,
+            "hash": "eff39cb727636d1b135ecdb35e3c8e15e665997e6a4f2255310687c6f71cb748"
+          },
+          "leanSearchPaths": [
+            "/Users/moonone/GLEAN/glean/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+          ],
+          "gitCommit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+          "gitDirty": true,
+          "changedLeanInputs": null,
+          "sourceIdentityKind": "source-content-in-parent-git",
+          "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+          "manifestHash": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+          "environmentHash": "917976ff217f0f0fb12d0f5e79d860452ee0b9cabcf892da1d1d35b5e23bed1e",
+          "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+        }
+      }
+    }
+  ]
+}

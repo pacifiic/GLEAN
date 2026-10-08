@@ -1,0 +1,19 @@
+{
+  "kind": "prior pure Node model benchmark metrics transcribed from AUDIT-01/REQUIREMENTS and previous audit record; original full memory snapshot was accidentally overwritten by same-script rerun, latest full result preserved separately",
+  "calls": 200,
+  "bodyBytes": 1048483,
+  "serializedDocumentBytes": 1088047,
+  "serializedDefinitionOccurrences": 1,
+  "historyLimit": 50,
+  "commitMs": {
+    "median": 3.63,
+    "p95": 5.96,
+    "maximum": 6.9
+  },
+  "undoMs": 2.21,
+  "memoryBytes": {
+    "heapDelta": 108380256,
+    "rssDelta": 138805248
+  },
+  "historyHash": "516a868b459439556e5c4043a9d2806f25e10ec83f538ccd678d4caaee6ea112"
+}

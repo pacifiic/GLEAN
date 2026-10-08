@@ -1,0 +1,34 @@
+{
+  "kind": "actual source-analysis outer corrupt view normalization and actual app recovery-download listener; controlled DOM, no native UI or Lean job",
+  "results": [
+    {
+      "original": 0,
+      "warningVisible": true,
+      "exactStoredOriginal": true,
+      "downloads": 0,
+      "exactExport": false
+    },
+    {
+      "original": false,
+      "warningVisible": true,
+      "exactStoredOriginal": true,
+      "downloads": 0,
+      "exactExport": false
+    },
+    {
+      "original": null,
+      "warningVisible": true,
+      "exactStoredOriginal": true,
+      "downloads": 0,
+      "exactExport": false
+    },
+    {
+      "original": "broken",
+      "warningVisible": true,
+      "exactStoredOriginal": true,
+      "downloads": 1,
+      "exactExport": true
+    }
+  ],
+  "appHash": "cc5a977f78d3be62bba73442b416515ccfe5f18484af2ba44e38dc06ae7a25ff"
+}

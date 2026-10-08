@@ -1,0 +1,38 @@
+{
+  "kind": "actual frontend parse/validation/history/autosave APIs, controlled byte-quota storage; no native UI or Lean",
+  "cases": [
+    {
+      "size": "64k",
+      "pass": true,
+      "bodyBytes": 65530,
+      "bodyHash": "9f965714946be6bdc8c7a47f11972d049ca409d6cb8188b54a82bf81b36bf4e0",
+      "jsonBytes": 67266,
+      "autosaveCurrentPlusPreviousBytes": 134638,
+      "controlledQuotaBytes": 5242880,
+      "overBodyLimitRawDraftPreserved": true,
+      "quotaFailurePreservesLastGood": true,
+      "historyUndoRedoExact": true,
+      "exportReimportHashExact": true
+    },
+    {
+      "size": "1m",
+      "pass": true,
+      "bodyBytes": 1048483,
+      "bodyHash": "8b8ad61bdda3b1f598f3dab08f7adfa11246133f7ed0838f52798f7bc2426eab",
+      "jsonBytes": 1059305,
+      "autosaveCurrentPlusPreviousBytes": 2118716,
+      "controlledQuotaBytes": 5242880,
+      "overBodyLimitRawDraftPreserved": true,
+      "quotaFailurePreservesLastGood": true,
+      "historyUndoRedoExact": true,
+      "exportReimportHashExact": true
+    }
+  ],
+  "hashes": {
+    "limits.mjs": "c46e67916701caabccc8580318f030a729ffb78cc2b54d9d8dd2fb7d4bcffc27",
+    "document.mjs": "cf0dd2ff96bbf984d3d3b1a4f76a7ba82dbacd0d73808201bc99cc27be497156",
+    "typed-model.mjs": "2691511e7777684a10e76520bb33005a050c0570fb073ecfaf35ac5b4cfbba97",
+    "history.mjs": "28b6ca353816b8383522ab8a2db63bae57496238e55b90ffe27e4182c21b4625",
+    "draft.mjs": "5e670d389ef2b47d1dec1d7d76b73fdf6ee8442f4f4f2bb4adb51e8ec0188b90"
+  }
+}

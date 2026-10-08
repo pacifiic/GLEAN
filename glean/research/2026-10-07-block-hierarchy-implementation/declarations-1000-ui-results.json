@@ -1,0 +1,30 @@
+{
+  "kind": "actual source analysis UI callbacks consuming independently obtained actual 1000-declaration metadata; controlled DOM/post for rendering/installed routing; times exclude browser layout/paint and actual analysis",
+  "pass": true,
+  "initialCardCount": 50,
+  "afterExplicitMoreCardCount": 100,
+  "afterSelectedSearchCardCount": 1,
+  "selectedSourceJump": [
+    1007,
+    0
+  ],
+  "selectedInstalledDependencyRoute": {
+    "projectId": "glean",
+    "imports": [
+      "Init.Core"
+    ],
+    "declaration": "Nat.add_zero"
+  },
+  "analysisRemainsUnverified": true,
+  "semanticGraph256Accepted257Rejected": true,
+  "semanticLimitError": "최대 256개 노드, 512개 연결을 지원합니다.",
+  "controlledRenderMs": {
+    "initial": 10.83945799999998,
+    "more": 7.392291999999998,
+    "search": 0.186916999999994
+  },
+  "hashes": {
+    "source-analysis.mjs": "e36e0b4754068045ca6092219b5a08110382f12dc27a5ad08efdfdcb5f7342f5",
+    "typed-model.mjs": "2691511e7777684a10e76520bb33005a050c0570fb073ecfaf35ac5b4cfbba97"
+  }
+}

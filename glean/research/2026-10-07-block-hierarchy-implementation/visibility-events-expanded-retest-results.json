@@ -1,0 +1,75 @@
+{
+  "kind": "actual product event callbacks / small DOM model / controlled fetch, not native UI or kernel",
+  "hashes": {
+    "typedEditor": "e55361c7dc3667553249c7220a97be3337abd85478504bb5ce0479b34838f5e7",
+    "presentation": "d9983b668e730933dfae7e49e043c381093cf3105f740bfe996e3d3401bc5631",
+    "visibilityTools": "8e253499eb85bc01ee633903b570e5c844b254e621c00d141fe0c31cc87281fc"
+  },
+  "cases": [
+    {
+      "id": "hide-delete-prunes-saved-hidden-id",
+      "pass": true,
+      "hidden": [],
+      "warnings": []
+    },
+    {
+      "id": "group-delete-prunes-saved-child-id",
+      "pass": true,
+      "containers": [
+        {
+          "id": "container_3ba6dcf7",
+          "name": "그룹 1",
+          "children": [],
+          "collapsed": true,
+          "x": 600,
+          "y": 300
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "id": "deleting-last-isolation-target-safely-ends-frame",
+      "pass": true,
+      "visible": [
+        "n",
+        "zero"
+      ]
+    },
+    {
+      "id": "new-node-is-immediately-in-current-isolation",
+      "pass": true,
+      "added": "nat_f36805f5"
+    },
+    {
+      "id": "presentation-events-preserve-result-and-do-not-request-check",
+      "pass": true,
+      "requests": 1,
+      "layoutCommits": 1,
+      "navigationCommits": 0
+    },
+    {
+      "id": "hidden-delete-undo-redo-restores-presentation-atomically",
+      "pass": true,
+      "beforeHidden": [
+        "n:spare"
+      ],
+      "afterHidden": []
+    },
+    {
+      "id": "group-delete-undo-redo-restores-membership-atomically",
+      "pass": true,
+      "beforeChildren": [
+        "n:spare"
+      ],
+      "afterChildren": []
+    },
+    {
+      "id": "actual-typed-open-emits-warning-and-preserves-original",
+      "pass": true,
+      "warning": [
+        "root: 손상된 범위 표현을 복구했습니다."
+      ],
+      "originalPreserved": true
+    }
+  ]
+}

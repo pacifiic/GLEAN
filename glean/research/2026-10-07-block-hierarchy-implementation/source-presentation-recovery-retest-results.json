@@ -1,0 +1,17 @@
+{
+  "kind": "actual source-analysis corrupt view normalization and actual app recovery-download listener; controlled DOM, no native UI or Lean",
+  "pass": true,
+  "warnings": [
+    "root: 손상된 범위 표현을 복구했습니다."
+  ],
+  "originalInStoredDocumentExact": true,
+  "downloads": 1,
+  "exported": {
+    "version": 1,
+    "scopes": {
+      "root": "broken"
+    },
+    "auditMarker": "exact original source presentation"
+  },
+  "appHash": "cc5a977f78d3be62bba73442b416515ccfe5f18484af2ba44e38dc06ae7a25ff"
+}

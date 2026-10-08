@@ -1,0 +1,423 @@
+{
+  "renamed": {
+    "affected": [
+      "root/callA",
+      "root/callB"
+    ],
+    "fixture": {
+      "version": 3,
+      "name": "Independent requirement audit",
+      "projectId": "glean",
+      "imports": [],
+      "policy": "strict",
+      "inputs": [],
+      "goal": "2 < 3",
+      "nodes": [
+        {
+          "id": "three",
+          "kind": "nat",
+          "value": "3"
+        },
+        {
+          "id": "index",
+          "kind": "script",
+          "inputs": [],
+          "outputType": "Fin 3",
+          "body": "⟨2, by decide⟩"
+        },
+        {
+          "id": "callA",
+          "kind": "module",
+          "ref": "bound"
+        },
+        {
+          "id": "callB",
+          "kind": "module",
+          "ref": "bound"
+        }
+      ],
+      "edges": [
+        {
+          "id": "three_out_callA_n",
+          "source": "three",
+          "output": "out",
+          "target": "callA",
+          "input": "n"
+        },
+        {
+          "id": "three_out_callB_n",
+          "source": "three",
+          "output": "out",
+          "target": "callB",
+          "input": "n"
+        },
+        {
+          "id": "index_out_callA_i",
+          "source": "index",
+          "output": "out",
+          "target": "callA",
+          "input": "i"
+        },
+        {
+          "id": "index_out_callB_i",
+          "source": "index",
+          "output": "out",
+          "target": "callB",
+          "input": "i"
+        }
+      ],
+      "result": {
+        "node": "callB",
+        "output": "out"
+      },
+      "modules": [
+        {
+          "id": "bound",
+          "name": "Fin bound",
+          "inputs": [
+            {
+              "id": "n",
+              "name": "limit",
+              "type": "Nat"
+            },
+            {
+              "id": "i",
+              "name": "idx",
+              "type": "Fin limit"
+            }
+          ],
+          "outputType": "idx.val < limit",
+          "nodes": [
+            {
+              "id": "n",
+              "kind": "input",
+              "ref": "n"
+            },
+            {
+              "id": "i",
+              "kind": "input",
+              "ref": "i"
+            },
+            {
+              "id": "proof",
+              "kind": "script",
+              "inputs": [
+                {
+                  "id": "n",
+                  "name": "n",
+                  "type": "Nat"
+                },
+                {
+                  "id": "i",
+                  "name": "i",
+                  "type": "Fin n"
+                }
+              ],
+              "outputType": "i.val < n",
+              "body": "i.isLt"
+            }
+          ],
+          "edges": [
+            {
+              "id": "n_out_proof_n",
+              "source": "n",
+              "output": "out",
+              "target": "proof",
+              "input": "n"
+            },
+            {
+              "id": "i_out_proof_i",
+              "source": "i",
+              "output": "out",
+              "target": "proof",
+              "input": "i"
+            }
+          ],
+          "result": {
+            "node": "proof",
+            "output": "out"
+          }
+        }
+      ]
+    }
+  },
+  "undoRedoRestoresExactInputs": true,
+  "preservesWires": true,
+  "roundtrip": true,
+  "reordered": {
+    "affected": [
+      "root/callA",
+      "root/callB"
+    ],
+    "fixture": {
+      "version": 3,
+      "name": "Independent requirement audit",
+      "projectId": "glean",
+      "imports": [],
+      "policy": "strict",
+      "inputs": [],
+      "goal": "2 < 3",
+      "nodes": [
+        {
+          "id": "three",
+          "kind": "nat",
+          "value": "3"
+        },
+        {
+          "id": "index",
+          "kind": "script",
+          "inputs": [],
+          "outputType": "Fin 3",
+          "body": "⟨2, by decide⟩"
+        },
+        {
+          "id": "callA",
+          "kind": "module",
+          "ref": "bound"
+        },
+        {
+          "id": "callB",
+          "kind": "module",
+          "ref": "bound"
+        }
+      ],
+      "edges": [
+        {
+          "id": "three_out_callA_n",
+          "source": "three",
+          "output": "out",
+          "target": "callA",
+          "input": "n"
+        },
+        {
+          "id": "three_out_callB_n",
+          "source": "three",
+          "output": "out",
+          "target": "callB",
+          "input": "n"
+        },
+        {
+          "id": "index_out_callA_i",
+          "source": "index",
+          "output": "out",
+          "target": "callA",
+          "input": "i"
+        },
+        {
+          "id": "index_out_callB_i",
+          "source": "index",
+          "output": "out",
+          "target": "callB",
+          "input": "i"
+        }
+      ],
+      "result": {
+        "node": "callB",
+        "output": "out"
+      },
+      "modules": [
+        {
+          "id": "bound",
+          "name": "Fin bound",
+          "inputs": [
+            {
+              "id": "i",
+              "name": "idx",
+              "type": "Fin limit"
+            },
+            {
+              "id": "n",
+              "name": "limit",
+              "type": "Nat"
+            }
+          ],
+          "outputType": "idx.val < limit",
+          "nodes": [
+            {
+              "id": "n",
+              "kind": "input",
+              "ref": "n"
+            },
+            {
+              "id": "i",
+              "kind": "input",
+              "ref": "i"
+            },
+            {
+              "id": "proof",
+              "kind": "script",
+              "inputs": [
+                {
+                  "id": "n",
+                  "name": "n",
+                  "type": "Nat"
+                },
+                {
+                  "id": "i",
+                  "name": "i",
+                  "type": "Fin n"
+                }
+              ],
+              "outputType": "i.val < n",
+              "body": "i.isLt"
+            }
+          ],
+          "edges": [
+            {
+              "id": "n_out_proof_n",
+              "source": "n",
+              "output": "out",
+              "target": "proof",
+              "input": "n"
+            },
+            {
+              "id": "i_out_proof_i",
+              "source": "i",
+              "output": "out",
+              "target": "proof",
+              "input": "i"
+            }
+          ],
+          "result": {
+            "node": "proof",
+            "output": "out"
+          }
+        }
+      ]
+    }
+  },
+  "deletedPort": {
+    "preservedInvalidWires": 2,
+    "fixture": {
+      "version": 3,
+      "name": "Independent requirement audit",
+      "projectId": "glean",
+      "imports": [],
+      "policy": "strict",
+      "inputs": [],
+      "goal": "2 < 3",
+      "nodes": [
+        {
+          "id": "three",
+          "kind": "nat",
+          "value": "3"
+        },
+        {
+          "id": "index",
+          "kind": "script",
+          "inputs": [],
+          "outputType": "Fin 3",
+          "body": "⟨2, by decide⟩"
+        },
+        {
+          "id": "callA",
+          "kind": "module",
+          "ref": "bound"
+        },
+        {
+          "id": "callB",
+          "kind": "module",
+          "ref": "bound"
+        }
+      ],
+      "edges": [
+        {
+          "id": "three_out_callA_n",
+          "source": "three",
+          "output": "out",
+          "target": "callA",
+          "input": "n"
+        },
+        {
+          "id": "three_out_callB_n",
+          "source": "three",
+          "output": "out",
+          "target": "callB",
+          "input": "n"
+        },
+        {
+          "id": "index_out_callA_i",
+          "source": "index",
+          "output": "out",
+          "target": "callA",
+          "input": "i"
+        },
+        {
+          "id": "index_out_callB_i",
+          "source": "index",
+          "output": "out",
+          "target": "callB",
+          "input": "i"
+        }
+      ],
+      "result": {
+        "node": "callB",
+        "output": "out"
+      },
+      "modules": [
+        {
+          "id": "bound",
+          "name": "Fin bound",
+          "inputs": [
+            {
+              "id": "n",
+              "name": "limit",
+              "type": "Nat"
+            }
+          ],
+          "outputType": "True",
+          "nodes": [
+            {
+              "id": "n",
+              "kind": "input",
+              "ref": "n"
+            },
+            {
+              "id": "i",
+              "kind": "input",
+              "ref": "i"
+            },
+            {
+              "id": "proof",
+              "kind": "script",
+              "inputs": [
+                {
+                  "id": "n",
+                  "name": "n",
+                  "type": "Nat"
+                },
+                {
+                  "id": "i",
+                  "name": "i",
+                  "type": "Fin n"
+                }
+              ],
+              "outputType": "i.val < n",
+              "body": "i.isLt"
+            }
+          ],
+          "edges": [
+            {
+              "id": "n_out_proof_n",
+              "source": "n",
+              "output": "out",
+              "target": "proof",
+              "input": "n"
+            },
+            {
+              "id": "i_out_proof_i",
+              "source": "i",
+              "output": "out",
+              "target": "proof",
+              "input": "i"
+            }
+          ],
+          "result": {
+            "node": "proof",
+            "output": "out"
+          }
+        }
+      ]
+    }
+  }
+}

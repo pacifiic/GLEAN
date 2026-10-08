@@ -1,0 +1,275 @@
+{
+  "graph": {
+    "version": 1,
+    "name": "compose",
+    "propositions": [
+      "P",
+      "Q",
+      "R"
+    ],
+    "assumptions": [
+      {
+        "id": "hp",
+        "type": "P"
+      },
+      {
+        "id": "f",
+        "type": "P → Q"
+      },
+      {
+        "id": "g",
+        "type": "Q → R"
+      }
+    ],
+    "goal": "R",
+    "nodes": [
+      {
+        "id": "hp",
+        "kind": "assumption",
+        "ref": "hp",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "id": "f",
+        "kind": "assumption",
+        "ref": "f",
+        "x": 180,
+        "y": 0
+      },
+      {
+        "id": "g",
+        "kind": "assumption",
+        "ref": "g",
+        "x": 360,
+        "y": 0
+      },
+      {
+        "id": "a1",
+        "kind": "apply",
+        "x": 540,
+        "y": 0
+      },
+      {
+        "id": "a2",
+        "kind": "apply",
+        "x": 720,
+        "y": 0
+      },
+      {
+        "id": "goal",
+        "kind": "goal",
+        "x": 900,
+        "y": 0
+      },
+      {
+        "id": "unused_bad",
+        "kind": "left",
+        "x": 0,
+        "y": 200
+      }
+    ],
+    "edges": [
+      {
+        "id": "e1",
+        "source": "f",
+        "target": "a1",
+        "input": "fn"
+      },
+      {
+        "id": "e2",
+        "source": "hp",
+        "target": "a1",
+        "input": "arg"
+      },
+      {
+        "id": "e3",
+        "source": "g",
+        "target": "a2",
+        "input": "fn"
+      },
+      {
+        "id": "e4",
+        "source": "a1",
+        "target": "a2",
+        "input": "arg"
+      },
+      {
+        "id": "e5",
+        "source": "a2",
+        "target": "goal",
+        "input": "proof"
+      },
+      {
+        "id": "bad_unused",
+        "source": "hp",
+        "target": "unused_bad",
+        "input": "value"
+      }
+    ]
+  },
+  "result": {
+    "status": "valid",
+    "generatedCode": "module\n\npublic section\n\ntheorem glean_proof (p0 p1 p2 : Prop) (h0 : p0) (h1 : p0 → p1) (h2 : p1 → p2) : p2 :=\n  let n0 : p0 := h0\n  let n1 : p0 → p1 := h1\n  let n2 : p1 → p2 := h2\n  let n3 : p1 := n1 n0\n  let n4 : p2 := n2 n3\n  n4\n\n#print axioms glean_proof\n",
+    "nodeTypes": {
+      "goal": "R",
+      "hp": "P",
+      "f": "P → Q",
+      "g": "Q → R",
+      "a1": "Q",
+      "a2": "R"
+    },
+    "diagnostics": [],
+    "sourceMap": {
+      "hp": {
+        "startLine": 6,
+        "endLine": 6
+      },
+      "f": {
+        "startLine": 7,
+        "endLine": 7
+      },
+      "g": {
+        "startLine": 8,
+        "endLine": 8
+      },
+      "a1": {
+        "startLine": 9,
+        "endLine": 9
+      },
+      "a2": {
+        "startLine": 10,
+        "endLine": 10
+      },
+      "goal": {
+        "startLine": 11,
+        "endLine": 11
+      }
+    },
+    "portTypes": {
+      "hp": {},
+      "f": {},
+      "g": {},
+      "a1": {
+        "arg": "P",
+        "fn": "P → Q"
+      },
+      "a2": {
+        "arg": "Q",
+        "fn": "Q → R"
+      },
+      "goal": {
+        "proof": "R"
+      }
+    },
+    "moduleNodeTypes": {},
+    "moduleTypes": {},
+    "moduleSourceMaps": {},
+    "modulePortTypes": {},
+    "scope": "goal",
+    "workspaceDiagnostics": [
+      {
+        "severity": "error",
+        "message": "Expected a conjunction, received P.",
+        "nodeId": "unused_bad",
+        "port": "value",
+        "scope": "workspace"
+      }
+    ],
+    "includedNodes": [
+      "hp",
+      "f",
+      "g",
+      "a1",
+      "a2",
+      "goal"
+    ],
+    "includedModules": [],
+    "verified": true,
+    "lean": {
+      "version": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+      "output": "'glean_proof' does not depend on any axioms",
+      "durationMs": 1473
+    }
+  },
+  "preview": {
+    "status": "ready",
+    "generatedCode": "module\n\npublic section\n\ntheorem glean_proof (p0 p1 p2 : Prop) (h0 : p0) (h1 : p0 → p1) (h2 : p1 → p2) : p2 :=\n  let n0 : p0 := h0\n  let n1 : p0 → p1 := h1\n  let n2 : p1 → p2 := h2\n  let n3 : p1 := n1 n0\n  let n4 : p2 := n2 n3\n  n4\n\n#print axioms glean_proof\n",
+    "nodeTypes": {
+      "goal": "R",
+      "hp": "P",
+      "f": "P → Q",
+      "g": "Q → R",
+      "a1": "Q",
+      "a2": "R"
+    },
+    "diagnostics": [],
+    "sourceMap": {
+      "hp": {
+        "startLine": 6,
+        "endLine": 6
+      },
+      "f": {
+        "startLine": 7,
+        "endLine": 7
+      },
+      "g": {
+        "startLine": 8,
+        "endLine": 8
+      },
+      "a1": {
+        "startLine": 9,
+        "endLine": 9
+      },
+      "a2": {
+        "startLine": 10,
+        "endLine": 10
+      },
+      "goal": {
+        "startLine": 11,
+        "endLine": 11
+      }
+    },
+    "portTypes": {
+      "hp": {},
+      "f": {},
+      "g": {},
+      "a1": {
+        "arg": "P",
+        "fn": "P → Q"
+      },
+      "a2": {
+        "arg": "Q",
+        "fn": "Q → R"
+      },
+      "goal": {
+        "proof": "R"
+      }
+    },
+    "moduleNodeTypes": {},
+    "moduleTypes": {},
+    "moduleSourceMaps": {},
+    "modulePortTypes": {},
+    "scope": "goal",
+    "workspaceDiagnostics": [
+      {
+        "severity": "error",
+        "message": "Expected a conjunction, received P.",
+        "nodeId": "unused_bad",
+        "port": "value",
+        "scope": "workspace"
+      }
+    ],
+    "includedNodes": [
+      "hp",
+      "f",
+      "g",
+      "a1",
+      "a2",
+      "goal"
+    ],
+    "includedModules": [],
+    "verified": false,
+    "preview": true
+  }
+}

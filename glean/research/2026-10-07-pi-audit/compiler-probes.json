@@ -1,0 +1,1803 @@
+{
+  "copyright": "Copyright (c) 2026 GLEAN contributors. Released under Apache 2.0.",
+  "scope": "Current compiler and frontend-model boundary probes, not a proof or translation of irrational_pi. Positive controls are explicitly abstract.",
+  "source": {
+    "repository": "leanprover-community/mathlib4",
+    "tag": "v4.34.1",
+    "commit": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+    "path": "Mathlib/Analysis/Real/Pi/Irrational.lean",
+    "sha256": "0c041eca65dd0f02330634e15db157fb07e79db045b078c8cc3bfd7b14c321cf"
+  },
+  "compiler": {
+    "path": "glean/prototype/graph.py",
+    "sha256": "d6c4c25b70f7c61a9ade3f28988a26ed4026cf7b33159a0345c5870ef2a50abc"
+  },
+  "frontendModel": {
+    "path": "glean/prototype/web/model.mjs",
+    "meaning": "null means import shape accepted, not mathematical syntax validated."
+  },
+  "reproduction": "python3 glean/research/2026-10-07-pi-audit/probe_compiler.py",
+  "probeCount": 20,
+  "probes": [
+    {
+      "id": "control-conjunction",
+      "purpose": "Positive control: only proves P and Q imply P ∧ Q; no connection to π",
+      "sourceLines": [],
+      "input": {
+        "version": 1,
+        "name": "audit_propositional_control_NOT_PI",
+        "propositions": [
+          "P",
+          "Q"
+        ],
+        "assumptions": [
+          {
+            "id": "hp",
+            "type": "P"
+          },
+          {
+            "id": "hq",
+            "type": "Q"
+          }
+        ],
+        "goal": "P ∧ Q",
+        "nodes": [
+          {
+            "id": "hp",
+            "kind": "assumption",
+            "ref": "hp",
+            "x": 20,
+            "y": 30
+          },
+          {
+            "id": "hq",
+            "kind": "assumption",
+            "ref": "hq",
+            "x": 20,
+            "y": 120
+          },
+          {
+            "id": "pair",
+            "kind": "pair",
+            "x": 220,
+            "y": 80
+          },
+          {
+            "id": "goal",
+            "kind": "goal",
+            "x": 420,
+            "y": 80
+          }
+        ],
+        "edges": [
+          {
+            "id": "e1",
+            "source": "hp",
+            "target": "pair",
+            "input": "left"
+          },
+          {
+            "id": "e2",
+            "source": "hq",
+            "target": "pair",
+            "input": "right"
+          },
+          {
+            "id": "e3",
+            "source": "pair",
+            "target": "goal",
+            "input": "proof"
+          }
+        ]
+      },
+      "expectedCompilerStatus": "ready",
+      "compilerResult": {
+        "status": "ready",
+        "generatedCode": "module\n\npublic section\n\ntheorem glean_proof (p0 p1 : Prop) (h0 : p0) (h1 : p1) : p0 ∧ p1 :=\n  let n0 : p0 := h0\n  let n1 : p1 := h1\n  let n2 : p0 ∧ p1 := And.intro n0 n1\n  n2\n\n#print axioms glean_proof\n",
+        "nodeTypes": {
+          "goal": "P ∧ Q",
+          "hp": "P",
+          "hq": "Q",
+          "pair": "P ∧ Q"
+        },
+        "diagnostics": []
+      },
+      "actualLeanCheck": {
+        "status": "valid",
+        "generatedCode": "module\n\npublic section\n\ntheorem glean_proof (p0 p1 : Prop) (h0 : p0) (h1 : p1) : p0 ∧ p1 :=\n  let n0 : p0 := h0\n  let n1 : p1 := h1\n  let n2 : p0 ∧ p1 := And.intro n0 n1\n  n2\n\n#print axioms glean_proof\n",
+        "nodeTypes": {
+          "goal": "P ∧ Q",
+          "hp": "P",
+          "hq": "Q",
+          "pair": "P ∧ Q"
+        },
+        "diagnostics": [],
+        "verified": true,
+        "lean": {
+          "version": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+          "output": "'glean_proof' does not depend on any axioms",
+          "durationMs": 2515
+        }
+      },
+      "frontendImportValidation": null
+    },
+    {
+      "id": "raw-lean-source",
+      "purpose": "Pass downloaded Lean source directly to current compiler",
+      "sourceLines": [
+        1,
+        311
+      ],
+      "input": "/-\nCopyright (c) 2022 Bhavik Mehta. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Bhavik Mehta\n-/\nmodule\n\npublic import Mathlib.Analysis.SpecialFunctions.Integrals.Basic\npublic import Mathlib.Topology.Algebra.Order.Floor\npublic import Mathlib.NumberTheory.Real.Irrational\n\n/-!\n# `Real.pi` is irrational\n\nThe main result of this file is `irrational_pi`.\n\nThe proof is adapted from https://en.wikipedia.org/wiki/Proof_that_%CF%80_is_irrational#Cartwright's_proof.\n\nThe proof idea is as follows.\n* Define a sequence of integrals `I n θ = ∫ x in (-1)..1, (1 - x ^ 2) ^ n * cos (x * θ)`.\n* Give a recursion formula for `I (n + 2) θ * θ ^ 2` in terms of `I n θ` and `I (n + 1) θ`.\n  Note we do not find it helpful to define `J` as in the above proof, and instead work directly\n  with `I`.\n* Define polynomials with integer coefficients `sinPoly n` and `cosPoly n` such that\n  `I n θ * θ ^ (2 * n + 1) = n ! * (sinPoly n θ * sin θ + cosPoly n θ * cos θ)`.\n  Note that in the informal proof, these polynomials are not defined explicitly, but we find it\n  useful to define them by recursion.\n* Show that both these polynomials have degree bounded by `n`.\n* Show that `0 < I n (π / 2) ≤ 2` for all `n`.\n* Now we can finish: if `π / 2` is rational, write it as `a / b` with `a, b > 0`. Then\n  `b ^ (2 * n + 1) * sinPoly n (a / b)` is a positive integer by the degree bound. But it is equal\n  to `a ^ (2 * n + 1) / n ! * I n (π / 2) ≤ 2 * a * (2 * n + 1) / n !`, which converges to 0 as\n  `n → ∞`.\n\n-/\n\npublic section\n\nnoncomputable section\n\nopen intervalIntegral MeasureTheory.MeasureSpace Set Polynomial Real\nopen scoped Nat\n\n/-- The sequence of integrals used for Cartwright's proof of irrationality of `π`. -/\nprivate def I (n : ℕ) (θ : ℝ) : ℝ := ∫ x in (-1)..1, (1 - x ^ 2) ^ n * cos (x * θ)\n\nvariable {n : ℕ} {θ : ℝ}\n\nprivate lemma I_zero : I 0 θ * θ = 2 * sin θ := by\n  rw [mul_comm, I]\n  simp [mul_integral_comp_mul_right, two_mul]\n\n/--\nAuxiliary for the proof that `π` is irrational.\nWhile it is most natural to give the recursive formula for `I (n + 2) θ`, as well as give the second\nbase case of `I 1 θ`, it is in fact more convenient to give the recursive formula for `I (n + 1) θ`\nin terms of `I n θ` and `I (n - 1) θ` (note the natural subtraction!).\nDespite the usually inconvenient subtraction, this in fact allows deducing both of the above facts\nwith significantly fewer analysis computations.\nIn addition, note the `0 ^ n` on the right-hand side - this is intentional, and again allows\ncombining the proof of the \"usual\" recursion formula and the base case `I 1 θ`.\n-/\nprivate lemma recursion' (n : ℕ) :\n    I (n + 1) θ * θ ^ 2 = - (2 * 2 * ((n + 1) * (0 ^ n * cos θ))) +\n      2 * (n + 1) * (2 * n + 1) * I n θ - 4 * (n + 1) * n * I (n - 1) θ := by\n  rw [I]\n  let f (x : ℝ) : ℝ := 1 - x ^ 2\n  let u₁ (x : ℝ) : ℝ := f x ^ (n + 1)\n  let u₁' (x : ℝ) : ℝ := - (2 * (n + 1) * x * f x ^ n)\n  let v₁ (x : ℝ) : ℝ := sin (x * θ)\n  let v₁' (x : ℝ) : ℝ := cos (x * θ) * θ\n  let u₂ (x : ℝ) : ℝ := x * (f x) ^ n\n  let u₂' (x : ℝ) : ℝ := (f x) ^ n - 2 * n * x ^ 2 * (f x) ^ (n - 1)\n  let v₂ (x : ℝ) : ℝ := cos (x * θ)\n  let v₂' (x : ℝ) : ℝ := -sin (x * θ) * θ\n  have hfd : Continuous f := by fun_prop\n  have hu₁d : Continuous u₁' := by fun_prop\n  have hv₁d : Continuous v₁' := by fun_prop\n  have hu₂d : Continuous u₂' := by fun_prop\n  have hv₂d : Continuous v₂' := by fun_prop\n  have hu₁_eval_one : u₁ 1 = 0 := by simp only [u₁, f]; simp\n  have hu₁_eval_neg_one : u₁ (-1) = 0 := by simp only [u₁, f]; simp\n  have t : u₂ 1 * v₂ 1 - u₂ (-1) * v₂ (-1) = 2 * (0 ^ n * cos θ) := by simp [u₂, v₂, f, ← two_mul]\n  have hf (x) : HasDerivAt f (- 2 * x) x := by\n    convert! (hasDerivAt_pow 2 x).const_sub 1 using 1\n    simp\n  have hu₁ (x) : HasDerivAt u₁ (u₁' x) x := by\n    convert! (hf x).pow _ using 1\n    simp only [Nat.add_succ_sub_one, u₁', Nat.cast_add_one]\n    ring\n  have hv₁ (x) : HasDerivAt v₁ (v₁' x) x := (hasDerivAt_mul_const θ).sin\n  have hu₂ (x) : HasDerivAt u₂ (u₂' x) x := by\n    convert! (hasDerivAt_id' x).fun_mul ((hf x).fun_pow _) using 1\n    simp only [u₂']\n    ring\n  have hv₂ (x) : HasDerivAt v₂ (v₂' x) x := (hasDerivAt_mul_const θ).cos\n  convert_to (∫ (x : ℝ) in (-1)..1, u₁ x * v₁' x) * θ = _ using 1\n  · simp_rw [u₁, v₁', f, ← intervalIntegral.integral_mul_const, sq θ, mul_assoc]\n  rw [integral_mul_deriv_eq_deriv_mul (fun x _ => hu₁ x) (fun x _ => hv₁ x)\n    (hu₁d.intervalIntegrable _ _) (hv₁d.intervalIntegrable _ _), hu₁_eval_one, hu₁_eval_neg_one,\n    zero_mul, zero_mul, sub_zero, zero_sub, ← integral_neg, ← integral_mul_const]\n  convert_to ((-2 : ℝ) * (n + 1)) * ∫ (x : ℝ) in (-1)..1, (u₂ x * v₂' x) = _ using 1\n  · rw [← integral_const_mul]\n    congr 1 with x\n    dsimp [u₁', v₁, u₂, v₂']\n    ring\n  rw [integral_mul_deriv_eq_deriv_mul (fun x _ => hu₂ x) (fun x _ => hv₂ x)\n    (hu₂d.intervalIntegrable _ _) (hv₂d.intervalIntegrable _ _),\n    mul_sub, t, neg_mul, neg_mul, neg_mul, sub_neg_eq_add]\n  have (x : _) : u₂' x = (2 * n + 1) * f x ^ n - 2 * n * f x ^ (n - 1) := by\n    cases n with\n    | zero => simp [u₂']\n    | succ n => ring!\n  simp_rw [this, sub_mul, mul_assoc _ _ (v₂ _)]\n  have : Continuous v₂ := by fun_prop\n  rw [mul_mul_mul_comm, integral_sub, mul_sub, add_sub_assoc]\n  · congr 1\n    simp_rw [integral_const_mul]\n    ring!\n  all_goals exact Continuous.intervalIntegrable (by fun_prop) _ _\n\n/--\nAuxiliary for the proof that `π` is irrational.\nThe recursive formula for `I (n + 2) θ * θ ^ 2` in terms of `I n θ` and `I (n + 1) θ`.\n-/\nprivate lemma recursion (n : ℕ) :\n    I (n + 2) θ * θ ^ 2 =\n      2 * (n + 2) * (2 * n + 3) * I (n + 1) θ - 4 * (n + 2) * (n + 1) * I n θ := by\n  rw [recursion' (n + 1)]\n  push_cast\n  ring\n\n/--\nAuxiliary for the proof that `π` is irrational.\nThe second base case for the induction on `n`, giving an explicit formula for `I 1 θ`.\n-/\nprivate lemma I_one : I 1 θ * θ ^ 3 = 4 * sin θ - 4 * θ * cos θ := by\n  rw [_root_.pow_succ, ← mul_assoc, recursion' 0, sub_mul, add_mul, mul_assoc _ (I 0 θ), I_zero]\n  ring\n\n/--\nAuxiliary for the proof that `π` is irrational.\nThe first of the two integer-coefficient polynomials that describe the behaviour of the\nsequence of integrals `I`.\nWhile not given in the informal proof, these are easy to deduce from the recursion formulae.\n-/\nprivate def sinPoly : ℕ → ℤ[X]\n  | 0 => C 2\n  | 1 => C 4\n  | n + 2 => ((2 : ℤ) * (2 * n + 3)) • sinPoly (n + 1) + monomial 2 (-4) * sinPoly n\n\n/--\nAuxiliary for the proof that `π` is irrational.\nThe second of the two integer-coefficient polynomials that describe the behaviour of the\nsequence of integrals `I`.\nWhile not given in the informal proof, these are easy to deduce from the recursion formulae.\n-/\nprivate def cosPoly : ℕ → ℤ[X]\n  | 0 => 0\n  | 1 => monomial 1 (-4)\n  | n + 2 => ((2 : ℤ) * (2 * n + 3)) • cosPoly (n + 1) + monomial 2 (-4) * cosPoly n\n\n/--\nAuxiliary for the proof that `π` is irrational.\nProve a degree bound for `sinPoly n` by induction. Note this is where we find the value in an\nexplicit description of `sinPoly`.\n-/\nprivate lemma sinPoly_natDegree_le : ∀ n : ℕ, (sinPoly n).natDegree ≤ n\n  | 0\n  | 1 => by simp [sinPoly]\n  | n + 2 => by\n    rw [sinPoly]\n    refine natDegree_add_le_of_degree_le ((natDegree_smul_le _ _).trans ?_) ?_\n    · exact (sinPoly_natDegree_le (n + 1)).trans (by simp)\n    refine natDegree_mul_le.trans ?_\n    simpa [add_comm 2] using sinPoly_natDegree_le n\n\n/--\nAuxiliary for the proof that `π` is irrational.\nProve a degree bound for `cosPoly n` by induction. Note this is where we find the value in an\nexplicit description of `cosPoly`.\n-/\nprivate lemma cosPoly_natDegree_le : ∀ n : ℕ, (cosPoly n).natDegree ≤ n\n  | 0 => by simp [cosPoly]\n  | 1 => (natDegree_monomial_le _).trans (by simp)\n  | n + 2 => by\n      rw [cosPoly]\n      refine natDegree_add_le_of_degree_le ((natDegree_smul_le _ _).trans ?_) ?_\n      · exact (cosPoly_natDegree_le (n + 1)).trans (by simp)\n      exact natDegree_mul_le.trans (by simp [add_comm 2, cosPoly_natDegree_le n])\n\n/--\nAuxiliary for the proof that `π` is irrational.\nThe key lemma: the sequence of integrals `I` can be written as a linear combination of `sin` and\n`cos`, with coefficients given by the polynomials `sinPoly` and `cosPoly`.\n-/\nprivate lemma sinPoly_add_cosPoly_eval (θ : ℝ) :\n    ∀ n : ℕ,\n      I n θ * θ ^ (2 * n + 1) = n ! * ((sinPoly n).eval₂ (Int.castRingHom _) θ * sin θ +\n        (cosPoly n).eval₂ (Int.castRingHom _) θ * cos θ)\n  | 0 => by simp [sinPoly, cosPoly, I_zero]\n  | 1 => by simp [I_one, sinPoly, cosPoly, sub_eq_add_neg]\n  | n + 2 => by\n      calc I (n + 2) θ * θ ^ (2 * (n + 2) + 1) = I (n + 2) θ * θ ^ 2 * θ ^ (2 * n + 3) := by ring\n        _ = 2 * (n + 2) * (2 * n + 3) * (I (n + 1) θ * θ ^ (2 * (n + 1) + 1)) -\n            4 * (n + 2) * (n + 1) * θ ^ 2 * (I n θ * θ ^ (2 * n + 1)) := by rw [recursion]; ring\n        _ = _ := by simp [sinPoly_add_cosPoly_eval, sinPoly, cosPoly, Nat.factorial_succ]; ring\n\n/--\nAuxiliary for the proof that `π` is irrational.\nFor a polynomial `p` with natural degree `≤ k` and integer coefficients, evaluating `p` at a\nrational `a / b` gives a rational of the form `z / b ^ k`.\nTODO: should this be moved elsewhere? It uses none of the pi-specific definitions.\n-/\nprivate lemma is_integer {p : ℤ[X]} (a b : ℤ) {k : ℕ} (hp : p.natDegree ≤ k) :\n    ∃ z : ℤ, p.eval₂ (Int.castRingHom ℝ) (a / b) * b ^ k = z := by\n  rcases eq_or_ne b 0 with rfl | hb\n  · rcases k.eq_zero_or_pos with rfl | hk\n    · exact ⟨p.coeff 0, by simp⟩\n    exact ⟨0, by simp [hk.ne']⟩\n  refine ⟨∑ i ∈ p.support, p.coeff i * a ^ i * b ^ (k - i), ?_⟩\n  conv => lhs; rw [← sum_monomial_eq p]\n  rw [eval₂_sum, sum, Finset.sum_mul, Int.cast_sum]\n  simp only [eval₂_monomial, eq_intCast, div_pow, Int.cast_mul, Int.cast_pow]\n  refine Finset.sum_congr rfl (fun i hi => ?_)\n  have ik := (le_natDegree_of_mem_supp i hi).trans hp\n  rw [mul_assoc, div_mul_comm, ← Int.cast_pow, ← Int.cast_pow, ← Int.cast_pow,\n    ← pow_sub_mul_pow b ik, ← Int.cast_div_charZero, Int.mul_ediv_cancel _ (pow_ne_zero _ hb),\n    ← mul_assoc, mul_right_comm, ← Int.cast_pow]\n  exact dvd_mul_left _ _\n\nopen Filter\n\n/--\nAuxiliary for the proof that `π` is irrational.\nThe integrand in the definition of `I` is nonnegative and takes a positive value at least one point,\nso the integral is positive.\n-/\nprivate lemma I_pos : 0 < I n (π / 2) := by\n  refine integral_pos (by simp) (by fun_prop) ?_ ⟨0, by simp⟩\n  refine fun x hx => mul_nonneg (pow_nonneg ?_ _) ?_\n  · rw [sub_nonneg, sq_le_one_iff_abs_le_one, abs_le]\n    exact ⟨hx.1.le, hx.2⟩\n  refine cos_nonneg_of_neg_pi_div_two_le_of_le ?_ ?_ <;>\n  nlinarith [hx.1, hx.2, pi_pos]\n\n/--\nAuxiliary for the proof that `π` is irrational.\nThe integrand in the definition of `I` is bounded by 1 and the interval has length 2, so the\nintegral is bounded above by `2`.\n-/\nprivate lemma I_le (n : ℕ) : I n (π / 2) ≤ 2 := by\n  rw [← norm_of_nonneg I_pos.le]\n  refine (norm_integral_le_of_norm_le_const ?_).trans (show (1 : ℝ) * _ ≤ _ by norm_num)\n  intro x hx\n  simp only [uIoc_of_le, neg_le_self_iff, zero_le_one, mem_Ioc] at hx\n  rw [norm_eq_abs, abs_mul, abs_pow]\n  have : |1 - x ^ 2| ≤ 1 := by\n    rw [abs_le]\n    constructor <;> nlinarith\n  bound [abs_cos_le_one]\n\n/--\nAuxiliary for the proof that `π` is irrational.\nFor any real `a`, we have that `a ^ (2n+1) / n!` tends to `0` as `n → ∞`.  This is just a\nreformulation of tendsto_pow_div_factorial_atTop, which asserts the same for `a ^ n / n!`\n-/\nprivate lemma tendsto_pow_div_factorial_at_top_aux (a : ℝ) :\n    Tendsto (fun n => (a : ℝ) ^ (2 * n + 1) / n !) atTop (nhds 0) := by\n  rw [← mul_zero a]\n  refine ((FloorSemiring.tendsto_pow_div_factorial_atTop (a ^ 2)).const_mul a).congr (fun x => ?_)\n  rw [← pow_mul, mul_div_assoc', _root_.pow_succ']\n\n/-- If `x` is rational, it can be written as `a / b` with `a : ℤ` and `b : ℕ` satisfying `b > 0`. -/\nprivate lemma not_irrational_exists_rep {x : ℝ} :\n    ¬Irrational x → ∃ (a : ℤ) (b : ℕ), 0 < b ∧ x = a / b := by\n  rw [Irrational, not_not, mem_range]\n  rintro ⟨q, rfl⟩\n  exact ⟨q.num, q.den, q.pos, by exact_mod_cast (Rat.num_div_den _).symm⟩\n\n@[simp] theorem irrational_pi : Irrational π := by\n  apply Irrational.of_div_natCast 2\n  rw [Nat.cast_two]\n  by_contra h'\n  obtain ⟨a, b, hb, h⟩ := not_irrational_exists_rep h'\n  have ha : (0 : ℝ) < a := by\n    have : 0 < (a : ℝ) / b := h ▸ pi_div_two_pos\n    rwa [lt_div_iff₀ (by positivity), zero_mul] at this\n  have k (n : ℕ) : 0 < (a : ℝ) ^ (2 * n + 1) / n ! := by positivity\n  have j : ∀ᶠ n : ℕ in atTop, (a : ℝ) ^ (2 * n + 1) / n ! * I n (π / 2) < 1 := by\n    have := (tendsto_pow_div_factorial_at_top_aux a).eventually_lt_const\n      (show (0 : ℝ) < 1 / 2 by simp)\n    filter_upwards [this] with n hn\n    rw [lt_div_iff₀ (zero_lt_two : (0 : ℝ) < 2)] at hn\n    exact hn.trans_le' (mul_le_mul_of_nonneg_left (I_le _) (by positivity))\n  obtain ⟨n, hn⟩ := j.exists\n  have hn' : 0 < a ^ (2 * n + 1) / n ! * I n (π / 2) := mul_pos (k _) I_pos\n  obtain ⟨z, hz⟩ : ∃ z : ℤ, (sinPoly n).eval₂ (Int.castRingHom ℝ) (a / b) * b ^ (2 * n + 1) = z :=\n    is_integer a b ((sinPoly_natDegree_le _).trans (by lia))\n  have e := sinPoly_add_cosPoly_eval (π / 2) n\n  rw [cos_pi_div_two, sin_pi_div_two, mul_zero, mul_one, add_zero] at e\n  have : a ^ (2 * n + 1) / n ! * I n (π / 2) =\n      eval₂ (Int.castRingHom ℝ) (π / 2) (sinPoly n) * b ^ (2 * n + 1) := by\n    nth_rw 2 [h] at e\n    simp [field, div_pow] at e ⊢\n    linear_combination e\n  have : (0 : ℝ) < z ∧ (z : ℝ) < 1 := by simp [← hz, ← h, ← this, hn', hn]\n  norm_cast at this\n  lia\n\nend\n",
+      "expectedCompilerStatus": "invalid",
+      "compilerResult": {
+        "status": "invalid",
+        "generatedCode": null,
+        "nodeTypes": {},
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "The graph must be a JSON object."
+          }
+        ]
+      },
+      "frontendImportValidation": "GLEAN 버전 1 그래프 파일을 선택해 주세요."
+    },
+    {
+      "id": "irrational-goal",
+      "purpose": "Use the real source expression as the graph goal",
+      "sourceLines": [
+        281,
+        281
+      ],
+      "input": {
+        "version": 1,
+        "name": "audit_propositional_control_NOT_PI",
+        "propositions": [
+          "P",
+          "Q"
+        ],
+        "assumptions": [
+          {
+            "id": "hp",
+            "type": "P"
+          },
+          {
+            "id": "hq",
+            "type": "Q"
+          }
+        ],
+        "goal": "Irrational π",
+        "nodes": [
+          {
+            "id": "hp",
+            "kind": "assumption",
+            "ref": "hp",
+            "x": 20,
+            "y": 30
+          },
+          {
+            "id": "hq",
+            "kind": "assumption",
+            "ref": "hq",
+            "x": 20,
+            "y": 120
+          },
+          {
+            "id": "pair",
+            "kind": "pair",
+            "x": 220,
+            "y": 80
+          },
+          {
+            "id": "goal",
+            "kind": "goal",
+            "x": 420,
+            "y": 80
+          }
+        ],
+        "edges": [
+          {
+            "id": "e1",
+            "source": "hp",
+            "target": "pair",
+            "input": "left"
+          },
+          {
+            "id": "e2",
+            "source": "hq",
+            "target": "pair",
+            "input": "right"
+          },
+          {
+            "id": "e3",
+            "source": "pair",
+            "target": "goal",
+            "input": "proof"
+          }
+        ]
+      },
+      "expectedCompilerStatus": "invalid",
+      "compilerResult": {
+        "status": "invalid",
+        "generatedCode": null,
+        "nodeTypes": {},
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "Goal type: Unsupported type syntax at character 2."
+          }
+        ]
+      },
+      "frontendImportValidation": null
+    },
+    {
+      "id": "integral-equation",
+      "purpose": "Use the real source expression as the graph goal",
+      "sourceLines": [
+        49,
+        49
+      ],
+      "input": {
+        "version": 1,
+        "name": "audit_propositional_control_NOT_PI",
+        "propositions": [
+          "P",
+          "Q"
+        ],
+        "assumptions": [
+          {
+            "id": "hp",
+            "type": "P"
+          },
+          {
+            "id": "hq",
+            "type": "Q"
+          }
+        ],
+        "goal": "I 0 θ * θ = 2 * sin θ",
+        "nodes": [
+          {
+            "id": "hp",
+            "kind": "assumption",
+            "ref": "hp",
+            "x": 20,
+            "y": 30
+          },
+          {
+            "id": "hq",
+            "kind": "assumption",
+            "ref": "hq",
+            "x": 20,
+            "y": 120
+          },
+          {
+            "id": "pair",
+            "kind": "pair",
+            "x": 220,
+            "y": 80
+          },
+          {
+            "id": "goal",
+            "kind": "goal",
+            "x": 420,
+            "y": 80
+          }
+        ],
+        "edges": [
+          {
+            "id": "e1",
+            "source": "hp",
+            "target": "pair",
+            "input": "left"
+          },
+          {
+            "id": "e2",
+            "source": "hq",
+            "target": "pair",
+            "input": "right"
+          },
+          {
+            "id": "e3",
+            "source": "pair",
+            "target": "goal",
+            "input": "proof"
+          }
+        ]
+      },
+      "expectedCompilerStatus": "invalid",
+      "compilerResult": {
+        "status": "invalid",
+        "generatedCode": null,
+        "nodeTypes": {},
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "Goal type: Unsupported type syntax at character 3."
+          }
+        ]
+      },
+      "frontendImportValidation": null
+    },
+    {
+      "id": "universal-degree",
+      "purpose": "Use the real source expression as the graph goal",
+      "sourceLines": [
+        168,
+        168
+      ],
+      "input": {
+        "version": 1,
+        "name": "audit_propositional_control_NOT_PI",
+        "propositions": [
+          "P",
+          "Q"
+        ],
+        "assumptions": [
+          {
+            "id": "hp",
+            "type": "P"
+          },
+          {
+            "id": "hq",
+            "type": "Q"
+          }
+        ],
+        "goal": "∀ n : ℕ, (sinPoly n).natDegree ≤ n",
+        "nodes": [
+          {
+            "id": "hp",
+            "kind": "assumption",
+            "ref": "hp",
+            "x": 20,
+            "y": 30
+          },
+          {
+            "id": "hq",
+            "kind": "assumption",
+            "ref": "hq",
+            "x": 20,
+            "y": 120
+          },
+          {
+            "id": "pair",
+            "kind": "pair",
+            "x": 220,
+            "y": 80
+          },
+          {
+            "id": "goal",
+            "kind": "goal",
+            "x": 420,
+            "y": 80
+          }
+        ],
+        "edges": [
+          {
+            "id": "e1",
+            "source": "hp",
+            "target": "pair",
+            "input": "left"
+          },
+          {
+            "id": "e2",
+            "source": "hq",
+            "target": "pair",
+            "input": "right"
+          },
+          {
+            "id": "e3",
+            "source": "pair",
+            "target": "goal",
+            "input": "proof"
+          }
+        ]
+      },
+      "expectedCompilerStatus": "invalid",
+      "compilerResult": {
+        "status": "invalid",
+        "generatedCode": null,
+        "nodeTypes": {},
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "Goal type: Unsupported type syntax at character 1."
+          }
+        ]
+      },
+      "frontendImportValidation": null
+    },
+    {
+      "id": "integer-witness",
+      "purpose": "Use the real source expression as the graph goal",
+      "sourceLines": [
+        216,
+        216
+      ],
+      "input": {
+        "version": 1,
+        "name": "audit_propositional_control_NOT_PI",
+        "propositions": [
+          "P",
+          "Q"
+        ],
+        "assumptions": [
+          {
+            "id": "hp",
+            "type": "P"
+          },
+          {
+            "id": "hq",
+            "type": "Q"
+          }
+        ],
+        "goal": "∃ z : ℤ, p.eval₂ (Int.castRingHom ℝ) (a / b) * b ^ k = z",
+        "nodes": [
+          {
+            "id": "hp",
+            "kind": "assumption",
+            "ref": "hp",
+            "x": 20,
+            "y": 30
+          },
+          {
+            "id": "hq",
+            "kind": "assumption",
+            "ref": "hq",
+            "x": 20,
+            "y": 120
+          },
+          {
+            "id": "pair",
+            "kind": "pair",
+            "x": 220,
+            "y": 80
+          },
+          {
+            "id": "goal",
+            "kind": "goal",
+            "x": 420,
+            "y": 80
+          }
+        ],
+        "edges": [
+          {
+            "id": "e1",
+            "source": "hp",
+            "target": "pair",
+            "input": "left"
+          },
+          {
+            "id": "e2",
+            "source": "hq",
+            "target": "pair",
+            "input": "right"
+          },
+          {
+            "id": "e3",
+            "source": "pair",
+            "target": "goal",
+            "input": "proof"
+          }
+        ]
+      },
+      "expectedCompilerStatus": "invalid",
+      "compilerResult": {
+        "status": "invalid",
+        "generatedCode": null,
+        "nodeTypes": {},
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "Goal type: Unsupported type syntax at character 1."
+          }
+        ]
+      },
+      "frontendImportValidation": null
+    },
+    {
+      "id": "eventual-filter",
+      "purpose": "Use the real source expression as the graph goal",
+      "sourceLines": [
+        290,
+        290
+      ],
+      "input": {
+        "version": 1,
+        "name": "audit_propositional_control_NOT_PI",
+        "propositions": [
+          "P",
+          "Q"
+        ],
+        "assumptions": [
+          {
+            "id": "hp",
+            "type": "P"
+          },
+          {
+            "id": "hq",
+            "type": "Q"
+          }
+        ],
+        "goal": "∀ᶠ n : ℕ in atTop, (a : ℝ) ^ (2 * n + 1) / n ! * I n (π / 2) < 1",
+        "nodes": [
+          {
+            "id": "hp",
+            "kind": "assumption",
+            "ref": "hp",
+            "x": 20,
+            "y": 30
+          },
+          {
+            "id": "hq",
+            "kind": "assumption",
+            "ref": "hq",
+            "x": 20,
+            "y": 120
+          },
+          {
+            "id": "pair",
+            "kind": "pair",
+            "x": 220,
+            "y": 80
+          },
+          {
+            "id": "goal",
+            "kind": "goal",
+            "x": 420,
+            "y": 80
+          }
+        ],
+        "edges": [
+          {
+            "id": "e1",
+            "source": "hp",
+            "target": "pair",
+            "input": "left"
+          },
+          {
+            "id": "e2",
+            "source": "hq",
+            "target": "pair",
+            "input": "right"
+          },
+          {
+            "id": "e3",
+            "source": "pair",
+            "target": "goal",
+            "input": "proof"
+          }
+        ]
+      },
+      "expectedCompilerStatus": "invalid",
+      "compilerResult": {
+        "status": "invalid",
+        "generatedCode": null,
+        "nodeTypes": {},
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "Goal type: Unsupported type syntax at character 1."
+          }
+        ]
+      },
+      "frontendImportValidation": null
+    },
+    {
+      "id": "rational-negation",
+      "purpose": "Use the real source expression as the graph goal",
+      "sourceLines": [
+        276,
+        276
+      ],
+      "input": {
+        "version": 1,
+        "name": "audit_propositional_control_NOT_PI",
+        "propositions": [
+          "P",
+          "Q"
+        ],
+        "assumptions": [
+          {
+            "id": "hp",
+            "type": "P"
+          },
+          {
+            "id": "hq",
+            "type": "Q"
+          }
+        ],
+        "goal": "¬Irrational x",
+        "nodes": [
+          {
+            "id": "hp",
+            "kind": "assumption",
+            "ref": "hp",
+            "x": 20,
+            "y": 30
+          },
+          {
+            "id": "hq",
+            "kind": "assumption",
+            "ref": "hq",
+            "x": 20,
+            "y": 120
+          },
+          {
+            "id": "pair",
+            "kind": "pair",
+            "x": 220,
+            "y": 80
+          },
+          {
+            "id": "goal",
+            "kind": "goal",
+            "x": 420,
+            "y": 80
+          }
+        ],
+        "edges": [
+          {
+            "id": "e1",
+            "source": "hp",
+            "target": "pair",
+            "input": "left"
+          },
+          {
+            "id": "e2",
+            "source": "hq",
+            "target": "pair",
+            "input": "right"
+          },
+          {
+            "id": "e3",
+            "source": "pair",
+            "target": "goal",
+            "input": "proof"
+          }
+        ]
+      },
+      "expectedCompilerStatus": "invalid",
+      "compilerResult": {
+        "status": "invalid",
+        "generatedCode": null,
+        "nodeTypes": {},
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "Goal type: Unsupported type syntax at character 1."
+          }
+        ]
+      },
+      "frontendImportValidation": null
+    },
+    {
+      "id": "integral-bound",
+      "purpose": "Use the real source expression as the graph goal",
+      "sourceLines": [
+        252,
+        252
+      ],
+      "input": {
+        "version": 1,
+        "name": "audit_propositional_control_NOT_PI",
+        "propositions": [
+          "P",
+          "Q"
+        ],
+        "assumptions": [
+          {
+            "id": "hp",
+            "type": "P"
+          },
+          {
+            "id": "hq",
+            "type": "Q"
+          }
+        ],
+        "goal": "I n (π / 2) ≤ 2",
+        "nodes": [
+          {
+            "id": "hp",
+            "kind": "assumption",
+            "ref": "hp",
+            "x": 20,
+            "y": 30
+          },
+          {
+            "id": "hq",
+            "kind": "assumption",
+            "ref": "hq",
+            "x": 20,
+            "y": 120
+          },
+          {
+            "id": "pair",
+            "kind": "pair",
+            "x": 220,
+            "y": 80
+          },
+          {
+            "id": "goal",
+            "kind": "goal",
+            "x": 420,
+            "y": 80
+          }
+        ],
+        "edges": [
+          {
+            "id": "e1",
+            "source": "hp",
+            "target": "pair",
+            "input": "left"
+          },
+          {
+            "id": "e2",
+            "source": "hq",
+            "target": "pair",
+            "input": "right"
+          },
+          {
+            "id": "e3",
+            "source": "pair",
+            "target": "goal",
+            "input": "proof"
+          }
+        ]
+      },
+      "expectedCompilerStatus": "invalid",
+      "compilerResult": {
+        "status": "invalid",
+        "generatedCode": null,
+        "nodeTypes": {},
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "Goal type: Unsupported type syntax at character 3."
+          }
+        ]
+      },
+      "frontendImportValidation": null
+    },
+    {
+      "id": "integer-inequality-conjunction",
+      "purpose": "Use the real source expression as the graph goal",
+      "sourceLines": [
+        307,
+        307
+      ],
+      "input": {
+        "version": 1,
+        "name": "audit_propositional_control_NOT_PI",
+        "propositions": [
+          "P",
+          "Q"
+        ],
+        "assumptions": [
+          {
+            "id": "hp",
+            "type": "P"
+          },
+          {
+            "id": "hq",
+            "type": "Q"
+          }
+        ],
+        "goal": "(0 : ℝ) < z ∧ (z : ℝ) < 1",
+        "nodes": [
+          {
+            "id": "hp",
+            "kind": "assumption",
+            "ref": "hp",
+            "x": 20,
+            "y": 30
+          },
+          {
+            "id": "hq",
+            "kind": "assumption",
+            "ref": "hq",
+            "x": 20,
+            "y": 120
+          },
+          {
+            "id": "pair",
+            "kind": "pair",
+            "x": 220,
+            "y": 80
+          },
+          {
+            "id": "goal",
+            "kind": "goal",
+            "x": 420,
+            "y": 80
+          }
+        ],
+        "edges": [
+          {
+            "id": "e1",
+            "source": "hp",
+            "target": "pair",
+            "input": "left"
+          },
+          {
+            "id": "e2",
+            "source": "hq",
+            "target": "pair",
+            "input": "right"
+          },
+          {
+            "id": "e3",
+            "source": "pair",
+            "target": "goal",
+            "input": "proof"
+          }
+        ]
+      },
+      "expectedCompilerStatus": "invalid",
+      "compilerResult": {
+        "status": "invalid",
+        "generatedCode": null,
+        "nodeTypes": {},
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "Goal type: Unsupported type syntax at character 2."
+          }
+        ]
+      },
+      "frontendImportValidation": null
+    },
+    {
+      "id": "typed-data-port",
+      "purpose": "Attempt a natural-number input n : ℕ through the only current assumption mechanism",
+      "sourceLines": [
+        45,
+        47
+      ],
+      "input": {
+        "version": 1,
+        "name": "audit_propositional_control_NOT_PI",
+        "propositions": [
+          "P",
+          "Q"
+        ],
+        "assumptions": [
+          {
+            "id": "hp",
+            "type": "ℕ"
+          },
+          {
+            "id": "hq",
+            "type": "Q"
+          }
+        ],
+        "goal": "P ∧ Q",
+        "nodes": [
+          {
+            "id": "hp",
+            "kind": "assumption",
+            "ref": "hp",
+            "x": 20,
+            "y": 30
+          },
+          {
+            "id": "hq",
+            "kind": "assumption",
+            "ref": "hq",
+            "x": 20,
+            "y": 120
+          },
+          {
+            "id": "pair",
+            "kind": "pair",
+            "x": 220,
+            "y": 80
+          },
+          {
+            "id": "goal",
+            "kind": "goal",
+            "x": 420,
+            "y": 80
+          }
+        ],
+        "edges": [
+          {
+            "id": "e1",
+            "source": "hp",
+            "target": "pair",
+            "input": "left"
+          },
+          {
+            "id": "e2",
+            "source": "hq",
+            "target": "pair",
+            "input": "right"
+          },
+          {
+            "id": "e3",
+            "source": "pair",
+            "target": "goal",
+            "input": "proof"
+          }
+        ]
+      },
+      "expectedCompilerStatus": "invalid",
+      "compilerResult": {
+        "status": "invalid",
+        "generatedCode": null,
+        "nodeTypes": {
+          "goal": "P ∧ Q"
+        },
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "Assumption type: Unsupported type syntax at character 1.",
+            "nodeId": "hp"
+          }
+        ]
+      },
+      "frontendImportValidation": null
+    },
+    {
+      "id": "derivative-proof-port",
+      "purpose": "Use actual scoped derivative evidence as an assumption type",
+      "sourceLines": [
+        84,
+        86
+      ],
+      "input": {
+        "version": 1,
+        "name": "audit_propositional_control_NOT_PI",
+        "propositions": [
+          "P",
+          "Q"
+        ],
+        "assumptions": [
+          {
+            "id": "hp",
+            "type": "HasDerivAt f (- 2 * x) x"
+          },
+          {
+            "id": "hq",
+            "type": "Q"
+          }
+        ],
+        "goal": "P ∧ Q",
+        "nodes": [
+          {
+            "id": "hp",
+            "kind": "assumption",
+            "ref": "hp",
+            "x": 20,
+            "y": 30
+          },
+          {
+            "id": "hq",
+            "kind": "assumption",
+            "ref": "hq",
+            "x": 20,
+            "y": 120
+          },
+          {
+            "id": "pair",
+            "kind": "pair",
+            "x": 220,
+            "y": 80
+          },
+          {
+            "id": "goal",
+            "kind": "goal",
+            "x": 420,
+            "y": 80
+          }
+        ],
+        "edges": [
+          {
+            "id": "e1",
+            "source": "hp",
+            "target": "pair",
+            "input": "left"
+          },
+          {
+            "id": "e2",
+            "source": "hq",
+            "target": "pair",
+            "input": "right"
+          },
+          {
+            "id": "e3",
+            "source": "pair",
+            "target": "goal",
+            "input": "proof"
+          }
+        ]
+      },
+      "expectedCompilerStatus": "invalid",
+      "compilerResult": {
+        "status": "invalid",
+        "generatedCode": null,
+        "nodeTypes": {
+          "goal": "P ∧ Q"
+        },
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "Assumption type: Unsupported type syntax at character 2.",
+            "nodeId": "hp"
+          }
+        ]
+      },
+      "frontendImportValidation": null
+    },
+    {
+      "id": "unknown-extension-fields",
+      "purpose": "Check whether adding imports, binders, and source mapping changes generated semantics",
+      "sourceLines": [
+        8,
+        10
+      ],
+      "input": {
+        "version": 1,
+        "name": "audit_propositional_control_NOT_PI",
+        "propositions": [
+          "P",
+          "Q"
+        ],
+        "assumptions": [
+          {
+            "id": "hp",
+            "type": "P"
+          },
+          {
+            "id": "hq",
+            "type": "Q"
+          }
+        ],
+        "goal": "P ∧ Q",
+        "nodes": [
+          {
+            "id": "hp",
+            "kind": "assumption",
+            "ref": "hp",
+            "x": 20,
+            "y": 30
+          },
+          {
+            "id": "hq",
+            "kind": "assumption",
+            "ref": "hq",
+            "x": 20,
+            "y": 120
+          },
+          {
+            "id": "pair",
+            "kind": "pair",
+            "x": 220,
+            "y": 80
+          },
+          {
+            "id": "goal",
+            "kind": "goal",
+            "x": 420,
+            "y": 80
+          }
+        ],
+        "edges": [
+          {
+            "id": "e1",
+            "source": "hp",
+            "target": "pair",
+            "input": "left"
+          },
+          {
+            "id": "e2",
+            "source": "hq",
+            "target": "pair",
+            "input": "right"
+          },
+          {
+            "id": "e3",
+            "source": "pair",
+            "target": "goal",
+            "input": "proof"
+          }
+        ],
+        "imports": [
+          "Mathlib.Analysis.Real.Pi.Irrational"
+        ],
+        "binders": [
+          {
+            "name": "n",
+            "type": "ℕ"
+          }
+        ],
+        "sourceMap": {
+          "pair": {
+            "startLine": 307,
+            "endLine": 307
+          }
+        }
+      },
+      "expectedCompilerStatus": "ready",
+      "compilerResult": {
+        "status": "ready",
+        "generatedCode": "module\n\npublic section\n\ntheorem glean_proof (p0 p1 : Prop) (h0 : p0) (h1 : p1) : p0 ∧ p1 :=\n  let n0 : p0 := h0\n  let n1 : p1 := h1\n  let n2 : p0 ∧ p1 := And.intro n0 n1\n  n2\n\n#print axioms glean_proof\n",
+        "nodeTypes": {
+          "goal": "P ∧ Q",
+          "hp": "P",
+          "hq": "Q",
+          "pair": "P ∧ Q"
+        },
+        "diagnostics": []
+      },
+      "frontendImportValidation": null
+    },
+    {
+      "id": "theorem-reference-node",
+      "purpose": "Attempt an operation present in the real proof as a node kind",
+      "sourceLines": [
+        298,
+        300
+      ],
+      "input": {
+        "version": 1,
+        "name": "audit_propositional_control_NOT_PI",
+        "propositions": [
+          "P",
+          "Q"
+        ],
+        "assumptions": [
+          {
+            "id": "hp",
+            "type": "P"
+          },
+          {
+            "id": "hq",
+            "type": "Q"
+          }
+        ],
+        "goal": "P ∧ Q",
+        "nodes": [
+          {
+            "id": "hp",
+            "kind": "assumption",
+            "ref": "hp",
+            "x": 20,
+            "y": 30
+          },
+          {
+            "id": "hq",
+            "kind": "assumption",
+            "ref": "hq",
+            "x": 20,
+            "y": 120
+          },
+          {
+            "id": "pair",
+            "kind": "theorem",
+            "x": 220,
+            "y": 80
+          },
+          {
+            "id": "goal",
+            "kind": "goal",
+            "x": 420,
+            "y": 80
+          }
+        ],
+        "edges": [
+          {
+            "id": "e1",
+            "source": "hp",
+            "target": "pair",
+            "input": "left"
+          },
+          {
+            "id": "e2",
+            "source": "hq",
+            "target": "pair",
+            "input": "right"
+          },
+          {
+            "id": "e3",
+            "source": "pair",
+            "target": "goal",
+            "input": "proof"
+          }
+        ]
+      },
+      "expectedCompilerStatus": "invalid",
+      "compilerResult": {
+        "status": "invalid",
+        "generatedCode": null,
+        "nodeTypes": {
+          "goal": "P ∧ Q"
+        },
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "Unknown node kind.",
+            "nodeId": "pair"
+          }
+        ]
+      },
+      "frontendImportValidation": "노드 형식이나 위치가 올바르지 않습니다 (최대 256개)."
+    },
+    {
+      "id": "rewrite-node",
+      "purpose": "Attempt an operation present in the real proof as a node kind",
+      "sourceLines": [
+        304,
+        306
+      ],
+      "input": {
+        "version": 1,
+        "name": "audit_propositional_control_NOT_PI",
+        "propositions": [
+          "P",
+          "Q"
+        ],
+        "assumptions": [
+          {
+            "id": "hp",
+            "type": "P"
+          },
+          {
+            "id": "hq",
+            "type": "Q"
+          }
+        ],
+        "goal": "P ∧ Q",
+        "nodes": [
+          {
+            "id": "hp",
+            "kind": "assumption",
+            "ref": "hp",
+            "x": 20,
+            "y": 30
+          },
+          {
+            "id": "hq",
+            "kind": "assumption",
+            "ref": "hq",
+            "x": 20,
+            "y": 120
+          },
+          {
+            "id": "pair",
+            "kind": "rewrite",
+            "x": 220,
+            "y": 80
+          },
+          {
+            "id": "goal",
+            "kind": "goal",
+            "x": 420,
+            "y": 80
+          }
+        ],
+        "edges": [
+          {
+            "id": "e1",
+            "source": "hp",
+            "target": "pair",
+            "input": "left"
+          },
+          {
+            "id": "e2",
+            "source": "hq",
+            "target": "pair",
+            "input": "right"
+          },
+          {
+            "id": "e3",
+            "source": "pair",
+            "target": "goal",
+            "input": "proof"
+          }
+        ]
+      },
+      "expectedCompilerStatus": "invalid",
+      "compilerResult": {
+        "status": "invalid",
+        "generatedCode": null,
+        "nodeTypes": {
+          "goal": "P ∧ Q"
+        },
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "Unknown node kind.",
+            "nodeId": "pair"
+          }
+        ]
+      },
+      "frontendImportValidation": "노드 형식이나 위치가 올바르지 않습니다 (최대 256개)."
+    },
+    {
+      "id": "contradiction-node",
+      "purpose": "Attempt an operation present in the real proof as a node kind",
+      "sourceLines": [
+        282,
+        285
+      ],
+      "input": {
+        "version": 1,
+        "name": "audit_propositional_control_NOT_PI",
+        "propositions": [
+          "P",
+          "Q"
+        ],
+        "assumptions": [
+          {
+            "id": "hp",
+            "type": "P"
+          },
+          {
+            "id": "hq",
+            "type": "Q"
+          }
+        ],
+        "goal": "P ∧ Q",
+        "nodes": [
+          {
+            "id": "hp",
+            "kind": "assumption",
+            "ref": "hp",
+            "x": 20,
+            "y": 30
+          },
+          {
+            "id": "hq",
+            "kind": "assumption",
+            "ref": "hq",
+            "x": 20,
+            "y": 120
+          },
+          {
+            "id": "pair",
+            "kind": "by_contra",
+            "x": 220,
+            "y": 80
+          },
+          {
+            "id": "goal",
+            "kind": "goal",
+            "x": 420,
+            "y": 80
+          }
+        ],
+        "edges": [
+          {
+            "id": "e1",
+            "source": "hp",
+            "target": "pair",
+            "input": "left"
+          },
+          {
+            "id": "e2",
+            "source": "hq",
+            "target": "pair",
+            "input": "right"
+          },
+          {
+            "id": "e3",
+            "source": "pair",
+            "target": "goal",
+            "input": "proof"
+          }
+        ]
+      },
+      "expectedCompilerStatus": "invalid",
+      "compilerResult": {
+        "status": "invalid",
+        "generatedCode": null,
+        "nodeTypes": {
+          "goal": "P ∧ Q"
+        },
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "Unknown node kind.",
+            "nodeId": "pair"
+          }
+        ]
+      },
+      "frontendImportValidation": "노드 형식이나 위치가 올바르지 않습니다 (최대 256개)."
+    },
+    {
+      "id": "two-branch-goals",
+      "purpose": "Attempt simultaneous subgoals created by refine or cases",
+      "sourceLines": [
+        111,
+        120
+      ],
+      "input": {
+        "version": 1,
+        "name": "audit_propositional_control_NOT_PI",
+        "propositions": [
+          "P",
+          "Q"
+        ],
+        "assumptions": [
+          {
+            "id": "hp",
+            "type": "P"
+          },
+          {
+            "id": "hq",
+            "type": "Q"
+          }
+        ],
+        "goal": "P ∧ Q",
+        "nodes": [
+          {
+            "id": "hp",
+            "kind": "assumption",
+            "ref": "hp",
+            "x": 20,
+            "y": 30
+          },
+          {
+            "id": "hq",
+            "kind": "assumption",
+            "ref": "hq",
+            "x": 20,
+            "y": 120
+          },
+          {
+            "id": "pair",
+            "kind": "pair",
+            "x": 220,
+            "y": 80
+          },
+          {
+            "id": "goal",
+            "kind": "goal",
+            "x": 420,
+            "y": 80
+          },
+          {
+            "id": "branch-goal",
+            "kind": "goal",
+            "x": 420,
+            "y": 160
+          }
+        ],
+        "edges": [
+          {
+            "id": "e1",
+            "source": "hp",
+            "target": "pair",
+            "input": "left"
+          },
+          {
+            "id": "e2",
+            "source": "hq",
+            "target": "pair",
+            "input": "right"
+          },
+          {
+            "id": "e3",
+            "source": "pair",
+            "target": "goal",
+            "input": "proof"
+          },
+          {
+            "id": "e4",
+            "source": "hp",
+            "target": "branch-goal",
+            "input": "proof"
+          }
+        ]
+      },
+      "expectedCompilerStatus": "invalid",
+      "compilerResult": {
+        "status": "invalid",
+        "generatedCode": null,
+        "nodeTypes": {},
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "The graph must contain exactly one goal node."
+          }
+        ]
+      },
+      "frontendImportValidation": "노드 이름은 중복될 수 없으며 목표 노드는 하나여야 합니다."
+    },
+    {
+      "id": "disconnected-scratch-blocks-proof",
+      "purpose": "Leave an unused experimental subgraph while the goal path remains complete",
+      "sourceLines": [
+        173,
+        176
+      ],
+      "input": {
+        "version": 1,
+        "name": "audit_propositional_control_NOT_PI",
+        "propositions": [
+          "P",
+          "Q"
+        ],
+        "assumptions": [
+          {
+            "id": "hp",
+            "type": "P"
+          },
+          {
+            "id": "hq",
+            "type": "Q"
+          }
+        ],
+        "goal": "P ∧ Q",
+        "nodes": [
+          {
+            "id": "hp",
+            "kind": "assumption",
+            "ref": "hp",
+            "x": 20,
+            "y": 30
+          },
+          {
+            "id": "hq",
+            "kind": "assumption",
+            "ref": "hq",
+            "x": 20,
+            "y": 120
+          },
+          {
+            "id": "pair",
+            "kind": "pair",
+            "x": 220,
+            "y": 80
+          },
+          {
+            "id": "goal",
+            "kind": "goal",
+            "x": 420,
+            "y": 80
+          },
+          {
+            "id": "unfinished-scratch",
+            "kind": "apply",
+            "x": 20,
+            "y": 260
+          }
+        ],
+        "edges": [
+          {
+            "id": "e1",
+            "source": "hp",
+            "target": "pair",
+            "input": "left"
+          },
+          {
+            "id": "e2",
+            "source": "hq",
+            "target": "pair",
+            "input": "right"
+          },
+          {
+            "id": "e3",
+            "source": "pair",
+            "target": "goal",
+            "input": "proof"
+          }
+        ]
+      },
+      "expectedCompilerStatus": "incomplete",
+      "compilerResult": {
+        "status": "incomplete",
+        "generatedCode": null,
+        "nodeTypes": {
+          "goal": "P ∧ Q",
+          "hp": "P",
+          "hq": "Q",
+          "pair": "P ∧ Q"
+        },
+        "diagnostics": [
+          {
+            "severity": "info",
+            "message": "Connect a proof to this input.",
+            "nodeId": "unfinished-scratch",
+            "port": "fn"
+          },
+          {
+            "severity": "info",
+            "message": "Connect a proof to this input.",
+            "nodeId": "unfinished-scratch",
+            "port": "arg"
+          }
+        ]
+      },
+      "frontendImportValidation": null
+    },
+    {
+      "id": "recursion-as-cycle",
+      "purpose": "Attempt direct feedback edge for recursive structure; this is not a valid representation of Lean recursion",
+      "sourceLines": [
+        147,
+        150
+      ],
+      "input": {
+        "version": 1,
+        "name": "audit_propositional_control_NOT_PI",
+        "propositions": [
+          "P",
+          "Q"
+        ],
+        "assumptions": [
+          {
+            "id": "hp",
+            "type": "P"
+          },
+          {
+            "id": "hq",
+            "type": "Q"
+          }
+        ],
+        "goal": "P ∧ Q",
+        "nodes": [
+          {
+            "id": "hp",
+            "kind": "assumption",
+            "ref": "hp",
+            "x": 20,
+            "y": 30
+          },
+          {
+            "id": "hq",
+            "kind": "assumption",
+            "ref": "hq",
+            "x": 20,
+            "y": 120
+          },
+          {
+            "id": "pair",
+            "kind": "pair",
+            "x": 220,
+            "y": 80
+          },
+          {
+            "id": "goal",
+            "kind": "goal",
+            "x": 420,
+            "y": 80
+          }
+        ],
+        "edges": [
+          {
+            "id": "e1",
+            "source": "pair",
+            "target": "pair",
+            "input": "left"
+          },
+          {
+            "id": "e2",
+            "source": "hq",
+            "target": "pair",
+            "input": "right"
+          },
+          {
+            "id": "e3",
+            "source": "pair",
+            "target": "goal",
+            "input": "proof"
+          }
+        ]
+      },
+      "expectedCompilerStatus": "invalid",
+      "compilerResult": {
+        "status": "invalid",
+        "generatedCode": null,
+        "nodeTypes": {
+          "goal": "P ∧ Q"
+        },
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "This node is in or depends on a cycle. Proof graphs must be acyclic.",
+            "nodeId": "pair"
+          },
+          {
+            "severity": "error",
+            "message": "This node is in or depends on a cycle. Proof graphs must be acyclic.",
+            "nodeId": "goal"
+          }
+        ]
+      },
+      "frontendImportValidation": null
+    },
+    {
+      "id": "supported-type-mismatch",
+      "purpose": "Control: within its grammar, GLEAN reports the incorrect function port precisely",
+      "sourceLines": [],
+      "input": {
+        "version": 1,
+        "name": "audit_propositional_control_NOT_PI",
+        "propositions": [
+          "P",
+          "Q"
+        ],
+        "assumptions": [
+          {
+            "id": "hp",
+            "type": "P"
+          },
+          {
+            "id": "hq",
+            "type": "Q"
+          }
+        ],
+        "goal": "P ∧ Q",
+        "nodes": [
+          {
+            "id": "hp",
+            "kind": "assumption",
+            "ref": "hp",
+            "x": 20,
+            "y": 30
+          },
+          {
+            "id": "hq",
+            "kind": "assumption",
+            "ref": "hq",
+            "x": 20,
+            "y": 120
+          },
+          {
+            "id": "pair",
+            "kind": "apply",
+            "x": 220,
+            "y": 80
+          },
+          {
+            "id": "goal",
+            "kind": "goal",
+            "x": 420,
+            "y": 80
+          }
+        ],
+        "edges": [
+          {
+            "id": "e1",
+            "source": "hp",
+            "target": "pair",
+            "input": "fn"
+          },
+          {
+            "id": "e2",
+            "source": "hq",
+            "target": "pair",
+            "input": "arg"
+          },
+          {
+            "id": "e3",
+            "source": "pair",
+            "target": "goal",
+            "input": "proof"
+          }
+        ]
+      },
+      "expectedCompilerStatus": "invalid",
+      "compilerResult": {
+        "status": "invalid",
+        "generatedCode": null,
+        "nodeTypes": {
+          "goal": "P ∧ Q",
+          "hp": "P",
+          "hq": "Q"
+        },
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "Expected an implication, received P.",
+            "nodeId": "pair",
+            "port": "fn"
+          }
+        ]
+      },
+      "frontendImportValidation": null
+    }
+  ]
+}

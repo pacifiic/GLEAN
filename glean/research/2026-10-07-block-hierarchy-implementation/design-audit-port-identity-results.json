@@ -1,0 +1,107 @@
+{
+  "fixture": {
+    "version": 3,
+    "name": "valid IDs contain colon",
+    "projectId": "glean",
+    "imports": [],
+    "policy": "strict",
+    "inputs": [],
+    "goal": "True",
+    "modules": [],
+    "nodes": [
+      {
+        "id": "S",
+        "kind": "script",
+        "inputs": [],
+        "outputType": "True",
+        "body": "True.intro"
+      },
+      {
+        "id": "A:x",
+        "kind": "script",
+        "inputs": [
+          {
+            "id": "y",
+            "name": "y",
+            "type": "True"
+          }
+        ],
+        "outputType": "True",
+        "body": "y"
+      },
+      {
+        "id": "A",
+        "kind": "script",
+        "inputs": [
+          {
+            "id": "x:y",
+            "name": "xy",
+            "type": "True"
+          }
+        ],
+        "outputType": "True",
+        "body": "xy"
+      }
+    ],
+    "edges": [
+      {
+        "id": "one",
+        "source": "S",
+        "output": "out",
+        "target": "A:x",
+        "input": "y"
+      },
+      {
+        "id": "two",
+        "source": "S",
+        "output": "out",
+        "target": "A",
+        "input": "x:y"
+      }
+    ],
+    "result": {
+      "node": "A",
+      "output": "out"
+    }
+  },
+  "validation": null,
+  "ports": [
+    {
+      "id": "in:A:x:y",
+      "label": "y",
+      "nodeId": "A:x",
+      "input": "y"
+    },
+    {
+      "id": "in:A:x:y",
+      "label": "xy",
+      "nodeId": "A",
+      "input": "x:y"
+    }
+  ],
+  "uniquePortIds": 1,
+  "edges": [
+    {
+      "id": "one",
+      "source": "S",
+      "output": "out",
+      "target": "@container:capsule",
+      "input": "in:A:x:y",
+      "originalSource": "S",
+      "originalOutput": "out",
+      "originalTarget": "A:x",
+      "originalInput": "y"
+    },
+    {
+      "id": "two",
+      "source": "S",
+      "output": "out",
+      "target": "@container:capsule",
+      "input": "in:A:x:y",
+      "originalSource": "S",
+      "originalOutput": "out",
+      "originalTarget": "A",
+      "originalInput": "x:y"
+    }
+  ]
+}

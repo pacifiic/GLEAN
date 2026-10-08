@@ -1,0 +1,104 @@
+{
+  "kind": "graph",
+  "graph": {
+    "version": 3,
+    "name": "B05 independent public boundary",
+    "projectId": "glean",
+    "imports": [],
+    "policy": "strict",
+    "inputs": [],
+    "goal": "3 = 3",
+    "modules": [
+      {
+        "id": "M",
+        "name": "public identity",
+        "inputs": [
+          {
+            "id": "x",
+            "name": "x",
+            "type": "Nat"
+          }
+        ],
+        "outputType": "Nat",
+        "nodes": [
+          {
+            "id": "public_x",
+            "kind": "input",
+            "ref": "x"
+          },
+          {
+            "id": "body",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "Nat",
+            "body": "x"
+          }
+        ],
+        "edges": [
+          {
+            "id": "inner-wire",
+            "source": "public_x",
+            "output": "out",
+            "target": "body",
+            "input": "x"
+          }
+        ],
+        "result": {
+          "node": "body",
+          "output": "out"
+        }
+      }
+    ],
+    "nodes": [
+      {
+        "id": "n",
+        "kind": "nat",
+        "value": "3"
+      },
+      {
+        "id": "parent",
+        "kind": "module",
+        "ref": "M"
+      },
+      {
+        "id": "proof",
+        "kind": "script",
+        "inputs": [
+          {
+            "id": "y",
+            "name": "y",
+            "type": "Nat"
+          }
+        ],
+        "outputType": "y = y",
+        "body": "by rfl"
+      }
+    ],
+    "edges": [
+      {
+        "id": "outer-input",
+        "source": "n",
+        "output": "out",
+        "target": "parent",
+        "input": "x"
+      },
+      {
+        "id": "outer-result",
+        "source": "parent",
+        "output": "out",
+        "target": "proof",
+        "input": "y"
+      }
+    ],
+    "result": {
+      "node": "proof",
+      "output": "out"
+    }
+  }
+}

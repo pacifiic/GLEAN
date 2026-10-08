@@ -1,0 +1,76 @@
+{
+  "actualBodyJumps": [
+    {
+      "case": "type",
+      "bodyLine": 4,
+      "bodyColumn": 3,
+      "encoding": "unicode",
+      "selectionOffset": 59,
+      "expectedOffset": 59,
+      "selectedText": "exact",
+      "activeCode": true,
+      "selectedId": "proof",
+      "codeTarget": "proof",
+      "zoom": 1,
+      "semanticUnchanged": true
+    },
+    {
+      "case": "syntax",
+      "bodyLine": 3,
+      "bodyColumn": 10,
+      "encoding": "unicode",
+      "selectionOffset": 42,
+      "expectedOffset": 42,
+      "selectedText": "",
+      "activeCode": true,
+      "selectedId": "proof",
+      "codeTarget": "proof",
+      "zoom": 1,
+      "semanticUnchanged": true
+    },
+    {
+      "case": "syntax_eof_newline",
+      "bodyLine": 4,
+      "bodyColumn": 1,
+      "encoding": "unicode",
+      "selectionOffset": 43,
+      "expectedOffset": 43,
+      "selectedText": "",
+      "activeCode": true,
+      "selectedId": "proof",
+      "codeTarget": "proof",
+      "zoom": 1,
+      "semanticUnchanged": true
+    },
+    {
+      "case": "unicode",
+      "bodyLine": 2,
+      "bodyColumn": 24,
+      "encoding": "unicode",
+      "selectionOffset": 27,
+      "expectedOffset": 27,
+      "selectedText": "(0 : ",
+      "activeCode": true,
+      "selectedId": "proof",
+      "codeTarget": "proof",
+      "zoom": 1,
+      "semanticUnchanged": true
+    }
+  ],
+  "nestedReveal": {
+    "temporaryBadge": true,
+    "temporarilyVisible": true,
+    "collapsedAncestors": [
+      "inner",
+      "outer"
+    ],
+    "persistentPresentationUnchanged": true,
+    "semanticUnchanged": true,
+    "viewportRestored": true,
+    "temporaryCleared": true,
+    "originalIsolationTargets": [
+      "other"
+    ],
+    "proofHiddenAgain": true
+  }
+}

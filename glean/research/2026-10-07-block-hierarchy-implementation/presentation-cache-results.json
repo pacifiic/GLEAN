@@ -1,0 +1,46 @@
+{
+  "kind": "actual app history callback, real legacy-v2 presentation normalization/history; controlled environment/result for reuse/race decisions, not native UI or kernel",
+  "appHash": "955cf827bd5d8df39019552d71172b1c09de090e9688ab2a29d1a467b3e72be4",
+  "cases": [
+    {
+      "id": "same-environment-undo",
+      "pass": true,
+      "delivered": 1,
+      "finalVerified": true,
+      "finalType": "R",
+      "messages": []
+    },
+    {
+      "id": "changed-environment-undo",
+      "pass": true,
+      "delivered": 0,
+      "finalVerified": false,
+      "finalType": null,
+      "messages": [
+        [
+          "Lean 환경이 바뀌어 이전 검증을 해제했습니다."
+        ]
+      ]
+    },
+    {
+      "id": "missing-environment-undo",
+      "pass": true,
+      "delivered": 0,
+      "finalVerified": false,
+      "finalType": null,
+      "messages": [
+        [
+          "Lean 환경이 바뀌어 이전 검증을 해제했습니다."
+        ]
+      ]
+    },
+    {
+      "id": "old-reuse-response-after-new-check",
+      "pass": true,
+      "delivered": 0,
+      "finalVerified": false,
+      "finalType": null,
+      "messages": []
+    }
+  ]
+}

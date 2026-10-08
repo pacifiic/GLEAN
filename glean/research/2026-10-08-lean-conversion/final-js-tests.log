@@ -1,0 +1,22 @@
+✔ source file alone can be hidden, grouped and expanded while original source remains exact (11.71ms)
+✔ actual declarations keep raw names and all metadata while installation dependencies render in pages of fifty (4.13025ms)
+✔ invalid UTF8 original never enables analysis after cache reload or cancellation (0.362709ms)
+✔ historical installed lookup failure cannot overwrite a subsequently edited source (1.126708ms)
+✔ malformed historical imports leave original source and cache saved while loading the safe file view (0.760583ms)
+✔ fresh theorem conversion uses server job identity and preserves the source without treating dependencies as wires (1.28025ms)
+✔ late conversion cannot replace a newer source and errored partial analysis cannot convert (1.433208ms)
+✔ source-backed graph JSON saves the full raw source and restores its independent module identity (4.023541ms)
+✔ invalid module paths, provenance, source limits and corrupt raw bytes are refused on restore (5.372042ms)
+✔ source relations expose actual direct names without inventing editable proof wires (2.286084ms)
+✔ file and declarations share Hide/containers while source bytes and semantic identity remain exact (2.919083ms)
+✔ a thousand source declarations have their own analysis view and no semantic graph node cap (2.183ms)
+✔ unknown source view wrappers are quarantined with exact original and safe default visibility (0.355667ms)
+✔ historical analysis rejects malformed optional imports, ranges and dependency provenance without mutating cache (0.629041ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 107.608125

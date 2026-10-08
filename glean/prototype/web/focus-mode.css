@@ -1,0 +1,117 @@
+/* Copyright (c) 2026 GLEAN contributors. Released under Apache 2.0. */
+
+#fullscreen-button {
+  border-color:var(--border);
+}
+
+body.graph-focused {
+  overflow:hidden;
+}
+
+body.graph-focused > .app-header,
+body.graph-focused > .component-ribbon,
+body.graph-focused > :not(.workspace),
+body.graph-focused .workspace > :not(.editor-panel) {
+  display:none!important;
+}
+
+body.graph-focused .workspace {
+  position:fixed;
+  inset:0;
+  display:block;
+  width:100%;
+  height:100dvh;
+  min-width:0;
+  min-height:0;
+  margin:0;
+  padding:0;
+  overflow:visible;
+  z-index:10000;
+}
+
+body.graph-focused .editor-panel,
+.editor-panel:fullscreen {
+  position:fixed;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  height:100dvh;
+  min-width:0;
+  min-height:0;
+  max-width:none;
+  max-height:none;
+  margin:0;
+  border:0;
+  border-radius:0;
+  overflow:hidden;
+  background:var(--paper);
+  z-index:10001;
+}
+
+body.graph-focused .editor-footer,
+.editor-panel:fullscreen .editor-footer,
+body.graph-focused .canvas-header .eyebrow,
+body.graph-focused .canvas-header .count-label {
+  display:none;
+}
+
+body.graph-focused .canvas-header,
+.editor-panel:fullscreen .canvas-header {
+  height:34px;
+  min-height:34px;
+  padding:0 10px;
+  gap:9px;
+}
+
+body.graph-focused .canvas-header > div:first-child {
+  min-width:0;
+}
+
+body.graph-focused .canvas-header h1 {
+  margin:0;
+  font-size:12px;
+  max-width:min(40vw,500px);
+}
+
+body.graph-focused .canvas-tools {
+  flex-shrink:0;
+}
+
+body.graph-focused .canvas,
+.editor-panel:fullscreen .canvas {
+  min-height:0;
+  flex:1 1 0;
+}
+
+body.graph-focused #fullscreen-button {
+  background:var(--deep);
+  border-color:var(--deep);
+  color:white;
+}
+
+body.graph-focused #fullscreen-button:hover {
+  background:#486625;
+}
+
+.editor-panel::backdrop {
+  background:var(--paper);
+}
+
+@media (max-width:520px) {
+  body.graph-focused .canvas-header {
+    height:auto;
+    min-height:53px;
+    padding:4px 8px;
+    flex-wrap:wrap;
+    gap:3px;
+  }
+
+  body.graph-focused .canvas-header h1 {
+    max-width:calc(100vw - 20px);
+  }
+
+  body.graph-focused .canvas-tools {
+    margin-left:auto;
+  }
+}

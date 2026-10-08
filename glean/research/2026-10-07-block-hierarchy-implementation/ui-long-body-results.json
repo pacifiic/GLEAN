@@ -1,0 +1,19 @@
+{
+  "bytes": 1060146,
+  "bodyBytes": 1048483,
+  "bodyLines": 10281,
+  "bodyExact": true,
+  "bodySha256": "8b8ad61bdda3b1f598f3dab08f7adfa11246133f7ed0838f52798f7bc2426eab",
+  "documentSha256": "bc3d114c06fc25bf65bdd835b5608fb939ac1ea7c0d428dba9f4bbb80fabcc57",
+  "automationPasteMsIncludingAX": {
+    "64k": 618,
+    "1m": 5083
+  },
+  "lineJump": 10281,
+  "searchLine": 10002,
+  "reloadAutoRecovery": {
+    "bytes": 1048483,
+    "exact": true,
+    "bodySha256": "8b8ad61bdda3b1f598f3dab08f7adfa11246133f7ed0838f52798f7bc2426eab"
+  }
+}

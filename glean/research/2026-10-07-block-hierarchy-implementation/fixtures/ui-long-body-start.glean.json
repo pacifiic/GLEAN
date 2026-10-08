@@ -1,0 +1,57 @@
+{
+  "kind": "graph",
+  "graph": {
+    "version": 3,
+    "name": "Native long proof paste",
+    "projectId": "glean",
+    "imports": [],
+    "policy": "standard",
+    "inputs": [
+      {
+        "id": "n",
+        "name": "n",
+        "type": "Nat"
+      }
+    ],
+    "goal": "n + 0 = n",
+    "modules": [],
+    "nodes": [
+      {
+        "id": "n",
+        "kind": "input",
+        "ref": "n",
+        "x": 40,
+        "y": 80
+      },
+      {
+        "id": "proof",
+        "kind": "script",
+        "name": "긴 코드 붙여넣기",
+        "inputs": [
+          {
+            "id": "n",
+            "name": "n",
+            "type": "Nat"
+          }
+        ],
+        "outputType": "n + 0 = n",
+        "body": "by\n  rfl",
+        "x": 360,
+        "y": 80
+      }
+    ],
+    "edges": [
+      {
+        "id": "wire",
+        "source": "n",
+        "output": "out",
+        "target": "proof",
+        "input": "n"
+      }
+    ],
+    "result": {
+      "node": "proof",
+      "output": "out"
+    }
+  }
+}

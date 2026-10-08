@@ -1,0 +1,7 @@
+{
+  "expectedAffectedCalls": [
+    "module/wrapper/choose/left/innerCall",
+    "root/outerCall"
+  ],
+  "actualAffectedCalls": []
+}

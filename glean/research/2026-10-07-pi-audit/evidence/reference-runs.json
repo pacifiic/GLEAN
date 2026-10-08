@@ -1,0 +1,77 @@
+[
+  {
+    "label": "original",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/Users/moonone/GLEAN/glean/research/2026-10-07-pi-audit/reference/Irrational.lean"
+    ],
+    "cwd": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "expectation_met": true,
+    "elapsed_seconds": 13.812,
+    "log": "evidence/reference-original.log"
+  },
+  {
+    "label": "wrappers",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/Users/moonone/GLEAN/glean/research/2026-10-07-pi-audit/reference/CheckPi.lean"
+    ],
+    "cwd": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "expectation_met": true,
+    "elapsed_seconds": 35.083,
+    "log": "evidence/reference-wrappers.log"
+  },
+  {
+    "label": "reject-rational",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/Users/moonone/GLEAN/glean/research/2026-10-07-pi-audit/reference/RejectRationalPi.lean"
+    ],
+    "cwd": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4",
+    "exit_code": 1,
+    "expected_exit_code": 1,
+    "expectation_met": true,
+    "elapsed_seconds": 88.647,
+    "log": "evidence/reference-reject-rational.log"
+  },
+  {
+    "label": "reject-final-step",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/Users/moonone/GLEAN/glean/research/2026-10-07-pi-audit/reference/IrrationalBroken.lean"
+    ],
+    "cwd": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4",
+    "exit_code": 1,
+    "expected_exit_code": 1,
+    "expectation_met": true,
+    "elapsed_seconds": 22.054,
+    "log": "evidence/reference-reject-final-step.log"
+  },
+  {
+    "label": "wrapper-fast",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/Users/moonone/GLEAN/glean/research/2026-10-07-pi-audit/reference/CheckPiFast.lean"
+    ],
+    "cwd": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "expectation_met": true,
+    "elapsed_seconds": 42.204,
+    "log": "evidence/reference-wrapper-fast.log"
+  }
+]

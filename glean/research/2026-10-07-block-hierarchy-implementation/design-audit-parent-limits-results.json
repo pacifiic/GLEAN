@@ -1,0 +1,20 @@
+[
+  {
+    "condition": "module-limit",
+    "validationBefore": null,
+    "validationAfter": "타입 그래프 형식을 확인하세요.",
+    "unchanged": false,
+    "changes": 1,
+    "moduleCount": 33,
+    "nodeCount": 37
+  },
+  {
+    "condition": "node-limit",
+    "validationBefore": null,
+    "validationAfter": "최대 256개 노드, 512개 연결을 지원합니다.",
+    "unchanged": false,
+    "changes": 1,
+    "moduleCount": 1,
+    "nodeCount": 257
+  }
+]

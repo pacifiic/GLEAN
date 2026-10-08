@@ -1,0 +1,64 @@
+[
+  {
+    "label": "valid-nested",
+    "scopeId": "module/N",
+    "trail": [
+      {
+        "scopeId": "root",
+        "nodeId": "A",
+        "definitionId": "M"
+      },
+      {
+        "scopeId": "module/M",
+        "nodeId": "inner",
+        "definitionId": "N"
+      }
+    ],
+    "expectedAccepted": true,
+    "actualAccepted": true
+  },
+  {
+    "label": "valid-direct",
+    "scopeId": "module/N",
+    "trail": [
+      {
+        "scopeId": "root",
+        "nodeId": "B",
+        "definitionId": "N"
+      }
+    ],
+    "expectedAccepted": true,
+    "actualAccepted": true
+  },
+  {
+    "label": "wrong-final-scope",
+    "scopeId": "module/M",
+    "trail": [
+      {
+        "scopeId": "root",
+        "nodeId": "B",
+        "definitionId": "N"
+      }
+    ],
+    "expectedAccepted": false,
+    "actualAccepted": false
+  },
+  {
+    "label": "disconnected-trail",
+    "scopeId": "module/N",
+    "trail": [
+      {
+        "scopeId": "root",
+        "nodeId": "A",
+        "definitionId": "M"
+      },
+      {
+        "scopeId": "root",
+        "nodeId": "B",
+        "definitionId": "N"
+      }
+    ],
+    "expectedAccepted": false,
+    "actualAccepted": false
+  }
+]

@@ -1,0 +1,6 @@
+/Users/moonone/GLEAN/glean/research/2026-10-07-pi-audit/reference/RejectRationalPi.lean:9:2: error: Type mismatch
+  irrational_pi
+has type
+  Irrational Real.pi
+but is expected to have type
+  ¬Irrational Real.pi

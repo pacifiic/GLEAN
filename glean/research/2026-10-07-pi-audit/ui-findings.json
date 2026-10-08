@@ -1,0 +1,195 @@
+{
+  "copyright": "Copyright (c) 2026 GLEAN contributors. Released under Apache 2.0.",
+  "audit_date": "2026-10-07",
+  "agent": "/root/pi_ui_audit",
+  "app_url": "http://127.0.0.1:8765/",
+  "browser": {
+    "id": "2",
+    "type": "iab",
+    "tab_id": "1",
+    "viewport": "Normal browser viewport, no override; docked screenshot1280x720, native fullscreen1440x900."
+  },
+  "scope": "Actual browser manipulation, no app implementation changes. Real official Lean file import + genuine mathematical goal entry, followed by clearly labeled synthetic supported-graph usability tests.",
+  "reference": {
+    "file": "reference/Irrational.lean",
+    "official_target": "@[simp] theorem irrational_pi : Irrational π := by",
+    "explicit_goal_entered": "Irrational Real.pi",
+    "note": "The UI could not import or represent this Lean source. It was not executed as a GLEAN graph."
+  },
+  "findings": [
+    {
+      "id": "UI-01",
+      "severity": "blocker",
+      "title": "공식 Lean 소스 파일을 작업으로 가져올 수 없음",
+      "evidence_level": "observed",
+      "reproduction": [
+        "열기 클릭",
+        "reference/Irrational.lean 파일 선택"
+      ],
+      "expected": "외부 .lean 파일을 읽고 지원 범위와 정리 목록을 보여 주거나, Lean 파일 가져오기 미지원임을 선택 전에 명시",
+      "actual": "파일 입력 accept는 .json,application/json. 파일 선택 자동화로 .lean을 전달하자 “JSON 파일을 읽지 못했습니다. GLEAN 그래프 파일인지 확인해 주세요.” 표시. 기존 그래프는 유지됨.",
+      "impact": "311행 실제 π 무리수 증명은 GLEAN 편집·탐색 단계에 진입하지 못했다.",
+      "suggestion": "JSON 그래프 열기와 Lean 프로젝트 열기를 구분하고 Lake 프로젝트/파일/정리 탐색을 첫 진입 기능으로 설계.",
+      "evidence": [
+        "evidence/ui-lean-import-rejection.jpg"
+      ],
+      "limitation": "파일 선택 자동화는 확장자 필터를 우회해 실제 파일을 전달했다. 정상 파일 선택기에서는 .lean이 필터링될 수 있음."
+    },
+    {
+      "id": "UI-02",
+      "severity": "blocker",
+      "title": "실제 수학 타입을 입력할 수 없어 π 정리를 표현하지 못함",
+      "evidence_level": "observed",
+      "reproduction": [
+        "초기 compose 그래프의 정리 이름을 irrational_pi로 변경",
+        "목표를 Irrational Real.pi로 입력하고 설정 적용",
+        "Lean으로 검증",
+        "다시 목표를 ∀ n : ℕ, n ≤ n으로 바꿔 검증"
+      ],
+      "expected": "Lean elaborator가 이름·타입·양화사를 해석하거나, 입력 시 지원 범위를 정확히 설명",
+      "actual": "Irrational Real.pi는 “Goal type: Unsupported type syntax at character 2.”, ∀ n : ℕ, n ≤ n은 character 1에서 거절. 설정 적용은 성공 알림을 내고 목표 노드도 갱신하지만 검증까지 오류가 지연됨. 상태 설명은 “연결된 타입 또는 그래프 구조가 맞지 않습니다.”",
+      "impact": "오류는 수학 증명의 실패가 아니라 GLEAN 명제 문법 제한인데 UI가 이를 분리하지 않는다. Lean 문법을 수정해야 하는 것으로 오해할 수 있음.",
+      "suggestion": "초기 단계에 명제 전용 지원 범위를 표시하고, 장기적으로 Mathlib 환경의 Lean 타입·term·goal을 직접 다룸. 문법 미지원과 연결 오류, Lean 오류를 구분.",
+      "evidence": [
+        "evidence/ui-pi-goal-rejection.jpg"
+      ]
+    },
+    {
+      "id": "UI-03",
+      "severity": "high",
+      "title": "노드 위치 이동만 해도 검증 결과와 생성 코드를 잃음",
+      "evidence_level": "observed",
+      "reproduction": [
+        "초기 compose를 Lean 검증하여 성공 확인",
+        "f 노드 헤더를 화면 좌표(402,234)에서 (420,214)로 드래그"
+      ],
+      "expected": "배치 변경은 의미상 동일한 증명의 검증 상태와 생성 코드를 보존",
+      "actual": "“다시 검증해 주세요”로 바뀌고 코드 패널이 초기 안내문으로 비워짐. .lean 내보내기도 비활성화.",
+      "impact": "복잡한 증명을 정리하며 읽을 때마다 재검증 필요. 레이아웃 탐색과 증명 변경이 섞임.",
+      "suggestion": "그래프 의미 변경 revision과 위치·뷰 변경 revision을 분리.",
+      "evidence": [
+        "evidence/ui-layout-invalidates-proof.jpg"
+      ]
+    },
+    {
+      "id": "UI-04",
+      "severity": "high",
+      "title": "삭제·연결 편집 실행 취소가 없음",
+      "evidence_level": "observed",
+      "reproduction": [
+        "compose에서 f 노드 선택 후 노드 삭제",
+        "캔버스에 초점을 두고 Meta+Z, 이어서 Control+Z 입력"
+      ],
+      "expected": "삭제된 노드와 연결을 한 번의 실행 취소로 복원",
+      "actual": "5 nodes / 4 wires 상태가 그대로 유지. 실행 취소 컨트롤도 찾지 못함.",
+      "impact": "실제 큰 증명을 실험하며 조작하기 어렵고 실수 비용이 큼.",
+      "suggestion": "노드·와이어·가정·타입 편집을 transaction 단위 undo/redo로 기록.",
+      "evidence": [
+        "evidence/ui-actions.json"
+      ],
+      "limitation": "앱 소스의 현재 keydown 처리도 Delete/Backspace와 Escape만 구현함을 보조 확인."
+    },
+    {
+      "id": "UI-05",
+      "severity": "high",
+      "title": "새로고침 시 편집 중 그래프 소실",
+      "evidence_level": "observed",
+      "reproduction": [
+        "ui-stress-missing-input.json을 열고 누락 연결을 직접 복원",
+        "43 nodes / 81 wires인 상태에서 새로고침"
+      ],
+      "expected": "복구 가능한 작업 임시 저장 또는 미저장 변경 경고",
+      "actual": "새로고침 즉시 compose 6 nodes / 5 wires로 돌아감. 기존 상태표시는 “로컬 작업 공간 · 자동 저장 안 됨”.",
+      "impact": "도킹 배치는 저장되지만 실제 증명 작업은 복원되지 않음. 복구 파일을 사용자가 별도로 저장해야 함.",
+      "suggestion": "작업 그래프 자동 임시 저장과 복구 이력, 명시적 저장 상태를 제공.",
+      "evidence": [
+        "evidence/ui-actions.json"
+      ],
+      "limitation": "기존 사용자 그래프가 아닌 에이전트가 만든 별도 탭의 테스트 그래프만 새로고침."
+    },
+    {
+      "id": "UI-06",
+      "severity": "high",
+      "title": "그래프 노드와 생성 Lean 코드의 대응을 추적하기 어려움",
+      "evidence_level": "observed",
+      "reproduction": [
+        "40번 함수 적용을 포함하는 유효 스트레스 그래프를 검증",
+        "apply20 노드 헤더 선택",
+        "Lean 코드 패널 확인"
+      ],
+      "expected": "선택 노드의 Lean 범위로 이동·강조하고 원본 이름/정리명을 보존하거나 대응표 표시",
+      "actual": "선택 툴바에는 “함수 적용”만 표시. 생성 코드에는 사용자가 준 이름 대신 theorem glean_proof, p0/h0/h1/n0… 이름. 코드 패널은 자식 span이나 링크가 없는 PRE이며 선택해도 특정 줄 이동/강조가 일어나지 않음.",
+      "impact": "수십 개 비슷한 노드 중 어느 코드가 어느 증명 단계인지 사람이 대조하기 어려움.",
+      "suggestion": "노드 ID·사용자 라벨·Lean source span의 안정적인 양방향 매핑. 선택 시 타입·가정·코드 줄 표시.",
+      "evidence": [
+        "evidence/ui-source-node-navigation.jpg",
+        "evidence/ui-stress-verified-ax.txt"
+      ]
+    },
+    {
+      "id": "UI-07",
+      "severity": "medium",
+      "title": "큰 그래프의 오류 이동이 읽을 수 있는 확대율을 보장하지 않음",
+      "evidence_level": "observed",
+      "reproduction": [
+        "43노드 ui-stress-missing-input.json 열기",
+        "Lean으로 검증",
+        "진단 버튼 apply20 / fn ↗ 클릭"
+      ],
+      "expected": "문제 노드를 식별할 수 있는 확대율로 이동하고 해당 입력 소켓 강조",
+      "actual": "문제 노드는 중앙에 선택되지만 24% 확대율 그대로. 선택 노드 실제 크기 약39×22px, 툴바명은 공통 “함수 적용”.",
+      "impact": "어디에 오류가 있는지는 보이나 이름·포트·타입을 읽으려면 추가 확대가 필요.",
+      "suggestion": "오류로 이동할 때 최소 가독 확대율(예100%)을 적용하거나 인스펙터에 포트 기대타입·현재타입·ID를 표시.",
+      "evidence": [
+        "evidence/ui-stress-diagnostic-focus.jpg"
+      ],
+      "positive": "진단 링크 자체는 올바른 노드로 이동하고 색상 표시도 정상."
+    },
+    {
+      "id": "UI-08",
+      "severity": "medium",
+      "title": "43노드 전체 보기에서 타입·와이어 추적이 급격히 어려워짐",
+      "evidence_level": "observed",
+      "reproduction": [
+        "ui-stress-40.json 열고 검증",
+        "기본 도킹 배치 전체 보기",
+        "전체화면으로 전환"
+      ],
+      "expected": "큰 그래프에서 주요 단계와 내부 세부사항을 나누어 탐색",
+      "actual": "기본 도킹에서는24%로 축소돼 타입과 소켓명이 거의 읽히지 않음. 전체화면65%로 개선되나 같은 함수 적용 노드40개와 재사용 f에서 나가는 와이어40개를 개별 추적해야 함.",
+      "impact": "가정 재사용과 반복 단계가 많은 실제 수학 증명의 읽기 비용이 커질 것으로 예상.",
+      "suggestion": "그룹/부분증명 접기, 지역 가정 범위, 선택 경로 강조, 반복 단계 요약이 필요.",
+      "evidence": [
+        "evidence/ui-stress-fit.jpg",
+        "evidence/ui-stress-fullscreen.jpg"
+      ],
+      "limitation": "이 픽스처는 π 증명을 시각화한 것이 아니라 지원 범위 내 P→P 반복의 인공 스트레스 그래프. 실제 π 증명 성능·노드 수를 측정했다고 해석하면 안 됨.",
+      "positive": "43노드81와이어 실제 Lean 검증은 성공(해당 실행1.06초). 전체화면·팬·휠 확대는 동작했고 팬/확대만으로 검증은 무효화되지 않음."
+    },
+    {
+      "id": "UI-09",
+      "severity": "medium",
+      "title": "Grasshopper식 캔버스 더블클릭 검색 부재",
+      "evidence_level": "observed",
+      "reproduction": [
+        "기본 compose 캔버스 빈 공간(766,430)을 더블클릭"
+      ],
+      "expected": "컴포넌트/정리 검색창 또는 추가 메뉴",
+      "actual": "접근성 트리와 화면 상태 변화 없음. 상단 리본의 고정 가정·Apply·Pair·First·Second만 추가 경로로 확인.",
+      "impact": "Mathlib 정리 검색과 수많은 컴포넌트로 확장할 때 현재 리본만으로는 필요한 연산 탐색이 어려울 것으로 예상.",
+      "suggestion": "더블클릭/단축키 검색에 이름·타입·현재 목표 기반 필터를 제공.",
+      "evidence": [
+        "evidence/ui-actions.json"
+      ],
+      "limitation": "실제 부재 관찰과 향후 Mathlib 확장 시 영향은 구분: 현재 고정 도구 수가 적어 즉시 작업 불가능한 문제는 아님."
+    }
+  ],
+  "positive_observations": [
+    "Official Lean failure did not overwrite the currently open graph.",
+    "Simple compose proof and synthetic43node/81wire graph were both actually Lean-verified.",
+    "Diagnostic jump identified the correct missing apply20/fn node.",
+    "Reconnecting f output to apply20/fn through visible port controls restored43nodes/81wires and verification success.",
+    "Fullscreen increased fit zoom24%→65%; pan/zoom retained verification.",
+    "No browser viewport override or user global preference changed."
+  ]
+}

@@ -5,3 +5,6 @@ stage0/** binary linguist-generated
 # The following file is often manually edited, so do show it in diffs
 stage0/src/stdlib_flags.h -binary -linguist-generated
 doc/std/grove/GroveStdlib/Generated/** linguist-generated
+
+# Preserve exact BOM, CRLF and invalid UTF-8 bytes in GLEAN import fixtures.
+glean/research/2026-10-07-block-hierarchy-implementation/ui-fixtures/*.lean binary

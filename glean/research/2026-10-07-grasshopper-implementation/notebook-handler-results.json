@@ -1,0 +1,41 @@
+{
+  "appHash": "22faacd9ddd52595c933a357f590d9a917695745e39d428308ad21b2d5ab8459",
+  "export": {
+    "anchor": {
+      "href": "blob:audit-1",
+      "download": "glean-notebook.json"
+    },
+    "mime": "application/json",
+    "bytes": 8945,
+    "variants": [
+      "A",
+      "B"
+    ]
+  },
+  "import": {
+    "opened": 2,
+    "statuses": [
+      [
+        "unverified",
+        "타입 그래프 검사 대기",
+        "명시적 입력과 Lean 본문을 연결하세요."
+      ],
+      [
+        "unverified",
+        "타입 그래프 검사 대기",
+        "명시적 입력과 Lean 본문을 연결하세요."
+      ]
+    ],
+    "notebookVariants": 2,
+    "result": null,
+    "forgedVerificationDowngraded": true
+  },
+  "toasts": [
+    [
+      "그래프를 열었습니다. 다시 검증해 주세요."
+    ],
+    [
+      "그래프를 열었습니다. 다시 검증해 주세요."
+    ]
+  ]
+}

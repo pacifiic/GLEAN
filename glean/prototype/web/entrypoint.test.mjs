@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';import {spawnSync} from 'node:child_process';
+test('browser module entrypoints parse as ES modules',()=>{for(const name of ['app.js','workspace.js','focus-mode.js']){const result=spawnSync(process.execPath,['--input-type=module','--check'],{input:readFileSync(new URL(name,import.meta.url)),encoding:'utf8'});assert.equal(result.status,0,name+': '+result.stderr);}});

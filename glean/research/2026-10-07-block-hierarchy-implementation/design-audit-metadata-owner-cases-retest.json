@@ -1,0 +1,768 @@
+{
+  "graph": {
+    "version": 3,
+    "name": "H04 independent Cases scope",
+    "projectId": "glean",
+    "imports": [],
+    "policy": "strict",
+    "inputs": [
+      {
+        "id": "P",
+        "name": "P",
+        "type": "Prop"
+      },
+      {
+        "id": "Q",
+        "name": "Q",
+        "type": "Prop"
+      },
+      {
+        "id": "h",
+        "name": "h",
+        "type": "P ∨ Q"
+      }
+    ],
+    "goal": "P ∨ Q",
+    "modules": [],
+    "nodes": [
+      {
+        "id": "P",
+        "kind": "input",
+        "ref": "P"
+      },
+      {
+        "id": "Q",
+        "kind": "input",
+        "ref": "Q"
+      },
+      {
+        "id": "h",
+        "kind": "input",
+        "ref": "h"
+      },
+      {
+        "id": "split",
+        "kind": "cases",
+        "inputs": [
+          {
+            "id": "P",
+            "name": "P",
+            "type": "Prop"
+          },
+          {
+            "id": "Q",
+            "name": "Q",
+            "type": "Prop"
+          },
+          {
+            "id": "h",
+            "name": "h",
+            "type": "P ∨ Q"
+          }
+        ],
+        "outputType": "P ∨ Q",
+        "scrutinee": "h",
+        "branches": [
+          {
+            "id": "left",
+            "constructor": "Or.inl",
+            "binders": [
+              {
+                "id": "w",
+                "name": "w",
+                "type": "P"
+              }
+            ],
+            "nodes": [
+              {
+                "id": "left_P",
+                "kind": "input",
+                "ref": "P"
+              },
+              {
+                "id": "left_Q",
+                "kind": "input",
+                "ref": "Q"
+              },
+              {
+                "id": "left_w",
+                "kind": "input",
+                "ref": "w"
+              },
+              {
+                "id": "left_proof",
+                "kind": "script",
+                "inputs": [
+                  {
+                    "id": "P",
+                    "name": "P",
+                    "type": "Prop"
+                  },
+                  {
+                    "id": "Q",
+                    "name": "Q",
+                    "type": "Prop"
+                  },
+                  {
+                    "id": "w",
+                    "name": "w",
+                    "type": "P"
+                  }
+                ],
+                "outputType": "P ∨ Q",
+                "body": "let glean_component_4 : Bool := true; Or.inl w"
+              }
+            ],
+            "edges": [
+              {
+                "id": "left_P_wire",
+                "source": "left_P",
+                "output": "out",
+                "target": "left_proof",
+                "input": "P"
+              },
+              {
+                "id": "left_Q_wire",
+                "source": "left_Q",
+                "output": "out",
+                "target": "left_proof",
+                "input": "Q"
+              },
+              {
+                "id": "left_w_wire",
+                "source": "left_w",
+                "output": "out",
+                "target": "left_proof",
+                "input": "w"
+              }
+            ],
+            "result": {
+              "node": "left_proof",
+              "output": "out"
+            }
+          },
+          {
+            "id": "right",
+            "constructor": "Or.inr",
+            "binders": [
+              {
+                "id": "w",
+                "name": "w",
+                "type": "Q"
+              }
+            ],
+            "nodes": [
+              {
+                "id": "right_P",
+                "kind": "input",
+                "ref": "P"
+              },
+              {
+                "id": "right_Q",
+                "kind": "input",
+                "ref": "Q"
+              },
+              {
+                "id": "right_w",
+                "kind": "input",
+                "ref": "w"
+              },
+              {
+                "id": "right_proof",
+                "kind": "script",
+                "inputs": [
+                  {
+                    "id": "P",
+                    "name": "P",
+                    "type": "Prop"
+                  },
+                  {
+                    "id": "Q",
+                    "name": "Q",
+                    "type": "Prop"
+                  },
+                  {
+                    "id": "w",
+                    "name": "w",
+                    "type": "Q"
+                  }
+                ],
+                "outputType": "P ∨ Q",
+                "body": "Or.inr w"
+              }
+            ],
+            "edges": [
+              {
+                "id": "right_P_wire",
+                "source": "right_P",
+                "output": "out",
+                "target": "right_proof",
+                "input": "P"
+              },
+              {
+                "id": "right_Q_wire",
+                "source": "right_Q",
+                "output": "out",
+                "target": "right_proof",
+                "input": "Q"
+              },
+              {
+                "id": "right_w_wire",
+                "source": "right_w",
+                "output": "out",
+                "target": "right_proof",
+                "input": "w"
+              }
+            ],
+            "result": {
+              "node": "right_proof",
+              "output": "out"
+            }
+          }
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "root_P_wire",
+        "source": "P",
+        "output": "out",
+        "target": "split",
+        "input": "P"
+      },
+      {
+        "id": "root_Q_wire",
+        "source": "Q",
+        "output": "out",
+        "target": "split",
+        "input": "Q"
+      },
+      {
+        "id": "root_h_wire",
+        "source": "h",
+        "output": "out",
+        "target": "split",
+        "input": "h"
+      }
+    ],
+    "result": {
+      "node": "split",
+      "output": "out"
+    }
+  },
+  "result": {
+    "status": "valid",
+    "verified": true,
+    "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nset_option Elab.async false\nopen Lean Elab Term in\nelab \"gleanTerm% \" location:str text:str : term <= expectedType => do\n  let filename := if location.getString.isEmpty then \"<input>\" else location.getString\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString filename with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := if location.getString.isEmpty then stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo) else stx\n  let elaborate : TermElabM Expr := withoutErrToSorry do\n    try\n      let result ← elabTerm stx expectedType\n      synthesizeSyntheticMVarsNoPostponing\n      let result ← instantiateMVars result\n      let env ← getEnv\n      let mut pending := result.getUsedConstants.toList\n      let mut seen : NameSet := {}\n      while !pending.isEmpty do\n        let name := pending.head!\n        pending := pending.tail!\n        unless seen.contains name do\n          seen := seen.insert name\n          if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n            throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n          if (env.getModuleIdxFor? name).isNone then\n            if let some ci := env.find? name then\n              pending := ci.getUsedConstantsAsSet.toList ++ pending\n      return result\n    catch error =>\n      logException error\n      throwAbortTerm\n  if location.getString.isEmpty then elaborate\n  else withTheReader Core.Context (fun ctx => { ctx with fileName := filename, fileMap := FileMap.ofString text.getString }) elaborate\n\nnoncomputable def glean_component_3 (P : (gleanTerm% \"\" \"Prop\")) (Q : (gleanTerm% \"\" \"Prop\")) (w : (gleanTerm% \"\" \"P\")) : (gleanTerm% \"\" \"P ∨ Q\") :=\n  (gleanTerm% \"GLEAN_FRAGMENT_1\" \"let glean_component_4 : Bool := true; Or.inl w\")\n\nnoncomputable def glean_component_2 (P : (gleanTerm% \"\" \"Prop\")) (Q : (gleanTerm% \"\" \"Prop\")) (h : (gleanTerm% \"\" \"P ∨ Q\")) (w : (gleanTerm% \"\" \"P\")) : (gleanTerm% \"\" \"P ∨ Q\") :=\n  let glean_component_4 := glean_component_3 (P) (Q) (w)\n  glean_component_4\n\nnoncomputable def glean_component_6 (P : (gleanTerm% \"\" \"Prop\")) (Q : (gleanTerm% \"\" \"Prop\")) (w : (gleanTerm% \"\" \"Q\")) : (gleanTerm% \"\" \"P ∨ Q\") :=\n  (gleanTerm% \"GLEAN_FRAGMENT_2\" \"Or.inr w\")\n\nnoncomputable def glean_component_5 (P : (gleanTerm% \"\" \"Prop\")) (Q : (gleanTerm% \"\" \"Prop\")) (h : (gleanTerm% \"\" \"P ∨ Q\")) (w : (gleanTerm% \"\" \"Q\")) : (gleanTerm% \"\" \"P ∨ Q\") :=\n  let glean_component_7 := glean_component_6 (P) (Q) (w)\n  glean_component_7\n\nnoncomputable def glean_component_1 (P : (gleanTerm% \"\" \"Prop\")) (Q : (gleanTerm% \"\" \"Prop\")) (h : (gleanTerm% \"\" \"P ∨ Q\")) : (gleanTerm% \"\" \"P ∨ Q\") :=\n  match h with\n  | Or.inl w =>\n    glean_component_2 (P) (Q) (h) (w)\n  | Or.inr w =>\n    glean_component_5 (P) (Q) (h) (w)\n\ntheorem glean_proof (P : (gleanTerm% \"\" \"Prop\")) (Q : (gleanTerm% \"\" \"Prop\")) (h : (gleanTerm% \"\" \"P ∨ Q\")) : (gleanTerm% \"\" \"P ∨ Q\") :=\n  let glean_component_8 := glean_component_1 (P) (Q) (h)\n  glean_component_8\n",
+    "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nset_option Elab.async false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" location:str text:str : term <= expectedType => do\n  let filename := if location.getString.isEmpty then \"<input>\" else location.getString\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString filename with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := if location.getString.isEmpty then stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo) else stx\n  let elaborate : TermElabM Expr := withoutErrToSorry do\n    try\n      let result ← elabTerm stx expectedType\n      synthesizeSyntheticMVarsNoPostponing\n      let result ← instantiateMVars result\n      let env ← getEnv\n      let mut pending := result.getUsedConstants.toList\n      let mut seen : NameSet := {}\n      while !pending.isEmpty do\n        let name := pending.head!\n        pending := pending.tail!\n        unless seen.contains name do\n          seen := seen.insert name\n          if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n            throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n          if (env.getModuleIdxFor? name).isNone then\n            if let some ci := env.find? name then\n              pending := ci.getUsedConstantsAsSet.toList ++ pending\n      return result\n    catch error =>\n      logException error\n      throwAbortTerm\n  if location.getString.isEmpty then elaborate\n  else withTheReader Core.Context (fun ctx => { ctx with fileName := filename, fileMap := FileMap.ofString text.getString }) elaborate\n\ndef glean_expected_type : Prop := ∀ (P : (gleanExpectedTerm% \"\" \"Prop\")) (Q : (gleanExpectedTerm% \"\" \"Prop\")) (h : (gleanExpectedTerm% \"\" \"P ∨ Q\")), (gleanExpectedTerm% \"\" \"P ∨ Q\")\n",
+    "sourceMap": {
+      "root/split/left/left_proof": {
+        "startLine": 37,
+        "endLine": 39
+      },
+      "root/split/left": {
+        "startLine": 40,
+        "endLine": 43
+      },
+      "root/split/right/right_proof": {
+        "startLine": 44,
+        "endLine": 46
+      },
+      "root/split/right": {
+        "startLine": 47,
+        "endLine": 50
+      },
+      "root/split": {
+        "startLine": 51,
+        "endLine": 57
+      },
+      "root": {
+        "startLine": 58,
+        "endLine": 61
+      }
+    },
+    "fragmentSources": {
+      "GLEAN_FRAGMENT_1": {
+        "key": "root/split/left/left_proof",
+        "field": "body",
+        "lineCount": 1
+      },
+      "GLEAN_FRAGMENT_2": {
+        "key": "root/split/right/right_proof",
+        "field": "body",
+        "lineCount": 1
+      }
+    },
+    "sourceLocations": [
+      {
+        "key": "root/split/left/left_proof/out",
+        "startLine": 41,
+        "endLine": 41
+      },
+      {
+        "key": "root/split/right/right_proof/out",
+        "startLine": 48,
+        "endLine": 48
+      },
+      {
+        "key": "root/split/out",
+        "startLine": 59,
+        "endLine": 59
+      }
+    ],
+    "nodeBindings": {
+      "glean_component_4": "root/split/left/left_proof/out",
+      "glean_component_7": "root/split/right/right_proof/out",
+      "glean_component_8": "root/split/out"
+    },
+    "bindingKeys": {
+      "glean_component_2/glean_component_4": "root/split/left/left_proof/out",
+      "glean_component_5/glean_component_7": "root/split/right/right_proof/out",
+      "glean_proof/glean_component_8": "root/split/out"
+    },
+    "nodeFunctions": {
+      "root/split/left/left_proof": "glean_component_3",
+      "root/split/left/left_proof/out": "glean_component_3",
+      "root/split/right/right_proof": "glean_component_6",
+      "root/split/right/right_proof/out": "glean_component_6",
+      "root/split": "glean_component_1",
+      "root/split/out": "glean_component_1"
+    },
+    "nodeInputPorts": {
+      "root/split/left/left_proof/out": [
+        "P",
+        "Q",
+        "w"
+      ],
+      "root/split/right/right_proof/out": [
+        "P",
+        "Q",
+        "w"
+      ],
+      "root/split/out": [
+        "P",
+        "Q",
+        "h"
+      ]
+    },
+    "inputBindings": {
+      "root/P/out": "glean_proof/P",
+      "root/Q/out": "glean_proof/Q",
+      "root/h/out": "glean_proof/h",
+      "root/split/left/left_P/out": "glean_component_2/P",
+      "root/split/left/left_Q/out": "glean_component_2/Q",
+      "root/split/left/left_w/out": "glean_component_2/w",
+      "root/split/right/right_P/out": "glean_component_5/P",
+      "root/split/right/right_Q/out": "glean_component_5/Q",
+      "root/split/right/right_w/out": "glean_component_5/w"
+    },
+    "referenceEnvironments": [],
+    "diagnostics": [
+      {
+        "filename": "Graph.lean",
+        "line": 40,
+        "column": 96,
+        "severity": "warning",
+        "message": "Variable name `h` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _h\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`",
+        "graphLocation": "root/split/left"
+      },
+      {
+        "filename": "Graph.lean",
+        "line": 47,
+        "column": 96,
+        "severity": "warning",
+        "message": "Variable name `h` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _h\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`",
+        "graphLocation": "root/split/right"
+      }
+    ],
+    "nodeTypes": {},
+    "projectId": "glean",
+    "policy": "strict",
+    "jobId": "d74e7a207c564f07afad82fd48566ac0",
+    "phase": "complete",
+    "kernelAccepted": true,
+    "audit": {
+      "axioms": [],
+      "standardAxioms": [],
+      "customAxioms": [],
+      "hasSorry": false,
+      "policy": "strict",
+      "policyAccepted": true
+    },
+    "filename": "Graph.lean",
+    "target": "glean_proof",
+    "sourceHash": "dcf6ca8daf0da18c89ce41283603939728733885b498cdd414415bc3f3b3d8db",
+    "lean": {
+      "output": "Graph.lean:40:95: warning: Variable name `h` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _h\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\nGraph.lean:47:95: warning: Variable name `h` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _h\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\n/var/folders/bl/_h2n2k_d41g3q3fwxvy0gppr0000gn/T/glean-source-8ruvspcd/GleanExpectedb4d2232779554e83be5dc7cf8b68e00d.lean:37:111: warning: Variable name `h` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _h\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\n",
+      "durationMs": 20132
+    },
+    "environment": {
+      "schema": 1,
+      "projectId": "glean",
+      "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+      "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+      "projectFiles": {
+        "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+        "lake-manifest.json": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+        "lakefile.lean": null,
+        "lakefile.toml": "a3500f3a6618de5748b6135a580e2b4357a9936564a0a43a9decbdb94f101580"
+      },
+      "sourceStateHash": "cf6707333e3689ae1b0e200ff442cf1068cc4451f1a56c65311ae52aaebad69d",
+      "dependencies": [],
+      "compiledArtifacts": {
+        "kind": "path-size-mtime-metadata",
+        "count": 10089,
+        "hash": "eff39cb727636d1b135ecdb35e3c8e15e665997e6a4f2255310687c6f71cb748"
+      },
+      "leanSearchPaths": [
+        "/Users/moonone/GLEAN/glean/.lake/build/lib/lean",
+        "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+      ],
+      "gitCommit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+      "gitDirty": true,
+      "changedLeanInputs": null,
+      "sourceIdentityKind": "source-content-in-parent-git",
+      "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+      "manifestHash": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+      "environmentHash": "cd3d4a60fd94aaf03545dbaea337f2d45ae373c2c30637da1ace110ce322cff6",
+      "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+    },
+    "bindingTypes": {
+      "glean_component_1.match_1/P": "Prop",
+      "glean_component_1.match_1/Q": "Prop",
+      "glean_component_1.match_1/h._@.GleanSource41b50d9c559e426e863af12d47eb0370.3550452863._hygCtx._hyg.29": "Or P Q",
+      "glean_component_1.match_1/h_1": "∀ (w : P), motive ⋯",
+      "glean_component_1.match_1/h_2": "∀ (w : Q), motive ⋯",
+      "glean_component_1.match_1/motive": "Or P Q → Prop",
+      "glean_component_1/P": "Prop",
+      "glean_component_1/Q": "Prop",
+      "glean_component_1/h": "Or P Q",
+      "glean_component_2/P": "Prop",
+      "glean_component_2/Q": "Prop",
+      "glean_component_2/glean_component_4": "Or P Q",
+      "glean_component_2/h": "Or P Q",
+      "glean_component_2/w": "P",
+      "glean_component_3/P": "Prop",
+      "glean_component_3/Q": "Prop",
+      "glean_component_3/w": "P",
+      "glean_component_5/P": "Prop",
+      "glean_component_5/Q": "Prop",
+      "glean_component_5/glean_component_7": "Or P Q",
+      "glean_component_5/h": "Or P Q",
+      "glean_component_5/w": "Q",
+      "glean_component_6/P": "Prop",
+      "glean_component_6/Q": "Prop",
+      "glean_component_6/w": "Q",
+      "glean_proof/P": "Prop",
+      "glean_proof/Q": "Prop",
+      "glean_proof/glean_component_8": "Or P Q",
+      "glean_proof/h": "Or P Q"
+    },
+    "bindingUsage": {
+      "glean_component_1": [
+        "P",
+        "Q",
+        "h"
+      ],
+      "glean_component_1.match_1": [
+        "P",
+        "Q",
+        "h._@.GleanSource41b50d9c559e426e863af12d47eb0370.3550452863._hygCtx._hyg.29",
+        "h_1",
+        "h_2",
+        "motive"
+      ],
+      "glean_component_2": [
+        "P",
+        "Q",
+        "w"
+      ],
+      "glean_component_3": [
+        "P",
+        "Q",
+        "w"
+      ],
+      "glean_component_5": [
+        "P",
+        "Q",
+        "w"
+      ],
+      "glean_component_6": [
+        "P",
+        "Q",
+        "w"
+      ],
+      "glean_proof": [
+        "P",
+        "Q",
+        "h"
+      ]
+    },
+    "bindingDependencies": {
+      "glean_component_1.match_1/P": [
+        "P"
+      ],
+      "glean_component_1.match_1/Q": [
+        "Q"
+      ],
+      "glean_component_1.match_1/h._@.GleanSource41b50d9c559e426e863af12d47eb0370.3550452863._hygCtx._hyg.29": [
+        "P",
+        "Q",
+        "h._@.GleanSource41b50d9c559e426e863af12d47eb0370.3550452863._hygCtx._hyg.29"
+      ],
+      "glean_component_1.match_1/h_1": [
+        "P",
+        "Q",
+        "h_1",
+        "motive"
+      ],
+      "glean_component_1.match_1/h_2": [
+        "P",
+        "Q",
+        "h_2",
+        "motive"
+      ],
+      "glean_component_1.match_1/motive": [
+        "P",
+        "Q",
+        "motive"
+      ],
+      "glean_component_1/P": [
+        "P"
+      ],
+      "glean_component_1/Q": [
+        "Q"
+      ],
+      "glean_component_1/h": [
+        "P",
+        "Q",
+        "h"
+      ],
+      "glean_component_2/P": [
+        "P"
+      ],
+      "glean_component_2/Q": [
+        "Q"
+      ],
+      "glean_component_2/glean_component_4": [
+        "P",
+        "Q",
+        "w"
+      ],
+      "glean_component_2/h": [
+        "P",
+        "Q",
+        "h"
+      ],
+      "glean_component_2/w": [
+        "P",
+        "w"
+      ],
+      "glean_component_3/P": [
+        "P"
+      ],
+      "glean_component_3/Q": [
+        "Q"
+      ],
+      "glean_component_3/w": [
+        "P",
+        "w"
+      ],
+      "glean_component_5/P": [
+        "P"
+      ],
+      "glean_component_5/Q": [
+        "Q"
+      ],
+      "glean_component_5/glean_component_7": [
+        "P",
+        "Q",
+        "w"
+      ],
+      "glean_component_5/h": [
+        "P",
+        "Q",
+        "h"
+      ],
+      "glean_component_5/w": [
+        "Q",
+        "w"
+      ],
+      "glean_component_6/P": [
+        "P"
+      ],
+      "glean_component_6/Q": [
+        "Q"
+      ],
+      "glean_component_6/w": [
+        "Q",
+        "w"
+      ],
+      "glean_proof/P": [
+        "P"
+      ],
+      "glean_proof/Q": [
+        "Q"
+      ],
+      "glean_proof/glean_component_8": [
+        "P",
+        "Q",
+        "h"
+      ],
+      "glean_proof/h": [
+        "P",
+        "Q",
+        "h"
+      ]
+    },
+    "bindingInputTypes": {
+      "glean_component_2/glean_component_4": [
+        "Prop",
+        "Prop",
+        "P"
+      ],
+      "glean_component_5/glean_component_7": [
+        "Prop",
+        "Prop",
+        "Q"
+      ],
+      "glean_proof/glean_component_8": [
+        "Prop",
+        "Prop",
+        "Or P Q"
+      ]
+    },
+    "constantAxioms": {
+      "glean_component_1": [],
+      "glean_component_1.match_1": [],
+      "glean_component_2": [],
+      "glean_component_3": [],
+      "glean_component_5": [],
+      "glean_component_6": [],
+      "glean_proof": []
+    },
+    "typedNodeTypes": {
+      "root/split/left/left_proof/out": "Or P Q",
+      "root/split/right/right_proof/out": "Or P Q",
+      "root/split/out": "Or P Q",
+      "root/P/out": "Prop",
+      "root/Q/out": "Prop",
+      "root/h/out": "Or P Q",
+      "root/split/left/left_P/out": "Prop",
+      "root/split/left/left_Q/out": "Prop",
+      "root/split/left/left_w/out": "P",
+      "root/split/right/right_P/out": "Prop",
+      "root/split/right/right_Q/out": "Prop",
+      "root/split/right/right_w/out": "Q"
+    },
+    "typedNodeUsage": {
+      "root/split/left/left_proof/out": [
+        "P",
+        "Q",
+        "w"
+      ],
+      "root/split/right/right_proof/out": [
+        "P",
+        "Q",
+        "w"
+      ],
+      "root/split/out": [
+        "P",
+        "Q",
+        "h"
+      ],
+      "root/P/out": [
+        "P"
+      ],
+      "root/Q/out": [
+        "Q"
+      ],
+      "root/h/out": [
+        "P",
+        "Q",
+        "h"
+      ],
+      "root/split/left/left_P/out": [
+        "P"
+      ],
+      "root/split/left/left_Q/out": [
+        "Q"
+      ],
+      "root/split/left/left_w/out": [
+        "P",
+        "w"
+      ],
+      "root/split/right/right_P/out": [
+        "P"
+      ],
+      "root/split/right/right_Q/out": [
+        "Q"
+      ],
+      "root/split/right/right_w/out": [
+        "Q",
+        "w"
+      ]
+    },
+    "typedPortTypes": {
+      "root/split/left/left_proof/P": "Prop",
+      "root/split/left/left_proof/Q": "Prop",
+      "root/split/left/left_proof/w": "P",
+      "root/split/right/right_proof/P": "Prop",
+      "root/split/right/right_proof/Q": "Prop",
+      "root/split/right/right_proof/w": "Q",
+      "root/split/P": "Prop",
+      "root/split/Q": "Prop",
+      "root/split/h": "Or P Q"
+    },
+    "typedNodeAudit": {
+      "root/split/left/left_proof": {
+        "axioms": [],
+        "standardAxioms": [],
+        "customAxioms": [],
+        "hasSorry": false,
+        "policy": "strict",
+        "policyAccepted": true
+      },
+      "root/split/left/left_proof/out": {
+        "axioms": [],
+        "standardAxioms": [],
+        "customAxioms": [],
+        "hasSorry": false,
+        "policy": "strict",
+        "policyAccepted": true
+      },
+      "root/split/right/right_proof": {
+        "axioms": [],
+        "standardAxioms": [],
+        "customAxioms": [],
+        "hasSorry": false,
+        "policy": "strict",
+        "policyAccepted": true
+      },
+      "root/split/right/right_proof/out": {
+        "axioms": [],
+        "standardAxioms": [],
+        "customAxioms": [],
+        "hasSorry": false,
+        "policy": "strict",
+        "policyAccepted": true
+      },
+      "root/split": {
+        "axioms": [],
+        "standardAxioms": [],
+        "customAxioms": [],
+        "hasSorry": false,
+        "policy": "strict",
+        "policyAccepted": true
+      },
+      "root/split/out": {
+        "axioms": [],
+        "standardAxioms": [],
+        "customAxioms": [],
+        "hasSorry": false,
+        "policy": "strict",
+        "policyAccepted": true
+      }
+    }
+  }
+}

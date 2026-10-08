@@ -1,0 +1,22 @@
+[
+  {
+    "case": "cases",
+    "statusBefore": "ready",
+    "statusAfter": "ready",
+    "generatedCodeIdentical": true,
+    "actualPresentationScopes": [
+      "root/split/right"
+    ],
+    "codeHash": "c5f8cc15548d236649425f7e862a4f3837a1f5f7432e54a15793b73c7fc73e20"
+  },
+  {
+    "case": "parent",
+    "statusBefore": "ready",
+    "statusAfter": "ready",
+    "generatedCodeIdentical": true,
+    "actualPresentationScopes": [
+      "root"
+    ],
+    "codeHash": "7e6e9fac60e932c17c5dc3fcae8752c07300d5ceaf589e7223fc462f6d9e7774"
+  }
+]

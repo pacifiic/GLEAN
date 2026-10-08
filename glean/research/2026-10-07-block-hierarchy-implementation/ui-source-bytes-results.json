@@ -1,0 +1,22 @@
+{
+  "fileOpenToAXms": 193,
+  "exportsAfterViewing": [
+    {
+      "filename": "RawPreserved (1).lean",
+      "bytes": 152,
+      "exact": true,
+      "sha256": "60f03bdd58ac43f7cac5a480880cdc67e3b1813bbe962cdb8d949414b3b9b92b"
+    },
+    {
+      "filename": "RawPreserved.lean",
+      "bytes": 152,
+      "exact": true,
+      "sha256": "60f03bdd58ac43f7cac5a480880cdc67e3b1813bbe962cdb8d949414b3b9b92b"
+    }
+  ],
+  "invalidUtf8OriginalExport": {
+    "bytes": 109,
+    "exact": true,
+    "sha256": "2404302eff76273fd11c2a4d05c4f5b33ccf44cd1683ca6fd58be47a908b5b3c"
+  }
+}

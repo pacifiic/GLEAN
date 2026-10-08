@@ -1,0 +1,180 @@
+{
+  "graph": {
+    "version": 2,
+    "name": "modular",
+    "propositions": [
+      "P",
+      "Q",
+      "R"
+    ],
+    "assumptions": [
+      {
+        "id": "root-value",
+        "type": "P"
+      }
+    ],
+    "goal": "P",
+    "nodes": [
+      {
+        "id": "input",
+        "kind": "assumption",
+        "ref": "root-value"
+      },
+      {
+        "id": "call",
+        "kind": "module",
+        "ref": "identity"
+      },
+      {
+        "id": "goal",
+        "kind": "goal"
+      }
+    ],
+    "edges": [
+      {
+        "id": "e1",
+        "source": "input",
+        "target": "call",
+        "input": "value"
+      },
+      {
+        "id": "e2",
+        "source": "call",
+        "target": "goal",
+        "input": "proof"
+      }
+    ],
+    "modules": [
+      {
+        "id": "identity",
+        "name": "Identity",
+        "inputs": [
+          {
+            "id": "value",
+            "name": "value",
+            "type": "P"
+          }
+        ],
+        "outputType": "P",
+        "nodes": [
+          {
+            "id": "input",
+            "kind": "assumption",
+            "ref": "value"
+          },
+          {
+            "id": "goal",
+            "kind": "goal"
+          },
+          {
+            "id": "body_bad",
+            "kind": "left"
+          }
+        ],
+        "edges": [
+          {
+            "id": "wire",
+            "source": "input",
+            "target": "goal",
+            "input": "proof"
+          },
+          {
+            "id": "unused_wrong_type",
+            "source": "input",
+            "target": "body_bad",
+            "input": "value"
+          }
+        ],
+        "groups": []
+      }
+    ],
+    "groups": []
+  },
+  "result": {
+    "status": "valid",
+    "generatedCode": "module\n\npublic section\n\nprivate theorem glean_module_0 (p0 p1 p2 : Prop) (h0 : p0) : p0 :=\n  let n0 : p0 := h0\n  n0\n\ntheorem glean_proof (p0 p1 p2 : Prop) (h0 : p0) : p0 :=\n  let n0 : p0 := h0\n  let n1 : p0 := glean_module_0 p0 p1 p2 n0\n  n1\n\n#print axioms glean_proof\n",
+    "nodeTypes": {
+      "goal": "P",
+      "input": "P",
+      "call": "P"
+    },
+    "moduleNodeTypes": {
+      "identity": {
+        "goal": "P",
+        "input": "P"
+      }
+    },
+    "moduleTypes": {
+      "identity": "P → P"
+    },
+    "diagnostics": [],
+    "sourceMap": {
+      "input": {
+        "startLine": 10,
+        "endLine": 10
+      },
+      "call": {
+        "startLine": 11,
+        "endLine": 11
+      },
+      "goal": {
+        "startLine": 12,
+        "endLine": 12
+      }
+    },
+    "moduleSourceMaps": {
+      "identity": {
+        "input": {
+          "startLine": 6,
+          "endLine": 6
+        },
+        "goal": {
+          "startLine": 7,
+          "endLine": 7
+        }
+      }
+    },
+    "portTypes": {
+      "input": {},
+      "call": {
+        "value": "P"
+      },
+      "goal": {
+        "proof": "P"
+      }
+    },
+    "modulePortTypes": {
+      "identity": {
+        "input": {},
+        "goal": {
+          "proof": "P"
+        }
+      }
+    },
+    "scope": "goal",
+    "workspaceDiagnostics": [
+      {
+        "severity": "error",
+        "message": "Expected a conjunction, received P.",
+        "nodeId": "body_bad",
+        "port": "value",
+        "moduleId": "identity",
+        "scope": "workspace"
+      }
+    ],
+    "includedNodes": [
+      "input",
+      "call",
+      "goal"
+    ],
+    "includedModules": [
+      "identity"
+    ],
+    "verified": true,
+    "lean": {
+      "version": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+      "output": "/var/folders/bl/_h2n2k_d41g3q3fwxvy0gppr0000gn/T/glean-check-xc0b3w7f/Proof.lean:5:35: warning: Variable name `p1` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _p1\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\n/var/folders/bl/_h2n2k_d41g3q3fwxvy0gppr0000gn/T/glean-check-xc0b3w7f/Proof.lean:5:38: warning: Variable name `p2` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _p2\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\n'glean_proof' does not depend on any axioms",
+      "durationMs": 436
+    }
+  }
+}

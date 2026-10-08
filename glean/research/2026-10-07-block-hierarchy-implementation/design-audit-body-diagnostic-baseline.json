@@ -1,0 +1,125 @@
+{
+  "fixture": {
+    "version": 3,
+    "name": "body-local diagnostic baseline",
+    "projectId": "glean",
+    "imports": [],
+    "policy": "strict",
+    "inputs": [],
+    "goal": "True",
+    "modules": [],
+    "nodes": [
+      {
+        "id": "proof",
+        "kind": "script",
+        "inputs": [],
+        "outputType": "True",
+        "body": "by\n  have h0 : True := True.intro\n  have h1 : True := h0\n  exact (0 : Nat)"
+      }
+    ],
+    "edges": [],
+    "result": {
+      "node": "proof",
+      "output": "out"
+    }
+  },
+  "bodyErrorExpected": {
+    "line": 4,
+    "column": 9
+  },
+  "compilerHash": "b2409aae856128c048a7881b06e78d85b72b1a6ea31f6854cbad9b8a8a3ab91d",
+  "result": {
+    "status": "invalid",
+    "verified": false,
+    "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1  : (gleanTerm% \"True\") :=\n  (gleanTerm% \"by\\n  have h0 : True := True.intro\\n  have h1 : True := h0\\n  exact (0 : Nat)\")\n\ntheorem glean_proof  : (gleanTerm% \"True\") :=\n  let glean_component_2 := glean_component_1 \n  glean_component_2\n",
+    "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := (gleanExpectedTerm% \"True\")\n",
+    "sourceMap": {
+      "root/proof": {
+        "startLine": 28,
+        "endLine": 30
+      },
+      "root": {
+        "startLine": 31,
+        "endLine": 34
+      }
+    },
+    "sourceLocations": [
+      {
+        "key": "root/proof/out",
+        "startLine": 32,
+        "endLine": 32
+      }
+    ],
+    "nodeBindings": {
+      "glean_component_2": "root/proof/out"
+    },
+    "nodeFunctions": {
+      "root/proof": "glean_component_1",
+      "root/proof/out": "glean_component_1"
+    },
+    "nodeInputPorts": {
+      "root/proof/out": []
+    },
+    "inputBindings": {},
+    "referenceEnvironments": [],
+    "diagnostics": [
+      {
+        "filename": "Graph.lean",
+        "line": 29,
+        "column": 15,
+        "severity": "error",
+        "message": "Type mismatch\n  0\nhas type\n  Nat\nof sort `Type` but is expected to have type\n  True\nof sort `Prop`",
+        "graphLocation": "root/proof"
+      }
+    ],
+    "nodeTypes": {},
+    "projectId": "glean",
+    "policy": "strict",
+    "jobId": "819568e56d924468939100e8122c197a",
+    "phase": "complete",
+    "kernelAccepted": false,
+    "audit": null,
+    "filename": "Graph.lean",
+    "target": "glean_proof",
+    "sourceHash": "ff12ee287cec0b231988e425b9074ccef82105303bea1a46049d881c60830530",
+    "lean": {
+      "output": "Graph.lean:29:14: error: Type mismatch\n  0\nhas type\n  Nat\nof sort `Type` but is expected to have type\n  True\nof sort `Prop`\n",
+      "durationMs": 8837
+    },
+    "environment": {
+      "schema": 1,
+      "projectId": "glean",
+      "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+      "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+      "projectFiles": {
+        "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+        "lake-manifest.json": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+        "lakefile.lean": null,
+        "lakefile.toml": "a3500f3a6618de5748b6135a580e2b4357a9936564a0a43a9decbdb94f101580"
+      },
+      "sourceStateHash": "8e42ea7f844d4211928454b4232a8b9dc61fcb3192dc8942c803ce6cbd657213",
+      "dependencies": [],
+      "compiledArtifacts": {
+        "kind": "path-size-mtime-metadata",
+        "count": 10089,
+        "hash": "eff39cb727636d1b135ecdb35e3c8e15e665997e6a4f2255310687c6f71cb748"
+      },
+      "leanSearchPaths": [
+        "/Users/moonone/GLEAN/glean/.lake/build/lib/lean",
+        "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+      ],
+      "gitCommit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+      "gitDirty": true,
+      "changedLeanInputs": null,
+      "sourceIdentityKind": "source-content-in-parent-git",
+      "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+      "manifestHash": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+      "environmentHash": "917976ff217f0f0fb12d0f5e79d860452ee0b9cabcf892da1d1d35b5e23bed1e",
+      "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+    },
+    "typedNodeTypes": {},
+    "typedNodeUsage": {},
+    "typedPortTypes": {},
+    "typedNodeAudit": {}
+  }
+}

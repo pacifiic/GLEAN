@@ -1,0 +1,35 @@
+{
+  "kind": "actual typed selection/Hide/isolate/all-show/Undo command callbacks, controlled DOM; no native UI or kernel",
+  "cases": [
+    {
+      "id": "empty-selection-command-disabled-no-edit",
+      "pass": true
+    },
+    {
+      "id": "actual-selection-change-does-not-mutate-frozen-targets",
+      "pass": true,
+      "targets": [
+        "zero",
+        "n"
+      ]
+    },
+    {
+      "id": "all-manually-hidden-targets-retain-escape-commands",
+      "pass": true
+    },
+    {
+      "id": "all-show-ends-isolation-clears-manual-hide-without-semantic-or-http-change",
+      "pass": true
+    },
+    {
+      "id": "all-show-undo-restores-manual-hides-and-keeps-ended-isolation-separate",
+      "pass": true
+    }
+  ],
+  "hashes": {
+    "typed-editor.mjs": "433884192c37a32c101cddc6c35130a9ca2a0ecbbcb071ba8f8b3539bac2223b",
+    "visibility-tools.mjs": "d4f8d59be2ad05537eac4220f49fe368662bf4964fb91547a8387e2736ce8362",
+    "presentation.mjs": "34c222401871021035b635499c3f96217d55228018093d0e380a3deb0d804672",
+    "history.mjs": "28b6ca353816b8383522ab8a2db63bae57496238e55b90ffe27e4182c21b4625"
+  }
+}

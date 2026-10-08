@@ -1,0 +1,20 @@
+{
+  "kind": "actual app loadDocument callback with controlled editor status callback; not native UI",
+  "appHash": "988581e5196d5641635e109da07b588713bdfbd8380f210bd218188b61768a86",
+  "statuses": [
+    [
+      "unverified",
+      "표현 복구 · 원본 보관됨",
+      "root: 손상된 범위 표현을 복구했습니다."
+    ],
+    [
+      "unverified",
+      "타입 그래프 검사 대기",
+      "명시적 입력과 Lean 본문을 연결하세요."
+    ]
+  ],
+  "toasts": [],
+  "originalPreserved": true,
+  "visibleWarning": false,
+  "pass": false
+}

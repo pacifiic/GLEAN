@@ -1,0 +1,21 @@
+test_cancel_and_worker_cleanup_stop_the_same_child_only_once (glean.tests.prototype.test_source_budget.SourceBudgetTests.test_cancel_and_worker_cleanup_stop_the_same_child_only_once) ... ok
+test_completed_kernel_result_cannot_be_published_after_the_aggregate_deadline (glean.tests.prototype.test_source_budget.SourceBudgetTests.test_completed_kernel_result_cannot_be_published_after_the_aggregate_deadline) ... ok
+test_permission_denied_for_a_live_process_is_not_hidden (glean.tests.prototype.test_source_budget.SourceBudgetTests.test_permission_denied_for_a_live_process_is_not_hidden) ... ok
+test_process_pointer_is_cleared_even_when_termination_raises (glean.tests.prototype.test_source_budget.SourceBudgetTests.test_process_pointer_is_cleared_even_when_termination_raises) ... ok
+test_repeated_termination_of_an_exited_process_group_is_harmless (glean.tests.prototype.test_source_budget.SourceBudgetTests.test_repeated_termination_of_an_exited_process_group_is_harmless) ... ok
+test_server_selects_120_or_240_without_client_timeout_override_or_policy_changes (glean.tests.prototype.test_source_budget.SourceBudgetTests.test_server_selects_120_or_240_without_client_timeout_override_or_policy_changes) ... ok
+test_source_context_budget_is_measured_from_job_start_across_stages (glean.tests.prototype.test_source_budget.SourceBudgetTests.test_source_context_budget_is_measured_from_job_start_across_stages) ... ok
+test_cancelled_job_never_becomes_verified (glean.tests.prototype.test_source_check.SourceJobTests.test_cancelled_job_never_becomes_verified) ... ok
+test_maximum_two_active_jobs (glean.tests.prototype.test_source_check.SourceJobTests.test_maximum_two_active_jobs) ... ok
+test_subprocess_timeout_and_output_are_bounded (glean.tests.prototype.test_source_check.SourceJobTests.test_subprocess_timeout_and_output_are_bounded) ... ok
+test_unknown_job_returns_none (glean.tests.prototype.test_source_check.SourceJobTests.test_unknown_job_returns_none) ... ok
+test_accepts_unicode_safe_lean_names (glean.tests.prototype.test_source_check.SourceRequestTests.test_accepts_unicode_safe_lean_names) ... ok
+test_target_injection_and_file_escape_rejected (glean.tests.prototype.test_source_check.SourceRequestTests.test_target_injection_and_file_escape_rejected) ... ok
+test_valid_source_is_retained (glean.tests.prototype.test_source_check.SourceRequestTests.test_valid_source_is_retained) ... ok
+test_compile_then_start_and_cancel_actual_source_job (glean.tests.prototype.test_graph_jobs.GraphJobTests.test_compile_then_start_and_cancel_actual_source_job) ... ok
+test_incomplete_graph_never_starts_job (glean.tests.prototype.test_graph_jobs.GraphJobTests.test_incomplete_graph_never_starts_job) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.628s
+
+OK

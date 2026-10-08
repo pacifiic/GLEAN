@@ -1,0 +1,121 @@
+{
+  "appHash": "9f31cf56142f81cf32af34957208136157dc4388b02ac62352a28f2adad79bbe",
+  "selectionInvalidation": [
+    {
+      "id": "source",
+      "cleared": true,
+      "reviewCleared": true
+    },
+    {
+      "id": "project",
+      "cleared": true,
+      "reviewCleared": true
+    },
+    {
+      "id": "filename",
+      "cleared": true,
+      "reviewCleared": true
+    }
+  ],
+  "bookmarkAssociation": [
+    {
+      "id": "source",
+      "beforeIdentity": "4735ba00:30",
+      "after": null,
+      "graphMapped": false,
+      "sourceIdentity": ""
+    },
+    {
+      "id": "project",
+      "beforeIdentity": "4735ba00:30",
+      "after": null,
+      "graphMapped": false,
+      "sourceIdentity": ""
+    },
+    {
+      "id": "filename",
+      "beforeIdentity": "4735ba00:30",
+      "after": null,
+      "graphMapped": false,
+      "sourceIdentity": ""
+    }
+  ],
+  "jumpAssociation": [
+    {
+      "id": "source",
+      "jumps": [],
+      "toasts": [
+        [
+          "과거 소스의 관찰입니다. 기록된 위치와 목표를 확인하세요.",
+          true
+        ]
+      ]
+    },
+    {
+      "id": "project",
+      "jumps": [],
+      "toasts": [
+        [
+          "과거 소스의 관찰입니다. 기록된 위치와 목표를 확인하세요.",
+          true
+        ]
+      ]
+    },
+    {
+      "id": "filename",
+      "jumps": [],
+      "toasts": [
+        [
+          "과거 소스의 관찰입니다. 기록된 위치와 목표를 확인하세요.",
+          true
+        ]
+      ]
+    }
+  ],
+  "normalizedRoundtrip": {
+    "id": "roundtrip",
+    "name": "",
+    "description": "",
+    "revision": "",
+    "sourceIdentity": "",
+    "scopeId": "",
+    "nodeIds": [],
+    "sourceRange": null,
+    "before": {
+      "sourceIdentity": "before",
+      "projectId": "glean",
+      "filename": "Graph.lean",
+      "sessionId": "session",
+      "version": 1,
+      "position": {
+        "line": 1,
+        "character": 0
+      },
+      "goals": [],
+      "structuredGoals": [
+        {
+          "mvarId": "",
+          "name": "",
+          "type": "P",
+          "hypotheses": []
+        }
+      ]
+    },
+    "after": {
+      "sourceIdentity": "after",
+      "projectId": "mathlib",
+      "filename": "Other.lean",
+      "sessionId": "session2",
+      "version": 2,
+      "position": {
+        "line": 2,
+        "character": 1
+      },
+      "goals": [],
+      "structuredGoals": []
+    },
+    "subgraph": null,
+    "source": "",
+    "createdAt": "2026-10-07T13:54:46.589Z"
+  }
+}

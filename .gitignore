@@ -38,3 +38,9 @@ wdOut.txt
 # GLEAN local toolchain and scratch files
 /.glean-tools/
 /work/
+/glean/**/__pycache__/
+
+# Local OS metadata, live server output, and reference book (not distributed)
+.DS_Store
+/glean/research/**/server-ui.log
+/Bachman, David - Grasshopper _ visual scripting for Rhinoceros 3D (2017, Industrial Press) - libgen.lc.pdf

@@ -1,0 +1,77 @@
+{
+  "actualResult": {
+    "status": "valid",
+    "verified": true,
+    "audit": {
+      "axioms": [],
+      "standardAxioms": [],
+      "customAxioms": [],
+      "hasSorry": false,
+      "policy": "strict",
+      "policyAccepted": true
+    }
+  },
+  "root": {
+    "id": "valid",
+    "kind": "script",
+    "name": "script · out",
+    "scopeId": "root",
+    "type": "True",
+    "declaredType": "True",
+    "inputs": [],
+    "assumptions": [],
+    "assumptionsKnown": true,
+    "outputId": "out",
+    "outputName": "out",
+    "dependencies": [
+      "valid"
+    ],
+    "sourceRange": {
+      "startLine": 35,
+      "endLine": 37
+    },
+    "source": "noncomputable def glean_component_3  : (gleanTerm% \"True\") :=\n  (gleanTerm% \"True.intro\")\n",
+    "audit": {
+      "axioms": [],
+      "standardAxioms": [],
+      "customAxioms": [],
+      "hasSorry": false,
+      "policy": "strict",
+      "policyAccepted": true
+    },
+    "verification": "verified-document"
+  },
+  "unfinished": {
+    "id": "proof",
+    "kind": "script",
+    "name": "script · out",
+    "scopeId": "module/unfinished",
+    "type": "False",
+    "declaredType": "False",
+    "inputs": [],
+    "assumptions": [],
+    "assumptionsKnown": true,
+    "outputId": "out",
+    "outputName": "out",
+    "dependencies": [
+      "proof"
+    ],
+    "sourceRange": {
+      "startLine": 28,
+      "endLine": 30
+    },
+    "source": "noncomputable def glean_component_1  : (gleanTerm% \"False\") :=\n  (gleanTerm% \"by sorry\")\n",
+    "audit": {
+      "axioms": [
+        "sorryAx"
+      ],
+      "standardAxioms": [],
+      "customAxioms": [],
+      "hasSorry": true,
+      "policy": "strict",
+      "policyAccepted": false
+    },
+    "verification": "incomplete-component"
+  },
+  "passed": true
+}

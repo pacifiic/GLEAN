@@ -1,0 +1,45 @@
+{
+  "kind": "actual source-analysis visibility/real DocumentHistory/actual app navigateHistory callback; saved actual command metadata; controlled DOM/environment/proof-result solely for reuse/race; no native UI or new Lean",
+  "hashes": {
+    "app.js": "b3a2d92f6377fb418e04cecfe0ec25e8de54788caf4354b20072bb0ece94cf65",
+    "source-analysis.mjs": "05de5b4f7fec87c3e16fa9451d7b4848b6cb7a0aab134621071b901fd17dde2e",
+    "source-view.mjs": "cf3105133cf46fcf6845ba4c07ad209d92944197d9338f2dc6090cd0c13176d6",
+    "isolation-recovery.mjs": "446b3139899617e574d4944f0a15dc08571581a312ccd9230f6dda8ce828f01b"
+  },
+  "cases": [
+    {
+      "id": "same-env-preserves-actual-source-frame",
+      "pass": true,
+      "sourceExact": true,
+      "isolationAndSelectionExact": true,
+      "additionalAnalysisRequests": 0,
+      "reusedVerified": true,
+      "explicitSeparateRecovery": true
+    },
+    {
+      "id": "changed-env-clears-old-result",
+      "pass": true,
+      "sourceExact": true,
+      "isolationAndSelectionExact": true,
+      "additionalAnalysisRequests": 0,
+      "reusedVerified": false
+    },
+    {
+      "id": "missing-env-clears-old-result",
+      "pass": true,
+      "sourceExact": true,
+      "isolationAndSelectionExact": true,
+      "additionalAnalysisRequests": 0,
+      "reusedVerified": false
+    },
+    {
+      "id": "late-env-after-new-check-discarded",
+      "pass": true,
+      "sourceExact": true,
+      "isolationAndSelectionExact": true,
+      "additionalAnalysisRequests": 0,
+      "reusedVerified": false
+    }
+  ],
+  "pass": true
+}

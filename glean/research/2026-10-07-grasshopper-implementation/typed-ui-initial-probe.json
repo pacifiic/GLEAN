@@ -1,0 +1,25 @@
+{
+  "pendingBody": {
+    "visibleBody": "by exact True.intro",
+    "savedBody": "by rfl",
+    "checkedBody": "by rfl",
+    "onChangeCount": 0
+  },
+  "signatureStatus": {
+    "affectedNotice": [
+      "unverified",
+      "함수 시그니처 변경됨",
+      "영향 호출: root/call"
+    ],
+    "lastVisibleStatus": [
+      "unverified",
+      "타입 그래프 변경됨",
+      "Lean 검증을 다시 실행하세요."
+    ]
+  },
+  "branchModuleBatch": {
+    "accepted": false,
+    "error": "Cannot read properties of undefined (reading 'find')",
+    "unchanged": true
+  }
+}

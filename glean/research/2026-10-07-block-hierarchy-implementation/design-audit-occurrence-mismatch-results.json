@@ -1,0 +1,15 @@
+{
+  "warnings": [],
+  "recoveryPreserved": false,
+  "requestedAHidden": [
+    "n:inside"
+  ],
+  "storedTrail": [
+    {
+      "scopeId": "root",
+      "nodeId": "callB",
+      "definitionId": "M"
+    }
+  ],
+  "expectedHidden": []
+}

@@ -1,0 +1,18 @@
+{
+  "RawPreserved.lean": {
+    "path": "/Users/moonone/GLEAN/glean/research/2026-10-07-block-hierarchy-implementation/ui-fixtures/RawPreserved.lean",
+    "byteLength": 152,
+    "sha256": "60f03bdd58ac43f7cac5a480880cdc67e3b1813bbe962cdb8d949414b3b9b92b",
+    "validUtf8": true,
+    "bom": true,
+    "crlfCount": 5
+  },
+  "RawInvalidUtf8.lean": {
+    "path": "/Users/moonone/GLEAN/glean/research/2026-10-07-block-hierarchy-implementation/ui-fixtures/RawInvalidUtf8.lean",
+    "byteLength": 109,
+    "sha256": "2404302eff76273fd11c2a4d05c4f5b33ccf44cd1683ca6fd58be47a908b5b3c",
+    "validUtf8": false,
+    "bom": false,
+    "crlfCount": 0
+  }
+}

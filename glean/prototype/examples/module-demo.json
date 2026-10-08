@@ -1,0 +1,269 @@
+{
+  "id": "module-demo",
+  "title": "함수 모듈 · 합성을 두 번 재사용",
+  "description": "동일한 합성 함수를 서로 다른 P 증명에 적용하고 두 결과를 묶습니다. 함수를 열어 내부를 편집하거나, 시각 그룹을 접어 하나의 캡슐로 확인하세요.",
+  "graph": {
+    "version": 2,
+    "name": "reusable_composition",
+    "propositions": [
+      "P",
+      "Q",
+      "R"
+    ],
+    "assumptions": [
+      {
+        "id": "hp1",
+        "type": "P"
+      },
+      {
+        "id": "hp2",
+        "type": "P"
+      },
+      {
+        "id": "f",
+        "type": "P → Q"
+      },
+      {
+        "id": "g",
+        "type": "Q → R"
+      }
+    ],
+    "goal": "R ∧ R",
+    "nodes": [
+      {
+        "id": "hp1",
+        "kind": "assumption",
+        "ref": "hp1",
+        "x": 40,
+        "y": 70
+      },
+      {
+        "id": "hp2",
+        "kind": "assumption",
+        "ref": "hp2",
+        "x": 40,
+        "y": 260
+      },
+      {
+        "id": "f",
+        "kind": "assumption",
+        "ref": "f",
+        "x": 40,
+        "y": 450
+      },
+      {
+        "id": "g",
+        "kind": "assumption",
+        "ref": "g",
+        "x": 310,
+        "y": 500
+      },
+      {
+        "id": "first",
+        "kind": "module",
+        "ref": "compose-module",
+        "x": 380,
+        "y": 70
+      },
+      {
+        "id": "second",
+        "kind": "module",
+        "ref": "compose-module",
+        "x": 380,
+        "y": 290
+      },
+      {
+        "id": "pair",
+        "kind": "pair",
+        "x": 680,
+        "y": 170
+      },
+      {
+        "id": "goal",
+        "kind": "goal",
+        "x": 950,
+        "y": 170
+      }
+    ],
+    "edges": [
+      {
+        "id": "first-hp",
+        "source": "hp1",
+        "target": "first",
+        "input": "hp"
+      },
+      {
+        "id": "first-f",
+        "source": "f",
+        "target": "first",
+        "input": "f"
+      },
+      {
+        "id": "first-g",
+        "source": "g",
+        "target": "first",
+        "input": "g"
+      },
+      {
+        "id": "second-hp",
+        "source": "hp2",
+        "target": "second",
+        "input": "hp"
+      },
+      {
+        "id": "second-f",
+        "source": "f",
+        "target": "second",
+        "input": "f"
+      },
+      {
+        "id": "second-g",
+        "source": "g",
+        "target": "second",
+        "input": "g"
+      },
+      {
+        "id": "pair-left",
+        "source": "first",
+        "target": "pair",
+        "input": "left"
+      },
+      {
+        "id": "pair-right",
+        "source": "second",
+        "target": "pair",
+        "input": "right"
+      },
+      {
+        "id": "finish",
+        "source": "pair",
+        "target": "goal",
+        "input": "proof"
+      }
+    ],
+    "modules": [
+      {
+        "id": "compose-module",
+        "name": "P에서 R로 합성",
+        "inputs": [
+          {
+            "id": "hp",
+            "type": "P",
+            "name": "P의 증명"
+          },
+          {
+            "id": "f",
+            "type": "P → Q",
+            "name": "P → Q"
+          },
+          {
+            "id": "g",
+            "type": "Q → R",
+            "name": "Q → R"
+          }
+        ],
+        "outputType": "R",
+        "nodes": [
+          {
+            "id": "f",
+            "kind": "assumption",
+            "ref": "f",
+            "x": 60,
+            "y": 80
+          },
+          {
+            "id": "hp",
+            "kind": "assumption",
+            "ref": "hp",
+            "x": 60,
+            "y": 270
+          },
+          {
+            "id": "g",
+            "kind": "assumption",
+            "ref": "g",
+            "x": 340,
+            "y": 400
+          },
+          {
+            "id": "apply1",
+            "kind": "apply",
+            "x": 340,
+            "y": 140
+          },
+          {
+            "id": "apply2",
+            "kind": "apply",
+            "x": 620,
+            "y": 230
+          },
+          {
+            "id": "goal",
+            "kind": "goal",
+            "x": 900,
+            "y": 230
+          }
+        ],
+        "edges": [
+          {
+            "id": "e1",
+            "source": "f",
+            "target": "apply1",
+            "input": "fn"
+          },
+          {
+            "id": "e2",
+            "source": "hp",
+            "target": "apply1",
+            "input": "arg"
+          },
+          {
+            "id": "e3",
+            "source": "g",
+            "target": "apply2",
+            "input": "fn"
+          },
+          {
+            "id": "e4",
+            "source": "apply1",
+            "target": "apply2",
+            "input": "arg"
+          },
+          {
+            "id": "e5",
+            "source": "apply2",
+            "target": "goal",
+            "input": "proof"
+          }
+        ],
+        "groups": [
+          {
+            "id": "body-group",
+            "name": "함의 두 단계",
+            "nodeIds": [
+              "apply1",
+              "apply2"
+            ],
+            "collapsed": false,
+            "x": 330,
+            "y": 130
+          }
+        ]
+      }
+    ],
+    "groups": [
+      {
+        "id": "results",
+        "name": "두 결과 묶음",
+        "nodeIds": [
+          "first",
+          "second",
+          "pair"
+        ],
+        "collapsed": false,
+        "x": 370,
+        "y": 60
+      }
+    ]
+  }
+}

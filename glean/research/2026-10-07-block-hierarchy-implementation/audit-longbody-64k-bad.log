@@ -1,0 +1,7 @@
+/Users/moonone/GLEAN/glean/research/2026-10-07-block-hierarchy-implementation/audit-longbody-64k-bad.lean:1203:2: error: Type mismatch
+  True.intro
+has type
+  True
+but is expected to have type
+  n + 0 = n
+'audit_longbody' depends on axioms: [sorryAx]

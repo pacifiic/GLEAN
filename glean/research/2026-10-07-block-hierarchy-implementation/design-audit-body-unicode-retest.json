@@ -1,0 +1,137 @@
+{
+  "case": "unicode",
+  "fixture": {
+    "version": 3,
+    "name": "fragment unicode",
+    "projectId": "glean",
+    "imports": [],
+    "policy": "strict",
+    "inputs": [],
+    "goal": "True",
+    "modules": [],
+    "nodes": [
+      {
+        "id": "proof",
+        "kind": "script",
+        "inputs": [],
+        "outputType": "True",
+        "body": "by\n  exact (let s := \"😀\"; (0 : Nat))"
+      }
+    ],
+    "edges": [],
+    "result": {
+      "node": "proof",
+      "output": "out"
+    }
+  },
+  "compilerHash": "ab67fa1bfa1f20b4202e046ab4a18454a9b4c64901acc965e153e59961dca812",
+  "result": {
+    "status": "invalid",
+    "verified": false,
+    "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" location:str text:str : term <= expectedType => do\n  let filename := if location.getString.isEmpty then \"<input>\" else location.getString\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString filename with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := if location.getString.isEmpty then stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo) else stx\n  let elaborate : TermElabM Expr := do\n    let result ← elabTerm stx expectedType\n    synthesizeSyntheticMVarsNoPostponing\n    let result ← instantiateMVars result\n    let env ← getEnv\n    let mut pending := result.getUsedConstants.toList\n    let mut seen : NameSet := {}\n    while !pending.isEmpty do\n      let name := pending.head!\n      pending := pending.tail!\n      unless seen.contains name do\n        seen := seen.insert name\n        if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n          throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n        if (env.getModuleIdxFor? name).isNone then\n          if let some ci := env.find? name then\n            pending := ci.getUsedConstantsAsSet.toList ++ pending\n    return result\n  if location.getString.isEmpty then elaborate\n  else withTheReader Core.Context (fun ctx => { ctx with fileName := filename, fileMap := FileMap.ofString text.getString }) elaborate\n\nnoncomputable def glean_component_1  : (gleanTerm% \"\" \"True\") :=\n  (gleanTerm% \"GLEAN_FRAGMENT_1\" \"by\\n  exact (let s := \\\"😀\\\"; (0 : Nat))\")\n\ntheorem glean_proof  : (gleanTerm% \"\" \"True\") :=\n  let glean_component_2 := glean_component_1 \n  glean_component_2\n",
+    "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" location:str text:str : term <= expectedType => do\n  let filename := if location.getString.isEmpty then \"<input>\" else location.getString\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString filename with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := if location.getString.isEmpty then stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo) else stx\n  let elaborate : TermElabM Expr := do\n    let result ← elabTerm stx expectedType\n    synthesizeSyntheticMVarsNoPostponing\n    let result ← instantiateMVars result\n    let env ← getEnv\n    let mut pending := result.getUsedConstants.toList\n    let mut seen : NameSet := {}\n    while !pending.isEmpty do\n      let name := pending.head!\n      pending := pending.tail!\n      unless seen.contains name do\n        seen := seen.insert name\n        if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n          throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n        if (env.getModuleIdxFor? name).isNone then\n          if let some ci := env.find? name then\n            pending := ci.getUsedConstantsAsSet.toList ++ pending\n    return result\n  if location.getString.isEmpty then elaborate\n  else withTheReader Core.Context (fun ctx => { ctx with fileName := filename, fileMap := FileMap.ofString text.getString }) elaborate\n\ndef glean_expected_type : Prop := (gleanExpectedTerm% \"\" \"True\")\n",
+    "sourceMap": {
+      "root/proof": {
+        "startLine": 32,
+        "endLine": 34
+      },
+      "root": {
+        "startLine": 35,
+        "endLine": 38
+      }
+    },
+    "fragmentSources": {
+      "GLEAN_FRAGMENT_1": {
+        "key": "root/proof",
+        "field": "body",
+        "lineCount": 2
+      }
+    },
+    "sourceLocations": [
+      {
+        "key": "root/proof/out",
+        "startLine": 36,
+        "endLine": 36
+      }
+    ],
+    "nodeBindings": {
+      "glean_component_2": "root/proof/out"
+    },
+    "nodeFunctions": {
+      "root/proof": "glean_component_1",
+      "root/proof/out": "glean_component_1"
+    },
+    "nodeInputPorts": {
+      "root/proof/out": []
+    },
+    "inputBindings": {},
+    "referenceEnvironments": [],
+    "diagnostics": [
+      {
+        "severity": "error",
+        "message": "Lean이 소스를 거부했습니다. Lean 출력에서 원인을 확인해 주세요."
+      },
+      {
+        "filename": "GLEAN_FRAGMENT_1",
+        "line": 2,
+        "column": 24,
+        "severity": "error",
+        "message": "Type mismatch\n  0\nhas type\n  Nat\nof sort `Type` but is expected to have type\n  True\nof sort `Prop`",
+        "graphLocation": "root/proof",
+        "fragmentField": "body",
+        "bodyLine": 2,
+        "bodyColumn": 24,
+        "columnEncoding": "unicode"
+      }
+    ],
+    "nodeTypes": {},
+    "projectId": "glean",
+    "policy": "strict",
+    "jobId": "9e62888ee1ab4a8b80ba900c59d77088",
+    "phase": "complete",
+    "kernelAccepted": false,
+    "audit": null,
+    "filename": "Graph.lean",
+    "target": "glean_proof",
+    "sourceHash": "76c0764e774aca579256a07fe6cf570578d2e580f36760dafd94b1f81b2a9f5b",
+    "lean": {
+      "output": "GLEAN_FRAGMENT_1:2:23: error: Type mismatch\n  0\nhas type\n  Nat\nof sort `Type` but is expected to have type\n  True\nof sort `Prop`\n",
+      "durationMs": 15521
+    },
+    "environment": {
+      "schema": 1,
+      "projectId": "glean",
+      "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+      "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+      "projectFiles": {
+        "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+        "lake-manifest.json": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+        "lakefile.lean": null,
+        "lakefile.toml": "a3500f3a6618de5748b6135a580e2b4357a9936564a0a43a9decbdb94f101580"
+      },
+      "sourceStateHash": "8ffb9345a4d0f588f2b5b1c670c5218151c94edf7203ebc22bee65f1def53b8d",
+      "dependencies": [],
+      "compiledArtifacts": {
+        "kind": "path-size-mtime-metadata",
+        "count": 10089,
+        "hash": "eff39cb727636d1b135ecdb35e3c8e15e665997e6a4f2255310687c6f71cb748"
+      },
+      "leanSearchPaths": [
+        "/Users/moonone/GLEAN/glean/.lake/build/lib/lean",
+        "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+      ],
+      "gitCommit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+      "gitDirty": true,
+      "changedLeanInputs": null,
+      "sourceIdentityKind": "source-content-in-parent-git",
+      "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+      "manifestHash": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+      "environmentHash": "37f0a53954eb4d24b534f46a7921b2ed8aea314cfd6e3649073cb750028555fd",
+      "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+    },
+    "typedNodeTypes": {},
+    "typedNodeUsage": {},
+    "typedPortTypes": {},
+    "typedNodeAudit": {}
+  }
+}

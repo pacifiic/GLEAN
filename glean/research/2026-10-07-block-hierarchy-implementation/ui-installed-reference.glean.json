@@ -1,0 +1,141 @@
+{
+  "kind": "graph",
+  "graph": {
+    "version": 3,
+    "name": "Nat.add_zero · 설치 환경 참조",
+    "projectId": "glean",
+    "imports": [
+      "Init.Core"
+    ],
+    "policy": "standard",
+    "inputs": [
+      {
+        "id": "arg0",
+        "name": "n",
+        "type": "Nat"
+      }
+    ],
+    "goal": "n + 0 = n",
+    "nodes": [
+      {
+        "id": "input0",
+        "kind": "input",
+        "ref": "arg0",
+        "x": 50,
+        "y": 60
+      },
+      {
+        "id": "reference",
+        "name": "Nat.add_zero",
+        "kind": "reference",
+        "declaration": "Nat.add_zero",
+        "inputs": [
+          {
+            "implicit": false,
+            "instance": false,
+            "name": "n",
+            "originalName": "n",
+            "type": "Nat",
+            "id": "arg0"
+          }
+        ],
+        "outputType": "n + 0 = n",
+        "reference": {
+          "inputs": [
+            {
+              "implicit": false,
+              "instance": false,
+              "name": "n",
+              "originalName": "n",
+              "type": "Nat",
+              "id": "arg0"
+            }
+          ],
+          "module": "Init.Core",
+          "name": "Nat.add_zero",
+          "outputType": "n + 0 = n",
+          "sourceRange": {
+            "character": 0,
+            "endLine": 747,
+            "startLine": 747
+          },
+          "type": "∀ (n : Nat), n + 0 = n",
+          "universes": [],
+          "sourcePath": "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/src/lean/Init/Core.lean",
+          "environment": {
+            "schema": 1,
+            "projectId": "glean",
+            "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+            "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "projectFiles": {
+              "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+              "lake-manifest.json": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+              "lakefile.lean": null,
+              "lakefile.toml": "a3500f3a6618de5748b6135a580e2b4357a9936564a0a43a9decbdb94f101580"
+            },
+            "sourceStateHash": "cf6707333e3689ae1b0e200ff442cf1068cc4451f1a56c65311ae52aaebad69d",
+            "dependencies": [],
+            "compiledArtifacts": {
+              "kind": "path-size-mtime-metadata",
+              "count": 10089,
+              "hash": "eff39cb727636d1b135ecdb35e3c8e15e665997e6a4f2255310687c6f71cb748"
+            },
+            "leanSearchPaths": [
+              "/Users/moonone/GLEAN/glean/.lake/build/lib/lean",
+              "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+            ],
+            "gitCommit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+            "gitDirty": true,
+            "changedLeanInputs": null,
+            "sourceIdentityKind": "source-content-in-parent-git",
+            "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+            "manifestHash": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+            "environmentHash": "cd3d4a60fd94aaf03545dbaea337f2d45ae373c2c30637da1ace110ce322cff6",
+            "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+          },
+          "projectId": "glean",
+          "imports": [
+            "Init.Core"
+          ],
+          "signatureHash": "e25303783786c63895cd5ed640379ca740cfa14767946460a7c0af514e4f93d3"
+        },
+        "x": 350,
+        "y": 70
+      }
+    ],
+    "edges": [
+      {
+        "id": "wire0",
+        "source": "input0",
+        "output": "out",
+        "target": "reference",
+        "input": "arg0"
+      }
+    ],
+    "result": {
+      "node": "reference",
+      "output": "out"
+    },
+    "modules": []
+  },
+  "presentation": {
+    "version": 1,
+    "scopes": {
+      "root": {
+        "hidden": [],
+        "containers": []
+      }
+    },
+    "occurrenceViews": {}
+  },
+  "review": {
+    "documentId": "7f739c39-bcf1-4b13-80da-2b02e6fe4509",
+    "watches": [],
+    "notebook": {
+      "variants": [],
+      "steps": []
+    },
+    "sourceGraphSelection": null,
+    "computeMode": "manual"
+  }
+}

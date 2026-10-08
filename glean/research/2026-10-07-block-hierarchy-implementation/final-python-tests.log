@@ -1,0 +1,196 @@
+test_api_checks_valid_graph (test_acceptance.HttpAcceptanceTests.test_api_checks_valid_graph) ... 127.0.0.1 - - [08/Oct/2026 02:05:20] "POST /api/check HTTP/1.1" 200 -
+ok
+test_editor_module_is_served_as_javascript (test_acceptance.HttpAcceptanceTests.test_editor_module_is_served_as_javascript) ... 127.0.0.1 - - [08/Oct/2026 02:05:20] "GET /model.mjs HTTP/1.1" 200 -
+ok
+test_escaped_unicode_ids_cannot_break_json_response (test_acceptance.HttpAcceptanceTests.test_escaped_unicode_ids_cannot_break_json_response) ... 127.0.0.1 - - [08/Oct/2026 02:05:20] "POST /api/check HTTP/1.1" 200 -
+ok
+test_examples_endpoint_exposes_graphs (test_acceptance.HttpAcceptanceTests.test_examples_endpoint_exposes_graphs) ... 127.0.0.1 - - [08/Oct/2026 02:05:20] "GET /api/examples HTTP/1.1" 200 -
+ok
+test_foreign_host_is_rejected (test_acceptance.HttpAcceptanceTests.test_foreign_host_is_rejected) ... 127.0.0.1 - - [08/Oct/2026 02:05:20] "GET /api/health HTTP/1.1" 403 -
+ok
+test_foreign_origin_is_rejected (test_acceptance.HttpAcceptanceTests.test_foreign_origin_is_rejected) ... 127.0.0.1 - - [08/Oct/2026 02:05:20] "POST /api/check HTTP/1.1" 403 -
+ok
+test_health_reports_pinned_lean (test_acceptance.HttpAcceptanceTests.test_health_reports_pinned_lean) ... 127.0.0.1 - - [08/Oct/2026 02:05:20] "GET /api/health HTTP/1.1" 200 -
+ok
+test_local_origin_is_accepted (test_acceptance.HttpAcceptanceTests.test_local_origin_is_accepted) ... 127.0.0.1 - - [08/Oct/2026 02:05:20] "GET /api/health HTTP/1.1" 200 -
+ok
+test_malformed_json_is_400 (test_acceptance.HttpAcceptanceTests.test_malformed_json_is_400) ... 127.0.0.1 - - [08/Oct/2026 02:05:20] "POST /api/check HTTP/1.1" 400 -
+ok
+test_malformed_request_target_returns_json_error (test_acceptance.HttpAcceptanceTests.test_malformed_request_target_returns_json_error) ... 127.0.0.1 - - [08/Oct/2026 02:05:20] "GET http://[ HTTP/1.1" 400 -
+127.0.0.1 - - [08/Oct/2026 02:05:20] "POST http://[ HTTP/1.1" 400 -
+ok
+test_non_finite_json_numbers_are_rejected (test_acceptance.HttpAcceptanceTests.test_non_finite_json_numbers_are_rejected) ... 127.0.0.1 - - [08/Oct/2026 02:05:20] "POST /api/check HTTP/1.1" 400 -
+ok
+test_oversized_request_is_rejected_before_read (test_acceptance.HttpAcceptanceTests.test_oversized_request_is_rejected_before_read) ... 127.0.0.1 - - [08/Oct/2026 02:05:20] "POST /api/check HTTP/1.1" 413 -
+ok
+test_server_cannot_bind_public_interfaces (test_acceptance.HttpAcceptanceTests.test_server_cannot_bind_public_interfaces) ... ok
+test_static_traversal_cannot_read_repository (test_acceptance.HttpAcceptanceTests.test_static_traversal_cannot_read_repository) ... 127.0.0.1 - - [08/Oct/2026 02:05:20] "GET /../../AGENTS.md HTTP/1.1" 404 -
+127.0.0.1 - - [08/Oct/2026 02:05:20] "GET /%2e%2e/%2e%2e/AGENTS.md HTTP/1.1" 404 -
+127.0.0.1 - - [08/Oct/2026 02:05:20] "GET /../PROTOCOL.md HTTP/1.1" 404 -
+ok
+test_assumption_identifiers_are_not_lean_identifiers (test_acceptance.ProofAcceptanceTests.test_assumption_identifiers_are_not_lean_identifiers) ... ok
+test_composition_is_checked_by_real_lean (test_acceptance.ProofAcceptanceTests.test_composition_is_checked_by_real_lean) ... ok
+test_conjunction_swap_is_checked_by_real_lean (test_acceptance.ProofAcceptanceTests.test_conjunction_swap_is_checked_by_real_lean) ... ok
+test_disconnected_invalid_node_never_verifies (test_acceptance.ProofAcceptanceTests.test_disconnected_invalid_node_never_verifies) ... ok
+test_examples_have_unique_ids_and_readable_metadata (test_acceptance.ProofAcceptanceTests.test_examples_have_unique_ids_and_readable_metadata) ... ok
+test_layout_has_no_proof_semantics (test_acceptance.ProofAcceptanceTests.test_layout_has_no_proof_semantics) ... ok
+test_missing_wire_never_verifies (test_acceptance.ProofAcceptanceTests.test_missing_wire_never_verifies) ... ok
+test_real_lean_failure_cannot_be_marked_verified (test_acceptance.ProofAcceptanceTests.test_real_lean_failure_cannot_be_marked_verified) ... ok
+test_real_lean_sorry_axiom_cannot_be_marked_verified (test_acceptance.ProofAcceptanceTests.test_real_lean_sorry_axiom_cannot_be_marked_verified) ... ok
+test_shared_function_module_and_groups_are_checked_by_real_lean (test_acceptance.ProofAcceptanceTests.test_shared_function_module_and_groups_are_checked_by_real_lean) ... ok
+test_type_error_never_verifies (test_acceptance.ProofAcceptanceTests.test_type_error_never_verifies) ... ok
+test_type_syntax_cannot_inject_lean (test_acceptance.ProofAcceptanceTests.test_type_syntax_cannot_inject_lean) ... ok
+test_actual_nat_declaration_has_ordered_binders (test_declaration.DeclarationTests.test_actual_nat_declaration_has_ordered_binders) ... ok
+test_hygienic_dependent_binders_get_safe_unique_aliases (test_declaration.DeclarationTests.test_hygienic_dependent_binders_get_safe_unique_aliases) ... ok
+test_missing_and_injected_names_are_rejected (test_declaration.DeclarationTests.test_missing_and_injected_names_are_rejected) ... ok
+test_real_declaration_source_uses_the_fixed_project_lookup (test_declaration.DeclarationTests.test_real_declaration_source_uses_the_fixed_project_lookup) ... ok
+test_actual_commands_keep_namespaces_macro_private_and_valid_declarations_after_an_error (test_declaration_index.DeclarationIndexTests.test_actual_commands_keep_namespaces_macro_private_and_valid_declarations_after_an_error) ... ok
+test_invalid_analysis_request_rejects_before_a_process_and_uses_bounded_file_identity (test_declaration_index.DeclarationIndexTests.test_invalid_analysis_request_rejects_before_a_process_and_uses_bounded_file_identity) ... ok
+test_kernel_type_mismatch_cannot_become_verified (test_expected_type.ExpectedTypeTests.test_kernel_type_mismatch_cannot_become_verified) ... ok
+test_actual_type_error_logs_original_fragment_reference_without_error_recovery (test_fragment_diagnostics.FragmentDiagnosticTests.test_actual_type_error_logs_original_fragment_reference_without_error_recovery) ... ok
+test_one_underlying_body_error_is_not_counted_as_wrapper_and_fallback_errors (test_fragment_diagnostics.FragmentDiagnosticTests.test_one_underlying_body_error_is_not_counted_as_wrapper_and_fallback_errors) ... ok
+test_type_and_embedded_parser_errors_map_to_actual_body_lines (test_fragment_diagnostics.FragmentDiagnosticTests.test_type_and_embedded_parser_errors_map_to_actual_body_lines) ... ok
+test_arbitrary_json_is_diagnosed (test_graph.GraphCompilerTests.test_arbitrary_json_is_diagnosed) ... ok
+test_argument_type_mismatch_is_located (test_graph.GraphCompilerTests.test_argument_type_mismatch_is_located) ... ok
+test_bad_identifiers_and_node_kinds (test_graph.GraphCompilerTests.test_bad_identifiers_and_node_kinds) ... ok
+test_composition_generates_a_complete_deterministic_module (test_graph.GraphCompilerTests.test_composition_generates_a_complete_deterministic_module) ... ok
+test_conjunction_construction_and_projections (test_graph.GraphCompilerTests.test_conjunction_construction_and_projections) ... ok
+test_conjunction_grouping_is_not_erased (test_graph.GraphCompilerTests.test_conjunction_grouping_is_not_erased) ... ok
+test_coordinates_must_be_finite_numbers_when_present (test_graph.GraphCompilerTests.test_coordinates_must_be_finite_numbers_when_present) ... ok
+test_cycles_and_self_edges_are_invalid (test_graph.GraphCompilerTests.test_cycles_and_self_edges_are_invalid) ... ok
+test_disconnected_nodes_are_checked (test_graph.GraphCompilerTests.test_disconnected_nodes_are_checked) ... ok
+test_duplicate_identifiers_and_propositions (test_graph.GraphCompilerTests.test_duplicate_identifiers_and_propositions) ... ok
+test_duplicate_input_connection_is_invalid (test_graph.GraphCompilerTests.test_duplicate_input_connection_is_invalid) ... ok
+test_goal_cannot_supply_an_output (test_graph.GraphCompilerTests.test_goal_cannot_supply_an_output) ... ok
+test_graph_identifiers_never_become_source (test_graph.GraphCompilerTests.test_graph_identifiers_never_become_source) ... ok
+test_known_type_errors_take_precedence_over_incomplete (test_graph.GraphCompilerTests.test_known_type_errors_take_precedence_over_incomplete) ... ok
+test_malformed_containers_and_elements_do_not_raise (test_graph.GraphCompilerTests.test_malformed_containers_and_elements_do_not_raise) ... ok
+test_missing_wire_is_incomplete_and_located (test_graph.GraphCompilerTests.test_missing_wire_is_incomplete_and_located) ... ok
+test_nonfunction_and_goal_mismatch (test_graph.GraphCompilerTests.test_nonfunction_and_goal_mismatch) ... ok
+test_propositions_use_constrained_names (test_graph.GraphCompilerTests.test_propositions_use_constrained_names) ... ok
+test_repeated_pairing_has_bounded_type_expansion (test_graph.GraphCompilerTests.test_repeated_pairing_has_bounded_type_expansion) ... ok
+test_requires_exact_version_and_one_goal (test_graph.GraphCompilerTests.test_requires_exact_version_and_one_goal) ... ok
+test_resource_limits_fail_without_recursion_errors (test_graph.GraphCompilerTests.test_resource_limits_fail_without_recursion_errors) ... ok
+test_type_grammar_precedence_and_right_associativity (test_graph.GraphCompilerTests.test_type_grammar_precedence_and_right_associativity) ... ok
+test_types_reject_undeclared_names_and_lean_injection (test_graph.GraphCompilerTests.test_types_reject_undeclared_names_and_lean_injection) ... ok
+test_unknown_assumption_reference (test_graph.GraphCompilerTests.test_unknown_assumption_reference) ... ok
+test_unknown_edge_endpoints_and_input_ports (test_graph.GraphCompilerTests.test_unknown_edge_endpoints_and_input_ports) ... ok
+test_invalid_json_type_and_size_errors_have_safe_positions (test_graph_diagnostics.GraphSyntaxDiagnosticTests.test_invalid_json_type_and_size_errors_have_safe_positions) ... ok
+test_module_formal_input_errors_use_module_and_parameter_identity (test_graph_diagnostics.GraphSyntaxDiagnosticTests.test_module_formal_input_errors_use_module_and_parameter_identity) ... ok
+test_module_output_errors_use_module_goal_context (test_graph_diagnostics.GraphSyntaxDiagnosticTests.test_module_output_errors_use_module_goal_context) ... ok
+test_positions_include_whitespace_and_missing_end_tokens (test_graph_diagnostics.GraphSyntaxDiagnosticTests.test_positions_include_whitespace_and_missing_end_tokens) ... ok
+test_quantified_assumptions_identify_the_row_and_its_visible_node (test_graph_diagnostics.GraphSyntaxDiagnosticTests.test_quantified_assumptions_identify_the_row_and_its_visible_node) ... ok
+test_real_math_goal_identifies_the_goal_field_and_unsupported_character (test_graph_diagnostics.GraphSyntaxDiagnosticTests.test_real_math_goal_identifies_the_goal_field_and_unsupported_character) ... ok
+test_unused_assumptions_still_point_to_the_correct_context_row (test_graph_diagnostics.GraphSyntaxDiagnosticTests.test_unused_assumptions_still_point_to_the_correct_context_row) ... ok
+test_an_unused_module_with_sorry_does_not_inherit_target_verification (test_graph_jobs.ActualTypedMetadataTests.test_an_unused_module_with_sorry_does_not_inherit_target_verification) ... ok
+test_serialized_outputs_and_used_arguments_come_from_lean (test_graph_jobs.ActualTypedMetadataTests.test_serialized_outputs_and_used_arguments_come_from_lean) ... ok
+test_user_local_generated_like_name_is_not_compiler_owned_metadata (test_graph_jobs.ActualTypedMetadataTests.test_user_local_generated_like_name_is_not_compiler_owned_metadata) ... ok
+test_compile_then_start_and_cancel_actual_source_job (test_graph_jobs.GraphJobTests.test_compile_then_start_and_cancel_actual_source_job) ... ok
+test_incomplete_graph_never_starts_job (test_graph_jobs.GraphJobTests.test_incomplete_graph_never_starts_job) ... ok
+test_default_scope_preserves_full_workspace_compilation (test_graph_scope.GoalScopeTests.test_default_scope_preserves_full_workspace_compilation) ... ok
+test_detached_cycles_block_all_scopes_as_structural_errors (test_graph_scope.GoalScopeTests.test_detached_cycles_block_all_scopes_as_structural_errors) ... ok
+test_detached_incomplete_nodes_do_not_block_the_goal_proof (test_graph_scope.GoalScopeTests.test_detached_incomplete_nodes_do_not_block_the_goal_proof) ... ok
+test_detached_type_errors_remain_visible_as_workspace_diagnostics (test_graph_scope.GoalScopeTests.test_detached_type_errors_remain_visible_as_workspace_diagnostics) ... ok
+test_goal_ancestors_still_reject_missing_ports_and_type_errors (test_graph_scope.GoalScopeTests.test_goal_ancestors_still_reject_missing_ports_and_type_errors) ... ok
+test_goal_scope_handles_arbitrary_json_and_v1_unrecognized_metadata_safely (test_graph_scope.GoalScopeTests.test_goal_scope_handles_arbitrary_json_and_v1_unrecognized_metadata_safely) ... ok
+test_reachable_module_dependencies_are_transitive_and_body_errors_block (test_graph_scope.GoalScopeTests.test_reachable_module_dependencies_are_transitive_and_body_errors_block) ... ok
+test_selected_root_and_module_proofs_are_accepted_by_the_lean_kernel (test_graph_scope.GoalScopeTests.test_selected_root_and_module_proofs_are_accepted_by_the_lean_kernel) ... ok
+test_structural_validation_has_no_codegen_or_inference_side_effects (test_graph_scope.GoalScopeTests.test_structural_validation_has_no_codegen_or_inference_side_effects) ... ok
+test_unknown_detached_nodes_references_and_malformed_edges_are_not_filtered_away (test_graph_scope.GoalScopeTests.test_unknown_detached_nodes_references_and_malformed_edges_are_not_filtered_away) ... ok
+test_unknown_scope_is_rejected_without_falling_back_to_less_strict_checks (test_graph_scope.GoalScopeTests.test_unknown_scope_is_rejected_without_falling_back_to_less_strict_checks) ... ok
+test_unused_definitions_and_detached_module_body_nodes_are_filtered (test_graph_scope.GoalScopeTests.test_unused_definitions_and_detached_module_body_nodes_are_filtered) ... ok
+test_unused_modules_still_validate_refs_signatures_and_recursion (test_graph_scope.GoalScopeTests.test_unused_modules_still_validate_refs_signatures_and_recursion) ... ok
+test_visual_groups_spanning_active_and_detached_nodes_do_not_change_the_proof (test_graph_scope.GoalScopeTests.test_visual_groups_spanning_active_and_detached_nodes_do_not_change_the_proof) ... ok
+test_whole_document_bounds_apply_before_unused_modules_are_pruned (test_graph_scope.GoalScopeTests.test_whole_document_bounds_apply_before_unused_modules_are_pruned) ... ok
+test_invalid_graphs_never_expose_stale_generated_line_mappings (test_graph_scope.SourceMapTests.test_invalid_graphs_never_expose_stale_generated_line_mappings) ... ok
+test_module_maps_account_for_reordered_definitions_and_root_offsets (test_graph_scope.SourceMapTests.test_module_maps_account_for_reordered_definitions_and_root_offsets) ... ok
+test_root_node_maps_point_to_emitted_terms_and_final_goal (test_graph_scope.SourceMapTests.test_root_node_maps_point_to_emitted_terms_and_final_goal) ... ok
+test_fixed_project_profiles_and_pi_reference (test_lean_http.LeanHttpTests.test_fixed_project_profiles_and_pi_reference) ... 127.0.0.1 - - [08/Oct/2026 02:06:15] "GET /api/lean/projects HTTP/1.1" 200 -
+127.0.0.1 - - [08/Oct/2026 02:06:15] "GET /api/lean/reference/pi HTTP/1.1" 200 -
+ok
+test_job_start_poll_cancel_routes (test_lean_http.LeanHttpTests.test_job_start_poll_cancel_routes) ... 127.0.0.1 - - [08/Oct/2026 02:06:15] "POST /api/lean/check/start HTTP/1.1" 200 -
+127.0.0.1 - - [08/Oct/2026 02:06:15] "POST /api/lean/check/poll HTTP/1.1" 200 -
+127.0.0.1 - - [08/Oct/2026 02:06:15] "POST /api/lean/check/cancel HTTP/1.1" 200 -
+ok
+test_lean_routes_reject_foreign_origins_and_bad_input (test_lean_http.LeanHttpTests.test_lean_routes_reject_foreign_origins_and_bad_input) ... 127.0.0.1 - - [08/Oct/2026 02:06:15] "POST /api/lean/open HTTP/1.1" 403 -
+127.0.0.1 - - [08/Oct/2026 02:06:15] "POST /api/lean/open HTTP/1.1" 400 -
+127.0.0.1 - - [08/Oct/2026 02:06:15] "POST /api/lean/context HTTP/1.1" 404 -
+ok
+test_unknown_graph_scope_is_rejected (test_lean_http.LeanHttpTests.test_unknown_graph_scope_is_rejected) ... 127.0.0.1 - - [08/Oct/2026 02:06:15] "POST /api/check HTTP/1.1" 400 -
+ok
+test_actual_pi_proof_exposes_its_local_context (test_lean_lsp.ActualLeanSessionTests.test_actual_pi_proof_exposes_its_local_context) ... ok
+test_actual_structured_branches_track_local_scope_and_completion (test_lean_lsp.ActualLeanSessionTests.test_actual_structured_branches_track_local_scope_and_completion) ... ok
+test_early_cursor_does_not_wait_for_a_later_long_running_command (test_lean_lsp.ActualLeanSessionTests.test_early_cursor_does_not_wait_for_a_later_long_running_command) ... ok
+test_quantifiers_equalities_goal_context_updates_and_stale_responses (test_lean_lsp.ActualLeanSessionTests.test_quantifiers_equalities_goal_context_updates_and_stale_responses) ... ok
+test_session_limit_and_position_validation (test_lean_lsp.ActualLeanSessionTests.test_session_limit_and_position_validation) ... ok
+test_declaration_index_ignores_comments_and_strings (test_lean_lsp.LeanSourceBoundaryTests.test_declaration_index_ignores_comments_and_strings) ... ok
+test_framed_protocol_preserves_unicode_and_bounds_messages (test_lean_lsp.LeanSourceBoundaryTests.test_framed_protocol_preserves_unicode_and_bounds_messages) ... ok
+test_hover_text_preserves_only_standard_text_content (test_lean_lsp.LeanSourceBoundaryTests.test_hover_text_preserves_only_standard_text_content) ... ok
+test_http_error_preserves_session_code_for_reconnection (test_lean_lsp.LeanSourceBoundaryTests.test_http_error_preserves_session_code_for_reconnection) ... ok
+test_idle_reaping_preserves_an_active_context_query (test_lean_lsp.LeanSourceBoundaryTests.test_idle_reaping_preserves_an_active_context_query) ... ok
+test_idle_sessions_are_reaped_after_reload_without_another_open (test_lean_lsp.LeanSourceBoundaryTests.test_idle_sessions_are_reaped_after_reload_without_another_open) ... ok
+test_old_diagnostics_and_inflight_context_are_discarded (test_lean_lsp.LeanSourceBoundaryTests.test_old_diagnostics_and_inflight_context_are_discarded) ... ok
+test_project_ids_are_a_fixed_allowlist (test_lean_lsp.LeanSourceBoundaryTests.test_project_ids_are_a_fixed_allowlist) ... ok
+test_rpc_reconnect_does_not_reuse_expired_remote_handles (test_lean_lsp.LeanSourceBoundaryTests.test_rpc_reconnect_does_not_reuse_expired_remote_handles) ... ok
+test_sources_are_bounded_and_filenames_never_become_paths (test_lean_lsp.LeanSourceBoundaryTests.test_sources_are_bounded_and_filenames_never_become_paths) ... ok
+test_structured_goal_context_releases_rpc_handles_and_preserves_ids (test_lean_lsp.LeanSourceBoundaryTests.test_structured_goal_context_releases_rpc_handles_and_preserves_ids) ... ok
+test_timed_out_request_is_cancelled_and_removed (test_lean_lsp.LeanSourceBoundaryTests.test_timed_out_request_is_cancelled_and_removed) ... ok
+test_custom_axiom_is_rejected (test_lean_policy.LeanPolicyTests.test_custom_axiom_is_rejected) ... ok
+test_sorry_is_never_verified (test_lean_policy.LeanPolicyTests.test_sorry_is_never_verified) ... ok
+test_standard_axioms_are_allowed_and_visible (test_lean_policy.LeanPolicyTests.test_standard_axioms_are_allowed_and_visible) ... ok
+test_strict_policy_preserves_axiom_free_contract (test_lean_policy.LeanPolicyTests.test_strict_policy_preserves_axiom_free_contract) ... ok
+test_structured_audit_requires_exact_target_nonce_and_theorem (test_lean_policy.LeanPolicyTests.test_structured_audit_requires_exact_target_nonce_and_theorem) ... ok
+test_untrusted_or_wrong_audit_is_rejected (test_lean_policy.LeanPolicyTests.test_untrusted_or_wrong_audit_is_rejected) ... ok
+test_body_errors_are_local_and_unused_definitions_are_checked (test_modules.ModuleCompilerTests.test_body_errors_are_local_and_unused_definitions_are_checked) ... ok
+test_definition_labels_never_become_lean_source (test_modules.ModuleCompilerTests.test_definition_labels_never_become_lean_source) ... ok
+test_duplicate_input_ids_bad_input_names_and_injected_types (test_modules.ModuleCompilerTests.test_duplicate_input_ids_bad_input_names_and_injected_types) ... ok
+test_function_inputs_are_typed_and_ordered_explicitly (test_modules.ModuleCompilerTests.test_function_inputs_are_typed_and_ordered_explicitly) ... ok
+test_group_membership_and_metadata_are_validated (test_modules.ModuleCompilerTests.test_group_membership_and_metadata_are_validated) ... ok
+test_malformed_module_definitions_do_not_raise (test_modules.ModuleCompilerTests.test_malformed_module_definitions_do_not_raise) ... ok
+test_missing_inputs_are_incomplete_but_known_wrong_types_are_invalid (test_modules.ModuleCompilerTests.test_missing_inputs_are_incomplete_but_known_wrong_types_are_invalid) ... ok
+test_module_cannot_capture_root_assumptions (test_modules.ModuleCompilerTests.test_module_cannot_capture_root_assumptions) ... ok
+test_module_input_ids_never_become_source_and_are_real_port_names (test_modules.ModuleCompilerTests.test_module_input_ids_never_become_source_and_are_real_port_names) ... ok
+test_nested_definitions_emit_dependencies_first_without_inlining (test_modules.ModuleCompilerTests.test_nested_definitions_emit_dependencies_first_without_inlining) ... ok
+test_resource_bounds_apply_across_all_scopes (test_modules.ModuleCompilerTests.test_resource_bounds_apply_across_all_scopes) ... ok
+test_reusable_function_has_explicit_parameters_and_scoped_types (test_modules.ModuleCompilerTests.test_reusable_function_has_explicit_parameters_and_scoped_types) ... ok
+test_shared_module_calls_keep_code_size_linear (test_modules.ModuleCompilerTests.test_shared_module_calls_keep_code_size_linear) ... ok
+test_unhashable_module_references_are_diagnosed (test_modules.ModuleCompilerTests.test_unhashable_module_references_are_diagnosed) ... ok
+test_unknown_duplicate_and_recursive_definitions_are_invalid (test_modules.ModuleCompilerTests.test_unknown_duplicate_and_recursive_definitions_are_invalid) ... ok
+test_v1_stays_compatible_and_v2_requires_its_arrays (test_modules.ModuleCompilerTests.test_v1_stays_compatible_and_v2_requires_its_arrays) ... ok
+test_visual_groups_do_not_change_generated_proof (test_modules.ModuleCompilerTests.test_visual_groups_do_not_change_generated_proof) ... ok
+test_preview_never_launches_lean_or_claims_kernel_verification (test_preview.PreviewTests.test_preview_never_launches_lean_or_claims_kernel_verification) ... ok
+test_required_port_types_survive_wrong_connection (test_preview.PreviewTests.test_required_port_types_survive_wrong_connection) ... ok
+test_binary_and_compiled_artifact_updates_invalidate_identity (test_project_provenance.EnvironmentProvenanceTests.test_binary_and_compiled_artifact_updates_invalidate_identity) ... ok
+test_missing_dependency_is_identified_and_local_dependency_edits_change_hash (test_project_provenance.EnvironmentProvenanceTests.test_missing_dependency_is_identified_and_local_dependency_edits_change_hash) ... ok
+test_non_lean_ui_changes_do_not_change_lean_environment_identity (test_project_provenance.EnvironmentProvenanceTests.test_non_lean_ui_changes_do_not_change_lean_environment_identity) ... ok
+test_path_and_custom_git_package_locations_use_actual_sources (test_project_provenance.EnvironmentProvenanceTests.test_path_and_custom_git_package_locations_use_actual_sources) ... ok
+test_resolved_lean_path_changes_and_external_artifacts_invalidate_identity (test_project_provenance.EnvironmentProvenanceTests.test_resolved_lean_path_changes_and_external_artifacts_invalidate_identity) ... ok
+test_stable_descriptor_identifies_actual_version_and_hashes (test_project_provenance.EnvironmentProvenanceTests.test_stable_descriptor_identifies_actual_version_and_hashes) ... ok
+test_untracked_source_and_manifest_changes_invalidate_identity (test_project_provenance.EnvironmentProvenanceTests.test_untracked_source_and_manifest_changes_invalidate_identity) ... ok
+test_incomplete_graph_never_launches_lean (test_server.VerificationBoundaryTests.test_incomplete_graph_never_launches_lean) ... ok
+test_network_bind_cannot_be_public (test_server.VerificationBoundaryTests.test_network_bind_cannot_be_public) ... ok
+test_successful_exit_without_axiom_audit_is_not_verified (test_server.VerificationBoundaryTests.test_successful_exit_without_axiom_audit_is_not_verified) ... ok
+test_timeout_never_keeps_ready_state (test_server.VerificationBoundaryTests.test_timeout_never_keeps_ready_state) ... ok
+test_actual_bad_line_maps_back_to_original_filename (test_source_check.SourceDiagnosticIntegrationTests.test_actual_bad_line_maps_back_to_original_filename) ... ok
+test_ignores_malformed_out_of_range_and_other_file_positions (test_source_check.SourceDiagnosticTests.test_ignores_malformed_out_of_range_and_other_file_positions) ... ok
+test_maps_zero_based_lean_column_and_multiline_message (test_source_check.SourceDiagnosticTests.test_maps_zero_based_lean_column_and_multiline_message) ... ok
+test_preserves_warning_severity_and_escaped_filename (test_source_check.SourceDiagnosticTests.test_preserves_warning_severity_and_escaped_filename) ... ok
+test_actual_kernel_and_axiom_boundaries (test_source_check.SourceIntegrationTests.test_actual_kernel_and_axiom_boundaries) ... ok
+test_unrelated_unsafe_and_partial_prefix_helpers_do_not_break_metadata (test_source_check.SourceIntegrationTests.test_unrelated_unsafe_and_partial_prefix_helpers_do_not_break_metadata) ... ok
+test_cancelled_job_never_becomes_verified (test_source_check.SourceJobTests.test_cancelled_job_never_becomes_verified) ... ok
+test_maximum_two_active_jobs (test_source_check.SourceJobTests.test_maximum_two_active_jobs) ... ok
+test_subprocess_timeout_and_output_are_bounded (test_source_check.SourceJobTests.test_subprocess_timeout_and_output_are_bounded) ... ok
+test_unknown_job_returns_none (test_source_check.SourceJobTests.test_unknown_job_returns_none) ... ok
+test_accepts_unicode_safe_lean_names (test_source_check.SourceRequestTests.test_accepts_unicode_safe_lean_names) ... ok
+test_target_injection_and_file_escape_rejected (test_source_check.SourceRequestTests.test_target_injection_and_file_escape_rejected) ... ok
+test_valid_source_is_retained (test_source_check.SourceRequestTests.test_valid_source_is_retained) ... ok
+test_actual_kernel_positive_negative_and_no_fragment_breakout (test_typed_graph.TypedGraphTests.test_actual_kernel_positive_negative_and_no_fragment_breakout) ... ok
+test_complete_one_mebibyte_body_compiles_once_with_fragment_identity (test_typed_graph.TypedGraphTests.test_complete_one_mebibyte_body_compiles_once_with_fragment_identity) ... ok
+test_explicit_component_generates_independent_expected_signature (test_typed_graph.TypedGraphTests.test_explicit_component_generates_independent_expected_signature) ... ok
+test_natural_literals_are_exact_strings (test_typed_graph.TypedGraphTests.test_natural_literals_are_exact_strings) ... ok
+test_scope_reference_and_cycles_fail_before_elaboration (test_typed_graph.TypedGraphTests.test_scope_reference_and_cycles_fail_before_elaboration) ... ok
+
+----------------------------------------------------------------------
+Ran 166 tests in 126.721s
+
+OK

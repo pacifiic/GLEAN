@@ -1,0 +1,762 @@
+{
+  "version": 1,
+  "name": "audit_stress_not_pi_missing_apply20_fn",
+  "propositions": [
+    "P"
+  ],
+  "assumptions": [
+    {
+      "id": "hp",
+      "type": "P"
+    },
+    {
+      "id": "f",
+      "type": "P → P"
+    }
+  ],
+  "goal": "P",
+  "nodes": [
+    {
+      "id": "hp",
+      "kind": "assumption",
+      "ref": "hp",
+      "x": 20,
+      "y": 20
+    },
+    {
+      "id": "f",
+      "kind": "assumption",
+      "ref": "f",
+      "x": 20,
+      "y": 170
+    },
+    {
+      "id": "apply01",
+      "kind": "apply",
+      "x": 250,
+      "y": 20
+    },
+    {
+      "id": "apply02",
+      "kind": "apply",
+      "x": 460,
+      "y": 20
+    },
+    {
+      "id": "apply03",
+      "kind": "apply",
+      "x": 670,
+      "y": 20
+    },
+    {
+      "id": "apply04",
+      "kind": "apply",
+      "x": 880,
+      "y": 20
+    },
+    {
+      "id": "apply05",
+      "kind": "apply",
+      "x": 1090,
+      "y": 20
+    },
+    {
+      "id": "apply06",
+      "kind": "apply",
+      "x": 1300,
+      "y": 20
+    },
+    {
+      "id": "apply07",
+      "kind": "apply",
+      "x": 1510,
+      "y": 20
+    },
+    {
+      "id": "apply08",
+      "kind": "apply",
+      "x": 1510,
+      "y": 165
+    },
+    {
+      "id": "apply09",
+      "kind": "apply",
+      "x": 1300,
+      "y": 165
+    },
+    {
+      "id": "apply10",
+      "kind": "apply",
+      "x": 1090,
+      "y": 165
+    },
+    {
+      "id": "apply11",
+      "kind": "apply",
+      "x": 880,
+      "y": 165
+    },
+    {
+      "id": "apply12",
+      "kind": "apply",
+      "x": 670,
+      "y": 165
+    },
+    {
+      "id": "apply13",
+      "kind": "apply",
+      "x": 460,
+      "y": 165
+    },
+    {
+      "id": "apply14",
+      "kind": "apply",
+      "x": 250,
+      "y": 165
+    },
+    {
+      "id": "apply15",
+      "kind": "apply",
+      "x": 250,
+      "y": 310
+    },
+    {
+      "id": "apply16",
+      "kind": "apply",
+      "x": 460,
+      "y": 310
+    },
+    {
+      "id": "apply17",
+      "kind": "apply",
+      "x": 670,
+      "y": 310
+    },
+    {
+      "id": "apply18",
+      "kind": "apply",
+      "x": 880,
+      "y": 310
+    },
+    {
+      "id": "apply19",
+      "kind": "apply",
+      "x": 1090,
+      "y": 310
+    },
+    {
+      "id": "apply20",
+      "kind": "apply",
+      "x": 1300,
+      "y": 310
+    },
+    {
+      "id": "apply21",
+      "kind": "apply",
+      "x": 1510,
+      "y": 310
+    },
+    {
+      "id": "apply22",
+      "kind": "apply",
+      "x": 1510,
+      "y": 455
+    },
+    {
+      "id": "apply23",
+      "kind": "apply",
+      "x": 1300,
+      "y": 455
+    },
+    {
+      "id": "apply24",
+      "kind": "apply",
+      "x": 1090,
+      "y": 455
+    },
+    {
+      "id": "apply25",
+      "kind": "apply",
+      "x": 880,
+      "y": 455
+    },
+    {
+      "id": "apply26",
+      "kind": "apply",
+      "x": 670,
+      "y": 455
+    },
+    {
+      "id": "apply27",
+      "kind": "apply",
+      "x": 460,
+      "y": 455
+    },
+    {
+      "id": "apply28",
+      "kind": "apply",
+      "x": 250,
+      "y": 455
+    },
+    {
+      "id": "apply29",
+      "kind": "apply",
+      "x": 250,
+      "y": 600
+    },
+    {
+      "id": "apply30",
+      "kind": "apply",
+      "x": 460,
+      "y": 600
+    },
+    {
+      "id": "apply31",
+      "kind": "apply",
+      "x": 670,
+      "y": 600
+    },
+    {
+      "id": "apply32",
+      "kind": "apply",
+      "x": 880,
+      "y": 600
+    },
+    {
+      "id": "apply33",
+      "kind": "apply",
+      "x": 1090,
+      "y": 600
+    },
+    {
+      "id": "apply34",
+      "kind": "apply",
+      "x": 1300,
+      "y": 600
+    },
+    {
+      "id": "apply35",
+      "kind": "apply",
+      "x": 1510,
+      "y": 600
+    },
+    {
+      "id": "apply36",
+      "kind": "apply",
+      "x": 1510,
+      "y": 745
+    },
+    {
+      "id": "apply37",
+      "kind": "apply",
+      "x": 1300,
+      "y": 745
+    },
+    {
+      "id": "apply38",
+      "kind": "apply",
+      "x": 1090,
+      "y": 745
+    },
+    {
+      "id": "apply39",
+      "kind": "apply",
+      "x": 880,
+      "y": 745
+    },
+    {
+      "id": "apply40",
+      "kind": "apply",
+      "x": 670,
+      "y": 745
+    },
+    {
+      "id": "goal",
+      "kind": "goal",
+      "x": 1700,
+      "y": 745
+    }
+  ],
+  "edges": [
+    {
+      "id": "fn01",
+      "source": "f",
+      "target": "apply01",
+      "input": "fn"
+    },
+    {
+      "id": "arg01",
+      "source": "hp",
+      "target": "apply01",
+      "input": "arg"
+    },
+    {
+      "id": "fn02",
+      "source": "f",
+      "target": "apply02",
+      "input": "fn"
+    },
+    {
+      "id": "arg02",
+      "source": "apply01",
+      "target": "apply02",
+      "input": "arg"
+    },
+    {
+      "id": "fn03",
+      "source": "f",
+      "target": "apply03",
+      "input": "fn"
+    },
+    {
+      "id": "arg03",
+      "source": "apply02",
+      "target": "apply03",
+      "input": "arg"
+    },
+    {
+      "id": "fn04",
+      "source": "f",
+      "target": "apply04",
+      "input": "fn"
+    },
+    {
+      "id": "arg04",
+      "source": "apply03",
+      "target": "apply04",
+      "input": "arg"
+    },
+    {
+      "id": "fn05",
+      "source": "f",
+      "target": "apply05",
+      "input": "fn"
+    },
+    {
+      "id": "arg05",
+      "source": "apply04",
+      "target": "apply05",
+      "input": "arg"
+    },
+    {
+      "id": "fn06",
+      "source": "f",
+      "target": "apply06",
+      "input": "fn"
+    },
+    {
+      "id": "arg06",
+      "source": "apply05",
+      "target": "apply06",
+      "input": "arg"
+    },
+    {
+      "id": "fn07",
+      "source": "f",
+      "target": "apply07",
+      "input": "fn"
+    },
+    {
+      "id": "arg07",
+      "source": "apply06",
+      "target": "apply07",
+      "input": "arg"
+    },
+    {
+      "id": "fn08",
+      "source": "f",
+      "target": "apply08",
+      "input": "fn"
+    },
+    {
+      "id": "arg08",
+      "source": "apply07",
+      "target": "apply08",
+      "input": "arg"
+    },
+    {
+      "id": "fn09",
+      "source": "f",
+      "target": "apply09",
+      "input": "fn"
+    },
+    {
+      "id": "arg09",
+      "source": "apply08",
+      "target": "apply09",
+      "input": "arg"
+    },
+    {
+      "id": "fn10",
+      "source": "f",
+      "target": "apply10",
+      "input": "fn"
+    },
+    {
+      "id": "arg10",
+      "source": "apply09",
+      "target": "apply10",
+      "input": "arg"
+    },
+    {
+      "id": "fn11",
+      "source": "f",
+      "target": "apply11",
+      "input": "fn"
+    },
+    {
+      "id": "arg11",
+      "source": "apply10",
+      "target": "apply11",
+      "input": "arg"
+    },
+    {
+      "id": "fn12",
+      "source": "f",
+      "target": "apply12",
+      "input": "fn"
+    },
+    {
+      "id": "arg12",
+      "source": "apply11",
+      "target": "apply12",
+      "input": "arg"
+    },
+    {
+      "id": "fn13",
+      "source": "f",
+      "target": "apply13",
+      "input": "fn"
+    },
+    {
+      "id": "arg13",
+      "source": "apply12",
+      "target": "apply13",
+      "input": "arg"
+    },
+    {
+      "id": "fn14",
+      "source": "f",
+      "target": "apply14",
+      "input": "fn"
+    },
+    {
+      "id": "arg14",
+      "source": "apply13",
+      "target": "apply14",
+      "input": "arg"
+    },
+    {
+      "id": "fn15",
+      "source": "f",
+      "target": "apply15",
+      "input": "fn"
+    },
+    {
+      "id": "arg15",
+      "source": "apply14",
+      "target": "apply15",
+      "input": "arg"
+    },
+    {
+      "id": "fn16",
+      "source": "f",
+      "target": "apply16",
+      "input": "fn"
+    },
+    {
+      "id": "arg16",
+      "source": "apply15",
+      "target": "apply16",
+      "input": "arg"
+    },
+    {
+      "id": "fn17",
+      "source": "f",
+      "target": "apply17",
+      "input": "fn"
+    },
+    {
+      "id": "arg17",
+      "source": "apply16",
+      "target": "apply17",
+      "input": "arg"
+    },
+    {
+      "id": "fn18",
+      "source": "f",
+      "target": "apply18",
+      "input": "fn"
+    },
+    {
+      "id": "arg18",
+      "source": "apply17",
+      "target": "apply18",
+      "input": "arg"
+    },
+    {
+      "id": "fn19",
+      "source": "f",
+      "target": "apply19",
+      "input": "fn"
+    },
+    {
+      "id": "arg19",
+      "source": "apply18",
+      "target": "apply19",
+      "input": "arg"
+    },
+    {
+      "id": "arg20",
+      "source": "apply19",
+      "target": "apply20",
+      "input": "arg"
+    },
+    {
+      "id": "fn21",
+      "source": "f",
+      "target": "apply21",
+      "input": "fn"
+    },
+    {
+      "id": "arg21",
+      "source": "apply20",
+      "target": "apply21",
+      "input": "arg"
+    },
+    {
+      "id": "fn22",
+      "source": "f",
+      "target": "apply22",
+      "input": "fn"
+    },
+    {
+      "id": "arg22",
+      "source": "apply21",
+      "target": "apply22",
+      "input": "arg"
+    },
+    {
+      "id": "fn23",
+      "source": "f",
+      "target": "apply23",
+      "input": "fn"
+    },
+    {
+      "id": "arg23",
+      "source": "apply22",
+      "target": "apply23",
+      "input": "arg"
+    },
+    {
+      "id": "fn24",
+      "source": "f",
+      "target": "apply24",
+      "input": "fn"
+    },
+    {
+      "id": "arg24",
+      "source": "apply23",
+      "target": "apply24",
+      "input": "arg"
+    },
+    {
+      "id": "fn25",
+      "source": "f",
+      "target": "apply25",
+      "input": "fn"
+    },
+    {
+      "id": "arg25",
+      "source": "apply24",
+      "target": "apply25",
+      "input": "arg"
+    },
+    {
+      "id": "fn26",
+      "source": "f",
+      "target": "apply26",
+      "input": "fn"
+    },
+    {
+      "id": "arg26",
+      "source": "apply25",
+      "target": "apply26",
+      "input": "arg"
+    },
+    {
+      "id": "fn27",
+      "source": "f",
+      "target": "apply27",
+      "input": "fn"
+    },
+    {
+      "id": "arg27",
+      "source": "apply26",
+      "target": "apply27",
+      "input": "arg"
+    },
+    {
+      "id": "fn28",
+      "source": "f",
+      "target": "apply28",
+      "input": "fn"
+    },
+    {
+      "id": "arg28",
+      "source": "apply27",
+      "target": "apply28",
+      "input": "arg"
+    },
+    {
+      "id": "fn29",
+      "source": "f",
+      "target": "apply29",
+      "input": "fn"
+    },
+    {
+      "id": "arg29",
+      "source": "apply28",
+      "target": "apply29",
+      "input": "arg"
+    },
+    {
+      "id": "fn30",
+      "source": "f",
+      "target": "apply30",
+      "input": "fn"
+    },
+    {
+      "id": "arg30",
+      "source": "apply29",
+      "target": "apply30",
+      "input": "arg"
+    },
+    {
+      "id": "fn31",
+      "source": "f",
+      "target": "apply31",
+      "input": "fn"
+    },
+    {
+      "id": "arg31",
+      "source": "apply30",
+      "target": "apply31",
+      "input": "arg"
+    },
+    {
+      "id": "fn32",
+      "source": "f",
+      "target": "apply32",
+      "input": "fn"
+    },
+    {
+      "id": "arg32",
+      "source": "apply31",
+      "target": "apply32",
+      "input": "arg"
+    },
+    {
+      "id": "fn33",
+      "source": "f",
+      "target": "apply33",
+      "input": "fn"
+    },
+    {
+      "id": "arg33",
+      "source": "apply32",
+      "target": "apply33",
+      "input": "arg"
+    },
+    {
+      "id": "fn34",
+      "source": "f",
+      "target": "apply34",
+      "input": "fn"
+    },
+    {
+      "id": "arg34",
+      "source": "apply33",
+      "target": "apply34",
+      "input": "arg"
+    },
+    {
+      "id": "fn35",
+      "source": "f",
+      "target": "apply35",
+      "input": "fn"
+    },
+    {
+      "id": "arg35",
+      "source": "apply34",
+      "target": "apply35",
+      "input": "arg"
+    },
+    {
+      "id": "fn36",
+      "source": "f",
+      "target": "apply36",
+      "input": "fn"
+    },
+    {
+      "id": "arg36",
+      "source": "apply35",
+      "target": "apply36",
+      "input": "arg"
+    },
+    {
+      "id": "fn37",
+      "source": "f",
+      "target": "apply37",
+      "input": "fn"
+    },
+    {
+      "id": "arg37",
+      "source": "apply36",
+      "target": "apply37",
+      "input": "arg"
+    },
+    {
+      "id": "fn38",
+      "source": "f",
+      "target": "apply38",
+      "input": "fn"
+    },
+    {
+      "id": "arg38",
+      "source": "apply37",
+      "target": "apply38",
+      "input": "arg"
+    },
+    {
+      "id": "fn39",
+      "source": "f",
+      "target": "apply39",
+      "input": "fn"
+    },
+    {
+      "id": "arg39",
+      "source": "apply38",
+      "target": "apply39",
+      "input": "arg"
+    },
+    {
+      "id": "fn40",
+      "source": "f",
+      "target": "apply40",
+      "input": "fn"
+    },
+    {
+      "id": "arg40",
+      "source": "apply39",
+      "target": "apply40",
+      "input": "arg"
+    },
+    {
+      "id": "final",
+      "source": "apply40",
+      "target": "goal",
+      "input": "proof"
+    }
+  ]
+}

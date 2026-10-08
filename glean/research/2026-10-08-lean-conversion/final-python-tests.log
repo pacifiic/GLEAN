@@ -1,0 +1,18 @@
+F......
+======================================================================
+FAIL: test_canonical_instance_arguments_and_private_signature_policy_are_preserved (glean.tests.prototype.test_source_conversion.SourceConversionTests.test_canonical_instance_arguments_and_private_signature_policy_are_preserved)
+----------------------------------------------------------------------
+ValueError: Convert only a completed, error-free current-file analysis. The original file is preserved.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/moonone/GLEAN/glean/tests/prototype/test_source_conversion.py", line 63, in test_canonical_instance_arguments_and_private_signature_policy_are_preserved
+    with self.assertRaisesRegex(ValueError,'private type'):self.convert(result,'N.hidden_signature')
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "private type" does not match "Convert only a completed, error-free current-file analysis. The original file is preserved."
+
+----------------------------------------------------------------------
+Ran 7 tests in 208.292s
+
+FAILED (failures=1)

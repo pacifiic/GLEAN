@@ -1,0 +1,82 @@
+{
+  "nullNotebook": {
+    "variants": [],
+    "steps": []
+  },
+  "malformedGoalNormalized": {
+    "sessionId": "",
+    "position": {
+      "line": 0,
+      "character": 0
+    },
+    "goals": [],
+    "structuredGoals": [
+      {
+        "mvarId": "",
+        "name": "",
+        "type": "P"
+      }
+    ]
+  },
+  "malformedProvenanceValidation": null,
+  "malformedProvenanceRender": "n.variants[0].provenance.audit?.axioms?.join is not a function",
+  "crossDocumentPendingWire": {
+    "edges": [
+      {
+        "id": "wire_a988a28b",
+        "source": "n",
+        "output": "out",
+        "target": "zero",
+        "input": "x"
+      }
+    ],
+    "changes": 1
+  },
+  "previewAfterModeChange": {
+    "results": [
+      {
+        "status": "ready",
+        "preview": true,
+        "nodeTypes": {
+          "old": "Nat"
+        }
+      }
+    ],
+    "statuses": [
+      [
+        "checking",
+        "구조 미리보기 중",
+        "명시적 입력과 최종 목표를 확인합니다."
+      ]
+    ]
+  },
+  "constructDeletion": {
+    "remainingVisible": 0,
+    "storedOutputs": [
+      {
+        "id": "left",
+        "name": "left",
+        "type": "Nat",
+        "term": "value.fst"
+      },
+      {
+        "id": "right",
+        "name": "right",
+        "type": "Nat",
+        "term": "value.snd"
+      }
+    ],
+    "changes": 0,
+    "lastResult": {
+      "status": "valid",
+      "verified": true
+    }
+  },
+  "lookupFailureAfterReplacement": [
+    [
+      "invalid",
+      "입력을 확인하세요",
+      "old document lookup failed"
+    ]
+  ]
+}

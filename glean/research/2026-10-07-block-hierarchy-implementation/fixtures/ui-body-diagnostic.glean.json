@@ -1,0 +1,57 @@
+{
+  "kind": "graph",
+  "graph": {
+    "version": 3,
+    "name": "정확한 오류 위치 · Unicode",
+    "projectId": "glean",
+    "imports": [],
+    "policy": "strict",
+    "inputs": [
+      {
+        "id": "n",
+        "name": "n",
+        "type": "Nat"
+      }
+    ],
+    "goal": "n + 0 = n",
+    "modules": [],
+    "nodes": [
+      {
+        "id": "n",
+        "kind": "input",
+        "ref": "n",
+        "x": 40,
+        "y": 80
+      },
+      {
+        "id": "proof",
+        "kind": "script",
+        "name": "중첩된 코드 오류",
+        "inputs": [
+          {
+            "id": "n",
+            "name": "n",
+            "type": "Nat"
+          }
+        ],
+        "outputType": "n + 0 = n",
+        "body": "by\n  have tag := \"😺\"\n  have h : n + 0 = n := by\n    have s := \"😺\"; exact True.intro\n  exact h",
+        "x": 360,
+        "y": 80
+      }
+    ],
+    "edges": [
+      {
+        "id": "wire",
+        "source": "n",
+        "output": "out",
+        "target": "proof",
+        "input": "n"
+      }
+    ],
+    "result": {
+      "node": "proof",
+      "output": "out"
+    }
+  }
+}

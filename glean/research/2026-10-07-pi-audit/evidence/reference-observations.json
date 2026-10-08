@@ -1,0 +1,59 @@
+{
+  "environment": {
+    "project_toolchain_unchanged": true,
+    "toolchain_match": "Both GLEAN and pinned mathlib use leanprover/lean4:v4.34.1",
+    "mathlib_revision": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+    "cache_target": "Mathlib.Analysis.Real.Pi.Irrational",
+    "cache_files_downloaded": 2778,
+    "isolated_disk_footprint": "2.8G as reported by du -sh",
+    "cache_compressed_footprint": "168M as reported by du -sh"
+  },
+  "source_provenance": {
+    "original_byte_identical_to_checkout": true,
+    "source_sha256": "0c041eca65dd0f02330634e15db157fb07e79db045b078c8cc3bfd7b14c321cf",
+    "license_preserved": true,
+    "source_line_count": 311
+  },
+  "friction": [
+    {
+      "id": "environment-setup",
+      "observed": "A single 311-line theorem module requires 2778 cached transitive modules and an isolated environment using about 2.8 GiB.",
+      "implication": "Import needs dependency and toolchain management beyond opening a .lean text file."
+    },
+    {
+      "id": "normal-axioms",
+      "observed": "Successful original theorem and wrappers depend on propext, Classical.choice, Quot.sound; no sorryAx printed.",
+      "implication": "A no-axioms-only policy would reject standard mathematical foundations; display allowed axioms and unsafe placeholders distinctly."
+    },
+    {
+      "id": "source-latency",
+      "observed": "Direct full original source elaboration took 13.812 seconds in this run.",
+      "implication": "An importer may need longer cancellation-aware verification than the current GLEAN 10-second budget; current API import is unsupported, so this is not an API timeout reproduction."
+    },
+    {
+      "id": "wrong-term-latency",
+      "observed": "A false rationality wrapper with exact irrational_pi took 88.647 seconds before producing an explicit type mismatch.",
+      "implication": "Error paths can be slower than successful checks; show progress, allow cancellation, and preserve late diagnostics."
+    },
+    {
+      "id": "nested-context",
+      "observed": "Replacing the final lia with exact hn produced a line309 mismatch: hn is an inequality over a,n,I but expected False.",
+      "implication": "Proof-step UI needs local context and precise source mapping; a theorem headline alone cannot explain this state."
+    }
+  ],
+  "reproduce": {
+    "cwd": ".glean-tools/mathlib-audit/mathlib4",
+    "path_prefix": "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/bin",
+    "cache_environment": {
+      "MATHLIB_CACHE_DIR": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/cache"
+    },
+    "clone_command": "git clone --depth 1 --branch v4.34.1 https://github.com/leanprover-community/mathlib4.git .glean-tools/mathlib-audit/mathlib4",
+    "cache_command": "lake exe cache get Mathlib.Analysis.Real.Pi.Irrational",
+    "run_commands": "See reference-runs.json; all lean commands are run in the mathlib checkout with PATH prepended as above."
+  },
+  "scope_limitations": [
+    "Only the pinned original module and small controlled variants were checked; no theorem was translated into GLEAN successfully by this reference runner.",
+    "Timing values are observations from this local session, not a benchmark distribution.",
+    "Transitive dependency oleans came from the official mathlib cache; source elaboration covered the complete unchanged Irrational.lean file, not a rebuild of every dependency."
+  ]
+}

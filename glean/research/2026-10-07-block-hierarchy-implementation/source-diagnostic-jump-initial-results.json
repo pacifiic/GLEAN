@@ -1,0 +1,38 @@
+{
+  "kind": "actual app diagnostic listener with controlled codepoint/LSP positions and source text; no native UI or Lean result claimed",
+  "source": "example : False := by /- 😀 -/ exact True.intro\n",
+  "unicodeColumn": 31,
+  "utf16Character": 31,
+  "cases": [
+    {
+      "name": "Lean-codepoint-column-after-astral",
+      "pass": true,
+      "expected": {
+        "line": 0,
+        "character": 31
+      },
+      "actual": {
+        "line": 0,
+        "character": 31
+      },
+      "sourceEditorVisible": true,
+      "fileBlockHidden": true
+    },
+    {
+      "name": "LSP-UTF16-range-after-astral",
+      "pass": true,
+      "expected": {
+        "line": 0,
+        "character": 31
+      },
+      "actual": {
+        "line": 0,
+        "character": 31
+      },
+      "sourceEditorVisible": true,
+      "fileBlockHidden": true
+    }
+  ],
+  "pass": true,
+  "appHash": "cc5a977f78d3be62bba73442b416515ccfe5f18484af2ba44e38dc06ae7a25ff"
+}

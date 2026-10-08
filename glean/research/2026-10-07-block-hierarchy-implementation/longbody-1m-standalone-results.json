@@ -1,0 +1,9 @@
+{
+  "exitCode": 0,
+  "output": "'audit_longbody_1m' does not depend on any axioms\n",
+  "kind": "actual standalone Lean 1MiB default-resource control; not product graph acceptance",
+  "elapsedSeconds": 22.8463165408466,
+  "bodyBytes": 1048483,
+  "bodyLines": 10281,
+  "fileHash": "fc3be5d199e9a42b4a9ddb23ee04568d13e9a5a0c8c7f78f9655575066bfcf76"
+}

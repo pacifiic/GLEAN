@@ -1,0 +1,67 @@
+{
+  "kind": "actual localhost HTTP preview/limit requests; no Lean jobs; full body and caller preservation checked",
+  "cases": [
+    {
+      "id": "full-1m-preview",
+      "requestBytes": 1059359,
+      "headerOnly": false,
+      "bodyBytes": 1048483,
+      "bodyHash": "8b8ad61bdda3b1f598f3dab08f7adfa11246133f7ed0838f52798f7bc2426eab",
+      "httpStatus": 200,
+      "status": "ready",
+      "verified": false,
+      "preview": true,
+      "diagnostics": [],
+      "error": null,
+      "wallSeconds": 0.024,
+      "callerBodyUnchanged": true,
+      "fullEscapedBodyPresent": true,
+      "generatedBytes": 1060639,
+      "pass": true
+    },
+    {
+      "id": "over-body-limit",
+      "requestBytes": 1049173,
+      "headerOnly": false,
+      "bodyBytes": 1048577,
+      "bodyHash": "154b8ed3c2383ce429058768595935faf7851b5c38db2b1732594be1d88bc05a",
+      "httpStatus": 200,
+      "status": "invalid",
+      "verified": false,
+      "preview": true,
+      "diagnostics": [
+        {
+          "severity": "error",
+          "message": "Lean body must be nonempty text, at most 1048576 bytes",
+          "scopeId": "root",
+          "nodeId": "proof"
+        }
+      ],
+      "error": null,
+      "wallSeconds": 0.003,
+      "callerBodyUnchanged": true,
+      "pass": true
+    },
+    {
+      "id": "over-http-limit",
+      "requestBytes": 25166421,
+      "headerOnly": true,
+      "bodyBytes": 25165825,
+      "bodyHash": "5d2fc6a30af7a09880a72e560527f67da891774eece0eaae03873e1b2e663cb5",
+      "httpStatus": 413,
+      "status": "error",
+      "verified": false,
+      "preview": null,
+      "diagnostics": [
+        {
+          "severity": "error",
+          "message": "요청은 JSON 인코딩 후 24 MiB 이하여야 합니다."
+        }
+      ],
+      "error": null,
+      "wallSeconds": 0.018,
+      "callerBodyUnchanged": true,
+      "pass": true
+    }
+  ]
+}

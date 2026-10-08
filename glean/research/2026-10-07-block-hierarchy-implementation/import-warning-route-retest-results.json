@@ -1,0 +1,26 @@
+{
+  "kind": "actual app typed callback registration + file-input change + loadDocument + warning renderer; controlled editor model, not native UI",
+  "appHash": "d5b30c98e150dde62e8f3336585fd3dc98deee4692a16e70c55636fa2b4df40e",
+  "statuses": [
+    [
+      "unverified",
+      "표현 복구 · 원본 보관됨",
+      "root: 손상된 범위 표현을 복구했습니다."
+    ],
+    [
+      "unverified",
+      "타입 그래프 검사 대기",
+      "명시적 입력과 Lean 본문을 연결하세요."
+    ]
+  ],
+  "toasts": [
+    [
+      "그래프를 열었습니다. 다시 검증해 주세요."
+    ]
+  ],
+  "originalPreserved": true,
+  "panelHidden": false,
+  "warningText": "표현 복구 · 원본 보관됨: root: 손상된 범위 표현을 복구했습니다.",
+  "visibleWarning": true,
+  "pass": true
+}

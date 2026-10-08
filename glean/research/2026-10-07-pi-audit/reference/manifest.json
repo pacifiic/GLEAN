@@ -1,0 +1,28 @@
+{
+  "repository": "https://github.com/leanprover-community/mathlib4",
+  "tag": "v4.34.1",
+  "revision": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+  "module": "Mathlib.Analysis.Real.Pi.Irrational",
+  "upstream_path": "Mathlib/Analysis/Real/Pi/Irrational.lean",
+  "source_url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean",
+  "raw_url": "https://raw.githubusercontent.com/leanprover-community/mathlib4/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean",
+  "toolchain": "leanprover/lean4:v4.34.1",
+  "license": "Apache-2.0",
+  "downloaded_date": "2026-10-07",
+  "source_sha256": "0c041eca65dd0f02330634e15db157fb07e79db045b078c8cc3bfd7b14c321cf",
+  "license_sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
+  "original_source_unmodified": true,
+  "line_count": 311,
+  "isolated_checkout": ".glean-tools/mathlib-audit/mathlib4",
+  "cache_scope": "Requested only Mathlib.Analysis.Real.Pi.Irrational and transitive imports, not all mathlib.",
+  "experiments": {
+    "CheckPi.lean": "Two new wrapper theorems and #print axioms; original proof is imported.",
+    "RejectRationalPi.lean": "Deliberately false target ¬ Irrational Real.pi supplied irrational_pi; expected type mismatch.",
+    "IrrationalBroken.lean": "Full source copy; final lia replaced with exact hn at line 309, expected rejection. Original remains unchanged.",
+    "CheckPiFast.lean": "Single exact wrapper without axiom traversal for latency comparison."
+  },
+  "cache_downloaded_files": 2778,
+  "isolated_environment_size_observed": "2.8 GiB (du -sh displayed 2.8G)",
+  "compiler_version": "Lean 4.34.1 arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52",
+  "dependency_lockfile": "mathlib-lake-manifest.json"
+}

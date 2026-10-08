@@ -1,0 +1,92 @@
+{
+  "kind": "stable product artifact hashes unchanged across completed final full regression gates; exact actual/controlled/native acceptance evidence remains in individual audit artifacts",
+  "capturedAt": "2026-10-08T02:09:13+0900",
+  "planHash": "ac81c17f3bb629c0f66a4f52763261b1ab7f446f48f588208f5870d9240ac6b3",
+  "files": {
+    "glean/prototype/declaration.py": "75412eebd83be79b9eed6f0ce82dd246c959664163f033b58c7a65a4e0dbad9b",
+    "glean/prototype/declaration_index.py": "e60a4db92555ac9cab5f42c5fb80c5f8078c6ba336feb44a51f96099a09bb6b2",
+    "glean/prototype/graph.py": "911102d90219705faa0b581b10f04e15cb3621fed750ec72dd2ebbf41bd56d9a",
+    "glean/prototype/graph_jobs.py": "6ab762e9b30d2af1ef20e59039f23bf0a8083fb6383a2553b21740090bcc1f31",
+    "glean/prototype/graph_scope.py": "4be052d508466ad2d4d5d2e428eae7a101e5b128afa1a38bcb9ac3d26d4960d3",
+    "glean/prototype/lean_lsp.py": "acc8b71d4b69d9ca6ee035db02e3e39a42cc6339fe150ebdbb9afd01c9c50b0a",
+    "glean/prototype/lean_policy.py": "6459263062f293298cc23be9277146ed7257e91db778e16f6b3c9d48c716e718",
+    "glean/prototype/lean_project.py": "a626986fbb4cc3746ee6c1da1676205f88f80111a7dcd7795f65551cb0549c4d",
+    "glean/prototype/limits.py": "f8f8c5f225a9b7add3a03b575ed8db70438ddb797456dd86d185b240005d4d35",
+    "glean/prototype/project_provenance.py": "c5221d1b31d2a3acbfc52b110baf7a3ffafd627335f0cb7961eefed2120f4c49",
+    "glean/prototype/server.py": "52c39e36834eccaa5a55d1c54d854144fac2019d1013bce5c8ef7b24e18ee76a",
+    "glean/prototype/source_check.py": "4092760cf515a0041cb1496b0b680529987d750698fccfb508390a3dd10b2636",
+    "glean/prototype/typed_graph.py": "bd83f9a2cd23929006b5951ceb608e3087f522e6a1aeff4a8e17bc51534fc7cc",
+    "glean/prototype/web/app.js": "b3a2d92f6377fb418e04cecfe0ec25e8de54788caf4354b20072bb0ece94cf65",
+    "glean/prototype/web/capsules.css": "dd649ed9b45cd1b8d6979a6eee4a9ef003b172087724d295a6cfb430d80747de",
+    "glean/prototype/web/code-editor.mjs": "00986502826a414a51d4198d981f39b4f2e99cf02d1b7519a104867a545ca278",
+    "glean/prototype/web/compute-gate.mjs": "4a2613e50257f28c0a0e6262b7b7a5f413472c87334779fa7fc0892ad7b99741",
+    "glean/prototype/web/document.mjs": "e1cf0f34a38a78fd34acfc1b12cc8b55b9937f711d0d317d2fbd1260efd2a828",
+    "glean/prototype/web/draft.mjs": "5e670d389ef2b47d1dec1d7d76b73fdf6ee8442f4f4f2bb4adb51e8ec0188b90",
+    "glean/prototype/web/focus-mode.css": "ac7bb194eaac1930aca2e09d8edff6e12770a8ad8d9ff5ecea721c9fac670a94",
+    "glean/prototype/web/focus-mode.js": "26e453686ec3d32f5bb96abe1e1a3404f5a8700cc118b8693a69e890e1097059",
+    "glean/prototype/web/graph-runner.mjs": "8db9999ba15f3b36db79b69d4a660e58db4146f050d056dbb0ed719624d975c0",
+    "glean/prototype/web/history.mjs": "28b6ca353816b8383522ab8a2db63bae57496238e55b90ffe27e4182c21b4625",
+    "glean/prototype/web/index.html": "8f6aeef487e2edce321e1d37f6c167004f6c365f85ad20efc1e6020634ef7720",
+    "glean/prototype/web/isolation-recovery.mjs": "446b3139899617e574d4944f0a15dc08571581a312ccd9230f6dda8ce828f01b",
+    "glean/prototype/web/layout-model.mjs": "54dbc28daea65fe7186761fa78e5de70f03ddde3fdee3311339b02a8d501ebb3",
+    "glean/prototype/web/lean-editor.mjs": "035daca488783fb84526d6ba49db28847136a40048e204a073753ec80488b325",
+    "glean/prototype/web/limits.mjs": "c46e67916701caabccc8580318f030a729ffb78cc2b54d9d8dd2fb7d4bcffc27",
+    "glean/prototype/web/model.mjs": "f44514df48712347386d8b14f73d610e313c0dedf64747c73c260370d3dee07b",
+    "glean/prototype/web/modules.css": "bd9e5b69db268823a78e74ff4e087b9b0c9fb0048f1ad22132f9ca52647d1d65",
+    "glean/prototype/web/notebook.mjs": "24ce99ec4bf489314f86d60d19178db1b3496a0602a2a55df30156afcc16556d",
+    "glean/prototype/web/presentation.mjs": "7017ab994608b350a02ab95848b3ef127aef4add61000bd22bf7ebad490d5b1a",
+    "glean/prototype/web/proof-review.mjs": "b715db1b9f5783dcf42d889bcdae6b58566ba6903522a74eb477a7d5cd7c4732",
+    "glean/prototype/web/recovery-lean.css": "186e1780bac9c409674c4af00f97d05ffd3cea8b5850d879a15008337705a9a6",
+    "glean/prototype/web/ribbon.css": "fcf130813d995f9d9d89c415d49ae6cd6ca3d73711ed018af25de8f3e623b887",
+    "glean/prototype/web/ribbon.mjs": "9ea916d158697b07e34d82cc77706c73a96a5f3517179debead8d320f5344a8a",
+    "glean/prototype/web/source-analysis.mjs": "05de5b4f7fec87c3e16fa9451d7b4848b6cb7a0aab134621071b901fd17dde2e",
+    "glean/prototype/web/source-bytes.mjs": "9e5f50a7ab3909f78bd20cebee6b50c9ce4f89c67d1640a06c590b7f878c5587",
+    "glean/prototype/web/source-view.mjs": "cf3105133cf46fcf6845ba4c07ad209d92944197d9338f2dc6090cd0c13176d6",
+    "glean/prototype/web/style.css": "dd84258ab3cd76c10949ae97ab86c0bb6e1c0bd89f0a96268cdd01f716468202",
+    "glean/prototype/web/typed-editor.mjs": "eec219460168feb99bd16eb813f84fe5a891f1bc4afd59be9f1f1a10dd1b4970",
+    "glean/prototype/web/typed-model.mjs": "8568780e0da3462ec3d04af10c94f0105e61fa0e11f060fa012e40ef6ab3e269",
+    "glean/prototype/web/typed.css": "ba1ec66176492fbe036bd30a5d75a2b621de143aa2253ec38681509e2c0788e8",
+    "glean/prototype/web/visibility-tools.mjs": "0041fb157301d3e111256c59ad4cebbf468e7c721083282287190fd9e5e93cac",
+    "glean/prototype/web/visibility.css": "d51ebda21392a97826ed0ac9769163cdf344412f0cf4f4e29d8420ff481d4973",
+    "glean/prototype/web/workspace.css": "4791e0e07f02c53b65461013dc3f75b50e6263db6b8b04300b12773de91d5575",
+    "glean/prototype/web/workspace.js": "3eb209d328b619425db3386c15c57ac0a2c87b340fc742a1ac23a28d5c792fce"
+  },
+  "finalGateConfirmedAt": "2026-10-08T02:10:57+0900",
+  "unchangedAfterFinalChecks": true,
+  "finalGates": {
+    "python": {
+      "command": "GLEAN_SOURCE_INTEGRATION=1 python3 -m unittest discover -s glean/tests/prototype -v",
+      "tests": 166,
+      "wallSeconds": 126.721,
+      "result": "OK",
+      "exitCode": 0,
+      "log": "final-python-tests.log"
+    },
+    "javascript": {
+      "command": "/Users/moonone/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --test --test-reporter=spec glean/prototype/web/*.test.mjs",
+      "tests": 211,
+      "passed": 211,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2148.1565,
+      "exitCode": 0,
+      "log": "final-js-tests.log"
+    },
+    "build": {
+      "command": "./glean/scripts/lake build",
+      "jobs": 4,
+      "exitCode": 0,
+      "evidence": "root tool completion"
+    },
+    "smoke": {
+      "command": "./glean/scripts/lake env lean tests/Smoke.lean",
+      "exitCode": 0,
+      "evidence": "root tool completion"
+    },
+    "diffCheck": {
+      "command": "git diff --check",
+      "exitCode": 0,
+      "evidence": "root tool completion"
+    }
+  }
+}

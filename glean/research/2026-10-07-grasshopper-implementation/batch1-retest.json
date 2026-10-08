@@ -1,0 +1,12 @@
+{
+  "rootExcluded": {
+    "verification": "unverified",
+    "diagnostics": 1
+  },
+  "moduleExcluded": {
+    "verification": "unverified",
+    "diagnostics": 1
+  },
+  "restoredWatch": "historical",
+  "unappliedFormChangesSemanticKey": true
+}

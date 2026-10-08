@@ -1,0 +1,51 @@
+{
+  "appHash": "7424ff481eaae3dc6f05652d3045d67c65edf2f5451ed2f7a1d1037f6e0d43dd",
+  "cases": [
+    {
+      "id": "fresh-matching",
+      "shown": [
+        {
+          "status": "valid",
+          "verified": true
+        }
+      ],
+      "finalStatus": "valid",
+      "finalVerified": true,
+      "toasts": []
+    },
+    {
+      "id": "changed-environment",
+      "shown": [],
+      "finalStatus": null,
+      "finalVerified": false,
+      "toasts": [
+        [
+          "Lean 환경이 바뀌어 이전 검증을 해제했습니다."
+        ]
+      ]
+    },
+    {
+      "id": "missing-environment",
+      "shown": [],
+      "finalStatus": null,
+      "finalVerified": false,
+      "toasts": [
+        [
+          "Lean 환경이 바뀌어 이전 검증을 해제했습니다."
+        ]
+      ]
+    },
+    {
+      "id": "late-response-after-newer-check",
+      "shown": [
+        {
+          "status": "invalid",
+          "verified": false
+        }
+      ],
+      "finalStatus": "invalid",
+      "finalVerified": false,
+      "toasts": []
+    }
+  ]
+}

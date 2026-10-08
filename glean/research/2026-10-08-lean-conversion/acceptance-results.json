@@ -1,0 +1,427 @@
+{
+  "kind": "independent actual Lean conversion acceptance",
+  "sourceSHA256": "ffb460ba863f6879d6fd0677f78763b8e18e9acdf77b57679ba2159342413000",
+  "cases": [
+    {
+      "case": "public_zero_actual_kernel",
+      "expected": "valid",
+      "actual": "valid",
+      "pass": true,
+      "durationSeconds": 23.685,
+      "evidence": {
+        "verified": true,
+        "kernelAccepted": true,
+        "sourceContextKernelAccepted": true,
+        "audit": {
+          "axioms": [],
+          "standardAxioms": [],
+          "customAxioms": [],
+          "hasSorry": false,
+          "policy": "strict",
+          "policyAccepted": true
+        },
+        "diagnostics": [],
+        "inputs": [
+          {
+            "displayType": "Nat",
+            "id": "arg0",
+            "implicit": false,
+            "instance": false,
+            "name": "n",
+            "originalName": "n",
+            "type": "Nat"
+          }
+        ],
+        "wires": [
+          {
+            "id": "wire0",
+            "source": "input0",
+            "output": "out",
+            "target": "source_call",
+            "input": "arg0"
+          }
+        ],
+        "sourceUnchanged": true,
+        "roundTripPolicy": "strict"
+      }
+    },
+    {
+      "case": "dependent_actual_kernel",
+      "expected": "valid",
+      "actual": "valid",
+      "pass": true,
+      "durationSeconds": 27.623,
+      "evidence": {
+        "verified": true,
+        "kernelAccepted": true,
+        "sourceContextKernelAccepted": true,
+        "audit": {
+          "axioms": [],
+          "standardAxioms": [],
+          "customAxioms": [],
+          "hasSorry": false,
+          "policy": "strict",
+          "policyAccepted": true
+        },
+        "diagnostics": [],
+        "inputs": [
+          {
+            "displayType": "IndependentAcceptance.Size",
+            "id": "arg0",
+            "implicit": false,
+            "instance": false,
+            "name": "n",
+            "originalName": "n",
+            "type": "IndependentAcceptance.Size"
+          },
+          {
+            "displayType": "Fin (n + 1)",
+            "id": "arg1",
+            "implicit": false,
+            "instance": false,
+            "name": "i",
+            "originalName": "i",
+            "type": "Fin\n  (@HAdd.hAdd.{0, 0, 0} IndependentAcceptance.Size Nat IndependentAcceptance.Size\n    (@instHAdd.{0} IndependentAcceptance.Size instAddNat) n\n    (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))"
+          }
+        ],
+        "wires": [
+          {
+            "id": "wire0",
+            "source": "input0",
+            "output": "out",
+            "target": "source_call",
+            "input": "arg0"
+          },
+          {
+            "id": "wire1",
+            "source": "input1",
+            "output": "out",
+            "target": "source_call",
+            "input": "arg1"
+          }
+        ],
+        "sourceUnchanged": true,
+        "roundTripPolicy": "strict"
+      }
+    },
+    {
+      "case": "implicit_actual_kernel",
+      "expected": "valid",
+      "actual": "valid",
+      "pass": true,
+      "durationSeconds": 33.777,
+      "evidence": {
+        "verified": true,
+        "kernelAccepted": true,
+        "sourceContextKernelAccepted": true,
+        "audit": {
+          "axioms": [],
+          "standardAxioms": [],
+          "customAxioms": [],
+          "hasSorry": false,
+          "policy": "strict",
+          "policyAccepted": true
+        },
+        "diagnostics": [],
+        "inputs": [
+          {
+            "displayType": "Nat",
+            "id": "arg0",
+            "implicit": false,
+            "instance": false,
+            "name": "n",
+            "originalName": "n",
+            "type": "Nat"
+          },
+          {
+            "displayType": "Fin n",
+            "id": "arg1",
+            "implicit": true,
+            "instance": false,
+            "name": "i",
+            "originalName": "i",
+            "type": "Fin n"
+          }
+        ],
+        "wires": [
+          {
+            "id": "wire0",
+            "source": "input0",
+            "output": "out",
+            "target": "source_call",
+            "input": "arg0"
+          },
+          {
+            "id": "wire1",
+            "source": "input1",
+            "output": "out",
+            "target": "source_call",
+            "input": "arg1"
+          }
+        ],
+        "sourceUnchanged": true,
+        "roundTripPolicy": "strict"
+      }
+    },
+    {
+      "case": "unicode_actual_kernel",
+      "expected": "valid",
+      "actual": "valid",
+      "pass": true,
+      "durationSeconds": 27.258,
+      "evidence": {
+        "verified": true,
+        "kernelAccepted": true,
+        "sourceContextKernelAccepted": true,
+        "audit": {
+          "axioms": [],
+          "standardAxioms": [],
+          "customAxioms": [],
+          "hasSorry": false,
+          "policy": "strict",
+          "policyAccepted": true
+        },
+        "diagnostics": [],
+        "inputs": [
+          {
+            "displayType": "Nat",
+            "id": "arg0",
+            "implicit": false,
+            "instance": false,
+            "name": "arg0",
+            "originalName": "π",
+            "type": "Nat"
+          }
+        ],
+        "wires": [
+          {
+            "id": "wire0",
+            "source": "input0",
+            "output": "out",
+            "target": "source_call",
+            "input": "arg0"
+          }
+        ],
+        "sourceUnchanged": true,
+        "roundTripPolicy": "strict"
+      }
+    },
+    {
+      "case": "instance_proof_actual_kernel",
+      "expected": "valid",
+      "actual": "valid",
+      "pass": true,
+      "durationSeconds": 26.352,
+      "evidence": {
+        "verified": true,
+        "kernelAccepted": true,
+        "sourceContextKernelAccepted": true,
+        "audit": {
+          "axioms": [],
+          "standardAxioms": [],
+          "customAxioms": [],
+          "hasSorry": false,
+          "policy": "strict",
+          "policyAccepted": true
+        },
+        "diagnostics": [],
+        "inputs": [
+          {
+            "displayType": "Inhabited Nat",
+            "id": "arg0",
+            "implicit": true,
+            "instance": true,
+            "name": "inst",
+            "originalName": "inst",
+            "type": "Inhabited.{1} Nat"
+          }
+        ],
+        "wires": [
+          {
+            "id": "wire0",
+            "source": "input0",
+            "output": "out",
+            "target": "source_call",
+            "input": "arg0"
+          }
+        ],
+        "sourceUnchanged": true,
+        "roundTripPolicy": "strict"
+      }
+    },
+    {
+      "case": "IndependentAcceptance.private_type_unsupported",
+      "expected": "rejected",
+      "actual": "rejected",
+      "pass": true,
+      "durationSeconds": 1.211,
+      "evidence": {
+        "message": "The public signature mentions a private type or definition; use the preserved Lean source instead."
+      }
+    },
+    {
+      "case": "IndependentAcceptance.polymorphic_unsupported",
+      "expected": "rejected",
+      "actual": "rejected",
+      "pass": true,
+      "durationSeconds": 0.878,
+      "evidence": {
+        "message": "Universe-polymorphic declarations need an explicit LeanScript instantiation."
+      }
+    },
+    {
+      "case": "private_selection_unsupported",
+      "expected": "rejected",
+      "actual": "rejected",
+      "pass": true,
+      "durationSeconds": 1.35,
+      "evidence": {
+        "message": "Private declarations cannot be converted; the original source is preserved."
+      }
+    },
+    {
+      "case": "stale_source_identity",
+      "expected": "rejected",
+      "actual": "rejected",
+      "pass": true,
+      "durationSeconds": 0.0,
+      "evidence": {
+        "message": "The source or environment identity changed. Analyze the current file again."
+      }
+    },
+    {
+      "case": "stale_environment_identity",
+      "expected": "rejected",
+      "actual": "rejected",
+      "pass": true,
+      "durationSeconds": 0.001,
+      "evidence": {
+        "message": "The source or environment identity changed. Analyze the current file again."
+      }
+    },
+    {
+      "case": "edited_wrong_body",
+      "expected": "invalid",
+      "actual": "invalid",
+      "pass": true,
+      "durationSeconds": 19.242,
+      "evidence": {
+        "verified": false,
+        "kernelAccepted": false,
+        "sourceContextKernelAccepted": null,
+        "audit": null,
+        "diagnostics": [
+          {
+            "filename": "GLEAN_FRAGMENT_1",
+            "line": 1,
+            "column": 4,
+            "severity": "error",
+            "message": "Type mismatch\n  True.intro\nhas type\n  True\nbut is expected to have type\n  i = i",
+            "graphLocation": "root/source_call",
+            "fragmentField": "body",
+            "bodyLine": 1,
+            "bodyColumn": 4,
+            "columnEncoding": "unicode"
+          }
+        ]
+      }
+    },
+    {
+      "case": "source_context_changed_without_reanalysis",
+      "expected": "invalid",
+      "actual": "invalid",
+      "pass": true,
+      "durationSeconds": 0.0,
+      "evidence": {}
+    },
+    {
+      "case": "saved_old_environment_recheck",
+      "expected": "invalid",
+      "actual": "invalid",
+      "pass": true,
+      "durationSeconds": 1.568,
+      "evidence": {
+        "verified": false,
+        "kernelAccepted": false,
+        "sourceContextKernelAccepted": null,
+        "audit": null,
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "선언 참조의 Lean 환경이 변경되었습니다. 시그니처를 다시 조회하세요."
+          }
+        ]
+      }
+    },
+    {
+      "case": "sorry_original",
+      "expected": "incomplete",
+      "actual": "incomplete",
+      "pass": true,
+      "durationSeconds": 44.584,
+      "evidence": {
+        "verified": false,
+        "kernelAccepted": true,
+        "sourceContextKernelAccepted": true,
+        "audit": {
+          "axioms": [
+            "sorryAx"
+          ],
+          "standardAxioms": [],
+          "customAxioms": [],
+          "hasSorry": true,
+          "policy": "strict",
+          "policyAccepted": false
+        },
+        "diagnostics": [
+          {
+            "severity": "warning",
+            "message": "대상 정리에 sorry로 남겨 둔 증명이 있습니다."
+          }
+        ]
+      }
+    },
+    {
+      "case": "custom_axiom_original",
+      "expected": "invalid",
+      "actual": "invalid",
+      "pass": true,
+      "durationSeconds": 48.761,
+      "evidence": {
+        "verified": false,
+        "kernelAccepted": true,
+        "sourceContextKernelAccepted": true,
+        "audit": {
+          "axioms": [
+            "acceptance_axiom"
+          ],
+          "standardAxioms": [],
+          "customAxioms": [
+            "acceptance_axiom"
+          ],
+          "hasSorry": false,
+          "policy": "strict",
+          "policyAccepted": false
+        },
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "대상 정리가 선택한 정책에서 허용하지 않는 공리를 사용합니다."
+          }
+        ]
+      }
+    },
+    {
+      "case": "partial_error_source",
+      "expected": "rejected",
+      "actual": "rejected",
+      "pass": true,
+      "durationSeconds": 0.0,
+      "evidence": {
+        "message": "Convert only a completed, error-free current-file analysis. The original file is preserved."
+      }
+    }
+  ],
+  "passed": 16,
+  "total": 16
+}

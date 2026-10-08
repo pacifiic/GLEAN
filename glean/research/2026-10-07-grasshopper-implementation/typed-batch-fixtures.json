@@ -1,0 +1,1102 @@
+[
+  {
+    "id": "R12-map",
+    "expected": "valid",
+    "graph": {
+      "version": 3,
+      "name": "map independent audit",
+      "projectId": "glean",
+      "imports": [],
+      "policy": "strict",
+      "inputs": [],
+      "goal": "3 = 3",
+      "modules": [],
+      "nodes": [
+        {
+          "id": "left0",
+          "kind": "nat",
+          "value": "1"
+        },
+        {
+          "id": "left1",
+          "kind": "nat",
+          "value": "2"
+        },
+        {
+          "id": "left2",
+          "kind": "nat",
+          "value": "3"
+        },
+        {
+          "id": "template",
+          "kind": "script",
+          "inputs": [
+            {
+              "id": "x",
+              "name": "x",
+              "type": "Nat"
+            }
+          ],
+          "outputType": "x = x",
+          "body": "by rfl"
+        },
+        {
+          "id": "map_0",
+          "kind": "script",
+          "inputs": [
+            {
+              "id": "x",
+              "name": "x",
+              "type": "Nat"
+            }
+          ],
+          "outputType": "x = x",
+          "body": "by rfl",
+          "x": 380,
+          "y": 80,
+          "provenance": {
+            "operation": "map",
+            "operationId": "map",
+            "items": [
+              {
+                "node": "left0",
+                "output": "out"
+              }
+            ]
+          }
+        },
+        {
+          "id": "map_1",
+          "kind": "script",
+          "inputs": [
+            {
+              "id": "x",
+              "name": "x",
+              "type": "Nat"
+            }
+          ],
+          "outputType": "x = x",
+          "body": "by rfl",
+          "x": 590,
+          "y": 80,
+          "provenance": {
+            "operation": "map",
+            "operationId": "map",
+            "items": [
+              {
+                "node": "left1",
+                "output": "out"
+              }
+            ]
+          }
+        },
+        {
+          "id": "map_2",
+          "kind": "script",
+          "inputs": [
+            {
+              "id": "x",
+              "name": "x",
+              "type": "Nat"
+            }
+          ],
+          "outputType": "x = x",
+          "body": "by rfl",
+          "x": 800,
+          "y": 80,
+          "provenance": {
+            "operation": "map",
+            "operationId": "map",
+            "items": [
+              {
+                "node": "left2",
+                "output": "out"
+              }
+            ]
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "template_x",
+          "source": "left0",
+          "output": "out",
+          "target": "template",
+          "input": "x"
+        },
+        {
+          "id": "map_0_wire_0",
+          "source": "left0",
+          "output": "out",
+          "target": "map_0",
+          "input": "x"
+        },
+        {
+          "id": "map_1_wire_0",
+          "source": "left1",
+          "output": "out",
+          "target": "map_1",
+          "input": "x"
+        },
+        {
+          "id": "map_2_wire_0",
+          "source": "left2",
+          "output": "out",
+          "target": "map_2",
+          "input": "x"
+        }
+      ],
+      "result": {
+        "node": "map_2",
+        "output": "out"
+      }
+    },
+    "counts": {
+      "left": 3,
+      "right": 0,
+      "output": 3
+    },
+    "provenance": [
+      {
+        "node": "map_0",
+        "operation": "map",
+        "operationId": "map",
+        "items": [
+          {
+            "node": "left0",
+            "output": "out"
+          }
+        ]
+      },
+      {
+        "node": "map_1",
+        "operation": "map",
+        "operationId": "map",
+        "items": [
+          {
+            "node": "left1",
+            "output": "out"
+          }
+        ]
+      },
+      {
+        "node": "map_2",
+        "operation": "map",
+        "operationId": "map",
+        "items": [
+          {
+            "node": "left2",
+            "output": "out"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "R12-map-wrong-item",
+    "expected": "invalid",
+    "graph": {
+      "version": 3,
+      "name": "map independent audit",
+      "projectId": "glean",
+      "imports": [],
+      "policy": "strict",
+      "inputs": [],
+      "goal": "3 = 3",
+      "modules": [],
+      "nodes": [
+        {
+          "id": "left0",
+          "kind": "nat",
+          "value": "1"
+        },
+        {
+          "id": "left1",
+          "kind": "script",
+          "inputs": [],
+          "outputType": "Bool",
+          "body": "true"
+        },
+        {
+          "id": "left2",
+          "kind": "nat",
+          "value": "3"
+        },
+        {
+          "id": "template",
+          "kind": "script",
+          "inputs": [
+            {
+              "id": "x",
+              "name": "x",
+              "type": "Nat"
+            }
+          ],
+          "outputType": "x = x",
+          "body": "by rfl"
+        },
+        {
+          "id": "map_0",
+          "kind": "script",
+          "inputs": [
+            {
+              "id": "x",
+              "name": "x",
+              "type": "Nat"
+            }
+          ],
+          "outputType": "x = x",
+          "body": "by rfl",
+          "x": 380,
+          "y": 80,
+          "provenance": {
+            "operation": "map",
+            "operationId": "map",
+            "items": [
+              {
+                "node": "left0",
+                "output": "out"
+              }
+            ]
+          }
+        },
+        {
+          "id": "map_1",
+          "kind": "script",
+          "inputs": [
+            {
+              "id": "x",
+              "name": "x",
+              "type": "Nat"
+            }
+          ],
+          "outputType": "x = x",
+          "body": "by rfl",
+          "x": 590,
+          "y": 80,
+          "provenance": {
+            "operation": "map",
+            "operationId": "map",
+            "items": [
+              {
+                "node": "left1",
+                "output": "out"
+              }
+            ]
+          }
+        },
+        {
+          "id": "map_2",
+          "kind": "script",
+          "inputs": [
+            {
+              "id": "x",
+              "name": "x",
+              "type": "Nat"
+            }
+          ],
+          "outputType": "x = x",
+          "body": "by rfl",
+          "x": 800,
+          "y": 80,
+          "provenance": {
+            "operation": "map",
+            "operationId": "map",
+            "items": [
+              {
+                "node": "left2",
+                "output": "out"
+              }
+            ]
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "template_x",
+          "source": "left0",
+          "output": "out",
+          "target": "template",
+          "input": "x"
+        },
+        {
+          "id": "map_0_wire_0",
+          "source": "left0",
+          "output": "out",
+          "target": "map_0",
+          "input": "x"
+        },
+        {
+          "id": "map_1_wire_0",
+          "source": "left1",
+          "output": "out",
+          "target": "map_1",
+          "input": "x"
+        },
+        {
+          "id": "map_2_wire_0",
+          "source": "left2",
+          "output": "out",
+          "target": "map_2",
+          "input": "x"
+        }
+      ],
+      "result": {
+        "node": "map_2",
+        "output": "out"
+      }
+    },
+    "expectedFailureNode": "map_1",
+    "expectedSourceItem": "left1"
+  },
+  {
+    "id": "R12-zip",
+    "expected": "valid",
+    "graph": {
+      "version": 3,
+      "name": "zip independent audit",
+      "projectId": "glean",
+      "imports": [],
+      "policy": "strict",
+      "inputs": [],
+      "goal": "3 + 6 = 3 + 6",
+      "modules": [],
+      "nodes": [
+        {
+          "id": "left0",
+          "kind": "nat",
+          "value": "1"
+        },
+        {
+          "id": "left1",
+          "kind": "nat",
+          "value": "2"
+        },
+        {
+          "id": "left2",
+          "kind": "nat",
+          "value": "3"
+        },
+        {
+          "id": "right0",
+          "kind": "nat",
+          "value": "4"
+        },
+        {
+          "id": "right1",
+          "kind": "nat",
+          "value": "5"
+        },
+        {
+          "id": "right2",
+          "kind": "nat",
+          "value": "6"
+        },
+        {
+          "id": "template",
+          "kind": "script",
+          "inputs": [
+            {
+              "id": "x",
+              "name": "x",
+              "type": "Nat"
+            },
+            {
+              "id": "y",
+              "name": "y",
+              "type": "Nat"
+            }
+          ],
+          "outputType": "x + y = x + y",
+          "body": "by rfl"
+        },
+        {
+          "id": "zip_0",
+          "kind": "script",
+          "inputs": [
+            {
+              "id": "x",
+              "name": "x",
+              "type": "Nat"
+            },
+            {
+              "id": "y",
+              "name": "y",
+              "type": "Nat"
+            }
+          ],
+          "outputType": "x + y = x + y",
+          "body": "by rfl",
+          "x": 380,
+          "y": 80,
+          "provenance": {
+            "operation": "zip",
+            "operationId": "zip",
+            "items": [
+              {
+                "node": "left0",
+                "output": "out"
+              },
+              {
+                "node": "right0",
+                "output": "out"
+              }
+            ]
+          }
+        },
+        {
+          "id": "zip_1",
+          "kind": "script",
+          "inputs": [
+            {
+              "id": "x",
+              "name": "x",
+              "type": "Nat"
+            },
+            {
+              "id": "y",
+              "name": "y",
+              "type": "Nat"
+            }
+          ],
+          "outputType": "x + y = x + y",
+          "body": "by rfl",
+          "x": 590,
+          "y": 80,
+          "provenance": {
+            "operation": "zip",
+            "operationId": "zip",
+            "items": [
+              {
+                "node": "left1",
+                "output": "out"
+              },
+              {
+                "node": "right1",
+                "output": "out"
+              }
+            ]
+          }
+        },
+        {
+          "id": "zip_2",
+          "kind": "script",
+          "inputs": [
+            {
+              "id": "x",
+              "name": "x",
+              "type": "Nat"
+            },
+            {
+              "id": "y",
+              "name": "y",
+              "type": "Nat"
+            }
+          ],
+          "outputType": "x + y = x + y",
+          "body": "by rfl",
+          "x": 800,
+          "y": 80,
+          "provenance": {
+            "operation": "zip",
+            "operationId": "zip",
+            "items": [
+              {
+                "node": "left2",
+                "output": "out"
+              },
+              {
+                "node": "right2",
+                "output": "out"
+              }
+            ]
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "template_x",
+          "source": "left0",
+          "output": "out",
+          "target": "template",
+          "input": "x"
+        },
+        {
+          "id": "template_y",
+          "source": "right0",
+          "output": "out",
+          "target": "template",
+          "input": "y"
+        },
+        {
+          "id": "zip_0_wire_0",
+          "source": "left0",
+          "output": "out",
+          "target": "zip_0",
+          "input": "x"
+        },
+        {
+          "id": "zip_0_wire_1",
+          "source": "right0",
+          "output": "out",
+          "target": "zip_0",
+          "input": "y"
+        },
+        {
+          "id": "zip_1_wire_0",
+          "source": "left1",
+          "output": "out",
+          "target": "zip_1",
+          "input": "x"
+        },
+        {
+          "id": "zip_1_wire_1",
+          "source": "right1",
+          "output": "out",
+          "target": "zip_1",
+          "input": "y"
+        },
+        {
+          "id": "zip_2_wire_0",
+          "source": "left2",
+          "output": "out",
+          "target": "zip_2",
+          "input": "x"
+        },
+        {
+          "id": "zip_2_wire_1",
+          "source": "right2",
+          "output": "out",
+          "target": "zip_2",
+          "input": "y"
+        }
+      ],
+      "result": {
+        "node": "zip_2",
+        "output": "out"
+      }
+    },
+    "counts": {
+      "left": 3,
+      "right": 3,
+      "output": 3
+    },
+    "provenance": [
+      {
+        "node": "zip_0",
+        "operation": "zip",
+        "operationId": "zip",
+        "items": [
+          {
+            "node": "left0",
+            "output": "out"
+          },
+          {
+            "node": "right0",
+            "output": "out"
+          }
+        ]
+      },
+      {
+        "node": "zip_1",
+        "operation": "zip",
+        "operationId": "zip",
+        "items": [
+          {
+            "node": "left1",
+            "output": "out"
+          },
+          {
+            "node": "right1",
+            "output": "out"
+          }
+        ]
+      },
+      {
+        "node": "zip_2",
+        "operation": "zip",
+        "operationId": "zip",
+        "items": [
+          {
+            "node": "left2",
+            "output": "out"
+          },
+          {
+            "node": "right2",
+            "output": "out"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "R12-unequal-zip-model",
+    "expected": "rejected",
+    "error": "Zip 입력 길이가 다릅니다. 항목을 복제하거나 자르지 않습니다.",
+    "unchanged": true
+  },
+  {
+    "id": "R12-product",
+    "expected": "valid",
+    "graph": {
+      "version": 3,
+      "name": "product independent audit",
+      "projectId": "glean",
+      "imports": [],
+      "policy": "strict",
+      "inputs": [],
+      "goal": "2 + 6 = 2 + 6",
+      "modules": [],
+      "nodes": [
+        {
+          "id": "left0",
+          "kind": "nat",
+          "value": "1"
+        },
+        {
+          "id": "left1",
+          "kind": "nat",
+          "value": "2"
+        },
+        {
+          "id": "right0",
+          "kind": "nat",
+          "value": "4"
+        },
+        {
+          "id": "right1",
+          "kind": "nat",
+          "value": "5"
+        },
+        {
+          "id": "right2",
+          "kind": "nat",
+          "value": "6"
+        },
+        {
+          "id": "template",
+          "kind": "script",
+          "inputs": [
+            {
+              "id": "x",
+              "name": "x",
+              "type": "Nat"
+            },
+            {
+              "id": "y",
+              "name": "y",
+              "type": "Nat"
+            }
+          ],
+          "outputType": "x + y = x + y",
+          "body": "by rfl"
+        },
+        {
+          "id": "product_0",
+          "kind": "script",
+          "inputs": [
+            {
+              "id": "x",
+              "name": "x",
+              "type": "Nat"
+            },
+            {
+              "id": "y",
+              "name": "y",
+              "type": "Nat"
+            }
+          ],
+          "outputType": "x + y = x + y",
+          "body": "by rfl",
+          "x": 380,
+          "y": 80,
+          "provenance": {
+            "operation": "product",
+            "operationId": "product",
+            "items": [
+              {
+                "node": "left0",
+                "output": "out"
+              },
+              {
+                "node": "right0",
+                "output": "out"
+              }
+            ]
+          }
+        },
+        {
+          "id": "product_1",
+          "kind": "script",
+          "inputs": [
+            {
+              "id": "x",
+              "name": "x",
+              "type": "Nat"
+            },
+            {
+              "id": "y",
+              "name": "y",
+              "type": "Nat"
+            }
+          ],
+          "outputType": "x + y = x + y",
+          "body": "by rfl",
+          "x": 590,
+          "y": 80,
+          "provenance": {
+            "operation": "product",
+            "operationId": "product",
+            "items": [
+              {
+                "node": "left0",
+                "output": "out"
+              },
+              {
+                "node": "right1",
+                "output": "out"
+              }
+            ]
+          }
+        },
+        {
+          "id": "product_2",
+          "kind": "script",
+          "inputs": [
+            {
+              "id": "x",
+              "name": "x",
+              "type": "Nat"
+            },
+            {
+              "id": "y",
+              "name": "y",
+              "type": "Nat"
+            }
+          ],
+          "outputType": "x + y = x + y",
+          "body": "by rfl",
+          "x": 800,
+          "y": 80,
+          "provenance": {
+            "operation": "product",
+            "operationId": "product",
+            "items": [
+              {
+                "node": "left0",
+                "output": "out"
+              },
+              {
+                "node": "right2",
+                "output": "out"
+              }
+            ]
+          }
+        },
+        {
+          "id": "product_3",
+          "kind": "script",
+          "inputs": [
+            {
+              "id": "x",
+              "name": "x",
+              "type": "Nat"
+            },
+            {
+              "id": "y",
+              "name": "y",
+              "type": "Nat"
+            }
+          ],
+          "outputType": "x + y = x + y",
+          "body": "by rfl",
+          "x": 1010,
+          "y": 80,
+          "provenance": {
+            "operation": "product",
+            "operationId": "product",
+            "items": [
+              {
+                "node": "left1",
+                "output": "out"
+              },
+              {
+                "node": "right0",
+                "output": "out"
+              }
+            ]
+          }
+        },
+        {
+          "id": "product_4",
+          "kind": "script",
+          "inputs": [
+            {
+              "id": "x",
+              "name": "x",
+              "type": "Nat"
+            },
+            {
+              "id": "y",
+              "name": "y",
+              "type": "Nat"
+            }
+          ],
+          "outputType": "x + y = x + y",
+          "body": "by rfl",
+          "x": 380,
+          "y": 250,
+          "provenance": {
+            "operation": "product",
+            "operationId": "product",
+            "items": [
+              {
+                "node": "left1",
+                "output": "out"
+              },
+              {
+                "node": "right1",
+                "output": "out"
+              }
+            ]
+          }
+        },
+        {
+          "id": "product_5",
+          "kind": "script",
+          "inputs": [
+            {
+              "id": "x",
+              "name": "x",
+              "type": "Nat"
+            },
+            {
+              "id": "y",
+              "name": "y",
+              "type": "Nat"
+            }
+          ],
+          "outputType": "x + y = x + y",
+          "body": "by rfl",
+          "x": 590,
+          "y": 250,
+          "provenance": {
+            "operation": "product",
+            "operationId": "product",
+            "items": [
+              {
+                "node": "left1",
+                "output": "out"
+              },
+              {
+                "node": "right2",
+                "output": "out"
+              }
+            ]
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "template_x",
+          "source": "left0",
+          "output": "out",
+          "target": "template",
+          "input": "x"
+        },
+        {
+          "id": "template_y",
+          "source": "right0",
+          "output": "out",
+          "target": "template",
+          "input": "y"
+        },
+        {
+          "id": "product_0_wire_0",
+          "source": "left0",
+          "output": "out",
+          "target": "product_0",
+          "input": "x"
+        },
+        {
+          "id": "product_0_wire_1",
+          "source": "right0",
+          "output": "out",
+          "target": "product_0",
+          "input": "y"
+        },
+        {
+          "id": "product_1_wire_0",
+          "source": "left0",
+          "output": "out",
+          "target": "product_1",
+          "input": "x"
+        },
+        {
+          "id": "product_1_wire_1",
+          "source": "right1",
+          "output": "out",
+          "target": "product_1",
+          "input": "y"
+        },
+        {
+          "id": "product_2_wire_0",
+          "source": "left0",
+          "output": "out",
+          "target": "product_2",
+          "input": "x"
+        },
+        {
+          "id": "product_2_wire_1",
+          "source": "right2",
+          "output": "out",
+          "target": "product_2",
+          "input": "y"
+        },
+        {
+          "id": "product_3_wire_0",
+          "source": "left1",
+          "output": "out",
+          "target": "product_3",
+          "input": "x"
+        },
+        {
+          "id": "product_3_wire_1",
+          "source": "right0",
+          "output": "out",
+          "target": "product_3",
+          "input": "y"
+        },
+        {
+          "id": "product_4_wire_0",
+          "source": "left1",
+          "output": "out",
+          "target": "product_4",
+          "input": "x"
+        },
+        {
+          "id": "product_4_wire_1",
+          "source": "right1",
+          "output": "out",
+          "target": "product_4",
+          "input": "y"
+        },
+        {
+          "id": "product_5_wire_0",
+          "source": "left1",
+          "output": "out",
+          "target": "product_5",
+          "input": "x"
+        },
+        {
+          "id": "product_5_wire_1",
+          "source": "right2",
+          "output": "out",
+          "target": "product_5",
+          "input": "y"
+        }
+      ],
+      "result": {
+        "node": "product_5",
+        "output": "out"
+      }
+    },
+    "counts": {
+      "left": 2,
+      "right": 3,
+      "output": 6
+    },
+    "provenance": [
+      {
+        "node": "product_0",
+        "operation": "product",
+        "operationId": "product",
+        "items": [
+          {
+            "node": "left0",
+            "output": "out"
+          },
+          {
+            "node": "right0",
+            "output": "out"
+          }
+        ]
+      },
+      {
+        "node": "product_1",
+        "operation": "product",
+        "operationId": "product",
+        "items": [
+          {
+            "node": "left0",
+            "output": "out"
+          },
+          {
+            "node": "right1",
+            "output": "out"
+          }
+        ]
+      },
+      {
+        "node": "product_2",
+        "operation": "product",
+        "operationId": "product",
+        "items": [
+          {
+            "node": "left0",
+            "output": "out"
+          },
+          {
+            "node": "right2",
+            "output": "out"
+          }
+        ]
+      },
+      {
+        "node": "product_3",
+        "operation": "product",
+        "operationId": "product",
+        "items": [
+          {
+            "node": "left1",
+            "output": "out"
+          },
+          {
+            "node": "right0",
+            "output": "out"
+          }
+        ]
+      },
+      {
+        "node": "product_4",
+        "operation": "product",
+        "operationId": "product",
+        "items": [
+          {
+            "node": "left1",
+            "output": "out"
+          },
+          {
+            "node": "right1",
+            "output": "out"
+          }
+        ]
+      },
+      {
+        "node": "product_5",
+        "operation": "product",
+        "operationId": "product",
+        "items": [
+          {
+            "node": "left1",
+            "output": "out"
+          },
+          {
+            "node": "right2",
+            "output": "out"
+          }
+        ]
+      }
+    ]
+  }
+]

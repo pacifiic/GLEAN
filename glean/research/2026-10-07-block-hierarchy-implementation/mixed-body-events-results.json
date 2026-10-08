@@ -1,0 +1,26 @@
+{
+  "kind": "actual typed wide body input/Hide callbacks, shared three-level fixture, real file parser/history; controlled verification result, no new native UI or Lean",
+  "pass": true,
+  "bodyHashBefore": "1f66f63cfdbcd2444e0f4e89907aec65e5445cb49f773bf2c2befba0b4b40f14",
+  "bodyHashAfter": "667cfcfa8e86fb964ce5e7000b4e32fafe70c4fb4ab4f4137e81be60ab1c30c7",
+  "contractsAndAllRealEdgesUnchanged": true,
+  "bodyEditInvalidates": true,
+  "hideKeepsResult": true,
+  "jsonRoundtripExact": true,
+  "undoRedoExact": true,
+  "rootSharedReferences": [
+    {
+      "id": "callA",
+      "ref": "outer"
+    },
+    {
+      "id": "callB",
+      "ref": "outer"
+    }
+  ],
+  "hashes": {
+    "typed-editor.mjs": "433884192c37a32c101cddc6c35130a9ca2a0ecbbcb071ba8f8b3539bac2223b",
+    "code-editor.mjs": "00986502826a414a51d4198d981f39b4f2e99cf02d1b7519a104867a545ca278",
+    "history.mjs": "28b6ca353816b8383522ab8a2db63bae57496238e55b90ffe27e4182c21b4625"
+  }
+}

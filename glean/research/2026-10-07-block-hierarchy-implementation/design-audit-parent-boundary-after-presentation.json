@@ -1,0 +1,154 @@
+{
+  "kind": "graph",
+  "graph": {
+    "version": 3,
+    "name": "B05 independent public boundary",
+    "projectId": "glean",
+    "imports": [],
+    "policy": "strict",
+    "inputs": [],
+    "goal": "3 = 3",
+    "modules": [
+      {
+        "id": "M",
+        "name": "public identity",
+        "inputs": [
+          {
+            "id": "x",
+            "name": "x",
+            "type": "Nat"
+          }
+        ],
+        "outputType": "Nat",
+        "nodes": [
+          {
+            "id": "public_x",
+            "kind": "input",
+            "ref": "x",
+            "x": 40,
+            "y": 70
+          },
+          {
+            "id": "body",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "Nat",
+            "body": "x",
+            "x": 280,
+            "y": 70
+          }
+        ],
+        "edges": [
+          {
+            "id": "inner-wire",
+            "source": "public_x",
+            "output": "out",
+            "target": "body",
+            "input": "x"
+          }
+        ],
+        "result": {
+          "node": "body",
+          "output": "out"
+        }
+      }
+    ],
+    "nodes": [
+      {
+        "id": "n",
+        "kind": "nat",
+        "value": "3",
+        "x": 40,
+        "y": 70
+      },
+      {
+        "id": "parent",
+        "kind": "module",
+        "ref": "M",
+        "x": 280,
+        "y": 70
+      },
+      {
+        "id": "proof",
+        "kind": "script",
+        "inputs": [
+          {
+            "id": "y",
+            "name": "y",
+            "type": "Nat"
+          }
+        ],
+        "outputType": "y = y",
+        "body": "by rfl",
+        "x": 520,
+        "y": 70
+      }
+    ],
+    "edges": [
+      {
+        "id": "outer-input",
+        "source": "n",
+        "output": "out",
+        "target": "parent",
+        "input": "x"
+      },
+      {
+        "id": "outer-result",
+        "source": "parent",
+        "output": "out",
+        "target": "proof",
+        "input": "y"
+      }
+    ],
+    "result": {
+      "node": "proof",
+      "output": "out"
+    }
+  },
+  "presentation": {
+    "version": 1,
+    "scopes": {
+      "root": {
+        "hidden": [],
+        "containers": [
+          {
+            "id": "container_f0bde2e8",
+            "name": "그룹 1",
+            "children": [
+              "n:parent"
+            ],
+            "collapsed": true,
+            "x": 280,
+            "y": 70
+          }
+        ]
+      },
+      "module/M": {
+        "hidden": [],
+        "containers": []
+      }
+    },
+    "occurrenceViews": {
+      "{\"scopeId\":\"module/M\",\"trail\":[{\"scopeId\":\"root\",\"nodeId\":\"parent\",\"definitionId\":\"M\"}]}": {
+        "scopeId": "module/M",
+        "trail": [
+          {
+            "scopeId": "root",
+            "nodeId": "parent",
+            "definitionId": "M"
+          }
+        ],
+        "view": {
+          "hidden": [],
+          "containers": []
+        }
+      }
+    }
+  }
+}

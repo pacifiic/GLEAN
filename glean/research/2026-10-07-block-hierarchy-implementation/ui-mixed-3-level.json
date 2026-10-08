@@ -1,0 +1,241 @@
+{
+  "_copyright": "Copyright (c) 2026 GLEAN contributors. Released under Apache 2.0.",
+  "kind": "graph",
+  "graph": {
+    "version": 3,
+    "name": "혼합 블록 · 3단 중첩과 재사용",
+    "projectId": "glean",
+    "imports": [],
+    "policy": "strict",
+    "inputs": [],
+    "goal": "(3 + 0 = 3) ∧ (5 + 0 = 5)",
+    "modules": [
+      {
+        "id": "leaf",
+        "name": "덧셈 보조 증명",
+        "inputs": [
+          {
+            "id": "n",
+            "name": "n",
+            "type": "Nat"
+          }
+        ],
+        "outputType": "n + 0 = n",
+        "nodes": [
+          {
+            "id": "n_in",
+            "kind": "input",
+            "name": "자연수 n",
+            "ref": "n",
+            "x": 70,
+            "y": 100
+          },
+          {
+            "id": "proof",
+            "kind": "script",
+            "name": "0을 더해도 같은 수",
+            "inputs": [
+              {
+                "id": "n",
+                "name": "n",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "n + 0 = n",
+            "body": "by\n  rfl",
+            "x": 330,
+            "y": 100
+          }
+        ],
+        "edges": [
+          {
+            "id": "n_proof",
+            "source": "n_in",
+            "output": "out",
+            "target": "proof",
+            "input": "n"
+          }
+        ],
+        "result": {
+          "node": "proof",
+          "output": "out"
+        }
+      },
+      {
+        "id": "middle",
+        "name": "연결된 내부 블록",
+        "inputs": [
+          {
+            "id": "n",
+            "name": "n",
+            "type": "Nat"
+          }
+        ],
+        "outputType": "n + 0 = n",
+        "nodes": [
+          {
+            "id": "n_in",
+            "kind": "input",
+            "name": "자연수 n",
+            "ref": "n",
+            "x": 70,
+            "y": 100
+          },
+          {
+            "id": "nested",
+            "kind": "module",
+            "name": "내부 증명 호출",
+            "ref": "leaf",
+            "x": 330,
+            "y": 100
+          }
+        ],
+        "edges": [
+          {
+            "id": "n_nested",
+            "source": "n_in",
+            "output": "out",
+            "target": "nested",
+            "input": "n"
+          }
+        ],
+        "result": {
+          "node": "nested",
+          "output": "out"
+        }
+      },
+      {
+        "id": "outer",
+        "name": "큰 증명 블록",
+        "inputs": [
+          {
+            "id": "n",
+            "name": "n",
+            "type": "Nat"
+          }
+        ],
+        "outputType": "n + 0 = n",
+        "nodes": [
+          {
+            "id": "n_in",
+            "kind": "input",
+            "name": "자연수 n",
+            "ref": "n",
+            "x": 70,
+            "y": 100
+          },
+          {
+            "id": "nested",
+            "kind": "module",
+            "name": "내부 증명 호출",
+            "ref": "middle",
+            "x": 330,
+            "y": 100
+          }
+        ],
+        "edges": [
+          {
+            "id": "n_nested",
+            "source": "n_in",
+            "output": "out",
+            "target": "nested",
+            "input": "n"
+          }
+        ],
+        "result": {
+          "node": "nested",
+          "output": "out"
+        }
+      }
+    ],
+    "nodes": [
+      {
+        "id": "three",
+        "kind": "nat",
+        "name": "입력 3",
+        "value": "3",
+        "x": 50,
+        "y": 90
+      },
+      {
+        "id": "five",
+        "kind": "nat",
+        "name": "입력 5",
+        "value": "5",
+        "x": 50,
+        "y": 270
+      },
+      {
+        "id": "callA",
+        "kind": "module",
+        "name": "큰 증명 A · n=3",
+        "ref": "outer",
+        "x": 290,
+        "y": 90
+      },
+      {
+        "id": "callB",
+        "kind": "module",
+        "name": "큰 증명 B · n=5",
+        "ref": "outer",
+        "x": 290,
+        "y": 270
+      },
+      {
+        "id": "join",
+        "kind": "script",
+        "name": "두 증명 합치기",
+        "inputs": [
+          {
+            "id": "pa",
+            "name": "pa",
+            "type": "3 + 0 = 3"
+          },
+          {
+            "id": "pb",
+            "name": "pb",
+            "type": "5 + 0 = 5"
+          }
+        ],
+        "outputType": "(3 + 0 = 3) ∧ (5 + 0 = 5)",
+        "body": "And.intro pa pb",
+        "x": 540,
+        "y": 160
+      }
+    ],
+    "edges": [
+      {
+        "id": "a",
+        "source": "three",
+        "output": "out",
+        "target": "callA",
+        "input": "n"
+      },
+      {
+        "id": "b",
+        "source": "five",
+        "output": "out",
+        "target": "callB",
+        "input": "n"
+      },
+      {
+        "id": "c",
+        "source": "callA",
+        "output": "out",
+        "target": "join",
+        "input": "pa"
+      },
+      {
+        "id": "d",
+        "source": "callB",
+        "output": "out",
+        "target": "join",
+        "input": "pb"
+      }
+    ],
+    "result": {
+      "node": "join",
+      "output": "out"
+    }
+  }
+}

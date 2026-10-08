@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Copyright (c) 2026 GLEAN contributors. Released under Apache 2.0.
+set -euo pipefail
+
+repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+cd "$repo_dir"
+exec python3 -m glean.prototype.server "$@"

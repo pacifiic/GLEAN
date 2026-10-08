@@ -1,0 +1,173 @@
+{
+  "kind": "graph",
+  "graph": {
+    "version": 2,
+    "name": "compose",
+    "propositions": [
+      "P",
+      "Q",
+      "R"
+    ],
+    "assumptions": [
+      {
+        "id": "hp",
+        "type": "P"
+      },
+      {
+        "id": "f",
+        "type": "P → Q"
+      },
+      {
+        "id": "g",
+        "type": "Q → R"
+      }
+    ],
+    "goal": "R",
+    "nodes": [
+      {
+        "id": "f",
+        "kind": "assumption",
+        "ref": "f",
+        "x": 215,
+        "y": 166
+      },
+      {
+        "id": "hp",
+        "kind": "assumption",
+        "ref": "hp",
+        "x": 215,
+        "y": 356
+      },
+      {
+        "id": "g",
+        "kind": "assumption",
+        "ref": "g",
+        "x": 495,
+        "y": 486
+      },
+      {
+        "id": "apply1",
+        "kind": "apply",
+        "x": 495,
+        "y": 226
+      },
+      {
+        "id": "apply2",
+        "kind": "apply",
+        "x": 775,
+        "y": 316
+      },
+      {
+        "id": "goal",
+        "kind": "goal",
+        "x": 900,
+        "y": 230
+      }
+    ],
+    "edges": [
+      {
+        "id": "e1",
+        "source": "f",
+        "target": "apply1",
+        "input": "fn"
+      },
+      {
+        "id": "e2",
+        "source": "hp",
+        "target": "apply1",
+        "input": "arg"
+      },
+      {
+        "id": "e3",
+        "source": "g",
+        "target": "apply2",
+        "input": "fn"
+      },
+      {
+        "id": "e4",
+        "source": "apply1",
+        "target": "apply2",
+        "input": "arg"
+      },
+      {
+        "id": "e5",
+        "source": "apply2",
+        "target": "goal",
+        "input": "proof"
+      }
+    ],
+    "_copyright": "Copyright (c) 2026 GLEAN contributors. Released under Apache 2.0.",
+    "modules": [],
+    "groups": [
+      {
+        "id": "legacy-group",
+        "name": "이전 문서 함수 적용",
+        "nodeIds": [
+          "f",
+          "hp",
+          "apply1"
+        ],
+        "collapsed": true,
+        "x": 60,
+        "y": 80
+      }
+    ]
+  },
+  "review": {
+    "documentId": "eeb4e771-65a4-4f2d-9c74-179508681273",
+    "watches": [],
+    "notebook": {
+      "variants": [],
+      "steps": []
+    },
+    "sourceGraphSelection": null,
+    "computeMode": "manual"
+  },
+  "presentation": {
+    "version": 1,
+    "scopes": {
+      "root": {
+        "hidden": [
+          "c:container_52a1499a"
+        ],
+        "containers": [
+          {
+            "id": "legacy-group",
+            "name": "이전 문서 함수 적용",
+            "children": [
+              "n:f",
+              "n:hp",
+              "n:apply1"
+            ],
+            "collapsed": true,
+            "x": 215,
+            "y": 166
+          },
+          {
+            "id": "container_525b56fb",
+            "name": "그룹 2",
+            "children": [
+              "c:legacy-group",
+              "n:g"
+            ],
+            "collapsed": true,
+            "x": 215,
+            "y": 166
+          },
+          {
+            "id": "container_52a1499a",
+            "name": "그룹 3",
+            "children": [
+              "c:container_525b56fb",
+              "n:apply2"
+            ],
+            "collapsed": true,
+            "x": 215,
+            "y": 166
+          }
+        ]
+      }
+    },
+    "occurrenceViews": {}
+  }
+}

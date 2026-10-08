@@ -1,0 +1,635 @@
+{
+  "_copyright": "Copyright (c) 2026 GLEAN contributors. Released under Apache 2.0.",
+  "kind": "graph",
+  "graph": {
+    "version": 3,
+    "name": "혼합 블록 · 3단 중첩과 재사용",
+    "projectId": "glean",
+    "imports": [],
+    "policy": "strict",
+    "inputs": [],
+    "goal": "(3 + 0 = 3) ∧ (5 + 0 = 5)",
+    "modules": [
+      {
+        "id": "leaf",
+        "name": "덧셈 보조 증명",
+        "inputs": [
+          {
+            "id": "n",
+            "name": "n",
+            "type": "Nat"
+          }
+        ],
+        "outputType": "n + 0 = n",
+        "nodes": [
+          {
+            "id": "n_in",
+            "kind": "input",
+            "name": "자연수 n",
+            "ref": "n",
+            "x": 70,
+            "y": 100
+          },
+          {
+            "id": "proof",
+            "kind": "script",
+            "name": "0을 더해도 같은 수",
+            "inputs": [
+              {
+                "id": "n",
+                "name": "n",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "n + 0 = n",
+            "body": "by\n  rfl",
+            "x": 330,
+            "y": 100
+          }
+        ],
+        "edges": [
+          {
+            "id": "n_proof",
+            "source": "n_in",
+            "output": "out",
+            "target": "proof",
+            "input": "n"
+          }
+        ],
+        "result": {
+          "node": "proof",
+          "output": "out"
+        }
+      },
+      {
+        "id": "middle",
+        "name": "연결된 내부 블록",
+        "inputs": [
+          {
+            "id": "n",
+            "name": "n",
+            "type": "Nat"
+          }
+        ],
+        "outputType": "n + 0 = n",
+        "nodes": [
+          {
+            "id": "n_in",
+            "kind": "input",
+            "name": "자연수 n",
+            "ref": "n",
+            "x": 70,
+            "y": 100
+          },
+          {
+            "id": "nested",
+            "kind": "module",
+            "name": "내부 증명 호출",
+            "ref": "leaf",
+            "x": 330,
+            "y": 100
+          }
+        ],
+        "edges": [
+          {
+            "id": "n_nested",
+            "source": "n_in",
+            "output": "out",
+            "target": "nested",
+            "input": "n"
+          }
+        ],
+        "result": {
+          "node": "nested",
+          "output": "out"
+        }
+      },
+      {
+        "id": "outer",
+        "name": "큰 증명 블록",
+        "inputs": [
+          {
+            "id": "n",
+            "name": "n",
+            "type": "Nat"
+          }
+        ],
+        "outputType": "n + 0 = n",
+        "nodes": [
+          {
+            "id": "n_in",
+            "kind": "input",
+            "name": "자연수 n",
+            "ref": "n",
+            "x": 70,
+            "y": 100
+          },
+          {
+            "id": "nested",
+            "kind": "module",
+            "name": "내부 증명 호출",
+            "ref": "middle",
+            "x": 330,
+            "y": 100
+          }
+        ],
+        "edges": [
+          {
+            "id": "n_nested",
+            "source": "n_in",
+            "output": "out",
+            "target": "nested",
+            "input": "n"
+          }
+        ],
+        "result": {
+          "node": "nested",
+          "output": "out"
+        }
+      },
+      {
+        "id": "module_7c6de242",
+        "name": "그래프 부모",
+        "blockKind": "graph",
+        "inputs": [
+          {
+            "id": "x",
+            "name": "x",
+            "type": "Nat"
+          }
+        ],
+        "outputType": "Nat",
+        "nodes": [
+          {
+            "id": "public_x",
+            "kind": "input",
+            "ref": "x",
+            "x": 70,
+            "y": 90,
+            "name": "input"
+          },
+          {
+            "id": "body",
+            "kind": "script",
+            "name": "본문",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "Nat",
+            "body": "x",
+            "x": 320,
+            "y": 90
+          },
+          {
+            "id": "call_9c953d3f",
+            "kind": "module",
+            "name": "코드 부모",
+            "ref": "module_4b8dc041",
+            "x": 550,
+            "y": 280
+          },
+          {
+            "id": "call_6fbd80d9",
+            "kind": "module",
+            "name": "그래프 부모",
+            "ref": "module_66c92602",
+            "x": 870,
+            "y": 100
+          }
+        ],
+        "edges": [
+          {
+            "id": "wire_55f306af",
+            "source": "public_x",
+            "output": "out",
+            "target": "call_9c953d3f",
+            "input": "x"
+          },
+          {
+            "id": "wire_be425824",
+            "source": "call_9c953d3f",
+            "output": "out",
+            "target": "call_6fbd80d9",
+            "input": "x"
+          },
+          {
+            "id": "wire_97223c37",
+            "source": "call_6fbd80d9",
+            "output": "out",
+            "target": "body",
+            "input": "x"
+          }
+        ],
+        "result": {
+          "node": "body",
+          "output": "out"
+        }
+      },
+      {
+        "id": "module_4b8dc041",
+        "name": "코드 부모",
+        "blockKind": "code",
+        "inputs": [
+          {
+            "id": "x",
+            "name": "x",
+            "type": "Nat"
+          }
+        ],
+        "outputType": "Nat",
+        "nodes": [
+          {
+            "id": "public_x",
+            "kind": "input",
+            "ref": "x",
+            "x": 70,
+            "y": 90
+          },
+          {
+            "id": "body",
+            "kind": "script",
+            "name": "본문",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "Nat",
+            "body": "x",
+            "x": 320,
+            "y": 90
+          }
+        ],
+        "edges": [
+          {
+            "id": "wire_f4978982",
+            "source": "public_x",
+            "output": "out",
+            "target": "body",
+            "input": "x"
+          }
+        ],
+        "result": {
+          "node": "body",
+          "output": "out"
+        }
+      },
+      {
+        "id": "module_66c92602",
+        "name": "그래프 부모",
+        "blockKind": "graph",
+        "inputs": [
+          {
+            "id": "x",
+            "name": "x",
+            "type": "Nat"
+          }
+        ],
+        "outputType": "Nat",
+        "nodes": [
+          {
+            "id": "public_x",
+            "kind": "input",
+            "ref": "x",
+            "x": 70,
+            "y": 90
+          },
+          {
+            "id": "body",
+            "kind": "script",
+            "name": "본문",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "Nat",
+            "body": "x",
+            "x": 320,
+            "y": 90
+          },
+          {
+            "id": "call_1aa51e36",
+            "kind": "module",
+            "name": "코드 부모",
+            "ref": "module_1f869b6d",
+            "x": 300,
+            "y": 300
+          }
+        ],
+        "edges": [
+          {
+            "id": "wire_3f29b7f6",
+            "source": "public_x",
+            "output": "out",
+            "target": "call_1aa51e36",
+            "input": "x"
+          },
+          {
+            "id": "wire_73c0f68a",
+            "source": "call_1aa51e36",
+            "output": "out",
+            "target": "body",
+            "input": "x"
+          }
+        ],
+        "result": {
+          "node": "body",
+          "output": "out"
+        }
+      },
+      {
+        "id": "module_1f869b6d",
+        "name": "코드 부모",
+        "blockKind": "code",
+        "inputs": [
+          {
+            "id": "x",
+            "name": "x",
+            "type": "Nat"
+          }
+        ],
+        "outputType": "Nat",
+        "nodes": [
+          {
+            "id": "public_x",
+            "kind": "input",
+            "ref": "x",
+            "x": 70,
+            "y": 90
+          },
+          {
+            "id": "body",
+            "kind": "script",
+            "name": "본문",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "Nat",
+            "body": "x + 0",
+            "x": 320,
+            "y": 90
+          }
+        ],
+        "edges": [
+          {
+            "id": "wire_f44c0e60",
+            "source": "public_x",
+            "output": "out",
+            "target": "body",
+            "input": "x"
+          }
+        ],
+        "result": {
+          "node": "body",
+          "output": "out"
+        }
+      }
+    ],
+    "nodes": [
+      {
+        "id": "three",
+        "kind": "nat",
+        "name": "입력 3",
+        "value": "3",
+        "x": 50,
+        "y": 90
+      },
+      {
+        "id": "five",
+        "kind": "nat",
+        "name": "입력 5",
+        "value": "5",
+        "x": 50,
+        "y": 270
+      },
+      {
+        "id": "callA",
+        "kind": "module",
+        "name": "큰 증명 A · n=3",
+        "ref": "outer",
+        "x": 290,
+        "y": 90
+      },
+      {
+        "id": "callB",
+        "kind": "module",
+        "name": "큰 증명 B · n=5",
+        "ref": "outer",
+        "x": 290,
+        "y": 270
+      },
+      {
+        "id": "join",
+        "kind": "script",
+        "name": "두 증명 합치기",
+        "inputs": [
+          {
+            "id": "pa",
+            "name": "pa",
+            "type": "3 + 0 = 3"
+          },
+          {
+            "id": "pb",
+            "name": "pb",
+            "type": "5 + 0 = 5"
+          }
+        ],
+        "outputType": "(3 + 0 = 3) ∧ (5 + 0 = 5)",
+        "body": "And.intro pa pb",
+        "x": 540,
+        "y": 160
+      },
+      {
+        "id": "call_bed2a112",
+        "kind": "module",
+        "name": "그래프 부모",
+        "ref": "module_7c6de242",
+        "x": 890,
+        "y": 430
+      }
+    ],
+    "edges": [
+      {
+        "id": "b",
+        "source": "five",
+        "output": "out",
+        "target": "callB",
+        "input": "n"
+      },
+      {
+        "id": "c",
+        "source": "callA",
+        "output": "out",
+        "target": "join",
+        "input": "pa"
+      },
+      {
+        "id": "d",
+        "source": "callB",
+        "output": "out",
+        "target": "join",
+        "input": "pb"
+      },
+      {
+        "id": "wire_ce15f584",
+        "source": "three",
+        "output": "out",
+        "target": "call_bed2a112",
+        "input": "x"
+      },
+      {
+        "id": "wire_fb9e4fee",
+        "source": "call_bed2a112",
+        "output": "out",
+        "target": "callA",
+        "input": "n"
+      }
+    ],
+    "result": {
+      "node": "join",
+      "output": "out"
+    }
+  },
+  "presentation": {
+    "version": 1,
+    "scopes": {
+      "root": {
+        "hidden": [],
+        "containers": []
+      },
+      "module/leaf": {
+        "hidden": [],
+        "containers": []
+      },
+      "module/middle": {
+        "hidden": [],
+        "containers": []
+      },
+      "module/outer": {
+        "hidden": [],
+        "containers": []
+      },
+      "module/module_7c6de242": {
+        "hidden": [],
+        "containers": []
+      },
+      "module/module_4b8dc041": {
+        "hidden": [],
+        "containers": []
+      },
+      "module/module_66c92602": {
+        "hidden": [],
+        "containers": []
+      },
+      "module/module_1f869b6d": {
+        "hidden": [],
+        "containers": []
+      }
+    },
+    "occurrenceViews": {
+      "{\"scopeId\":\"module/module_7c6de242\",\"trail\":[{\"scopeId\":\"root\",\"nodeId\":\"call_bed2a112\",\"definitionId\":\"module_7c6de242\"}]}": {
+        "scopeId": "module/module_7c6de242",
+        "trail": [
+          {
+            "scopeId": "root",
+            "nodeId": "call_bed2a112",
+            "definitionId": "module_7c6de242"
+          }
+        ],
+        "view": {
+          "hidden": [],
+          "containers": []
+        }
+      },
+      "{\"scopeId\":\"module/module_4b8dc041\",\"trail\":[{\"scopeId\":\"root\",\"nodeId\":\"call_bed2a112\",\"definitionId\":\"module_7c6de242\"},{\"scopeId\":\"module/module_7c6de242\",\"nodeId\":\"call_9c953d3f\",\"definitionId\":\"module_4b8dc041\"}]}": {
+        "scopeId": "module/module_4b8dc041",
+        "trail": [
+          {
+            "scopeId": "root",
+            "nodeId": "call_bed2a112",
+            "definitionId": "module_7c6de242"
+          },
+          {
+            "scopeId": "module/module_7c6de242",
+            "nodeId": "call_9c953d3f",
+            "definitionId": "module_4b8dc041"
+          }
+        ],
+        "view": {
+          "hidden": [],
+          "containers": []
+        }
+      },
+      "{\"scopeId\":\"module/module_66c92602\",\"trail\":[{\"scopeId\":\"root\",\"nodeId\":\"call_bed2a112\",\"definitionId\":\"module_7c6de242\"},{\"scopeId\":\"module/module_7c6de242\",\"nodeId\":\"call_6fbd80d9\",\"definitionId\":\"module_66c92602\"}]}": {
+        "scopeId": "module/module_66c92602",
+        "trail": [
+          {
+            "scopeId": "root",
+            "nodeId": "call_bed2a112",
+            "definitionId": "module_7c6de242"
+          },
+          {
+            "scopeId": "module/module_7c6de242",
+            "nodeId": "call_6fbd80d9",
+            "definitionId": "module_66c92602"
+          }
+        ],
+        "view": {
+          "hidden": [],
+          "containers": []
+        }
+      },
+      "{\"scopeId\":\"module/module_1f869b6d\",\"trail\":[{\"scopeId\":\"root\",\"nodeId\":\"call_bed2a112\",\"definitionId\":\"module_7c6de242\"},{\"scopeId\":\"module/module_7c6de242\",\"nodeId\":\"call_6fbd80d9\",\"definitionId\":\"module_66c92602\"},{\"scopeId\":\"module/module_66c92602\",\"nodeId\":\"call_1aa51e36\",\"definitionId\":\"module_1f869b6d\"}]}": {
+        "scopeId": "module/module_1f869b6d",
+        "trail": [
+          {
+            "scopeId": "root",
+            "nodeId": "call_bed2a112",
+            "definitionId": "module_7c6de242"
+          },
+          {
+            "scopeId": "module/module_7c6de242",
+            "nodeId": "call_6fbd80d9",
+            "definitionId": "module_66c92602"
+          },
+          {
+            "scopeId": "module/module_66c92602",
+            "nodeId": "call_1aa51e36",
+            "definitionId": "module_1f869b6d"
+          }
+        ],
+        "view": {
+          "hidden": [],
+          "containers": []
+        }
+      }
+    }
+  },
+  "signatureImpact": [
+    "root/call_bed2a112",
+    "module/module_7c6de242/call_6fbd80d9"
+  ],
+  "review": {
+    "documentId": "d5d30566-33fc-4ec6-89dc-fa6086aa77c0",
+    "watches": [],
+    "notebook": {
+      "variants": [],
+      "steps": []
+    },
+    "sourceGraphSelection": null,
+    "computeMode": "manual"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "kind": "actual product event callbacks / small DOM model / controlled fetch, not native UI or kernel",
+  "hashes": {
+    "typedEditor": "c81b1c52d4a5ebcbc34560e11e275bd39f26cb6231c81cd7605b318395e508dd",
+    "presentation": "d9983b668e730933dfae7e49e043c381093cf3105f740bfe996e3d3401bc5631",
+    "visibilityTools": "8e253499eb85bc01ee633903b570e5c844b254e621c00d141fe0c31cc87281fc"
+  },
+  "cases": [
+    {
+      "id": "hide-delete-prunes-saved-hidden-id",
+      "pass": true,
+      "hidden": [],
+      "warnings": []
+    },
+    {
+      "id": "group-delete-prunes-saved-child-id",
+      "pass": true,
+      "containers": [
+        {
+          "id": "container_b57e2e9c",
+          "name": "그룹 1",
+          "children": [],
+          "collapsed": true,
+          "x": 600,
+          "y": 300
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "id": "deleting-last-isolation-target-safely-ends-frame",
+      "pass": true,
+      "visible": [
+        "n",
+        "zero"
+      ]
+    },
+    {
+      "id": "new-node-is-immediately-in-current-isolation",
+      "pass": true,
+      "added": "nat_9f5b68df"
+    },
+    {
+      "id": "presentation-events-preserve-result-and-do-not-request-check",
+      "pass": true,
+      "requests": 1,
+      "layoutCommits": 1,
+      "navigationCommits": 0
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "nonCasesExtraBranches": {
+    "validation": null,
+    "normalizationError": "number 42 is not iterable (cannot read property Symbol(Symbol.iterator))"
+  },
+  "manualHideOccurrences": {
+    "callA": [
+      "B"
+    ],
+    "callB": [
+      "B"
+    ],
+    "expectedCallB": []
+  },
+  "hideAfterDiagnostic": {
+    "temporary": {
+      "nodes": [],
+      "expanded": [
+        "g"
+      ]
+    },
+    "collapsed": true,
+    "projected": [
+      {
+        "id": "A",
+        "group": null
+      },
+      {
+        "id": "C",
+        "group": null
+      },
+      {
+        "id": "@hidden:B",
+        "group": null
+      }
+    ],
+    "expectedTemporaryExpanded": []
+  },
+  "emptyContainer": {
+    "finiteCoordinates": false,
+    "json": "{\"id\":\"outer\",\"name\":\"outer\",\"children\":[\"c:empty\"],\"collapsed\":true,\"x\":null,\"y\":null}"
+  }
+}

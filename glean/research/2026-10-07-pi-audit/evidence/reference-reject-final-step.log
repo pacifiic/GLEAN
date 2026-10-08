@@ -1,0 +1,9 @@
+/Users/moonone/GLEAN/glean/research/2026-10-07-pi-audit/reference/IrrationalBroken.lean:309:2: error: Type mismatch
+  hn
+has type
+  ↑a ^ (2 * n + 1) / ↑n ! * I n (π / 2) < 1
+but is expected to have type
+  False
+
+Note: The following definitions were not unfolded because their definition is not exposed:
+  instLT ↦ 2

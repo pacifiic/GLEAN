@@ -1,0 +1,80 @@
+{
+  "description": "Unmodified GLEAN baseline checks for the usability audit; not compilation of the pi proof.",
+  "results": [
+    {
+      "command": [
+        "./glean/scripts/lake",
+        "build"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.694,
+      "stdout": "Build completed successfully (4 jobs).\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "./glean/scripts/lake",
+        "env",
+        "lean",
+        "tests/Smoke.lean"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.796,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "glean/tests/prototype",
+        "-q"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 7.721,
+      "stdout": "",
+      "stderr": "127.0.0.1 - - [07/Oct/2026 17:17:15] \"POST /api/check HTTP/1.1\" 200 -\n127.0.0.1 - - [07/Oct/2026 17:17:15] \"GET /model.mjs HTTP/1.1\" 200 -\n127.0.0.1 - - [07/Oct/2026 17:17:16] \"POST /api/check HTTP/1.1\" 200 -\n127.0.0.1 - - [07/Oct/2026 17:17:16] \"GET /api/examples HTTP/1.1\" 200 -\n127.0.0.1 - - [07/Oct/2026 17:17:16] \"GET /api/health HTTP/1.1\" 403 -\n127.0.0.1 - - [07/Oct/2026 17:17:16] \"POST /api/check HTTP/1.1\" 403 -\n127.0.0.1 - - [07/Oct/2026 17:17:16] \"GET /api/health HTTP/1.1\" 200 -\n127.0.0.1 - - [07/Oct/2026 17:17:16] \"GET /api/health HTTP/1.1\" 200 -\n127.0.0.1 - - [07/Oct/2026 17:17:16] \"POST /api/check HTTP/1.1\" 400 -\n127.0.0.1 - - [07/Oct/2026 17:17:16] \"GET http://[ HTTP/1.1\" 400 -\n127.0.0.1 - - [07/Oct/2026 17:17:16] \"POST http://[ HTTP/1.1\" 400 -\n127.0.0.1 - - [07/Oct/2026 17:17:16] \"POST /api/check HTTP/1.1\" 400 -\n127.0.0.1 - - [07/Oct/2026 17:17:16] \"POST /api/check HTTP/1.1\" 413 -\n127.0.0.1 - - [07/Oct/2026 17:17:16] \"GET /../../AGENTS.md HTTP/1.1\" 404 -\n127.0.0.1 - - [07/Oct/2026 17:17:16] \"GET /%2e%2e/%2e%2e/AGENTS.md HTTP/1.1\" 404 -\n127.0.0.1 - - [07/Oct/2026 17:17:16] \"GET /../PROTOCOL.md HTTP/1.1\" 404 -\n----------------------------------------------------------------------\nRan 54 tests in 7.391s\n\nOK\n"
+    },
+    {
+      "command": [
+        "/Users/moonone/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--test",
+        "glean/prototype/web/focus-mode.test.mjs",
+        "glean/prototype/web/layout-model.test.mjs",
+        "glean/prototype/web/model.test.mjs",
+        "glean/prototype/web/ribbon.test.mjs"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.675,
+      "stdout": "✔ initialization is idempotent and does not require fullscreen support (2.935958ms)\n✔ Escape leaves graph focus, consumes the event, and restores keyboard focus (0.470041ms)\n✔ native fullscreen is requested within the click and browser exit restores the workspace (0.6755ms)\n✔ fullscreen rejection and synchronous failure both retain usable viewport focus (0.972375ms)\n✔ late native enter is undone after the user has already closed focus mode (0.542917ms)\n✔ closing and reopening during a pending enter honors the most recent intent (0.355042ms)\n✔ reopening during native exit keeps viewport focus after that exit completes (1.583416ms)\n✔ failed native exit restores the exit control and matching focus state (0.659458ms)\n✔ fullscreen owned by another element is neither requested nor exited (0.278541ms)\n✔ no DOM replacement, storage access, or inline layout writes are needed (0.2915ms)\n✔ default layout has the requested docks and initially hides help (4.279541ms)\n✔ unknown or incompatible persisted values restore a complete default (1.83375ms)\n✔ normalization repairs invalid fields without dropping valid preferences (0.826583ms)\n✔ persisted unknown and prototype-related keys cannot enter the normalized state (1.871083ms)\n✔ orders are compact and deterministic with duplicate and invalid persisted orders (0.716375ms)\n✔ moving between docks repairs the source active tab and selects the destination (0.644792ms)\n✔ dock insertion indexes refer to visible tabs while preserving hidden panel placement (0.913417ms)\n✔ reordering in one dock is stable and a move without an index retains its order (2.682959ms)\n✔ closing and reopening preserves last dock order and floating geometry (0.651375ms)\n✔ the last hidden tab empties its dock active selection and reopening restores it (0.793875ms)\n✔ activation changes only the selected dock tab and never reopens a hidden panel (0.682041ms)\n✔ moving a hidden panel makes it visible and active in its new area (0.436667ms)\n✔ mutators do not change a frozen input and returned nested records are detached (0.939875ms)\n✔ invalid commands never add panels, area keys, or unsafe numbers (1.681958ms)\n✔ resizing clamps docks by axis and preserves other dimensions (0.456792ms)\n✔ floating geometry updates are partial, bounded, and keep visibility and area (3.555458ms)\n✔ viewport clamping brings the entire floating panel inside smaller bounds (0.333417ms)\n✔ viewport clamping tolerates missing geometry and zero-size or malformed bounds (0.858375ms)\n✔ JSON round trips retain chosen visibility, order, tabs, dock sizes and floating geometry (0.764708ms)\n✔ imports fail safely before the editor replaces a working graph (2.005167ms)\n✔ editor exports round-trip long supported types and layout bounds (2.416791ms)\n✔ each input has one incoming connection; replacement is explicit (2.266917ms)\n✔ cycles are rejected and existing wires survive a rejected edit (0.209791ms)\n✔ deleting a node removes incident wires while retaining the sole goal (0.415208ms)\n✔ in-flight results cannot verify a newer graph, including a same-graph reload (0.382417ms)\n✔ fit includes all nodes and handles zero-size viewport without NaN (0.729458ms)\n✔ compact capsule geometry leaves distinct rows for two input components (0.212709ms)\n✔ wire endpoints sit exactly on the capsule sides and input row centers (0.293417ms)\n✔ all supported capsule inputs stay within the body above the type strip (0.5845ms)\n✔ resizing dock areas preserves the graph center and zoom without mutating the view (0.260792ms)\n✔ initial or temporarily hidden canvas dimensions do not displace the graph (0.160625ms)\n✔ category selection shows the matching tools and exposes the selected state (4.498292ms)\n✔ category keyboard navigation wraps and moves focus to the visible selection (0.760417ms)\n✔ commands reuse existing editor actions and reveal closed panels (2.695917ms)\n✔ disabled editor actions cannot be triggered from the ribbon (0.229125ms)\n✔ reinitialization does not attach duplicate command listeners (0.470667ms)\nℹ tests 46\nℹ suites 0\nℹ pass 46\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 202.50675\n",
+      "stderr": ""
+    }
+  ],
+  "date": "2026-10-07",
+  "timezone": "Asia/Seoul",
+  "base_commit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+  "working_tree": "Prototype changes were uncommitted; SHA256 values identify the audited files.",
+  "files_sha256": {
+    "glean/prototype/graph.py": "d6c4c25b70f7c61a9ade3f28988a26ed4026cf7b33159a0345c5870ef2a50abc",
+    "glean/prototype/server.py": "5b70e7dacb0fa2ee538785434f3b3446a3a086cd75f05167f7e25a6c3ed9dea3",
+    "glean/prototype/web/app.js": "6ff8a58053cf6991472f4ca09459fbe6237eb8cf326c891a15dd92ecce18e7eb",
+    "glean/prototype/web/capsules.css": "dd649ed9b45cd1b8d6979a6eee4a9ef003b172087724d295a6cfb430d80747de",
+    "glean/prototype/web/focus-mode.css": "ac7bb194eaac1930aca2e09d8edff6e12770a8ad8d9ff5ecea721c9fac670a94",
+    "glean/prototype/web/focus-mode.js": "e7cd29cdc77d8773671ca6975d14c4c08e3d141c837e8ec0422008ea22e857fa",
+    "glean/prototype/web/focus-mode.test.mjs": "15c1ed4e50158c5e74c1d871ac942db0d5b639eb611f6ebc85b6af69d95d4a20",
+    "glean/prototype/web/index.html": "585aba3c064d9c96954fa5ccce674591b7060b8963a0ea3f46fb0d3340f6b815",
+    "glean/prototype/web/layout-model.mjs": "f1c509e725546ee539ecdaca7fb9305d594926a1e98ff72647bb41a6a3035384",
+    "glean/prototype/web/layout-model.test.mjs": "dcbd73c17688b871c8b68f709d478dda8a3fb070dbb18e0e4e9d0419381cf91c",
+    "glean/prototype/web/model.mjs": "b5bd57dcd9be9f4f4018d706143b68e829eabd28603a4d9c871680e6de68b588",
+    "glean/prototype/web/model.test.mjs": "87473b6d9d5d0cd61da0c145dfefad6bbdd3bee71f540fea107a9add60352331",
+    "glean/prototype/web/ribbon.css": "fcf130813d995f9d9d89c415d49ae6cd6ca3d73711ed018af25de8f3e623b887",
+    "glean/prototype/web/ribbon.mjs": "897abff1398b69995bfc7f5232d1ccd5dbb55efe36e1f28d2caa22123342bf71",
+    "glean/prototype/web/ribbon.test.mjs": "6d7559839e3e6096c047a8a0e96fe3bd6317a9a0c85246607dcd688f3cd48608",
+    "glean/prototype/web/style.css": "89dea2830942024404231a2ea0b0bc9fc65daaf9d7678fdc258ea686f5095556",
+    "glean/prototype/web/workspace.css": "8b6af18fbfbd77e82b8d27711fd754bd29395ad36325f2cf733e927022a9a0da",
+    "glean/prototype/web/workspace.js": "70acbd2ccf422eed3dc90f0041feae7e4c49c64609f7424978258e224d218b13"
+  }
+}

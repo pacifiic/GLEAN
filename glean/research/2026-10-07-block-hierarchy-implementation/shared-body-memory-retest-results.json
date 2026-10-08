@@ -1,0 +1,36 @@
+{
+  "kind": "pure Node model benchmark; not browser response or actual kernel check",
+  "nodeVersion": "v24.19.0",
+  "platform": "darwin",
+  "architecture": "arm64",
+  "calls": 200,
+  "bodyBytes": 1048483,
+  "serializedDocumentBytes": 1088047,
+  "serializedDefinitionOccurrences": 1,
+  "historyLimit": 50,
+  "commitMs": {
+    "median": 2.6499999999999773,
+    "p95": 3.711500000000001,
+    "maximum": 5.332834000000048
+  },
+  "undoMs": 2.4037909999999556,
+  "memoryBytes": {
+    "before": {
+      "rss": 62111744,
+      "heapTotal": 11878400,
+      "heapUsed": 6990504,
+      "external": 2247868,
+      "arrayBuffers": 143611
+    },
+    "after": {
+      "rss": 76578816,
+      "heapTotal": 25509888,
+      "heapUsed": 8217672,
+      "external": 2247872,
+      "arrayBuffers": 143611
+    },
+    "heapDelta": 1227168,
+    "rssDelta": 14467072
+  },
+  "historyHash": "28b6ca353816b8383522ab8a2db63bae57496238e55b90ffe27e4182c21b4625"
+}

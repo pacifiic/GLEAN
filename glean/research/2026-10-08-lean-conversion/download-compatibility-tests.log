@@ -1,0 +1,10 @@
+✔ explicit verification ensures its panel is open while automatic previews do not change docks (8.578208ms)
+✔ downloads click an attached anchor and release DOM and object URL resources afterward (5.698291ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 144.839833

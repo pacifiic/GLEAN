@@ -1,0 +1,20 @@
+// Copyright (c) 2026 GLEAN contributors. Released under Apache 2.0.
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import crypto from 'node:crypto';
+import {performance} from 'node:perf_hooks';
+import {Element,descendants,find} from './audit_dom_harness.mjs';
+import {initSourceAnalysis} from '../../prototype/web/source-analysis.mjs';
+import {typedDemo,checkTypedImport} from '../../prototype/web/typed-model.mjs';
+const actual=JSON.parse(fs.readFileSync(new URL('declarations-1000-actual-result.json',import.meta.url),'utf8'));
+assert.equal(actual.status,'analyzed');assert.equal(actual.declarations.length,1000);
+const source=fs.readFileSync(new URL('fixtures/declarations-1000.lean',import.meta.url),'utf8'),host=new Element(),status=new Element(),run=new Element('button'),cancel=new Element('button'),jumps=[],requests=[],cache=[];
+globalThis.document={createElement:tag=>new Element(tag)};
+const panel=initSourceAnalysis({host,status,run,cancel,current:()=>({source,filename:'LargeIndex.lean',projectId:'glean'}),jump:(...position)=>jumps.push(position),onCache:value=>cache.push(value),onReference(){},post:async(path,body)=>{requests.push({path,body});return path==='/api/lean/index/start'?actual:{name:body.declaration,module:body.imports[0],type:'controlled installed-route response',unsupported:'routing only; actual installed lookup tested separately',environment:actual.environment};}});
+const cards=()=>descendants(host).filter(n=>n.className==='source-declaration-card');
+const start=performance.now();await run.fire('click');const initialMs=performance.now()-start;assert.equal(cards().length,50);assert.ok(status.textContent.includes('1000')&&status.textContent.includes('미검증'));assert.equal(cache[0].verified,false);
+const more=find(host,n=>n.tagName==='button'&&n.textContent==='더 보기 (50/1000)'),moreStart=performance.now();await more.fire('click');const moreMs=performance.now()-moreStart;assert.equal(cards().length,100);
+const search=find(host,n=>n.tagName==='input'&&n['aria-label']==='선언 검색');search.value='declaration_0999';const searchStart=performance.now();await search.fire('input');const searchMs=performance.now()-searchStart;assert.equal(cards().length,1);assert.ok(find(cards()[0],n=>n.tagName==='pre'&&n.textContent.includes('GleanLargeIndex.declaration_0999')));await find(cards()[0],n=>n.tagName==='button'&&n.textContent==='원문 위치').fire('click');assert.deepEqual(jumps,[[1007,0]]);
+await find(cards()[0],n=>n.tagName==='button'&&n.textContent==='Nat.add_zero · 설치 환경').fire('click');const lookup=requests.find(r=>r.path==='/api/lean/declaration');assert.equal(lookup.body.declaration,'Nat.add_zero');assert.deepEqual(lookup.body.imports,['Init.Core']);
+const boundary=typedDemo();boundary.nodes.push(...Array.from({length:254},(_,index)=>({id:'spare'+index,kind:'nat',value:'0'})));assert.equal(checkTypedImport(boundary),null);boundary.nodes.push({id:'beyond',kind:'nat',value:'0'});const limitError=checkTypedImport(boundary);assert.ok(limitError?.includes('256'));
+const result={kind:'actual source analysis UI callbacks consuming independently obtained actual 1000-declaration metadata; controlled DOM/post for rendering/installed routing; times exclude browser layout/paint and actual analysis',pass:true,initialCardCount:50,afterExplicitMoreCardCount:100,afterSelectedSearchCardCount:1,selectedSourceJump:jumps[0],selectedInstalledDependencyRoute:lookup.body,analysisRemainsUnverified:true,semanticGraph256Accepted257Rejected:true,semanticLimitError:limitError,controlledRenderMs:{initial:initialMs,more:moreMs,search:searchMs},hashes:Object.fromEntries(['source-analysis.mjs','typed-model.mjs'].map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(new URL('../../prototype/web/'+file,import.meta.url))).digest('hex')]))};panel.close();fs.writeFileSync(new URL(process.argv[2]??'declarations-1000-ui-retest-results.json',import.meta.url),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));

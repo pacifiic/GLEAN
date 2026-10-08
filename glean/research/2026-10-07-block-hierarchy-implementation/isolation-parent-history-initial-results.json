@@ -1,0 +1,126 @@
+{
+  "kind": "actual typed event + actual app history callback / controlled DOM; separate model/store controls; not native UI or kernel",
+  "hashes": {
+    "app": "bcc3c950cf32eb22ca0a7b940b117a06ddcf55419afed67db4f33cfac02111d2",
+    "typedEditor": "841db64a0be25881a1b5f6f37f73fc9c09d3c977275f81e87d044da14b74cd63",
+    "isolationRecovery": "25d3848f94888b4601ea9a86f79b7352e05fea10ddd2de6fe78f61e98a4dc56a"
+  },
+  "cases": [
+    {
+      "id": "actual-app-undo-retains-current-isolation-and-manual-hidden-state",
+      "pass": true,
+      "hidden": [
+        "n:spare"
+      ],
+      "isolation": {
+        "version": 1,
+        "views": {
+          "root": {
+            "frames": [
+              {
+                "targets": [
+                  "zero"
+                ],
+                "revealed": [],
+                "viewport": {
+                  "x": -270,
+                  "y": -40,
+                  "zoom": 1
+                }
+              }
+            ]
+          }
+        },
+        "navigation": {
+          "path": [],
+          "trail": [],
+          "selected": "zero",
+          "selectedIds": [
+            "zero"
+          ],
+          "selectedOutput": "out",
+          "view": {
+            "x": -270,
+            "y": -40,
+            "zoom": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "actual-explicit-resume-with-current-target-validation",
+      "pass": true,
+      "resumedOnlyAfterExplicitClick": true
+    },
+    {
+      "id": "separate-store-document-target-and-viewport-guards",
+      "pass": true,
+      "differentDocumentRejected": true,
+      "missingTargetRejected": true,
+      "malformedViewportRejected": true,
+      "ordinaryDocumentUnchanged": true
+    },
+    {
+      "id": "nested-navigation-resume-observation",
+      "pass": true,
+      "before": {
+        "path": [
+          {
+            "kind": "module",
+            "id": "outer"
+          }
+        ],
+        "trail": [
+          {
+            "scopeId": "root",
+            "nodeId": "callA",
+            "definitionId": "outer"
+          }
+        ],
+        "selected": "n_in",
+        "selectedOutput": "out",
+        "codeTarget": null,
+        "view": {
+          "x": -10,
+          "y": -40,
+          "zoom": 1
+        },
+        "dependencyPreview": false
+      },
+      "after": {
+        "path": [
+          {
+            "kind": "module",
+            "id": "outer"
+          }
+        ],
+        "trail": [
+          {
+            "scopeId": "root",
+            "nodeId": "callA",
+            "definitionId": "outer"
+          }
+        ],
+        "selected": "n_in",
+        "selectedOutput": "out",
+        "codeTarget": null,
+        "view": {
+          "x": -10,
+          "y": -40,
+          "zoom": 1
+        },
+        "dependencyPreview": false
+      }
+    },
+    {
+      "id": "explicit-session-resume-restores-nested-navigation-selection-and-view",
+      "pass": true,
+      "sameNavigation": true
+    },
+    {
+      "id": "child-undo-preserves-parent-return-navigation-history",
+      "pass": false,
+      "error": "Undo in a valid child scope removes the parent-return navigation history"
+    }
+  ]
+}

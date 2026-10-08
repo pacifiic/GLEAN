@@ -1,0 +1,10 @@
+{
+  "kind": "actual code editor async query and input callbacks; controlled DOM/context promise, no native UI or Lean",
+  "hash": "969bf21515ce1840d530da9fe26eb86ace671c4f15c0314efe319ff41d7296c8",
+  "pass": false,
+  "queryDisabledAfterEditAndCompletion": true,
+  "cancelHidden": false,
+  "cancellations": 1,
+  "bodyPreserved": true,
+  "obsoleteGoalDisplayed": false
+}

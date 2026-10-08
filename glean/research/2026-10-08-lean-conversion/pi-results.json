@@ -1,0 +1,549 @@
+{
+  "cases": [
+    {
+      "case": "original_call",
+      "expected": "valid",
+      "pass": true,
+      "result": {
+        "status": "valid",
+        "verified": true,
+        "generatedCode": "import Lean\nimport GleanUploadedSource\nset_option autoImplicit false\nset_option linter.defProp false\nset_option Elab.async false\nopen Lean Elab Term in\nelab \"gleanTerm% \" location:str text:str : term <= expectedType => do\n  let filename := if location.getString.isEmpty then \"<input>\" else location.getString\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString filename with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := if location.getString.isEmpty then stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo) else stx\n  let elaborate : TermElabM Expr := withoutErrToSorry do\n    try\n      let result ← elabTerm stx expectedType\n      synthesizeSyntheticMVarsNoPostponing\n      let result ← instantiateMVars result\n      let env ← getEnv\n      let mut pending := result.getUsedConstants.toList\n      let mut seen : NameSet := {}\n      while !pending.isEmpty do\n        let name := pending.head!\n        pending := pending.tail!\n        unless seen.contains name do\n          seen := seen.insert name\n          if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n            throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n          if (env.getModuleIdxFor? name).isNone then\n            if let some ci := env.find? name then\n              pending := ci.getUsedConstantsAsSet.toList ++ pending\n      return result\n    catch error =>\n      logException error\n      throwAbortTerm\n  if location.getString.isEmpty then elaborate\n  else withTheReader Core.Context (fun ctx => { ctx with fileName := filename, fileMap := FileMap.ofString text.getString }) elaborate\n\nnoncomputable def glean_component_1  : (gleanTerm% \"\" \"Irrational Real.pi\") :=\n  (gleanTerm% \"GLEAN_FRAGMENT_1\" \"@irrational_pi\")\n\ntheorem glean_proof  : (gleanTerm% \"\" \"Irrational Real.pi\") :=\n  let glean_component_2 := glean_component_1 \n  glean_component_2\n",
+        "expectedSource": "import Lean\nimport GleanUploadedSource\nset_option autoImplicit false\nset_option linter.defProp false\nset_option Elab.async false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" location:str text:str : term <= expectedType => do\n  let filename := if location.getString.isEmpty then \"<input>\" else location.getString\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString filename with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := if location.getString.isEmpty then stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo) else stx\n  let elaborate : TermElabM Expr := withoutErrToSorry do\n    try\n      let result ← elabTerm stx expectedType\n      synthesizeSyntheticMVarsNoPostponing\n      let result ← instantiateMVars result\n      let env ← getEnv\n      let mut pending := result.getUsedConstants.toList\n      let mut seen : NameSet := {}\n      while !pending.isEmpty do\n        let name := pending.head!\n        pending := pending.tail!\n        unless seen.contains name do\n          seen := seen.insert name\n          if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n            throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n          if (env.getModuleIdxFor? name).isNone then\n            if let some ci := env.find? name then\n              pending := ci.getUsedConstantsAsSet.toList ++ pending\n      return result\n    catch error =>\n      logException error\n      throwAbortTerm\n  if location.getString.isEmpty then elaborate\n  else withTheReader Core.Context (fun ctx => { ctx with fileName := filename, fileMap := FileMap.ofString text.getString }) elaborate\n\ndef glean_expected_type : Prop := (gleanExpectedTerm% \"\" \"Irrational Real.pi\")\n",
+        "sourceMap": {
+          "root/source_call": {
+            "startLine": 38,
+            "endLine": 40
+          },
+          "root": {
+            "startLine": 41,
+            "endLine": 44
+          }
+        },
+        "fragmentSources": {
+          "GLEAN_FRAGMENT_1": {
+            "key": "root/source_call",
+            "field": "body",
+            "lineCount": 1
+          }
+        },
+        "sourceLocations": [
+          {
+            "key": "root/source_call/out",
+            "startLine": 42,
+            "endLine": 42
+          }
+        ],
+        "nodeBindings": {
+          "glean_component_2": "root/source_call/out"
+        },
+        "bindingKeys": {
+          "glean_proof/glean_component_2": "root/source_call/out"
+        },
+        "nodeFunctions": {
+          "root/source_call": "glean_component_1",
+          "root/source_call/out": "glean_component_1"
+        },
+        "nodeInputPorts": {
+          "root/source_call/out": []
+        },
+        "inputBindings": {},
+        "sourceContext": {
+          "version": 1,
+          "module": "GleanUploadedSource",
+          "filename": "Irrational.lean",
+          "source": "/-\nCopyright (c) 2022 Bhavik Mehta. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Bhavik Mehta\n-/\nmodule\n\npublic import Mathlib.Analysis.SpecialFunctions.Integrals.Basic\npublic import Mathlib.Topology.Algebra.Order.Floor\npublic import Mathlib.NumberTheory.Real.Irrational\n\n/-!\n# `Real.pi` is irrational\n\nThe main result of this file is `irrational_pi`.\n\nThe proof is adapted from https://en.wikipedia.org/wiki/Proof_that_%CF%80_is_irrational#Cartwright's_proof.\n\nThe proof idea is as follows.\n* Define a sequence of integrals `I n θ = ∫ x in (-1)..1, (1 - x ^ 2) ^ n * cos (x * θ)`.\n* Give a recursion formula for `I (n + 2) θ * θ ^ 2` in terms of `I n θ` and `I (n + 1) θ`.\n  Note we do not find it helpful to define `J` as in the above proof, and instead work directly\n  with `I`.\n* Define polynomials with integer coefficients `sinPoly n` and `cosPoly n` such that\n  `I n θ * θ ^ (2 * n + 1) = n ! * (sinPoly n θ * sin θ + cosPoly n θ * cos θ)`.\n  Note that in the informal proof, these polynomials are not defined explicitly, but we find it\n  useful to define them by recursion.\n* Show that both these polynomials have degree bounded by `n`.\n* Show that `0 < I n (π / 2) ≤ 2` for all `n`.\n* Now we can finish: if `π / 2` is rational, write it as `a / b` with `a, b > 0`. Then\n  `b ^ (2 * n + 1) * sinPoly n (a / b)` is a positive integer by the degree bound. But it is equal\n  to `a ^ (2 * n + 1) / n ! * I n (π / 2) ≤ 2 * a * (2 * n + 1) / n !`, which converges to 0 as\n  `n → ∞`.\n\n-/\n\npublic section\n\nnoncomputable section\n\nopen intervalIntegral MeasureTheory.MeasureSpace Set Polynomial Real\nopen scoped Nat\n\n/-- The sequence of integrals used for Cartwright's proof of irrationality of `π`. -/\nprivate def I (n : ℕ) (θ : ℝ) : ℝ := ∫ x in (-1)..1, (1 - x ^ 2) ^ n * cos (x * θ)\n\nvariable {n : ℕ} {θ : ℝ}\n\nprivate lemma I_zero : I 0 θ * θ = 2 * sin θ := by\n  rw [mul_comm, I]\n  simp [mul_integral_comp_mul_right, two_mul]\n\n/--\nAuxiliary for the proof that `π` is irrational.\nWhile it is most natural to give the recursive formula for `I (n + 2) θ`, as well as give the second\nbase case of `I 1 θ`, it is in fact more convenient to give the recursive formula for `I (n + 1) θ`\nin terms of `I n θ` and `I (n - 1) θ` (note the natural subtraction!).\nDespite the usually inconvenient subtraction, this in fact allows deducing both of the above facts\nwith significantly fewer analysis computations.\nIn addition, note the `0 ^ n` on the right-hand side - this is intentional, and again allows\ncombining the proof of the \"usual\" recursion formula and the base case `I 1 θ`.\n-/\nprivate lemma recursion' (n : ℕ) :\n    I (n + 1) θ * θ ^ 2 = - (2 * 2 * ((n + 1) * (0 ^ n * cos θ))) +\n      2 * (n + 1) * (2 * n + 1) * I n θ - 4 * (n + 1) * n * I (n - 1) θ := by\n  rw [I]\n  let f (x : ℝ) : ℝ := 1 - x ^ 2\n  let u₁ (x : ℝ) : ℝ := f x ^ (n + 1)\n  let u₁' (x : ℝ) : ℝ := - (2 * (n + 1) * x * f x ^ n)\n  let v₁ (x : ℝ) : ℝ := sin (x * θ)\n  let v₁' (x : ℝ) : ℝ := cos (x * θ) * θ\n  let u₂ (x : ℝ) : ℝ := x * (f x) ^ n\n  let u₂' (x : ℝ) : ℝ := (f x) ^ n - 2 * n * x ^ 2 * (f x) ^ (n - 1)\n  let v₂ (x : ℝ) : ℝ := cos (x * θ)\n  let v₂' (x : ℝ) : ℝ := -sin (x * θ) * θ\n  have hfd : Continuous f := by fun_prop\n  have hu₁d : Continuous u₁' := by fun_prop\n  have hv₁d : Continuous v₁' := by fun_prop\n  have hu₂d : Continuous u₂' := by fun_prop\n  have hv₂d : Continuous v₂' := by fun_prop\n  have hu₁_eval_one : u₁ 1 = 0 := by simp only [u₁, f]; simp\n  have hu₁_eval_neg_one : u₁ (-1) = 0 := by simp only [u₁, f]; simp\n  have t : u₂ 1 * v₂ 1 - u₂ (-1) * v₂ (-1) = 2 * (0 ^ n * cos θ) := by simp [u₂, v₂, f, ← two_mul]\n  have hf (x) : HasDerivAt f (- 2 * x) x := by\n    convert! (hasDerivAt_pow 2 x).const_sub 1 using 1\n    simp\n  have hu₁ (x) : HasDerivAt u₁ (u₁' x) x := by\n    convert! (hf x).pow _ using 1\n    simp only [Nat.add_succ_sub_one, u₁', Nat.cast_add_one]\n    ring\n  have hv₁ (x) : HasDerivAt v₁ (v₁' x) x := (hasDerivAt_mul_const θ).sin\n  have hu₂ (x) : HasDerivAt u₂ (u₂' x) x := by\n    convert! (hasDerivAt_id' x).fun_mul ((hf x).fun_pow _) using 1\n    simp only [u₂']\n    ring\n  have hv₂ (x) : HasDerivAt v₂ (v₂' x) x := (hasDerivAt_mul_const θ).cos\n  convert_to (∫ (x : ℝ) in (-1)..1, u₁ x * v₁' x) * θ = _ using 1\n  · simp_rw [u₁, v₁', f, ← intervalIntegral.integral_mul_const, sq θ, mul_assoc]\n  rw [integral_mul_deriv_eq_deriv_mul (fun x _ => hu₁ x) (fun x _ => hv₁ x)\n    (hu₁d.intervalIntegrable _ _) (hv₁d.intervalIntegrable _ _), hu₁_eval_one, hu₁_eval_neg_one,\n    zero_mul, zero_mul, sub_zero, zero_sub, ← integral_neg, ← integral_mul_const]\n  convert_to ((-2 : ℝ) * (n + 1)) * ∫ (x : ℝ) in (-1)..1, (u₂ x * v₂' x) = _ using 1\n  · rw [← integral_const_mul]\n    congr 1 with x\n    dsimp [u₁', v₁, u₂, v₂']\n    ring\n  rw [integral_mul_deriv_eq_deriv_mul (fun x _ => hu₂ x) (fun x _ => hv₂ x)\n    (hu₂d.intervalIntegrable _ _) (hv₂d.intervalIntegrable _ _),\n    mul_sub, t, neg_mul, neg_mul, neg_mul, sub_neg_eq_add]\n  have (x : _) : u₂' x = (2 * n + 1) * f x ^ n - 2 * n * f x ^ (n - 1) := by\n    cases n with\n    | zero => simp [u₂']\n    | succ n => ring!\n  simp_rw [this, sub_mul, mul_assoc _ _ (v₂ _)]\n  have : Continuous v₂ := by fun_prop\n  rw [mul_mul_mul_comm, integral_sub, mul_sub, add_sub_assoc]\n  · congr 1\n    simp_rw [integral_const_mul]\n    ring!\n  all_goals exact Continuous.intervalIntegrable (by fun_prop) _ _\n\n/--\nAuxiliary for the proof that `π` is irrational.\nThe recursive formula for `I (n + 2) θ * θ ^ 2` in terms of `I n θ` and `I (n + 1) θ`.\n-/\nprivate lemma recursion (n : ℕ) :\n    I (n + 2) θ * θ ^ 2 =\n      2 * (n + 2) * (2 * n + 3) * I (n + 1) θ - 4 * (n + 2) * (n + 1) * I n θ := by\n  rw [recursion' (n + 1)]\n  push_cast\n  ring\n\n/--\nAuxiliary for the proof that `π` is irrational.\nThe second base case for the induction on `n`, giving an explicit formula for `I 1 θ`.\n-/\nprivate lemma I_one : I 1 θ * θ ^ 3 = 4 * sin θ - 4 * θ * cos θ := by\n  rw [_root_.pow_succ, ← mul_assoc, recursion' 0, sub_mul, add_mul, mul_assoc _ (I 0 θ), I_zero]\n  ring\n\n/--\nAuxiliary for the proof that `π` is irrational.\nThe first of the two integer-coefficient polynomials that describe the behaviour of the\nsequence of integrals `I`.\nWhile not given in the informal proof, these are easy to deduce from the recursion formulae.\n-/\nprivate def sinPoly : ℕ → ℤ[X]\n  | 0 => C 2\n  | 1 => C 4\n  | n + 2 => ((2 : ℤ) * (2 * n + 3)) • sinPoly (n + 1) + monomial 2 (-4) * sinPoly n\n\n/--\nAuxiliary for the proof that `π` is irrational.\nThe second of the two integer-coefficient polynomials that describe the behaviour of the\nsequence of integrals `I`.\nWhile not given in the informal proof, these are easy to deduce from the recursion formulae.\n-/\nprivate def cosPoly : ℕ → ℤ[X]\n  | 0 => 0\n  | 1 => monomial 1 (-4)\n  | n + 2 => ((2 : ℤ) * (2 * n + 3)) • cosPoly (n + 1) + monomial 2 (-4) * cosPoly n\n\n/--\nAuxiliary for the proof that `π` is irrational.\nProve a degree bound for `sinPoly n` by induction. Note this is where we find the value in an\nexplicit description of `sinPoly`.\n-/\nprivate lemma sinPoly_natDegree_le : ∀ n : ℕ, (sinPoly n).natDegree ≤ n\n  | 0\n  | 1 => by simp [sinPoly]\n  | n + 2 => by\n    rw [sinPoly]\n    refine natDegree_add_le_of_degree_le ((natDegree_smul_le _ _).trans ?_) ?_\n    · exact (sinPoly_natDegree_le (n + 1)).trans (by simp)\n    refine natDegree_mul_le.trans ?_\n    simpa [add_comm 2] using sinPoly_natDegree_le n\n\n/--\nAuxiliary for the proof that `π` is irrational.\nProve a degree bound for `cosPoly n` by induction. Note this is where we find the value in an\nexplicit description of `cosPoly`.\n-/\nprivate lemma cosPoly_natDegree_le : ∀ n : ℕ, (cosPoly n).natDegree ≤ n\n  | 0 => by simp [cosPoly]\n  | 1 => (natDegree_monomial_le _).trans (by simp)\n  | n + 2 => by\n      rw [cosPoly]\n      refine natDegree_add_le_of_degree_le ((natDegree_smul_le _ _).trans ?_) ?_\n      · exact (cosPoly_natDegree_le (n + 1)).trans (by simp)\n      exact natDegree_mul_le.trans (by simp [add_comm 2, cosPoly_natDegree_le n])\n\n/--\nAuxiliary for the proof that `π` is irrational.\nThe key lemma: the sequence of integrals `I` can be written as a linear combination of `sin` and\n`cos`, with coefficients given by the polynomials `sinPoly` and `cosPoly`.\n-/\nprivate lemma sinPoly_add_cosPoly_eval (θ : ℝ) :\n    ∀ n : ℕ,\n      I n θ * θ ^ (2 * n + 1) = n ! * ((sinPoly n).eval₂ (Int.castRingHom _) θ * sin θ +\n        (cosPoly n).eval₂ (Int.castRingHom _) θ * cos θ)\n  | 0 => by simp [sinPoly, cosPoly, I_zero]\n  | 1 => by simp [I_one, sinPoly, cosPoly, sub_eq_add_neg]\n  | n + 2 => by\n      calc I (n + 2) θ * θ ^ (2 * (n + 2) + 1) = I (n + 2) θ * θ ^ 2 * θ ^ (2 * n + 3) := by ring\n        _ = 2 * (n + 2) * (2 * n + 3) * (I (n + 1) θ * θ ^ (2 * (n + 1) + 1)) -\n            4 * (n + 2) * (n + 1) * θ ^ 2 * (I n θ * θ ^ (2 * n + 1)) := by rw [recursion]; ring\n        _ = _ := by simp [sinPoly_add_cosPoly_eval, sinPoly, cosPoly, Nat.factorial_succ]; ring\n\n/--\nAuxiliary for the proof that `π` is irrational.\nFor a polynomial `p` with natural degree `≤ k` and integer coefficients, evaluating `p` at a\nrational `a / b` gives a rational of the form `z / b ^ k`.\nTODO: should this be moved elsewhere? It uses none of the pi-specific definitions.\n-/\nprivate lemma is_integer {p : ℤ[X]} (a b : ℤ) {k : ℕ} (hp : p.natDegree ≤ k) :\n    ∃ z : ℤ, p.eval₂ (Int.castRingHom ℝ) (a / b) * b ^ k = z := by\n  rcases eq_or_ne b 0 with rfl | hb\n  · rcases k.eq_zero_or_pos with rfl | hk\n    · exact ⟨p.coeff 0, by simp⟩\n    exact ⟨0, by simp [hk.ne']⟩\n  refine ⟨∑ i ∈ p.support, p.coeff i * a ^ i * b ^ (k - i), ?_⟩\n  conv => lhs; rw [← sum_monomial_eq p]\n  rw [eval₂_sum, sum, Finset.sum_mul, Int.cast_sum]\n  simp only [eval₂_monomial, eq_intCast, div_pow, Int.cast_mul, Int.cast_pow]\n  refine Finset.sum_congr rfl (fun i hi => ?_)\n  have ik := (le_natDegree_of_mem_supp i hi).trans hp\n  rw [mul_assoc, div_mul_comm, ← Int.cast_pow, ← Int.cast_pow, ← Int.cast_pow,\n    ← pow_sub_mul_pow b ik, ← Int.cast_div_charZero, Int.mul_ediv_cancel _ (pow_ne_zero _ hb),\n    ← mul_assoc, mul_right_comm, ← Int.cast_pow]\n  exact dvd_mul_left _ _\n\nopen Filter\n\n/--\nAuxiliary for the proof that `π` is irrational.\nThe integrand in the definition of `I` is nonnegative and takes a positive value at least one point,\nso the integral is positive.\n-/\nprivate lemma I_pos : 0 < I n (π / 2) := by\n  refine integral_pos (by simp) (by fun_prop) ?_ ⟨0, by simp⟩\n  refine fun x hx => mul_nonneg (pow_nonneg ?_ _) ?_\n  · rw [sub_nonneg, sq_le_one_iff_abs_le_one, abs_le]\n    exact ⟨hx.1.le, hx.2⟩\n  refine cos_nonneg_of_neg_pi_div_two_le_of_le ?_ ?_ <;>\n  nlinarith [hx.1, hx.2, pi_pos]\n\n/--\nAuxiliary for the proof that `π` is irrational.\nThe integrand in the definition of `I` is bounded by 1 and the interval has length 2, so the\nintegral is bounded above by `2`.\n-/\nprivate lemma I_le (n : ℕ) : I n (π / 2) ≤ 2 := by\n  rw [← norm_of_nonneg I_pos.le]\n  refine (norm_integral_le_of_norm_le_const ?_).trans (show (1 : ℝ) * _ ≤ _ by norm_num)\n  intro x hx\n  simp only [uIoc_of_le, neg_le_self_iff, zero_le_one, mem_Ioc] at hx\n  rw [norm_eq_abs, abs_mul, abs_pow]\n  have : |1 - x ^ 2| ≤ 1 := by\n    rw [abs_le]\n    constructor <;> nlinarith\n  bound [abs_cos_le_one]\n\n/--\nAuxiliary for the proof that `π` is irrational.\nFor any real `a`, we have that `a ^ (2n+1) / n!` tends to `0` as `n → ∞`.  This is just a\nreformulation of tendsto_pow_div_factorial_atTop, which asserts the same for `a ^ n / n!`\n-/\nprivate lemma tendsto_pow_div_factorial_at_top_aux (a : ℝ) :\n    Tendsto (fun n => (a : ℝ) ^ (2 * n + 1) / n !) atTop (nhds 0) := by\n  rw [← mul_zero a]\n  refine ((FloorSemiring.tendsto_pow_div_factorial_atTop (a ^ 2)).const_mul a).congr (fun x => ?_)\n  rw [← pow_mul, mul_div_assoc', _root_.pow_succ']\n\n/-- If `x` is rational, it can be written as `a / b` with `a : ℤ` and `b : ℕ` satisfying `b > 0`. -/\nprivate lemma not_irrational_exists_rep {x : ℝ} :\n    ¬Irrational x → ∃ (a : ℤ) (b : ℕ), 0 < b ∧ x = a / b := by\n  rw [Irrational, not_not, mem_range]\n  rintro ⟨q, rfl⟩\n  exact ⟨q.num, q.den, q.pos, by exact_mod_cast (Rat.num_div_den _).symm⟩\n\n@[simp] theorem irrational_pi : Irrational π := by\n  apply Irrational.of_div_natCast 2\n  rw [Nat.cast_two]\n  by_contra h'\n  obtain ⟨a, b, hb, h⟩ := not_irrational_exists_rep h'\n  have ha : (0 : ℝ) < a := by\n    have : 0 < (a : ℝ) / b := h ▸ pi_div_two_pos\n    rwa [lt_div_iff₀ (by positivity), zero_mul] at this\n  have k (n : ℕ) : 0 < (a : ℝ) ^ (2 * n + 1) / n ! := by positivity\n  have j : ∀ᶠ n : ℕ in atTop, (a : ℝ) ^ (2 * n + 1) / n ! * I n (π / 2) < 1 := by\n    have := (tendsto_pow_div_factorial_at_top_aux a).eventually_lt_const\n      (show (0 : ℝ) < 1 / 2 by simp)\n    filter_upwards [this] with n hn\n    rw [lt_div_iff₀ (zero_lt_two : (0 : ℝ) < 2)] at hn\n    exact hn.trans_le' (mul_le_mul_of_nonneg_left (I_le _) (by positivity))\n  obtain ⟨n, hn⟩ := j.exists\n  have hn' : 0 < a ^ (2 * n + 1) / n ! * I n (π / 2) := mul_pos (k _) I_pos\n  obtain ⟨z, hz⟩ : ∃ z : ℤ, (sinPoly n).eval₂ (Int.castRingHom ℝ) (a / b) * b ^ (2 * n + 1) = z :=\n    is_integer a b ((sinPoly_natDegree_le _).trans (by lia))\n  have e := sinPoly_add_cosPoly_eval (π / 2) n\n  rw [cos_pi_div_two, sin_pi_div_two, mul_zero, mul_one, add_zero] at e\n  have : a ^ (2 * n + 1) / n ! * I n (π / 2) =\n      eval₂ (Int.castRingHom ℝ) (π / 2) (sinPoly n) * b ^ (2 * n + 1) := by\n    nth_rw 2 [h] at e\n    simp [field, div_pow] at e ⊢\n    linear_combination e\n  have : (0 : ℝ) < z ∧ (z : ℝ) < 1 := by simp [← hz, ← h, ← this, hn', hn]\n  norm_cast at this\n  lia\n\nend\n",
+          "projectId": "mathlib",
+          "sourceHash": "0c041eca65dd0f02330634e15db157fb07e79db045b078c8cc3bfd7b14c321cf",
+          "environmentHash": "eac6797e49eaa3bb7b9b699992960e737a88ac98558ea65e425b91c9e65b62b3",
+          "sourceOrigin": {
+            "version": 1,
+            "bytesBase64": "Ly0KQ29weXJpZ2h0IChjKSAyMDIyIEJoYXZpayBNZWh0YS4gQWxsIHJpZ2h0cyByZXNlcnZlZC4KUmVsZWFzZWQgdW5kZXIgQXBhY2hlIDIuMCBsaWNlbnNlIGFzIGRlc2NyaWJlZCBpbiB0aGUgZmlsZSBMSUNFTlNFLgpBdXRob3JzOiBCaGF2aWsgTWVodGEKLS8KbW9kdWxlCgpwdWJsaWMgaW1wb3J0IE1hdGhsaWIuQW5hbHlzaXMuU3BlY2lhbEZ1bmN0aW9ucy5JbnRlZ3JhbHMuQmFzaWMKcHVibGljIGltcG9ydCBNYXRobGliLlRvcG9sb2d5LkFsZ2VicmEuT3JkZXIuRmxvb3IKcHVibGljIGltcG9ydCBNYXRobGliLk51bWJlclRoZW9yeS5SZWFsLklycmF0aW9uYWwKCi8tIQojIGBSZWFsLnBpYCBpcyBpcnJhdGlvbmFsCgpUaGUgbWFpbiByZXN1bHQgb2YgdGhpcyBmaWxlIGlzIGBpcnJhdGlvbmFsX3BpYC4KClRoZSBwcm9vZiBpcyBhZGFwdGVkIGZyb20gaHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvUHJvb2ZfdGhhdF8lQ0YlODBfaXNfaXJyYXRpb25hbCNDYXJ0d3JpZ2h0J3NfcHJvb2YuCgpUaGUgcHJvb2YgaWRlYSBpcyBhcyBmb2xsb3dzLgoqIERlZmluZSBhIHNlcXVlbmNlIG9mIGludGVncmFscyBgSSBuIM64ID0g4oirIHggaW4gKC0xKS4uMSwgKDEgLSB4IF4gMikgXiBuICogY29zICh4ICogzrgpYC4KKiBHaXZlIGEgcmVjdXJzaW9uIGZvcm11bGEgZm9yIGBJIChuICsgMikgzrggKiDOuCBeIDJgIGluIHRlcm1zIG9mIGBJIG4gzrhgIGFuZCBgSSAobiArIDEpIM64YC4KICBOb3RlIHdlIGRvIG5vdCBmaW5kIGl0IGhlbHBmdWwgdG8gZGVmaW5lIGBKYCBhcyBpbiB0aGUgYWJvdmUgcHJvb2YsIGFuZCBpbnN0ZWFkIHdvcmsgZGlyZWN0bHkKICB3aXRoIGBJYC4KKiBEZWZpbmUgcG9seW5vbWlhbHMgd2l0aCBpbnRlZ2VyIGNvZWZmaWNpZW50cyBgc2luUG9seSBuYCBhbmQgYGNvc1BvbHkgbmAgc3VjaCB0aGF0CiAgYEkgbiDOuCAqIM64IF4gKDIgKiBuICsgMSkgPSBuICEgKiAoc2luUG9seSBuIM64ICogc2luIM64ICsgY29zUG9seSBuIM64ICogY29zIM64KWAuCiAgTm90ZSB0aGF0IGluIHRoZSBpbmZvcm1hbCBwcm9vZiwgdGhlc2UgcG9seW5vbWlhbHMgYXJlIG5vdCBkZWZpbmVkIGV4cGxpY2l0bHksIGJ1dCB3ZSBmaW5kIGl0CiAgdXNlZnVsIHRvIGRlZmluZSB0aGVtIGJ5IHJlY3Vyc2lvbi4KKiBTaG93IHRoYXQgYm90aCB0aGVzZSBwb2x5bm9taWFscyBoYXZlIGRlZ3JlZSBib3VuZGVkIGJ5IGBuYC4KKiBTaG93IHRoYXQgYDAgPCBJIG4gKM+AIC8gMikg4omkIDJgIGZvciBhbGwgYG5gLgoqIE5vdyB3ZSBjYW4gZmluaXNoOiBpZiBgz4AgLyAyYCBpcyByYXRpb25hbCwgd3JpdGUgaXQgYXMgYGEgLyBiYCB3aXRoIGBhLCBiID4gMGAuIFRoZW4KICBgYiBeICgyICogbiArIDEpICogc2luUG9seSBuIChhIC8gYilgIGlzIGEgcG9zaXRpdmUgaW50ZWdlciBieSB0aGUgZGVncmVlIGJvdW5kLiBCdXQgaXQgaXMgZXF1YWwKICB0byBgYSBeICgyICogbiArIDEpIC8gbiAhICogSSBuICjPgCAvIDIpIOKJpCAyICogYSAqICgyICogbiArIDEpIC8gbiAhYCwgd2hpY2ggY29udmVyZ2VzIHRvIDAgYXMKICBgbiDihpIg4oieYC4KCi0vCgpwdWJsaWMgc2VjdGlvbgoKbm9uY29tcHV0YWJsZSBzZWN0aW9uCgpvcGVuIGludGVydmFsSW50ZWdyYWwgTWVhc3VyZVRoZW9yeS5NZWFzdXJlU3BhY2UgU2V0IFBvbHlub21pYWwgUmVhbApvcGVuIHNjb3BlZCBOYXQKCi8tLSBUaGUgc2VxdWVuY2Ugb2YgaW50ZWdyYWxzIHVzZWQgZm9yIENhcnR3cmlnaHQncyBwcm9vZiBvZiBpcnJhdGlvbmFsaXR5IG9mIGDPgGAuIC0vCnByaXZhdGUgZGVmIEkgKG4gOiDihJUpICjOuCA6IOKEnSkgOiDihJ0gOj0g4oirIHggaW4gKC0xKS4uMSwgKDEgLSB4IF4gMikgXiBuICogY29zICh4ICogzrgpCgp2YXJpYWJsZSB7biA6IOKElX0ge864IDog4oSdfQoKcHJpdmF0ZSBsZW1tYSBJX3plcm8gOiBJIDAgzrggKiDOuCA9IDIgKiBzaW4gzrggOj0gYnkKICBydyBbbXVsX2NvbW0sIEldCiAgc2ltcCBbbXVsX2ludGVncmFsX2NvbXBfbXVsX3JpZ2h0LCB0d29fbXVsXQoKLy0tCkF1eGlsaWFyeSBmb3IgdGhlIHByb29mIHRoYXQgYM+AYCBpcyBpcnJhdGlvbmFsLgpXaGlsZSBpdCBpcyBtb3N0IG5hdHVyYWwgdG8gZ2l2ZSB0aGUgcmVjdXJzaXZlIGZvcm11bGEgZm9yIGBJIChuICsgMikgzrhgLCBhcyB3ZWxsIGFzIGdpdmUgdGhlIHNlY29uZApiYXNlIGNhc2Ugb2YgYEkgMSDOuGAsIGl0IGlzIGluIGZhY3QgbW9yZSBjb252ZW5pZW50IHRvIGdpdmUgdGhlIHJlY3Vyc2l2ZSBmb3JtdWxhIGZvciBgSSAobiArIDEpIM64YAppbiB0ZXJtcyBvZiBgSSBuIM64YCBhbmQgYEkgKG4gLSAxKSDOuGAgKG5vdGUgdGhlIG5hdHVyYWwgc3VidHJhY3Rpb24hKS4KRGVzcGl0ZSB0aGUgdXN1YWxseSBpbmNvbnZlbmllbnQgc3VidHJhY3Rpb24sIHRoaXMgaW4gZmFjdCBhbGxvd3MgZGVkdWNpbmcgYm90aCBvZiB0aGUgYWJvdmUgZmFjdHMKd2l0aCBzaWduaWZpY2FudGx5IGZld2VyIGFuYWx5c2lzIGNvbXB1dGF0aW9ucy4KSW4gYWRkaXRpb24sIG5vdGUgdGhlIGAwIF4gbmAgb24gdGhlIHJpZ2h0LWhhbmQgc2lkZSAtIHRoaXMgaXMgaW50ZW50aW9uYWwsIGFuZCBhZ2FpbiBhbGxvd3MKY29tYmluaW5nIHRoZSBwcm9vZiBvZiB0aGUgInVzdWFsIiByZWN1cnNpb24gZm9ybXVsYSBhbmQgdGhlIGJhc2UgY2FzZSBgSSAxIM64YC4KLS8KcHJpdmF0ZSBsZW1tYSByZWN1cnNpb24nIChuIDog4oSVKSA6CiAgICBJIChuICsgMSkgzrggKiDOuCBeIDIgPSAtICgyICogMiAqICgobiArIDEpICogKDAgXiBuICogY29zIM64KSkpICsKICAgICAgMiAqIChuICsgMSkgKiAoMiAqIG4gKyAxKSAqIEkgbiDOuCAtIDQgKiAobiArIDEpICogbiAqIEkgKG4gLSAxKSDOuCA6PSBieQogIHJ3IFtJXQogIGxldCBmICh4IDog4oSdKSA6IOKEnSA6PSAxIC0geCBeIDIKICBsZXQgdeKCgSAoeCA6IOKEnSkgOiDihJ0gOj0gZiB4IF4gKG4gKyAxKQogIGxldCB14oKBJyAoeCA6IOKEnSkgOiDihJ0gOj0gLSAoMiAqIChuICsgMSkgKiB4ICogZiB4IF4gbikKICBsZXQgduKCgSAoeCA6IOKEnSkgOiDihJ0gOj0gc2luICh4ICogzrgpCiAgbGV0IHbigoEnICh4IDog4oSdKSA6IOKEnSA6PSBjb3MgKHggKiDOuCkgKiDOuAogIGxldCB14oKCICh4IDog4oSdKSA6IOKEnSA6PSB4ICogKGYgeCkgXiBuCiAgbGV0IHXigoInICh4IDog4oSdKSA6IOKEnSA6PSAoZiB4KSBeIG4gLSAyICogbiAqIHggXiAyICogKGYgeCkgXiAobiAtIDEpCiAgbGV0IHbigoIgKHggOiDihJ0pIDog4oSdIDo9IGNvcyAoeCAqIM64KQogIGxldCB24oKCJyAoeCA6IOKEnSkgOiDihJ0gOj0gLXNpbiAoeCAqIM64KSAqIM64CiAgaGF2ZSBoZmQgOiBDb250aW51b3VzIGYgOj0gYnkgZnVuX3Byb3AKICBoYXZlIGh14oKBZCA6IENvbnRpbnVvdXMgdeKCgScgOj0gYnkgZnVuX3Byb3AKICBoYXZlIGh24oKBZCA6IENvbnRpbnVvdXMgduKCgScgOj0gYnkgZnVuX3Byb3AKICBoYXZlIGh14oKCZCA6IENvbnRpbnVvdXMgdeKCgicgOj0gYnkgZnVuX3Byb3AKICBoYXZlIGh24oKCZCA6IENvbnRpbnVvdXMgduKCgicgOj0gYnkgZnVuX3Byb3AKICBoYXZlIGh14oKBX2V2YWxfb25lIDogdeKCgSAxID0gMCA6PSBieSBzaW1wIG9ubHkgW3XigoEsIGZdOyBzaW1wCiAgaGF2ZSBodeKCgV9ldmFsX25lZ19vbmUgOiB14oKBICgtMSkgPSAwIDo9IGJ5IHNpbXAgb25seSBbdeKCgSwgZl07IHNpbXAKICBoYXZlIHQgOiB14oKCIDEgKiB24oKCIDEgLSB14oKCICgtMSkgKiB24oKCICgtMSkgPSAyICogKDAgXiBuICogY29zIM64KSA6PSBieSBzaW1wIFt14oKCLCB24oKCLCBmLCDihpAgdHdvX211bF0KICBoYXZlIGhmICh4KSA6IEhhc0Rlcml2QXQgZiAoLSAyICogeCkgeCA6PSBieQogICAgY29udmVydCEgKGhhc0Rlcml2QXRfcG93IDIgeCkuY29uc3Rfc3ViIDEgdXNpbmcgMQogICAgc2ltcAogIGhhdmUgaHXigoEgKHgpIDogSGFzRGVyaXZBdCB14oKBICh14oKBJyB4KSB4IDo9IGJ5CiAgICBjb252ZXJ0ISAoaGYgeCkucG93IF8gdXNpbmcgMQogICAgc2ltcCBvbmx5IFtOYXQuYWRkX3N1Y2Nfc3ViX29uZSwgdeKCgScsIE5hdC5jYXN0X2FkZF9vbmVdCiAgICByaW5nCiAgaGF2ZSBoduKCgSAoeCkgOiBIYXNEZXJpdkF0IHbigoEgKHbigoEnIHgpIHggOj0gKGhhc0Rlcml2QXRfbXVsX2NvbnN0IM64KS5zaW4KICBoYXZlIGh14oKCICh4KSA6IEhhc0Rlcml2QXQgdeKCgiAodeKCgicgeCkgeCA6PSBieQogICAgY29udmVydCEgKGhhc0Rlcml2QXRfaWQnIHgpLmZ1bl9tdWwgKChoZiB4KS5mdW5fcG93IF8pIHVzaW5nIDEKICAgIHNpbXAgb25seSBbdeKCgiddCiAgICByaW5nCiAgaGF2ZSBoduKCgiAoeCkgOiBIYXNEZXJpdkF0IHbigoIgKHbigoInIHgpIHggOj0gKGhhc0Rlcml2QXRfbXVsX2NvbnN0IM64KS5jb3MKICBjb252ZXJ0X3RvICjiiKsgKHggOiDihJ0pIGluICgtMSkuLjEsIHXigoEgeCAqIHbigoEnIHgpICogzrggPSBfIHVzaW5nIDEKICDCtyBzaW1wX3J3IFt14oKBLCB24oKBJywgZiwg4oaQIGludGVydmFsSW50ZWdyYWwuaW50ZWdyYWxfbXVsX2NvbnN0LCBzcSDOuCwgbXVsX2Fzc29jXQogIHJ3IFtpbnRlZ3JhbF9tdWxfZGVyaXZfZXFfZGVyaXZfbXVsIChmdW4geCBfID0+IGh14oKBIHgpIChmdW4geCBfID0+IGh24oKBIHgpCiAgICAoaHXigoFkLmludGVydmFsSW50ZWdyYWJsZSBfIF8pIChoduKCgWQuaW50ZXJ2YWxJbnRlZ3JhYmxlIF8gXyksIGh14oKBX2V2YWxfb25lLCBodeKCgV9ldmFsX25lZ19vbmUsCiAgICB6ZXJvX211bCwgemVyb19tdWwsIHN1Yl96ZXJvLCB6ZXJvX3N1Yiwg4oaQIGludGVncmFsX25lZywg4oaQIGludGVncmFsX211bF9jb25zdF0KICBjb252ZXJ0X3RvICgoLTIgOiDihJ0pICogKG4gKyAxKSkgKiDiiKsgKHggOiDihJ0pIGluICgtMSkuLjEsICh14oKCIHggKiB24oKCJyB4KSA9IF8gdXNpbmcgMQogIMK3IHJ3IFvihpAgaW50ZWdyYWxfY29uc3RfbXVsXQogICAgY29uZ3IgMSB3aXRoIHgKICAgIGRzaW1wIFt14oKBJywgduKCgSwgdeKCgiwgduKCgiddCiAgICByaW5nCiAgcncgW2ludGVncmFsX211bF9kZXJpdl9lcV9kZXJpdl9tdWwgKGZ1biB4IF8gPT4gaHXigoIgeCkgKGZ1biB4IF8gPT4gaHbigoIgeCkKICAgIChodeKCgmQuaW50ZXJ2YWxJbnRlZ3JhYmxlIF8gXykgKGh24oKCZC5pbnRlcnZhbEludGVncmFibGUgXyBfKSwKICAgIG11bF9zdWIsIHQsIG5lZ19tdWwsIG5lZ19tdWwsIG5lZ19tdWwsIHN1Yl9uZWdfZXFfYWRkXQogIGhhdmUgKHggOiBfKSA6IHXigoInIHggPSAoMiAqIG4gKyAxKSAqIGYgeCBeIG4gLSAyICogbiAqIGYgeCBeIChuIC0gMSkgOj0gYnkKICAgIGNhc2VzIG4gd2l0aAogICAgfCB6ZXJvID0+IHNpbXAgW3XigoInXQogICAgfCBzdWNjIG4gPT4gcmluZyEKICBzaW1wX3J3IFt0aGlzLCBzdWJfbXVsLCBtdWxfYXNzb2MgXyBfICh24oKCIF8pXQogIGhhdmUgOiBDb250aW51b3VzIHbigoIgOj0gYnkgZnVuX3Byb3AKICBydyBbbXVsX211bF9tdWxfY29tbSwgaW50ZWdyYWxfc3ViLCBtdWxfc3ViLCBhZGRfc3ViX2Fzc29jXQogIMK3IGNvbmdyIDEKICAgIHNpbXBfcncgW2ludGVncmFsX2NvbnN0X211bF0KICAgIHJpbmchCiAgYWxsX2dvYWxzIGV4YWN0IENvbnRpbnVvdXMuaW50ZXJ2YWxJbnRlZ3JhYmxlIChieSBmdW5fcHJvcCkgXyBfCgovLS0KQXV4aWxpYXJ5IGZvciB0aGUgcHJvb2YgdGhhdCBgz4BgIGlzIGlycmF0aW9uYWwuClRoZSByZWN1cnNpdmUgZm9ybXVsYSBmb3IgYEkgKG4gKyAyKSDOuCAqIM64IF4gMmAgaW4gdGVybXMgb2YgYEkgbiDOuGAgYW5kIGBJIChuICsgMSkgzrhgLgotLwpwcml2YXRlIGxlbW1hIHJlY3Vyc2lvbiAobiA6IOKElSkgOgogICAgSSAobiArIDIpIM64ICogzrggXiAyID0KICAgICAgMiAqIChuICsgMikgKiAoMiAqIG4gKyAzKSAqIEkgKG4gKyAxKSDOuCAtIDQgKiAobiArIDIpICogKG4gKyAxKSAqIEkgbiDOuCA6PSBieQogIHJ3IFtyZWN1cnNpb24nIChuICsgMSldCiAgcHVzaF9jYXN0CiAgcmluZwoKLy0tCkF1eGlsaWFyeSBmb3IgdGhlIHByb29mIHRoYXQgYM+AYCBpcyBpcnJhdGlvbmFsLgpUaGUgc2Vjb25kIGJhc2UgY2FzZSBmb3IgdGhlIGluZHVjdGlvbiBvbiBgbmAsIGdpdmluZyBhbiBleHBsaWNpdCBmb3JtdWxhIGZvciBgSSAxIM64YC4KLS8KcHJpdmF0ZSBsZW1tYSBJX29uZSA6IEkgMSDOuCAqIM64IF4gMyA9IDQgKiBzaW4gzrggLSA0ICogzrggKiBjb3MgzrggOj0gYnkKICBydyBbX3Jvb3RfLnBvd19zdWNjLCDihpAgbXVsX2Fzc29jLCByZWN1cnNpb24nIDAsIHN1Yl9tdWwsIGFkZF9tdWwsIG11bF9hc3NvYyBfIChJIDAgzrgpLCBJX3plcm9dCiAgcmluZwoKLy0tCkF1eGlsaWFyeSBmb3IgdGhlIHByb29mIHRoYXQgYM+AYCBpcyBpcnJhdGlvbmFsLgpUaGUgZmlyc3Qgb2YgdGhlIHR3byBpbnRlZ2VyLWNvZWZmaWNpZW50IHBvbHlub21pYWxzIHRoYXQgZGVzY3JpYmUgdGhlIGJlaGF2aW91ciBvZiB0aGUKc2VxdWVuY2Ugb2YgaW50ZWdyYWxzIGBJYC4KV2hpbGUgbm90IGdpdmVuIGluIHRoZSBpbmZvcm1hbCBwcm9vZiwgdGhlc2UgYXJlIGVhc3kgdG8gZGVkdWNlIGZyb20gdGhlIHJlY3Vyc2lvbiBmb3JtdWxhZS4KLS8KcHJpdmF0ZSBkZWYgc2luUG9seSA6IOKElSDihpIg4oSkW1hdCiAgfCAwID0+IEMgMgogIHwgMSA9PiBDIDQKICB8IG4gKyAyID0+ICgoMiA6IOKEpCkgKiAoMiAqIG4gKyAzKSkg4oCiIHNpblBvbHkgKG4gKyAxKSArIG1vbm9taWFsIDIgKC00KSAqIHNpblBvbHkgbgoKLy0tCkF1eGlsaWFyeSBmb3IgdGhlIHByb29mIHRoYXQgYM+AYCBpcyBpcnJhdGlvbmFsLgpUaGUgc2Vjb25kIG9mIHRoZSB0d28gaW50ZWdlci1jb2VmZmljaWVudCBwb2x5bm9taWFscyB0aGF0IGRlc2NyaWJlIHRoZSBiZWhhdmlvdXIgb2YgdGhlCnNlcXVlbmNlIG9mIGludGVncmFscyBgSWAuCldoaWxlIG5vdCBnaXZlbiBpbiB0aGUgaW5mb3JtYWwgcHJvb2YsIHRoZXNlIGFyZSBlYXN5IHRvIGRlZHVjZSBmcm9tIHRoZSByZWN1cnNpb24gZm9ybXVsYWUuCi0vCnByaXZhdGUgZGVmIGNvc1BvbHkgOiDihJUg4oaSIOKEpFtYXQogIHwgMCA9PiAwCiAgfCAxID0+IG1vbm9taWFsIDEgKC00KQogIHwgbiArIDIgPT4gKCgyIDog4oSkKSAqICgyICogbiArIDMpKSDigKIgY29zUG9seSAobiArIDEpICsgbW9ub21pYWwgMiAoLTQpICogY29zUG9seSBuCgovLS0KQXV4aWxpYXJ5IGZvciB0aGUgcHJvb2YgdGhhdCBgz4BgIGlzIGlycmF0aW9uYWwuClByb3ZlIGEgZGVncmVlIGJvdW5kIGZvciBgc2luUG9seSBuYCBieSBpbmR1Y3Rpb24uIE5vdGUgdGhpcyBpcyB3aGVyZSB3ZSBmaW5kIHRoZSB2YWx1ZSBpbiBhbgpleHBsaWNpdCBkZXNjcmlwdGlvbiBvZiBgc2luUG9seWAuCi0vCnByaXZhdGUgbGVtbWEgc2luUG9seV9uYXREZWdyZWVfbGUgOiDiiIAgbiA6IOKElSwgKHNpblBvbHkgbikubmF0RGVncmVlIOKJpCBuCiAgfCAwCiAgfCAxID0+IGJ5IHNpbXAgW3NpblBvbHldCiAgfCBuICsgMiA9PiBieQogICAgcncgW3NpblBvbHldCiAgICByZWZpbmUgbmF0RGVncmVlX2FkZF9sZV9vZl9kZWdyZWVfbGUgKChuYXREZWdyZWVfc211bF9sZSBfIF8pLnRyYW5zID9fKSA/XwogICAgwrcgZXhhY3QgKHNpblBvbHlfbmF0RGVncmVlX2xlIChuICsgMSkpLnRyYW5zIChieSBzaW1wKQogICAgcmVmaW5lIG5hdERlZ3JlZV9tdWxfbGUudHJhbnMgP18KICAgIHNpbXBhIFthZGRfY29tbSAyXSB1c2luZyBzaW5Qb2x5X25hdERlZ3JlZV9sZSBuCgovLS0KQXV4aWxpYXJ5IGZvciB0aGUgcHJvb2YgdGhhdCBgz4BgIGlzIGlycmF0aW9uYWwuClByb3ZlIGEgZGVncmVlIGJvdW5kIGZvciBgY29zUG9seSBuYCBieSBpbmR1Y3Rpb24uIE5vdGUgdGhpcyBpcyB3aGVyZSB3ZSBmaW5kIHRoZSB2YWx1ZSBpbiBhbgpleHBsaWNpdCBkZXNjcmlwdGlvbiBvZiBgY29zUG9seWAuCi0vCnByaXZhdGUgbGVtbWEgY29zUG9seV9uYXREZWdyZWVfbGUgOiDiiIAgbiA6IOKElSwgKGNvc1BvbHkgbikubmF0RGVncmVlIOKJpCBuCiAgfCAwID0+IGJ5IHNpbXAgW2Nvc1BvbHldCiAgfCAxID0+IChuYXREZWdyZWVfbW9ub21pYWxfbGUgXykudHJhbnMgKGJ5IHNpbXApCiAgfCBuICsgMiA9PiBieQogICAgICBydyBbY29zUG9seV0KICAgICAgcmVmaW5lIG5hdERlZ3JlZV9hZGRfbGVfb2ZfZGVncmVlX2xlICgobmF0RGVncmVlX3NtdWxfbGUgXyBfKS50cmFucyA/XykgP18KICAgICAgwrcgZXhhY3QgKGNvc1BvbHlfbmF0RGVncmVlX2xlIChuICsgMSkpLnRyYW5zIChieSBzaW1wKQogICAgICBleGFjdCBuYXREZWdyZWVfbXVsX2xlLnRyYW5zIChieSBzaW1wIFthZGRfY29tbSAyLCBjb3NQb2x5X25hdERlZ3JlZV9sZSBuXSkKCi8tLQpBdXhpbGlhcnkgZm9yIHRoZSBwcm9vZiB0aGF0IGDPgGAgaXMgaXJyYXRpb25hbC4KVGhlIGtleSBsZW1tYTogdGhlIHNlcXVlbmNlIG9mIGludGVncmFscyBgSWAgY2FuIGJlIHdyaXR0ZW4gYXMgYSBsaW5lYXIgY29tYmluYXRpb24gb2YgYHNpbmAgYW5kCmBjb3NgLCB3aXRoIGNvZWZmaWNpZW50cyBnaXZlbiBieSB0aGUgcG9seW5vbWlhbHMgYHNpblBvbHlgIGFuZCBgY29zUG9seWAuCi0vCnByaXZhdGUgbGVtbWEgc2luUG9seV9hZGRfY29zUG9seV9ldmFsICjOuCA6IOKEnSkgOgogICAg4oiAIG4gOiDihJUsCiAgICAgIEkgbiDOuCAqIM64IF4gKDIgKiBuICsgMSkgPSBuICEgKiAoKHNpblBvbHkgbikuZXZhbOKCgiAoSW50LmNhc3RSaW5nSG9tIF8pIM64ICogc2luIM64ICsKICAgICAgICAoY29zUG9seSBuKS5ldmFs4oKCIChJbnQuY2FzdFJpbmdIb20gXykgzrggKiBjb3MgzrgpCiAgfCAwID0+IGJ5IHNpbXAgW3NpblBvbHksIGNvc1BvbHksIElfemVyb10KICB8IDEgPT4gYnkgc2ltcCBbSV9vbmUsIHNpblBvbHksIGNvc1BvbHksIHN1Yl9lcV9hZGRfbmVnXQogIHwgbiArIDIgPT4gYnkKICAgICAgY2FsYyBJIChuICsgMikgzrggKiDOuCBeICgyICogKG4gKyAyKSArIDEpID0gSSAobiArIDIpIM64ICogzrggXiAyICogzrggXiAoMiAqIG4gKyAzKSA6PSBieSByaW5nCiAgICAgICAgXyA9IDIgKiAobiArIDIpICogKDIgKiBuICsgMykgKiAoSSAobiArIDEpIM64ICogzrggXiAoMiAqIChuICsgMSkgKyAxKSkgLQogICAgICAgICAgICA0ICogKG4gKyAyKSAqIChuICsgMSkgKiDOuCBeIDIgKiAoSSBuIM64ICogzrggXiAoMiAqIG4gKyAxKSkgOj0gYnkgcncgW3JlY3Vyc2lvbl07IHJpbmcKICAgICAgICBfID0gXyA6PSBieSBzaW1wIFtzaW5Qb2x5X2FkZF9jb3NQb2x5X2V2YWwsIHNpblBvbHksIGNvc1BvbHksIE5hdC5mYWN0b3JpYWxfc3VjY107IHJpbmcKCi8tLQpBdXhpbGlhcnkgZm9yIHRoZSBwcm9vZiB0aGF0IGDPgGAgaXMgaXJyYXRpb25hbC4KRm9yIGEgcG9seW5vbWlhbCBgcGAgd2l0aCBuYXR1cmFsIGRlZ3JlZSBg4omkIGtgIGFuZCBpbnRlZ2VyIGNvZWZmaWNpZW50cywgZXZhbHVhdGluZyBgcGAgYXQgYQpyYXRpb25hbCBgYSAvIGJgIGdpdmVzIGEgcmF0aW9uYWwgb2YgdGhlIGZvcm0gYHogLyBiIF4ga2AuClRPRE86IHNob3VsZCB0aGlzIGJlIG1vdmVkIGVsc2V3aGVyZT8gSXQgdXNlcyBub25lIG9mIHRoZSBwaS1zcGVjaWZpYyBkZWZpbml0aW9ucy4KLS8KcHJpdmF0ZSBsZW1tYSBpc19pbnRlZ2VyIHtwIDog4oSkW1hdfSAoYSBiIDog4oSkKSB7ayA6IOKElX0gKGhwIDogcC5uYXREZWdyZWUg4omkIGspIDoKICAgIOKIgyB6IDog4oSkLCBwLmV2YWzigoIgKEludC5jYXN0UmluZ0hvbSDihJ0pIChhIC8gYikgKiBiIF4gayA9IHogOj0gYnkKICByY2FzZXMgZXFfb3JfbmUgYiAwIHdpdGggcmZsIHwgaGIKICDCtyByY2FzZXMgay5lcV96ZXJvX29yX3BvcyB3aXRoIHJmbCB8IGhrCiAgICDCtyBleGFjdCDin6hwLmNvZWZmIDAsIGJ5IHNpbXDin6kKICAgIGV4YWN0IOKfqDAsIGJ5IHNpbXAgW2hrLm5lJ13in6kKICByZWZpbmUg4p+o4oiRIGkg4oiIIHAuc3VwcG9ydCwgcC5jb2VmZiBpICogYSBeIGkgKiBiIF4gKGsgLSBpKSwgP1/in6kKICBjb252ID0+IGxoczsgcncgW+KGkCBzdW1fbW9ub21pYWxfZXEgcF0KICBydyBbZXZhbOKCgl9zdW0sIHN1bSwgRmluc2V0LnN1bV9tdWwsIEludC5jYXN0X3N1bV0KICBzaW1wIG9ubHkgW2V2YWzigoJfbW9ub21pYWwsIGVxX2ludENhc3QsIGRpdl9wb3csIEludC5jYXN0X211bCwgSW50LmNhc3RfcG93XQogIHJlZmluZSBGaW5zZXQuc3VtX2NvbmdyIHJmbCAoZnVuIGkgaGkgPT4gP18pCiAgaGF2ZSBpayA6PSAobGVfbmF0RGVncmVlX29mX21lbV9zdXBwIGkgaGkpLnRyYW5zIGhwCiAgcncgW211bF9hc3NvYywgZGl2X211bF9jb21tLCDihpAgSW50LmNhc3RfcG93LCDihpAgSW50LmNhc3RfcG93LCDihpAgSW50LmNhc3RfcG93LAogICAg4oaQIHBvd19zdWJfbXVsX3BvdyBiIGlrLCDihpAgSW50LmNhc3RfZGl2X2NoYXJaZXJvLCBJbnQubXVsX2VkaXZfY2FuY2VsIF8gKHBvd19uZV96ZXJvIF8gaGIpLAogICAg4oaQIG11bF9hc3NvYywgbXVsX3JpZ2h0X2NvbW0sIOKGkCBJbnQuY2FzdF9wb3ddCiAgZXhhY3QgZHZkX211bF9sZWZ0IF8gXwoKb3BlbiBGaWx0ZXIKCi8tLQpBdXhpbGlhcnkgZm9yIHRoZSBwcm9vZiB0aGF0IGDPgGAgaXMgaXJyYXRpb25hbC4KVGhlIGludGVncmFuZCBpbiB0aGUgZGVmaW5pdGlvbiBvZiBgSWAgaXMgbm9ubmVnYXRpdmUgYW5kIHRha2VzIGEgcG9zaXRpdmUgdmFsdWUgYXQgbGVhc3Qgb25lIHBvaW50LApzbyB0aGUgaW50ZWdyYWwgaXMgcG9zaXRpdmUuCi0vCnByaXZhdGUgbGVtbWEgSV9wb3MgOiAwIDwgSSBuICjPgCAvIDIpIDo9IGJ5CiAgcmVmaW5lIGludGVncmFsX3BvcyAoYnkgc2ltcCkgKGJ5IGZ1bl9wcm9wKSA/XyDin6gwLCBieSBzaW1w4p+pCiAgcmVmaW5lIGZ1biB4IGh4ID0+IG11bF9ub25uZWcgKHBvd19ub25uZWcgP18gXykgP18KICDCtyBydyBbc3ViX25vbm5lZywgc3FfbGVfb25lX2lmZl9hYnNfbGVfb25lLCBhYnNfbGVdCiAgICBleGFjdCDin6hoeC4xLmxlLCBoeC4y4p+pCiAgcmVmaW5lIGNvc19ub25uZWdfb2ZfbmVnX3BpX2Rpdl90d29fbGVfb2ZfbGUgP18gP18gPDs+CiAgbmxpbmFyaXRoIFtoeC4xLCBoeC4yLCBwaV9wb3NdCgovLS0KQXV4aWxpYXJ5IGZvciB0aGUgcHJvb2YgdGhhdCBgz4BgIGlzIGlycmF0aW9uYWwuClRoZSBpbnRlZ3JhbmQgaW4gdGhlIGRlZmluaXRpb24gb2YgYElgIGlzIGJvdW5kZWQgYnkgMSBhbmQgdGhlIGludGVydmFsIGhhcyBsZW5ndGggMiwgc28gdGhlCmludGVncmFsIGlzIGJvdW5kZWQgYWJvdmUgYnkgYDJgLgotLwpwcml2YXRlIGxlbW1hIElfbGUgKG4gOiDihJUpIDogSSBuICjPgCAvIDIpIOKJpCAyIDo9IGJ5CiAgcncgW+KGkCBub3JtX29mX25vbm5lZyBJX3Bvcy5sZV0KICByZWZpbmUgKG5vcm1faW50ZWdyYWxfbGVfb2Zfbm9ybV9sZV9jb25zdCA/XykudHJhbnMgKHNob3cgKDEgOiDihJ0pICogXyDiiaQgXyBieSBub3JtX251bSkKICBpbnRybyB4IGh4CiAgc2ltcCBvbmx5IFt1SW9jX29mX2xlLCBuZWdfbGVfc2VsZl9pZmYsIHplcm9fbGVfb25lLCBtZW1fSW9jXSBhdCBoeAogIHJ3IFtub3JtX2VxX2FicywgYWJzX211bCwgYWJzX3Bvd10KICBoYXZlIDogfDEgLSB4IF4gMnwg4omkIDEgOj0gYnkKICAgIHJ3IFthYnNfbGVdCiAgICBjb25zdHJ1Y3RvciA8Oz4gbmxpbmFyaXRoCiAgYm91bmQgW2Fic19jb3NfbGVfb25lXQoKLy0tCkF1eGlsaWFyeSBmb3IgdGhlIHByb29mIHRoYXQgYM+AYCBpcyBpcnJhdGlvbmFsLgpGb3IgYW55IHJlYWwgYGFgLCB3ZSBoYXZlIHRoYXQgYGEgXiAoMm4rMSkgLyBuIWAgdGVuZHMgdG8gYDBgIGFzIGBuIOKGkiDiiJ5gLiAgVGhpcyBpcyBqdXN0IGEKcmVmb3JtdWxhdGlvbiBvZiB0ZW5kc3RvX3Bvd19kaXZfZmFjdG9yaWFsX2F0VG9wLCB3aGljaCBhc3NlcnRzIHRoZSBzYW1lIGZvciBgYSBeIG4gLyBuIWAKLS8KcHJpdmF0ZSBsZW1tYSB0ZW5kc3RvX3Bvd19kaXZfZmFjdG9yaWFsX2F0X3RvcF9hdXggKGEgOiDihJ0pIDoKICAgIFRlbmRzdG8gKGZ1biBuID0+IChhIDog4oSdKSBeICgyICogbiArIDEpIC8gbiAhKSBhdFRvcCAobmhkcyAwKSA6PSBieQogIHJ3IFvihpAgbXVsX3plcm8gYV0KICByZWZpbmUgKChGbG9vclNlbWlyaW5nLnRlbmRzdG9fcG93X2Rpdl9mYWN0b3JpYWxfYXRUb3AgKGEgXiAyKSkuY29uc3RfbXVsIGEpLmNvbmdyIChmdW4geCA9PiA/XykKICBydyBb4oaQIHBvd19tdWwsIG11bF9kaXZfYXNzb2MnLCBfcm9vdF8ucG93X3N1Y2MnXQoKLy0tIElmIGB4YCBpcyByYXRpb25hbCwgaXQgY2FuIGJlIHdyaXR0ZW4gYXMgYGEgLyBiYCB3aXRoIGBhIDog4oSkYCBhbmQgYGIgOiDihJVgIHNhdGlzZnlpbmcgYGIgPiAwYC4gLS8KcHJpdmF0ZSBsZW1tYSBub3RfaXJyYXRpb25hbF9leGlzdHNfcmVwIHt4IDog4oSdfSA6CiAgICDCrElycmF0aW9uYWwgeCDihpIg4oiDIChhIDog4oSkKSAoYiA6IOKElSksIDAgPCBiIOKIpyB4ID0gYSAvIGIgOj0gYnkKICBydyBbSXJyYXRpb25hbCwgbm90X25vdCwgbWVtX3JhbmdlXQogIHJpbnRybyDin6hxLCByZmzin6kKICBleGFjdCDin6hxLm51bSwgcS5kZW4sIHEucG9zLCBieSBleGFjdF9tb2RfY2FzdCAoUmF0Lm51bV9kaXZfZGVuIF8pLnN5bW3in6kKCkBbc2ltcF0gdGhlb3JlbSBpcnJhdGlvbmFsX3BpIDogSXJyYXRpb25hbCDPgCA6PSBieQogIGFwcGx5IElycmF0aW9uYWwub2ZfZGl2X25hdENhc3QgMgogIHJ3IFtOYXQuY2FzdF90d29dCiAgYnlfY29udHJhIGgnCiAgb2J0YWluIOKfqGEsIGIsIGhiLCBo4p+pIDo9IG5vdF9pcnJhdGlvbmFsX2V4aXN0c19yZXAgaCcKICBoYXZlIGhhIDogKDAgOiDihJ0pIDwgYSA6PSBieQogICAgaGF2ZSA6IDAgPCAoYSA6IOKEnSkgLyBiIDo9IGgg4pa4IHBpX2Rpdl90d29fcG9zCiAgICByd2EgW2x0X2Rpdl9pZmbigoAgKGJ5IHBvc2l0aXZpdHkpLCB6ZXJvX211bF0gYXQgdGhpcwogIGhhdmUgayAobiA6IOKElSkgOiAwIDwgKGEgOiDihJ0pIF4gKDIgKiBuICsgMSkgLyBuICEgOj0gYnkgcG9zaXRpdml0eQogIGhhdmUgaiA6IOKIgOG2oCBuIDog4oSVIGluIGF0VG9wLCAoYSA6IOKEnSkgXiAoMiAqIG4gKyAxKSAvIG4gISAqIEkgbiAoz4AgLyAyKSA8IDEgOj0gYnkKICAgIGhhdmUgOj0gKHRlbmRzdG9fcG93X2Rpdl9mYWN0b3JpYWxfYXRfdG9wX2F1eCBhKS5ldmVudHVhbGx5X2x0X2NvbnN0CiAgICAgIChzaG93ICgwIDog4oSdKSA8IDEgLyAyIGJ5IHNpbXApCiAgICBmaWx0ZXJfdXB3YXJkcyBbdGhpc10gd2l0aCBuIGhuCiAgICBydyBbbHRfZGl2X2lmZuKCgCAoemVyb19sdF90d28gOiAoMCA6IOKEnSkgPCAyKV0gYXQgaG4KICAgIGV4YWN0IGhuLnRyYW5zX2xlJyAobXVsX2xlX211bF9vZl9ub25uZWdfbGVmdCAoSV9sZSBfKSAoYnkgcG9zaXRpdml0eSkpCiAgb2J0YWluIOKfqG4sIGhu4p+pIDo9IGouZXhpc3RzCiAgaGF2ZSBobicgOiAwIDwgYSBeICgyICogbiArIDEpIC8gbiAhICogSSBuICjPgCAvIDIpIDo9IG11bF9wb3MgKGsgXykgSV9wb3MKICBvYnRhaW4g4p+oeiwgaHrin6kgOiDiiIMgeiA6IOKEpCwgKHNpblBvbHkgbikuZXZhbOKCgiAoSW50LmNhc3RSaW5nSG9tIOKEnSkgKGEgLyBiKSAqIGIgXiAoMiAqIG4gKyAxKSA9IHogOj0KICAgIGlzX2ludGVnZXIgYSBiICgoc2luUG9seV9uYXREZWdyZWVfbGUgXykudHJhbnMgKGJ5IGxpYSkpCiAgaGF2ZSBlIDo9IHNpblBvbHlfYWRkX2Nvc1BvbHlfZXZhbCAoz4AgLyAyKSBuCiAgcncgW2Nvc19waV9kaXZfdHdvLCBzaW5fcGlfZGl2X3R3bywgbXVsX3plcm8sIG11bF9vbmUsIGFkZF96ZXJvXSBhdCBlCiAgaGF2ZSA6IGEgXiAoMiAqIG4gKyAxKSAvIG4gISAqIEkgbiAoz4AgLyAyKSA9CiAgICAgIGV2YWzigoIgKEludC5jYXN0UmluZ0hvbSDihJ0pICjPgCAvIDIpIChzaW5Qb2x5IG4pICogYiBeICgyICogbiArIDEpIDo9IGJ5CiAgICBudGhfcncgMiBbaF0gYXQgZQogICAgc2ltcCBbZmllbGQsIGRpdl9wb3ddIGF0IGUg4oqiCiAgICBsaW5lYXJfY29tYmluYXRpb24gZQogIGhhdmUgOiAoMCA6IOKEnSkgPCB6IOKIpyAoeiA6IOKEnSkgPCAxIDo9IGJ5IHNpbXAgW+KGkCBoeiwg4oaQIGgsIOKGkCB0aGlzLCBobicsIGhuXQogIG5vcm1fY2FzdCBhdCB0aGlzCiAgbGlhCgplbmQK",
+            "byteLength": 14049,
+            "sha256": "0c041eca65dd0f02330634e15db157fb07e79db045b078c8cc3bfd7b14c321cf",
+            "bom": false,
+            "decoding": "utf-8"
+          },
+          "declaration": "irrational_pi",
+          "policy": "standard"
+        },
+        "referenceEnvironments": [
+          "eac6797e49eaa3bb7b9b699992960e737a88ac98558ea65e425b91c9e65b62b3"
+        ],
+        "diagnostics": [],
+        "nodeTypes": {},
+        "projectId": "mathlib",
+        "policy": "standard",
+        "jobId": "5b4e0c137ef8466a924d8df99b88f6b1",
+        "phase": "complete",
+        "kernelAccepted": true,
+        "audit": {
+          "axioms": [
+            "Classical.choice",
+            "Quot.sound",
+            "propext"
+          ],
+          "standardAxioms": [
+            "Classical.choice",
+            "Quot.sound",
+            "propext"
+          ],
+          "customAxioms": [],
+          "hasSorry": false,
+          "policy": "standard",
+          "policyAccepted": true
+        },
+        "filename": "Graph.lean",
+        "target": "glean_proof",
+        "timeoutSeconds": 240,
+        "sourceHash": "141ee0e04e475a7226cdb77b302b4e01feb3723c082505708f8f1f2dfb0ee4b6",
+        "lean": {
+          "output": "",
+          "durationMs": 170568
+        },
+        "environment": {
+          "schema": 1,
+          "projectId": "mathlib",
+          "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+          "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+          "projectFiles": {
+            "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+            "lake-manifest.json": "8f67b2cf24143ac091cdb425e886c2164b2fc2d6fbccd6db9454b697f9541a67",
+            "lakefile.lean": "274e720ccc7dbabeb9fbf362290dc7e5ed2c5175fbade0ef20cc19b1331affaf",
+            "lakefile.toml": null
+          },
+          "sourceStateHash": "5536bd21822d534da2e06d33866484c0a2eca30f6110d247ef27d2f2ea4599bc",
+          "dependencies": [
+            {
+              "name": "Cli",
+              "kind": "git",
+              "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/Cli",
+              "declaredRevision": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+              "available": true,
+              "gitCommit": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+              "gitDirty": false,
+              "sourceStateHash": "1176f84a7b44e7caeee45de1494d1049822a8b48a44b762065a950a37cecba30",
+              "changedLeanInputs": 0,
+              "sourceIdentityKind": "git-and-modified-input-content"
+            },
+            {
+              "name": "LeanSearchClient",
+              "kind": "git",
+              "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/LeanSearchClient",
+              "declaredRevision": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+              "available": true,
+              "gitCommit": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+              "gitDirty": false,
+              "sourceStateHash": "c1172bbf0172ccc33bc75efaf8ca02f8487134427226fce770cc7020a9c450d4",
+              "changedLeanInputs": 0,
+              "sourceIdentityKind": "git-and-modified-input-content"
+            },
+            {
+              "name": "Qq",
+              "kind": "git",
+              "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/Qq",
+              "declaredRevision": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+              "available": true,
+              "gitCommit": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+              "gitDirty": false,
+              "sourceStateHash": "35aae8780b0a1049c6cb83dcd9cadcca0bd0ce3dfbbfd480a9e1ae3c5f5a05af",
+              "changedLeanInputs": 0,
+              "sourceIdentityKind": "git-and-modified-input-content"
+            },
+            {
+              "name": "aesop",
+              "kind": "git",
+              "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/aesop",
+              "declaredRevision": "355695d523e41d0554926416cba2a2b3544fbbc9",
+              "available": true,
+              "gitCommit": "355695d523e41d0554926416cba2a2b3544fbbc9",
+              "gitDirty": false,
+              "sourceStateHash": "459f439e876a2a4510d574aec9b7f34b569bdcdf9e9ea83ae3a7ef627a0f9843",
+              "changedLeanInputs": 0,
+              "sourceIdentityKind": "git-and-modified-input-content"
+            },
+            {
+              "name": "batteries",
+              "kind": "git",
+              "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/batteries",
+              "declaredRevision": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+              "available": true,
+              "gitCommit": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+              "gitDirty": false,
+              "sourceStateHash": "71e28be2d3cefe1ec90a7ad3e83ce9aca5169219c52a25a9865e1ce0144a6296",
+              "changedLeanInputs": 0,
+              "sourceIdentityKind": "git-and-modified-input-content"
+            },
+            {
+              "name": "importGraph",
+              "kind": "git",
+              "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/importGraph",
+              "declaredRevision": "e928b72544873815af278d38681b31c0293588e3",
+              "available": true,
+              "gitCommit": "e928b72544873815af278d38681b31c0293588e3",
+              "gitDirty": false,
+              "sourceStateHash": "fcaa5b446fc9a84ba55001ef0b7f5cb9d1e21c6937c4378d1fca72d9acfedd97",
+              "changedLeanInputs": 0,
+              "sourceIdentityKind": "git-and-modified-input-content"
+            },
+            {
+              "name": "plausible",
+              "kind": "git",
+              "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/plausible",
+              "declaredRevision": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+              "available": true,
+              "gitCommit": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+              "gitDirty": false,
+              "sourceStateHash": "3d2de043c8a2840b04e77e0ebdc26f39f14a235e43df7a50abcc9db29f8bd720",
+              "changedLeanInputs": 0,
+              "sourceIdentityKind": "git-and-modified-input-content"
+            },
+            {
+              "name": "proofwidgets",
+              "kind": "git",
+              "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/proofwidgets",
+              "declaredRevision": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5",
+              "available": true,
+              "gitCommit": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5",
+              "gitDirty": false,
+              "sourceStateHash": "585600a5908b5ebe759533071cb97249655c1296c6f32a144392eaa2b1031102",
+              "changedLeanInputs": 0,
+              "sourceIdentityKind": "git-and-modified-input-content"
+            }
+          ],
+          "compiledArtifacts": {
+            "kind": "path-size-mtime-metadata",
+            "count": 21231,
+            "hash": "7b5879e25f49525944e6c5b16921d4ef88fa3a7453f27f0b117b57d5783b4036"
+          },
+          "leanSearchPaths": [
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/Cli/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/batteries/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/Qq/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/aesop/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/proofwidgets/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/importGraph/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/LeanSearchClient/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/plausible/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+          ],
+          "gitCommit": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+          "gitDirty": false,
+          "changedLeanInputs": 0,
+          "sourceIdentityKind": "git-and-modified-input-content",
+          "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+          "manifestHash": "8f67b2cf24143ac091cdb425e886c2164b2fc2d6fbccd6db9454b697f9541a67",
+          "environmentHash": "eac6797e49eaa3bb7b9b699992960e737a88ac98558ea65e425b91c9e65b62b3",
+          "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+        },
+        "sourceContextKernelAccepted": true,
+        "bindingTypes": {
+          "glean_proof/glean_component_2": "Irrational Real.pi"
+        },
+        "bindingUsage": {
+          "glean_component_1": [],
+          "glean_proof": []
+        },
+        "bindingDependencies": {
+          "glean_proof/glean_component_2": []
+        },
+        "bindingInputTypes": {
+          "glean_proof/glean_component_2": []
+        },
+        "constantAxioms": {
+          "glean_component_1": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ],
+          "glean_proof": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        "typedNodeTypes": {
+          "root/source_call/out": "Irrational Real.pi"
+        },
+        "typedNodeUsage": {
+          "root/source_call/out": []
+        },
+        "typedPortTypes": {},
+        "typedNodeAudit": {
+          "root/source_call": {
+            "axioms": [
+              "Classical.choice",
+              "Quot.sound",
+              "propext"
+            ],
+            "standardAxioms": [
+              "Classical.choice",
+              "Quot.sound",
+              "propext"
+            ],
+            "customAxioms": [],
+            "hasSorry": false,
+            "policy": "standard",
+            "policyAccepted": true
+          },
+          "root/source_call/out": {
+            "axioms": [
+              "Classical.choice",
+              "Quot.sound",
+              "propext"
+            ],
+            "standardAxioms": [
+              "Classical.choice",
+              "Quot.sound",
+              "propext"
+            ],
+            "customAxioms": [],
+            "hasSorry": false,
+            "policy": "standard",
+            "policyAccepted": true
+          }
+        }
+      }
+    },
+    {
+      "case": "wrong_call",
+      "expected": "invalid",
+      "pass": true,
+      "result": {
+        "status": "invalid",
+        "verified": false,
+        "generatedCode": "import Lean\nimport GleanUploadedSource\nset_option autoImplicit false\nset_option linter.defProp false\nset_option Elab.async false\nopen Lean Elab Term in\nelab \"gleanTerm% \" location:str text:str : term <= expectedType => do\n  let filename := if location.getString.isEmpty then \"<input>\" else location.getString\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString filename with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := if location.getString.isEmpty then stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo) else stx\n  let elaborate : TermElabM Expr := withoutErrToSorry do\n    try\n      let result ← elabTerm stx expectedType\n      synthesizeSyntheticMVarsNoPostponing\n      let result ← instantiateMVars result\n      let env ← getEnv\n      let mut pending := result.getUsedConstants.toList\n      let mut seen : NameSet := {}\n      while !pending.isEmpty do\n        let name := pending.head!\n        pending := pending.tail!\n        unless seen.contains name do\n          seen := seen.insert name\n          if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n            throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n          if (env.getModuleIdxFor? name).isNone then\n            if let some ci := env.find? name then\n              pending := ci.getUsedConstantsAsSet.toList ++ pending\n      return result\n    catch error =>\n      logException error\n      throwAbortTerm\n  if location.getString.isEmpty then elaborate\n  else withTheReader Core.Context (fun ctx => { ctx with fileName := filename, fileMap := FileMap.ofString text.getString }) elaborate\n\nnoncomputable def glean_component_1  : (gleanTerm% \"\" \"Irrational Real.pi\") :=\n  (gleanTerm% \"GLEAN_FRAGMENT_1\" \"by exact True.intro\")\n\ntheorem glean_proof  : (gleanTerm% \"\" \"Irrational Real.pi\") :=\n  let glean_component_2 := glean_component_1 \n  glean_component_2\n",
+        "expectedSource": "import Lean\nimport GleanUploadedSource\nset_option autoImplicit false\nset_option linter.defProp false\nset_option Elab.async false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" location:str text:str : term <= expectedType => do\n  let filename := if location.getString.isEmpty then \"<input>\" else location.getString\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString filename with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := if location.getString.isEmpty then stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo) else stx\n  let elaborate : TermElabM Expr := withoutErrToSorry do\n    try\n      let result ← elabTerm stx expectedType\n      synthesizeSyntheticMVarsNoPostponing\n      let result ← instantiateMVars result\n      let env ← getEnv\n      let mut pending := result.getUsedConstants.toList\n      let mut seen : NameSet := {}\n      while !pending.isEmpty do\n        let name := pending.head!\n        pending := pending.tail!\n        unless seen.contains name do\n          seen := seen.insert name\n          if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n            throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n          if (env.getModuleIdxFor? name).isNone then\n            if let some ci := env.find? name then\n              pending := ci.getUsedConstantsAsSet.toList ++ pending\n      return result\n    catch error =>\n      logException error\n      throwAbortTerm\n  if location.getString.isEmpty then elaborate\n  else withTheReader Core.Context (fun ctx => { ctx with fileName := filename, fileMap := FileMap.ofString text.getString }) elaborate\n\ndef glean_expected_type : Prop := (gleanExpectedTerm% \"\" \"Irrational Real.pi\")\n",
+        "sourceMap": {
+          "root/source_call": {
+            "startLine": 38,
+            "endLine": 40
+          },
+          "root": {
+            "startLine": 41,
+            "endLine": 44
+          }
+        },
+        "fragmentSources": {
+          "GLEAN_FRAGMENT_1": {
+            "key": "root/source_call",
+            "field": "body",
+            "lineCount": 1
+          }
+        },
+        "sourceLocations": [
+          {
+            "key": "root/source_call/out",
+            "startLine": 42,
+            "endLine": 42
+          }
+        ],
+        "nodeBindings": {
+          "glean_component_2": "root/source_call/out"
+        },
+        "bindingKeys": {
+          "glean_proof/glean_component_2": "root/source_call/out"
+        },
+        "nodeFunctions": {
+          "root/source_call": "glean_component_1",
+          "root/source_call/out": "glean_component_1"
+        },
+        "nodeInputPorts": {
+          "root/source_call/out": []
+        },
+        "inputBindings": {},
+        "sourceContext": {
+          "version": 1,
+          "module": "GleanUploadedSource",
+          "filename": "Irrational.lean",
+          "source": "/-\nCopyright (c) 2022 Bhavik Mehta. All rights reserved.\nReleased under Apache 2.0 license as described in the file LICENSE.\nAuthors: Bhavik Mehta\n-/\nmodule\n\npublic import Mathlib.Analysis.SpecialFunctions.Integrals.Basic\npublic import Mathlib.Topology.Algebra.Order.Floor\npublic import Mathlib.NumberTheory.Real.Irrational\n\n/-!\n# `Real.pi` is irrational\n\nThe main result of this file is `irrational_pi`.\n\nThe proof is adapted from https://en.wikipedia.org/wiki/Proof_that_%CF%80_is_irrational#Cartwright's_proof.\n\nThe proof idea is as follows.\n* Define a sequence of integrals `I n θ = ∫ x in (-1)..1, (1 - x ^ 2) ^ n * cos (x * θ)`.\n* Give a recursion formula for `I (n + 2) θ * θ ^ 2` in terms of `I n θ` and `I (n + 1) θ`.\n  Note we do not find it helpful to define `J` as in the above proof, and instead work directly\n  with `I`.\n* Define polynomials with integer coefficients `sinPoly n` and `cosPoly n` such that\n  `I n θ * θ ^ (2 * n + 1) = n ! * (sinPoly n θ * sin θ + cosPoly n θ * cos θ)`.\n  Note that in the informal proof, these polynomials are not defined explicitly, but we find it\n  useful to define them by recursion.\n* Show that both these polynomials have degree bounded by `n`.\n* Show that `0 < I n (π / 2) ≤ 2` for all `n`.\n* Now we can finish: if `π / 2` is rational, write it as `a / b` with `a, b > 0`. Then\n  `b ^ (2 * n + 1) * sinPoly n (a / b)` is a positive integer by the degree bound. But it is equal\n  to `a ^ (2 * n + 1) / n ! * I n (π / 2) ≤ 2 * a * (2 * n + 1) / n !`, which converges to 0 as\n  `n → ∞`.\n\n-/\n\npublic section\n\nnoncomputable section\n\nopen intervalIntegral MeasureTheory.MeasureSpace Set Polynomial Real\nopen scoped Nat\n\n/-- The sequence of integrals used for Cartwright's proof of irrationality of `π`. -/\nprivate def I (n : ℕ) (θ : ℝ) : ℝ := ∫ x in (-1)..1, (1 - x ^ 2) ^ n * cos (x * θ)\n\nvariable {n : ℕ} {θ : ℝ}\n\nprivate lemma I_zero : I 0 θ * θ = 2 * sin θ := by\n  rw [mul_comm, I]\n  simp [mul_integral_comp_mul_right, two_mul]\n\n/--\nAuxiliary for the proof that `π` is irrational.\nWhile it is most natural to give the recursive formula for `I (n + 2) θ`, as well as give the second\nbase case of `I 1 θ`, it is in fact more convenient to give the recursive formula for `I (n + 1) θ`\nin terms of `I n θ` and `I (n - 1) θ` (note the natural subtraction!).\nDespite the usually inconvenient subtraction, this in fact allows deducing both of the above facts\nwith significantly fewer analysis computations.\nIn addition, note the `0 ^ n` on the right-hand side - this is intentional, and again allows\ncombining the proof of the \"usual\" recursion formula and the base case `I 1 θ`.\n-/\nprivate lemma recursion' (n : ℕ) :\n    I (n + 1) θ * θ ^ 2 = - (2 * 2 * ((n + 1) * (0 ^ n * cos θ))) +\n      2 * (n + 1) * (2 * n + 1) * I n θ - 4 * (n + 1) * n * I (n - 1) θ := by\n  rw [I]\n  let f (x : ℝ) : ℝ := 1 - x ^ 2\n  let u₁ (x : ℝ) : ℝ := f x ^ (n + 1)\n  let u₁' (x : ℝ) : ℝ := - (2 * (n + 1) * x * f x ^ n)\n  let v₁ (x : ℝ) : ℝ := sin (x * θ)\n  let v₁' (x : ℝ) : ℝ := cos (x * θ) * θ\n  let u₂ (x : ℝ) : ℝ := x * (f x) ^ n\n  let u₂' (x : ℝ) : ℝ := (f x) ^ n - 2 * n * x ^ 2 * (f x) ^ (n - 1)\n  let v₂ (x : ℝ) : ℝ := cos (x * θ)\n  let v₂' (x : ℝ) : ℝ := -sin (x * θ) * θ\n  have hfd : Continuous f := by fun_prop\n  have hu₁d : Continuous u₁' := by fun_prop\n  have hv₁d : Continuous v₁' := by fun_prop\n  have hu₂d : Continuous u₂' := by fun_prop\n  have hv₂d : Continuous v₂' := by fun_prop\n  have hu₁_eval_one : u₁ 1 = 0 := by simp only [u₁, f]; simp\n  have hu₁_eval_neg_one : u₁ (-1) = 0 := by simp only [u₁, f]; simp\n  have t : u₂ 1 * v₂ 1 - u₂ (-1) * v₂ (-1) = 2 * (0 ^ n * cos θ) := by simp [u₂, v₂, f, ← two_mul]\n  have hf (x) : HasDerivAt f (- 2 * x) x := by\n    convert! (hasDerivAt_pow 2 x).const_sub 1 using 1\n    simp\n  have hu₁ (x) : HasDerivAt u₁ (u₁' x) x := by\n    convert! (hf x).pow _ using 1\n    simp only [Nat.add_succ_sub_one, u₁', Nat.cast_add_one]\n    ring\n  have hv₁ (x) : HasDerivAt v₁ (v₁' x) x := (hasDerivAt_mul_const θ).sin\n  have hu₂ (x) : HasDerivAt u₂ (u₂' x) x := by\n    convert! (hasDerivAt_id' x).fun_mul ((hf x).fun_pow _) using 1\n    simp only [u₂']\n    ring\n  have hv₂ (x) : HasDerivAt v₂ (v₂' x) x := (hasDerivAt_mul_const θ).cos\n  convert_to (∫ (x : ℝ) in (-1)..1, u₁ x * v₁' x) * θ = _ using 1\n  · simp_rw [u₁, v₁', f, ← intervalIntegral.integral_mul_const, sq θ, mul_assoc]\n  rw [integral_mul_deriv_eq_deriv_mul (fun x _ => hu₁ x) (fun x _ => hv₁ x)\n    (hu₁d.intervalIntegrable _ _) (hv₁d.intervalIntegrable _ _), hu₁_eval_one, hu₁_eval_neg_one,\n    zero_mul, zero_mul, sub_zero, zero_sub, ← integral_neg, ← integral_mul_const]\n  convert_to ((-2 : ℝ) * (n + 1)) * ∫ (x : ℝ) in (-1)..1, (u₂ x * v₂' x) = _ using 1\n  · rw [← integral_const_mul]\n    congr 1 with x\n    dsimp [u₁', v₁, u₂, v₂']\n    ring\n  rw [integral_mul_deriv_eq_deriv_mul (fun x _ => hu₂ x) (fun x _ => hv₂ x)\n    (hu₂d.intervalIntegrable _ _) (hv₂d.intervalIntegrable _ _),\n    mul_sub, t, neg_mul, neg_mul, neg_mul, sub_neg_eq_add]\n  have (x : _) : u₂' x = (2 * n + 1) * f x ^ n - 2 * n * f x ^ (n - 1) := by\n    cases n with\n    | zero => simp [u₂']\n    | succ n => ring!\n  simp_rw [this, sub_mul, mul_assoc _ _ (v₂ _)]\n  have : Continuous v₂ := by fun_prop\n  rw [mul_mul_mul_comm, integral_sub, mul_sub, add_sub_assoc]\n  · congr 1\n    simp_rw [integral_const_mul]\n    ring!\n  all_goals exact Continuous.intervalIntegrable (by fun_prop) _ _\n\n/--\nAuxiliary for the proof that `π` is irrational.\nThe recursive formula for `I (n + 2) θ * θ ^ 2` in terms of `I n θ` and `I (n + 1) θ`.\n-/\nprivate lemma recursion (n : ℕ) :\n    I (n + 2) θ * θ ^ 2 =\n      2 * (n + 2) * (2 * n + 3) * I (n + 1) θ - 4 * (n + 2) * (n + 1) * I n θ := by\n  rw [recursion' (n + 1)]\n  push_cast\n  ring\n\n/--\nAuxiliary for the proof that `π` is irrational.\nThe second base case for the induction on `n`, giving an explicit formula for `I 1 θ`.\n-/\nprivate lemma I_one : I 1 θ * θ ^ 3 = 4 * sin θ - 4 * θ * cos θ := by\n  rw [_root_.pow_succ, ← mul_assoc, recursion' 0, sub_mul, add_mul, mul_assoc _ (I 0 θ), I_zero]\n  ring\n\n/--\nAuxiliary for the proof that `π` is irrational.\nThe first of the two integer-coefficient polynomials that describe the behaviour of the\nsequence of integrals `I`.\nWhile not given in the informal proof, these are easy to deduce from the recursion formulae.\n-/\nprivate def sinPoly : ℕ → ℤ[X]\n  | 0 => C 2\n  | 1 => C 4\n  | n + 2 => ((2 : ℤ) * (2 * n + 3)) • sinPoly (n + 1) + monomial 2 (-4) * sinPoly n\n\n/--\nAuxiliary for the proof that `π` is irrational.\nThe second of the two integer-coefficient polynomials that describe the behaviour of the\nsequence of integrals `I`.\nWhile not given in the informal proof, these are easy to deduce from the recursion formulae.\n-/\nprivate def cosPoly : ℕ → ℤ[X]\n  | 0 => 0\n  | 1 => monomial 1 (-4)\n  | n + 2 => ((2 : ℤ) * (2 * n + 3)) • cosPoly (n + 1) + monomial 2 (-4) * cosPoly n\n\n/--\nAuxiliary for the proof that `π` is irrational.\nProve a degree bound for `sinPoly n` by induction. Note this is where we find the value in an\nexplicit description of `sinPoly`.\n-/\nprivate lemma sinPoly_natDegree_le : ∀ n : ℕ, (sinPoly n).natDegree ≤ n\n  | 0\n  | 1 => by simp [sinPoly]\n  | n + 2 => by\n    rw [sinPoly]\n    refine natDegree_add_le_of_degree_le ((natDegree_smul_le _ _).trans ?_) ?_\n    · exact (sinPoly_natDegree_le (n + 1)).trans (by simp)\n    refine natDegree_mul_le.trans ?_\n    simpa [add_comm 2] using sinPoly_natDegree_le n\n\n/--\nAuxiliary for the proof that `π` is irrational.\nProve a degree bound for `cosPoly n` by induction. Note this is where we find the value in an\nexplicit description of `cosPoly`.\n-/\nprivate lemma cosPoly_natDegree_le : ∀ n : ℕ, (cosPoly n).natDegree ≤ n\n  | 0 => by simp [cosPoly]\n  | 1 => (natDegree_monomial_le _).trans (by simp)\n  | n + 2 => by\n      rw [cosPoly]\n      refine natDegree_add_le_of_degree_le ((natDegree_smul_le _ _).trans ?_) ?_\n      · exact (cosPoly_natDegree_le (n + 1)).trans (by simp)\n      exact natDegree_mul_le.trans (by simp [add_comm 2, cosPoly_natDegree_le n])\n\n/--\nAuxiliary for the proof that `π` is irrational.\nThe key lemma: the sequence of integrals `I` can be written as a linear combination of `sin` and\n`cos`, with coefficients given by the polynomials `sinPoly` and `cosPoly`.\n-/\nprivate lemma sinPoly_add_cosPoly_eval (θ : ℝ) :\n    ∀ n : ℕ,\n      I n θ * θ ^ (2 * n + 1) = n ! * ((sinPoly n).eval₂ (Int.castRingHom _) θ * sin θ +\n        (cosPoly n).eval₂ (Int.castRingHom _) θ * cos θ)\n  | 0 => by simp [sinPoly, cosPoly, I_zero]\n  | 1 => by simp [I_one, sinPoly, cosPoly, sub_eq_add_neg]\n  | n + 2 => by\n      calc I (n + 2) θ * θ ^ (2 * (n + 2) + 1) = I (n + 2) θ * θ ^ 2 * θ ^ (2 * n + 3) := by ring\n        _ = 2 * (n + 2) * (2 * n + 3) * (I (n + 1) θ * θ ^ (2 * (n + 1) + 1)) -\n            4 * (n + 2) * (n + 1) * θ ^ 2 * (I n θ * θ ^ (2 * n + 1)) := by rw [recursion]; ring\n        _ = _ := by simp [sinPoly_add_cosPoly_eval, sinPoly, cosPoly, Nat.factorial_succ]; ring\n\n/--\nAuxiliary for the proof that `π` is irrational.\nFor a polynomial `p` with natural degree `≤ k` and integer coefficients, evaluating `p` at a\nrational `a / b` gives a rational of the form `z / b ^ k`.\nTODO: should this be moved elsewhere? It uses none of the pi-specific definitions.\n-/\nprivate lemma is_integer {p : ℤ[X]} (a b : ℤ) {k : ℕ} (hp : p.natDegree ≤ k) :\n    ∃ z : ℤ, p.eval₂ (Int.castRingHom ℝ) (a / b) * b ^ k = z := by\n  rcases eq_or_ne b 0 with rfl | hb\n  · rcases k.eq_zero_or_pos with rfl | hk\n    · exact ⟨p.coeff 0, by simp⟩\n    exact ⟨0, by simp [hk.ne']⟩\n  refine ⟨∑ i ∈ p.support, p.coeff i * a ^ i * b ^ (k - i), ?_⟩\n  conv => lhs; rw [← sum_monomial_eq p]\n  rw [eval₂_sum, sum, Finset.sum_mul, Int.cast_sum]\n  simp only [eval₂_monomial, eq_intCast, div_pow, Int.cast_mul, Int.cast_pow]\n  refine Finset.sum_congr rfl (fun i hi => ?_)\n  have ik := (le_natDegree_of_mem_supp i hi).trans hp\n  rw [mul_assoc, div_mul_comm, ← Int.cast_pow, ← Int.cast_pow, ← Int.cast_pow,\n    ← pow_sub_mul_pow b ik, ← Int.cast_div_charZero, Int.mul_ediv_cancel _ (pow_ne_zero _ hb),\n    ← mul_assoc, mul_right_comm, ← Int.cast_pow]\n  exact dvd_mul_left _ _\n\nopen Filter\n\n/--\nAuxiliary for the proof that `π` is irrational.\nThe integrand in the definition of `I` is nonnegative and takes a positive value at least one point,\nso the integral is positive.\n-/\nprivate lemma I_pos : 0 < I n (π / 2) := by\n  refine integral_pos (by simp) (by fun_prop) ?_ ⟨0, by simp⟩\n  refine fun x hx => mul_nonneg (pow_nonneg ?_ _) ?_\n  · rw [sub_nonneg, sq_le_one_iff_abs_le_one, abs_le]\n    exact ⟨hx.1.le, hx.2⟩\n  refine cos_nonneg_of_neg_pi_div_two_le_of_le ?_ ?_ <;>\n  nlinarith [hx.1, hx.2, pi_pos]\n\n/--\nAuxiliary for the proof that `π` is irrational.\nThe integrand in the definition of `I` is bounded by 1 and the interval has length 2, so the\nintegral is bounded above by `2`.\n-/\nprivate lemma I_le (n : ℕ) : I n (π / 2) ≤ 2 := by\n  rw [← norm_of_nonneg I_pos.le]\n  refine (norm_integral_le_of_norm_le_const ?_).trans (show (1 : ℝ) * _ ≤ _ by norm_num)\n  intro x hx\n  simp only [uIoc_of_le, neg_le_self_iff, zero_le_one, mem_Ioc] at hx\n  rw [norm_eq_abs, abs_mul, abs_pow]\n  have : |1 - x ^ 2| ≤ 1 := by\n    rw [abs_le]\n    constructor <;> nlinarith\n  bound [abs_cos_le_one]\n\n/--\nAuxiliary for the proof that `π` is irrational.\nFor any real `a`, we have that `a ^ (2n+1) / n!` tends to `0` as `n → ∞`.  This is just a\nreformulation of tendsto_pow_div_factorial_atTop, which asserts the same for `a ^ n / n!`\n-/\nprivate lemma tendsto_pow_div_factorial_at_top_aux (a : ℝ) :\n    Tendsto (fun n => (a : ℝ) ^ (2 * n + 1) / n !) atTop (nhds 0) := by\n  rw [← mul_zero a]\n  refine ((FloorSemiring.tendsto_pow_div_factorial_atTop (a ^ 2)).const_mul a).congr (fun x => ?_)\n  rw [← pow_mul, mul_div_assoc', _root_.pow_succ']\n\n/-- If `x` is rational, it can be written as `a / b` with `a : ℤ` and `b : ℕ` satisfying `b > 0`. -/\nprivate lemma not_irrational_exists_rep {x : ℝ} :\n    ¬Irrational x → ∃ (a : ℤ) (b : ℕ), 0 < b ∧ x = a / b := by\n  rw [Irrational, not_not, mem_range]\n  rintro ⟨q, rfl⟩\n  exact ⟨q.num, q.den, q.pos, by exact_mod_cast (Rat.num_div_den _).symm⟩\n\n@[simp] theorem irrational_pi : Irrational π := by\n  apply Irrational.of_div_natCast 2\n  rw [Nat.cast_two]\n  by_contra h'\n  obtain ⟨a, b, hb, h⟩ := not_irrational_exists_rep h'\n  have ha : (0 : ℝ) < a := by\n    have : 0 < (a : ℝ) / b := h ▸ pi_div_two_pos\n    rwa [lt_div_iff₀ (by positivity), zero_mul] at this\n  have k (n : ℕ) : 0 < (a : ℝ) ^ (2 * n + 1) / n ! := by positivity\n  have j : ∀ᶠ n : ℕ in atTop, (a : ℝ) ^ (2 * n + 1) / n ! * I n (π / 2) < 1 := by\n    have := (tendsto_pow_div_factorial_at_top_aux a).eventually_lt_const\n      (show (0 : ℝ) < 1 / 2 by simp)\n    filter_upwards [this] with n hn\n    rw [lt_div_iff₀ (zero_lt_two : (0 : ℝ) < 2)] at hn\n    exact hn.trans_le' (mul_le_mul_of_nonneg_left (I_le _) (by positivity))\n  obtain ⟨n, hn⟩ := j.exists\n  have hn' : 0 < a ^ (2 * n + 1) / n ! * I n (π / 2) := mul_pos (k _) I_pos\n  obtain ⟨z, hz⟩ : ∃ z : ℤ, (sinPoly n).eval₂ (Int.castRingHom ℝ) (a / b) * b ^ (2 * n + 1) = z :=\n    is_integer a b ((sinPoly_natDegree_le _).trans (by lia))\n  have e := sinPoly_add_cosPoly_eval (π / 2) n\n  rw [cos_pi_div_two, sin_pi_div_two, mul_zero, mul_one, add_zero] at e\n  have : a ^ (2 * n + 1) / n ! * I n (π / 2) =\n      eval₂ (Int.castRingHom ℝ) (π / 2) (sinPoly n) * b ^ (2 * n + 1) := by\n    nth_rw 2 [h] at e\n    simp [field, div_pow] at e ⊢\n    linear_combination e\n  have : (0 : ℝ) < z ∧ (z : ℝ) < 1 := by simp [← hz, ← h, ← this, hn', hn]\n  norm_cast at this\n  lia\n\nend\n",
+          "projectId": "mathlib",
+          "sourceHash": "0c041eca65dd0f02330634e15db157fb07e79db045b078c8cc3bfd7b14c321cf",
+          "environmentHash": "eac6797e49eaa3bb7b9b699992960e737a88ac98558ea65e425b91c9e65b62b3",
+          "sourceOrigin": {
+            "version": 1,
+            "bytesBase64": "Ly0KQ29weXJpZ2h0IChjKSAyMDIyIEJoYXZpayBNZWh0YS4gQWxsIHJpZ2h0cyByZXNlcnZlZC4KUmVsZWFzZWQgdW5kZXIgQXBhY2hlIDIuMCBsaWNlbnNlIGFzIGRlc2NyaWJlZCBpbiB0aGUgZmlsZSBMSUNFTlNFLgpBdXRob3JzOiBCaGF2aWsgTWVodGEKLS8KbW9kdWxlCgpwdWJsaWMgaW1wb3J0IE1hdGhsaWIuQW5hbHlzaXMuU3BlY2lhbEZ1bmN0aW9ucy5JbnRlZ3JhbHMuQmFzaWMKcHVibGljIGltcG9ydCBNYXRobGliLlRvcG9sb2d5LkFsZ2VicmEuT3JkZXIuRmxvb3IKcHVibGljIGltcG9ydCBNYXRobGliLk51bWJlclRoZW9yeS5SZWFsLklycmF0aW9uYWwKCi8tIQojIGBSZWFsLnBpYCBpcyBpcnJhdGlvbmFsCgpUaGUgbWFpbiByZXN1bHQgb2YgdGhpcyBmaWxlIGlzIGBpcnJhdGlvbmFsX3BpYC4KClRoZSBwcm9vZiBpcyBhZGFwdGVkIGZyb20gaHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvUHJvb2ZfdGhhdF8lQ0YlODBfaXNfaXJyYXRpb25hbCNDYXJ0d3JpZ2h0J3NfcHJvb2YuCgpUaGUgcHJvb2YgaWRlYSBpcyBhcyBmb2xsb3dzLgoqIERlZmluZSBhIHNlcXVlbmNlIG9mIGludGVncmFscyBgSSBuIM64ID0g4oirIHggaW4gKC0xKS4uMSwgKDEgLSB4IF4gMikgXiBuICogY29zICh4ICogzrgpYC4KKiBHaXZlIGEgcmVjdXJzaW9uIGZvcm11bGEgZm9yIGBJIChuICsgMikgzrggKiDOuCBeIDJgIGluIHRlcm1zIG9mIGBJIG4gzrhgIGFuZCBgSSAobiArIDEpIM64YC4KICBOb3RlIHdlIGRvIG5vdCBmaW5kIGl0IGhlbHBmdWwgdG8gZGVmaW5lIGBKYCBhcyBpbiB0aGUgYWJvdmUgcHJvb2YsIGFuZCBpbnN0ZWFkIHdvcmsgZGlyZWN0bHkKICB3aXRoIGBJYC4KKiBEZWZpbmUgcG9seW5vbWlhbHMgd2l0aCBpbnRlZ2VyIGNvZWZmaWNpZW50cyBgc2luUG9seSBuYCBhbmQgYGNvc1BvbHkgbmAgc3VjaCB0aGF0CiAgYEkgbiDOuCAqIM64IF4gKDIgKiBuICsgMSkgPSBuICEgKiAoc2luUG9seSBuIM64ICogc2luIM64ICsgY29zUG9seSBuIM64ICogY29zIM64KWAuCiAgTm90ZSB0aGF0IGluIHRoZSBpbmZvcm1hbCBwcm9vZiwgdGhlc2UgcG9seW5vbWlhbHMgYXJlIG5vdCBkZWZpbmVkIGV4cGxpY2l0bHksIGJ1dCB3ZSBmaW5kIGl0CiAgdXNlZnVsIHRvIGRlZmluZSB0aGVtIGJ5IHJlY3Vyc2lvbi4KKiBTaG93IHRoYXQgYm90aCB0aGVzZSBwb2x5bm9taWFscyBoYXZlIGRlZ3JlZSBib3VuZGVkIGJ5IGBuYC4KKiBTaG93IHRoYXQgYDAgPCBJIG4gKM+AIC8gMikg4omkIDJgIGZvciBhbGwgYG5gLgoqIE5vdyB3ZSBjYW4gZmluaXNoOiBpZiBgz4AgLyAyYCBpcyByYXRpb25hbCwgd3JpdGUgaXQgYXMgYGEgLyBiYCB3aXRoIGBhLCBiID4gMGAuIFRoZW4KICBgYiBeICgyICogbiArIDEpICogc2luUG9seSBuIChhIC8gYilgIGlzIGEgcG9zaXRpdmUgaW50ZWdlciBieSB0aGUgZGVncmVlIGJvdW5kLiBCdXQgaXQgaXMgZXF1YWwKICB0byBgYSBeICgyICogbiArIDEpIC8gbiAhICogSSBuICjPgCAvIDIpIOKJpCAyICogYSAqICgyICogbiArIDEpIC8gbiAhYCwgd2hpY2ggY29udmVyZ2VzIHRvIDAgYXMKICBgbiDihpIg4oieYC4KCi0vCgpwdWJsaWMgc2VjdGlvbgoKbm9uY29tcHV0YWJsZSBzZWN0aW9uCgpvcGVuIGludGVydmFsSW50ZWdyYWwgTWVhc3VyZVRoZW9yeS5NZWFzdXJlU3BhY2UgU2V0IFBvbHlub21pYWwgUmVhbApvcGVuIHNjb3BlZCBOYXQKCi8tLSBUaGUgc2VxdWVuY2Ugb2YgaW50ZWdyYWxzIHVzZWQgZm9yIENhcnR3cmlnaHQncyBwcm9vZiBvZiBpcnJhdGlvbmFsaXR5IG9mIGDPgGAuIC0vCnByaXZhdGUgZGVmIEkgKG4gOiDihJUpICjOuCA6IOKEnSkgOiDihJ0gOj0g4oirIHggaW4gKC0xKS4uMSwgKDEgLSB4IF4gMikgXiBuICogY29zICh4ICogzrgpCgp2YXJpYWJsZSB7biA6IOKElX0ge864IDog4oSdfQoKcHJpdmF0ZSBsZW1tYSBJX3plcm8gOiBJIDAgzrggKiDOuCA9IDIgKiBzaW4gzrggOj0gYnkKICBydyBbbXVsX2NvbW0sIEldCiAgc2ltcCBbbXVsX2ludGVncmFsX2NvbXBfbXVsX3JpZ2h0LCB0d29fbXVsXQoKLy0tCkF1eGlsaWFyeSBmb3IgdGhlIHByb29mIHRoYXQgYM+AYCBpcyBpcnJhdGlvbmFsLgpXaGlsZSBpdCBpcyBtb3N0IG5hdHVyYWwgdG8gZ2l2ZSB0aGUgcmVjdXJzaXZlIGZvcm11bGEgZm9yIGBJIChuICsgMikgzrhgLCBhcyB3ZWxsIGFzIGdpdmUgdGhlIHNlY29uZApiYXNlIGNhc2Ugb2YgYEkgMSDOuGAsIGl0IGlzIGluIGZhY3QgbW9yZSBjb252ZW5pZW50IHRvIGdpdmUgdGhlIHJlY3Vyc2l2ZSBmb3JtdWxhIGZvciBgSSAobiArIDEpIM64YAppbiB0ZXJtcyBvZiBgSSBuIM64YCBhbmQgYEkgKG4gLSAxKSDOuGAgKG5vdGUgdGhlIG5hdHVyYWwgc3VidHJhY3Rpb24hKS4KRGVzcGl0ZSB0aGUgdXN1YWxseSBpbmNvbnZlbmllbnQgc3VidHJhY3Rpb24sIHRoaXMgaW4gZmFjdCBhbGxvd3MgZGVkdWNpbmcgYm90aCBvZiB0aGUgYWJvdmUgZmFjdHMKd2l0aCBzaWduaWZpY2FudGx5IGZld2VyIGFuYWx5c2lzIGNvbXB1dGF0aW9ucy4KSW4gYWRkaXRpb24sIG5vdGUgdGhlIGAwIF4gbmAgb24gdGhlIHJpZ2h0LWhhbmQgc2lkZSAtIHRoaXMgaXMgaW50ZW50aW9uYWwsIGFuZCBhZ2FpbiBhbGxvd3MKY29tYmluaW5nIHRoZSBwcm9vZiBvZiB0aGUgInVzdWFsIiByZWN1cnNpb24gZm9ybXVsYSBhbmQgdGhlIGJhc2UgY2FzZSBgSSAxIM64YC4KLS8KcHJpdmF0ZSBsZW1tYSByZWN1cnNpb24nIChuIDog4oSVKSA6CiAgICBJIChuICsgMSkgzrggKiDOuCBeIDIgPSAtICgyICogMiAqICgobiArIDEpICogKDAgXiBuICogY29zIM64KSkpICsKICAgICAgMiAqIChuICsgMSkgKiAoMiAqIG4gKyAxKSAqIEkgbiDOuCAtIDQgKiAobiArIDEpICogbiAqIEkgKG4gLSAxKSDOuCA6PSBieQogIHJ3IFtJXQogIGxldCBmICh4IDog4oSdKSA6IOKEnSA6PSAxIC0geCBeIDIKICBsZXQgdeKCgSAoeCA6IOKEnSkgOiDihJ0gOj0gZiB4IF4gKG4gKyAxKQogIGxldCB14oKBJyAoeCA6IOKEnSkgOiDihJ0gOj0gLSAoMiAqIChuICsgMSkgKiB4ICogZiB4IF4gbikKICBsZXQgduKCgSAoeCA6IOKEnSkgOiDihJ0gOj0gc2luICh4ICogzrgpCiAgbGV0IHbigoEnICh4IDog4oSdKSA6IOKEnSA6PSBjb3MgKHggKiDOuCkgKiDOuAogIGxldCB14oKCICh4IDog4oSdKSA6IOKEnSA6PSB4ICogKGYgeCkgXiBuCiAgbGV0IHXigoInICh4IDog4oSdKSA6IOKEnSA6PSAoZiB4KSBeIG4gLSAyICogbiAqIHggXiAyICogKGYgeCkgXiAobiAtIDEpCiAgbGV0IHbigoIgKHggOiDihJ0pIDog4oSdIDo9IGNvcyAoeCAqIM64KQogIGxldCB24oKCJyAoeCA6IOKEnSkgOiDihJ0gOj0gLXNpbiAoeCAqIM64KSAqIM64CiAgaGF2ZSBoZmQgOiBDb250aW51b3VzIGYgOj0gYnkgZnVuX3Byb3AKICBoYXZlIGh14oKBZCA6IENvbnRpbnVvdXMgdeKCgScgOj0gYnkgZnVuX3Byb3AKICBoYXZlIGh24oKBZCA6IENvbnRpbnVvdXMgduKCgScgOj0gYnkgZnVuX3Byb3AKICBoYXZlIGh14oKCZCA6IENvbnRpbnVvdXMgdeKCgicgOj0gYnkgZnVuX3Byb3AKICBoYXZlIGh24oKCZCA6IENvbnRpbnVvdXMgduKCgicgOj0gYnkgZnVuX3Byb3AKICBoYXZlIGh14oKBX2V2YWxfb25lIDogdeKCgSAxID0gMCA6PSBieSBzaW1wIG9ubHkgW3XigoEsIGZdOyBzaW1wCiAgaGF2ZSBodeKCgV9ldmFsX25lZ19vbmUgOiB14oKBICgtMSkgPSAwIDo9IGJ5IHNpbXAgb25seSBbdeKCgSwgZl07IHNpbXAKICBoYXZlIHQgOiB14oKCIDEgKiB24oKCIDEgLSB14oKCICgtMSkgKiB24oKCICgtMSkgPSAyICogKDAgXiBuICogY29zIM64KSA6PSBieSBzaW1wIFt14oKCLCB24oKCLCBmLCDihpAgdHdvX211bF0KICBoYXZlIGhmICh4KSA6IEhhc0Rlcml2QXQgZiAoLSAyICogeCkgeCA6PSBieQogICAgY29udmVydCEgKGhhc0Rlcml2QXRfcG93IDIgeCkuY29uc3Rfc3ViIDEgdXNpbmcgMQogICAgc2ltcAogIGhhdmUgaHXigoEgKHgpIDogSGFzRGVyaXZBdCB14oKBICh14oKBJyB4KSB4IDo9IGJ5CiAgICBjb252ZXJ0ISAoaGYgeCkucG93IF8gdXNpbmcgMQogICAgc2ltcCBvbmx5IFtOYXQuYWRkX3N1Y2Nfc3ViX29uZSwgdeKCgScsIE5hdC5jYXN0X2FkZF9vbmVdCiAgICByaW5nCiAgaGF2ZSBoduKCgSAoeCkgOiBIYXNEZXJpdkF0IHbigoEgKHbigoEnIHgpIHggOj0gKGhhc0Rlcml2QXRfbXVsX2NvbnN0IM64KS5zaW4KICBoYXZlIGh14oKCICh4KSA6IEhhc0Rlcml2QXQgdeKCgiAodeKCgicgeCkgeCA6PSBieQogICAgY29udmVydCEgKGhhc0Rlcml2QXRfaWQnIHgpLmZ1bl9tdWwgKChoZiB4KS5mdW5fcG93IF8pIHVzaW5nIDEKICAgIHNpbXAgb25seSBbdeKCgiddCiAgICByaW5nCiAgaGF2ZSBoduKCgiAoeCkgOiBIYXNEZXJpdkF0IHbigoIgKHbigoInIHgpIHggOj0gKGhhc0Rlcml2QXRfbXVsX2NvbnN0IM64KS5jb3MKICBjb252ZXJ0X3RvICjiiKsgKHggOiDihJ0pIGluICgtMSkuLjEsIHXigoEgeCAqIHbigoEnIHgpICogzrggPSBfIHVzaW5nIDEKICDCtyBzaW1wX3J3IFt14oKBLCB24oKBJywgZiwg4oaQIGludGVydmFsSW50ZWdyYWwuaW50ZWdyYWxfbXVsX2NvbnN0LCBzcSDOuCwgbXVsX2Fzc29jXQogIHJ3IFtpbnRlZ3JhbF9tdWxfZGVyaXZfZXFfZGVyaXZfbXVsIChmdW4geCBfID0+IGh14oKBIHgpIChmdW4geCBfID0+IGh24oKBIHgpCiAgICAoaHXigoFkLmludGVydmFsSW50ZWdyYWJsZSBfIF8pIChoduKCgWQuaW50ZXJ2YWxJbnRlZ3JhYmxlIF8gXyksIGh14oKBX2V2YWxfb25lLCBodeKCgV9ldmFsX25lZ19vbmUsCiAgICB6ZXJvX211bCwgemVyb19tdWwsIHN1Yl96ZXJvLCB6ZXJvX3N1Yiwg4oaQIGludGVncmFsX25lZywg4oaQIGludGVncmFsX211bF9jb25zdF0KICBjb252ZXJ0X3RvICgoLTIgOiDihJ0pICogKG4gKyAxKSkgKiDiiKsgKHggOiDihJ0pIGluICgtMSkuLjEsICh14oKCIHggKiB24oKCJyB4KSA9IF8gdXNpbmcgMQogIMK3IHJ3IFvihpAgaW50ZWdyYWxfY29uc3RfbXVsXQogICAgY29uZ3IgMSB3aXRoIHgKICAgIGRzaW1wIFt14oKBJywgduKCgSwgdeKCgiwgduKCgiddCiAgICByaW5nCiAgcncgW2ludGVncmFsX211bF9kZXJpdl9lcV9kZXJpdl9tdWwgKGZ1biB4IF8gPT4gaHXigoIgeCkgKGZ1biB4IF8gPT4gaHbigoIgeCkKICAgIChodeKCgmQuaW50ZXJ2YWxJbnRlZ3JhYmxlIF8gXykgKGh24oKCZC5pbnRlcnZhbEludGVncmFibGUgXyBfKSwKICAgIG11bF9zdWIsIHQsIG5lZ19tdWwsIG5lZ19tdWwsIG5lZ19tdWwsIHN1Yl9uZWdfZXFfYWRkXQogIGhhdmUgKHggOiBfKSA6IHXigoInIHggPSAoMiAqIG4gKyAxKSAqIGYgeCBeIG4gLSAyICogbiAqIGYgeCBeIChuIC0gMSkgOj0gYnkKICAgIGNhc2VzIG4gd2l0aAogICAgfCB6ZXJvID0+IHNpbXAgW3XigoInXQogICAgfCBzdWNjIG4gPT4gcmluZyEKICBzaW1wX3J3IFt0aGlzLCBzdWJfbXVsLCBtdWxfYXNzb2MgXyBfICh24oKCIF8pXQogIGhhdmUgOiBDb250aW51b3VzIHbigoIgOj0gYnkgZnVuX3Byb3AKICBydyBbbXVsX211bF9tdWxfY29tbSwgaW50ZWdyYWxfc3ViLCBtdWxfc3ViLCBhZGRfc3ViX2Fzc29jXQogIMK3IGNvbmdyIDEKICAgIHNpbXBfcncgW2ludGVncmFsX2NvbnN0X211bF0KICAgIHJpbmchCiAgYWxsX2dvYWxzIGV4YWN0IENvbnRpbnVvdXMuaW50ZXJ2YWxJbnRlZ3JhYmxlIChieSBmdW5fcHJvcCkgXyBfCgovLS0KQXV4aWxpYXJ5IGZvciB0aGUgcHJvb2YgdGhhdCBgz4BgIGlzIGlycmF0aW9uYWwuClRoZSByZWN1cnNpdmUgZm9ybXVsYSBmb3IgYEkgKG4gKyAyKSDOuCAqIM64IF4gMmAgaW4gdGVybXMgb2YgYEkgbiDOuGAgYW5kIGBJIChuICsgMSkgzrhgLgotLwpwcml2YXRlIGxlbW1hIHJlY3Vyc2lvbiAobiA6IOKElSkgOgogICAgSSAobiArIDIpIM64ICogzrggXiAyID0KICAgICAgMiAqIChuICsgMikgKiAoMiAqIG4gKyAzKSAqIEkgKG4gKyAxKSDOuCAtIDQgKiAobiArIDIpICogKG4gKyAxKSAqIEkgbiDOuCA6PSBieQogIHJ3IFtyZWN1cnNpb24nIChuICsgMSldCiAgcHVzaF9jYXN0CiAgcmluZwoKLy0tCkF1eGlsaWFyeSBmb3IgdGhlIHByb29mIHRoYXQgYM+AYCBpcyBpcnJhdGlvbmFsLgpUaGUgc2Vjb25kIGJhc2UgY2FzZSBmb3IgdGhlIGluZHVjdGlvbiBvbiBgbmAsIGdpdmluZyBhbiBleHBsaWNpdCBmb3JtdWxhIGZvciBgSSAxIM64YC4KLS8KcHJpdmF0ZSBsZW1tYSBJX29uZSA6IEkgMSDOuCAqIM64IF4gMyA9IDQgKiBzaW4gzrggLSA0ICogzrggKiBjb3MgzrggOj0gYnkKICBydyBbX3Jvb3RfLnBvd19zdWNjLCDihpAgbXVsX2Fzc29jLCByZWN1cnNpb24nIDAsIHN1Yl9tdWwsIGFkZF9tdWwsIG11bF9hc3NvYyBfIChJIDAgzrgpLCBJX3plcm9dCiAgcmluZwoKLy0tCkF1eGlsaWFyeSBmb3IgdGhlIHByb29mIHRoYXQgYM+AYCBpcyBpcnJhdGlvbmFsLgpUaGUgZmlyc3Qgb2YgdGhlIHR3byBpbnRlZ2VyLWNvZWZmaWNpZW50IHBvbHlub21pYWxzIHRoYXQgZGVzY3JpYmUgdGhlIGJlaGF2aW91ciBvZiB0aGUKc2VxdWVuY2Ugb2YgaW50ZWdyYWxzIGBJYC4KV2hpbGUgbm90IGdpdmVuIGluIHRoZSBpbmZvcm1hbCBwcm9vZiwgdGhlc2UgYXJlIGVhc3kgdG8gZGVkdWNlIGZyb20gdGhlIHJlY3Vyc2lvbiBmb3JtdWxhZS4KLS8KcHJpdmF0ZSBkZWYgc2luUG9seSA6IOKElSDihpIg4oSkW1hdCiAgfCAwID0+IEMgMgogIHwgMSA9PiBDIDQKICB8IG4gKyAyID0+ICgoMiA6IOKEpCkgKiAoMiAqIG4gKyAzKSkg4oCiIHNpblBvbHkgKG4gKyAxKSArIG1vbm9taWFsIDIgKC00KSAqIHNpblBvbHkgbgoKLy0tCkF1eGlsaWFyeSBmb3IgdGhlIHByb29mIHRoYXQgYM+AYCBpcyBpcnJhdGlvbmFsLgpUaGUgc2Vjb25kIG9mIHRoZSB0d28gaW50ZWdlci1jb2VmZmljaWVudCBwb2x5bm9taWFscyB0aGF0IGRlc2NyaWJlIHRoZSBiZWhhdmlvdXIgb2YgdGhlCnNlcXVlbmNlIG9mIGludGVncmFscyBgSWAuCldoaWxlIG5vdCBnaXZlbiBpbiB0aGUgaW5mb3JtYWwgcHJvb2YsIHRoZXNlIGFyZSBlYXN5IHRvIGRlZHVjZSBmcm9tIHRoZSByZWN1cnNpb24gZm9ybXVsYWUuCi0vCnByaXZhdGUgZGVmIGNvc1BvbHkgOiDihJUg4oaSIOKEpFtYXQogIHwgMCA9PiAwCiAgfCAxID0+IG1vbm9taWFsIDEgKC00KQogIHwgbiArIDIgPT4gKCgyIDog4oSkKSAqICgyICogbiArIDMpKSDigKIgY29zUG9seSAobiArIDEpICsgbW9ub21pYWwgMiAoLTQpICogY29zUG9seSBuCgovLS0KQXV4aWxpYXJ5IGZvciB0aGUgcHJvb2YgdGhhdCBgz4BgIGlzIGlycmF0aW9uYWwuClByb3ZlIGEgZGVncmVlIGJvdW5kIGZvciBgc2luUG9seSBuYCBieSBpbmR1Y3Rpb24uIE5vdGUgdGhpcyBpcyB3aGVyZSB3ZSBmaW5kIHRoZSB2YWx1ZSBpbiBhbgpleHBsaWNpdCBkZXNjcmlwdGlvbiBvZiBgc2luUG9seWAuCi0vCnByaXZhdGUgbGVtbWEgc2luUG9seV9uYXREZWdyZWVfbGUgOiDiiIAgbiA6IOKElSwgKHNpblBvbHkgbikubmF0RGVncmVlIOKJpCBuCiAgfCAwCiAgfCAxID0+IGJ5IHNpbXAgW3NpblBvbHldCiAgfCBuICsgMiA9PiBieQogICAgcncgW3NpblBvbHldCiAgICByZWZpbmUgbmF0RGVncmVlX2FkZF9sZV9vZl9kZWdyZWVfbGUgKChuYXREZWdyZWVfc211bF9sZSBfIF8pLnRyYW5zID9fKSA/XwogICAgwrcgZXhhY3QgKHNpblBvbHlfbmF0RGVncmVlX2xlIChuICsgMSkpLnRyYW5zIChieSBzaW1wKQogICAgcmVmaW5lIG5hdERlZ3JlZV9tdWxfbGUudHJhbnMgP18KICAgIHNpbXBhIFthZGRfY29tbSAyXSB1c2luZyBzaW5Qb2x5X25hdERlZ3JlZV9sZSBuCgovLS0KQXV4aWxpYXJ5IGZvciB0aGUgcHJvb2YgdGhhdCBgz4BgIGlzIGlycmF0aW9uYWwuClByb3ZlIGEgZGVncmVlIGJvdW5kIGZvciBgY29zUG9seSBuYCBieSBpbmR1Y3Rpb24uIE5vdGUgdGhpcyBpcyB3aGVyZSB3ZSBmaW5kIHRoZSB2YWx1ZSBpbiBhbgpleHBsaWNpdCBkZXNjcmlwdGlvbiBvZiBgY29zUG9seWAuCi0vCnByaXZhdGUgbGVtbWEgY29zUG9seV9uYXREZWdyZWVfbGUgOiDiiIAgbiA6IOKElSwgKGNvc1BvbHkgbikubmF0RGVncmVlIOKJpCBuCiAgfCAwID0+IGJ5IHNpbXAgW2Nvc1BvbHldCiAgfCAxID0+IChuYXREZWdyZWVfbW9ub21pYWxfbGUgXykudHJhbnMgKGJ5IHNpbXApCiAgfCBuICsgMiA9PiBieQogICAgICBydyBbY29zUG9seV0KICAgICAgcmVmaW5lIG5hdERlZ3JlZV9hZGRfbGVfb2ZfZGVncmVlX2xlICgobmF0RGVncmVlX3NtdWxfbGUgXyBfKS50cmFucyA/XykgP18KICAgICAgwrcgZXhhY3QgKGNvc1BvbHlfbmF0RGVncmVlX2xlIChuICsgMSkpLnRyYW5zIChieSBzaW1wKQogICAgICBleGFjdCBuYXREZWdyZWVfbXVsX2xlLnRyYW5zIChieSBzaW1wIFthZGRfY29tbSAyLCBjb3NQb2x5X25hdERlZ3JlZV9sZSBuXSkKCi8tLQpBdXhpbGlhcnkgZm9yIHRoZSBwcm9vZiB0aGF0IGDPgGAgaXMgaXJyYXRpb25hbC4KVGhlIGtleSBsZW1tYTogdGhlIHNlcXVlbmNlIG9mIGludGVncmFscyBgSWAgY2FuIGJlIHdyaXR0ZW4gYXMgYSBsaW5lYXIgY29tYmluYXRpb24gb2YgYHNpbmAgYW5kCmBjb3NgLCB3aXRoIGNvZWZmaWNpZW50cyBnaXZlbiBieSB0aGUgcG9seW5vbWlhbHMgYHNpblBvbHlgIGFuZCBgY29zUG9seWAuCi0vCnByaXZhdGUgbGVtbWEgc2luUG9seV9hZGRfY29zUG9seV9ldmFsICjOuCA6IOKEnSkgOgogICAg4oiAIG4gOiDihJUsCiAgICAgIEkgbiDOuCAqIM64IF4gKDIgKiBuICsgMSkgPSBuICEgKiAoKHNpblBvbHkgbikuZXZhbOKCgiAoSW50LmNhc3RSaW5nSG9tIF8pIM64ICogc2luIM64ICsKICAgICAgICAoY29zUG9seSBuKS5ldmFs4oKCIChJbnQuY2FzdFJpbmdIb20gXykgzrggKiBjb3MgzrgpCiAgfCAwID0+IGJ5IHNpbXAgW3NpblBvbHksIGNvc1BvbHksIElfemVyb10KICB8IDEgPT4gYnkgc2ltcCBbSV9vbmUsIHNpblBvbHksIGNvc1BvbHksIHN1Yl9lcV9hZGRfbmVnXQogIHwgbiArIDIgPT4gYnkKICAgICAgY2FsYyBJIChuICsgMikgzrggKiDOuCBeICgyICogKG4gKyAyKSArIDEpID0gSSAobiArIDIpIM64ICogzrggXiAyICogzrggXiAoMiAqIG4gKyAzKSA6PSBieSByaW5nCiAgICAgICAgXyA9IDIgKiAobiArIDIpICogKDIgKiBuICsgMykgKiAoSSAobiArIDEpIM64ICogzrggXiAoMiAqIChuICsgMSkgKyAxKSkgLQogICAgICAgICAgICA0ICogKG4gKyAyKSAqIChuICsgMSkgKiDOuCBeIDIgKiAoSSBuIM64ICogzrggXiAoMiAqIG4gKyAxKSkgOj0gYnkgcncgW3JlY3Vyc2lvbl07IHJpbmcKICAgICAgICBfID0gXyA6PSBieSBzaW1wIFtzaW5Qb2x5X2FkZF9jb3NQb2x5X2V2YWwsIHNpblBvbHksIGNvc1BvbHksIE5hdC5mYWN0b3JpYWxfc3VjY107IHJpbmcKCi8tLQpBdXhpbGlhcnkgZm9yIHRoZSBwcm9vZiB0aGF0IGDPgGAgaXMgaXJyYXRpb25hbC4KRm9yIGEgcG9seW5vbWlhbCBgcGAgd2l0aCBuYXR1cmFsIGRlZ3JlZSBg4omkIGtgIGFuZCBpbnRlZ2VyIGNvZWZmaWNpZW50cywgZXZhbHVhdGluZyBgcGAgYXQgYQpyYXRpb25hbCBgYSAvIGJgIGdpdmVzIGEgcmF0aW9uYWwgb2YgdGhlIGZvcm0gYHogLyBiIF4ga2AuClRPRE86IHNob3VsZCB0aGlzIGJlIG1vdmVkIGVsc2V3aGVyZT8gSXQgdXNlcyBub25lIG9mIHRoZSBwaS1zcGVjaWZpYyBkZWZpbml0aW9ucy4KLS8KcHJpdmF0ZSBsZW1tYSBpc19pbnRlZ2VyIHtwIDog4oSkW1hdfSAoYSBiIDog4oSkKSB7ayA6IOKElX0gKGhwIDogcC5uYXREZWdyZWUg4omkIGspIDoKICAgIOKIgyB6IDog4oSkLCBwLmV2YWzigoIgKEludC5jYXN0UmluZ0hvbSDihJ0pIChhIC8gYikgKiBiIF4gayA9IHogOj0gYnkKICByY2FzZXMgZXFfb3JfbmUgYiAwIHdpdGggcmZsIHwgaGIKICDCtyByY2FzZXMgay5lcV96ZXJvX29yX3BvcyB3aXRoIHJmbCB8IGhrCiAgICDCtyBleGFjdCDin6hwLmNvZWZmIDAsIGJ5IHNpbXDin6kKICAgIGV4YWN0IOKfqDAsIGJ5IHNpbXAgW2hrLm5lJ13in6kKICByZWZpbmUg4p+o4oiRIGkg4oiIIHAuc3VwcG9ydCwgcC5jb2VmZiBpICogYSBeIGkgKiBiIF4gKGsgLSBpKSwgP1/in6kKICBjb252ID0+IGxoczsgcncgW+KGkCBzdW1fbW9ub21pYWxfZXEgcF0KICBydyBbZXZhbOKCgl9zdW0sIHN1bSwgRmluc2V0LnN1bV9tdWwsIEludC5jYXN0X3N1bV0KICBzaW1wIG9ubHkgW2V2YWzigoJfbW9ub21pYWwsIGVxX2ludENhc3QsIGRpdl9wb3csIEludC5jYXN0X211bCwgSW50LmNhc3RfcG93XQogIHJlZmluZSBGaW5zZXQuc3VtX2NvbmdyIHJmbCAoZnVuIGkgaGkgPT4gP18pCiAgaGF2ZSBpayA6PSAobGVfbmF0RGVncmVlX29mX21lbV9zdXBwIGkgaGkpLnRyYW5zIGhwCiAgcncgW211bF9hc3NvYywgZGl2X211bF9jb21tLCDihpAgSW50LmNhc3RfcG93LCDihpAgSW50LmNhc3RfcG93LCDihpAgSW50LmNhc3RfcG93LAogICAg4oaQIHBvd19zdWJfbXVsX3BvdyBiIGlrLCDihpAgSW50LmNhc3RfZGl2X2NoYXJaZXJvLCBJbnQubXVsX2VkaXZfY2FuY2VsIF8gKHBvd19uZV96ZXJvIF8gaGIpLAogICAg4oaQIG11bF9hc3NvYywgbXVsX3JpZ2h0X2NvbW0sIOKGkCBJbnQuY2FzdF9wb3ddCiAgZXhhY3QgZHZkX211bF9sZWZ0IF8gXwoKb3BlbiBGaWx0ZXIKCi8tLQpBdXhpbGlhcnkgZm9yIHRoZSBwcm9vZiB0aGF0IGDPgGAgaXMgaXJyYXRpb25hbC4KVGhlIGludGVncmFuZCBpbiB0aGUgZGVmaW5pdGlvbiBvZiBgSWAgaXMgbm9ubmVnYXRpdmUgYW5kIHRha2VzIGEgcG9zaXRpdmUgdmFsdWUgYXQgbGVhc3Qgb25lIHBvaW50LApzbyB0aGUgaW50ZWdyYWwgaXMgcG9zaXRpdmUuCi0vCnByaXZhdGUgbGVtbWEgSV9wb3MgOiAwIDwgSSBuICjPgCAvIDIpIDo9IGJ5CiAgcmVmaW5lIGludGVncmFsX3BvcyAoYnkgc2ltcCkgKGJ5IGZ1bl9wcm9wKSA/XyDin6gwLCBieSBzaW1w4p+pCiAgcmVmaW5lIGZ1biB4IGh4ID0+IG11bF9ub25uZWcgKHBvd19ub25uZWcgP18gXykgP18KICDCtyBydyBbc3ViX25vbm5lZywgc3FfbGVfb25lX2lmZl9hYnNfbGVfb25lLCBhYnNfbGVdCiAgICBleGFjdCDin6hoeC4xLmxlLCBoeC4y4p+pCiAgcmVmaW5lIGNvc19ub25uZWdfb2ZfbmVnX3BpX2Rpdl90d29fbGVfb2ZfbGUgP18gP18gPDs+CiAgbmxpbmFyaXRoIFtoeC4xLCBoeC4yLCBwaV9wb3NdCgovLS0KQXV4aWxpYXJ5IGZvciB0aGUgcHJvb2YgdGhhdCBgz4BgIGlzIGlycmF0aW9uYWwuClRoZSBpbnRlZ3JhbmQgaW4gdGhlIGRlZmluaXRpb24gb2YgYElgIGlzIGJvdW5kZWQgYnkgMSBhbmQgdGhlIGludGVydmFsIGhhcyBsZW5ndGggMiwgc28gdGhlCmludGVncmFsIGlzIGJvdW5kZWQgYWJvdmUgYnkgYDJgLgotLwpwcml2YXRlIGxlbW1hIElfbGUgKG4gOiDihJUpIDogSSBuICjPgCAvIDIpIOKJpCAyIDo9IGJ5CiAgcncgW+KGkCBub3JtX29mX25vbm5lZyBJX3Bvcy5sZV0KICByZWZpbmUgKG5vcm1faW50ZWdyYWxfbGVfb2Zfbm9ybV9sZV9jb25zdCA/XykudHJhbnMgKHNob3cgKDEgOiDihJ0pICogXyDiiaQgXyBieSBub3JtX251bSkKICBpbnRybyB4IGh4CiAgc2ltcCBvbmx5IFt1SW9jX29mX2xlLCBuZWdfbGVfc2VsZl9pZmYsIHplcm9fbGVfb25lLCBtZW1fSW9jXSBhdCBoeAogIHJ3IFtub3JtX2VxX2FicywgYWJzX211bCwgYWJzX3Bvd10KICBoYXZlIDogfDEgLSB4IF4gMnwg4omkIDEgOj0gYnkKICAgIHJ3IFthYnNfbGVdCiAgICBjb25zdHJ1Y3RvciA8Oz4gbmxpbmFyaXRoCiAgYm91bmQgW2Fic19jb3NfbGVfb25lXQoKLy0tCkF1eGlsaWFyeSBmb3IgdGhlIHByb29mIHRoYXQgYM+AYCBpcyBpcnJhdGlvbmFsLgpGb3IgYW55IHJlYWwgYGFgLCB3ZSBoYXZlIHRoYXQgYGEgXiAoMm4rMSkgLyBuIWAgdGVuZHMgdG8gYDBgIGFzIGBuIOKGkiDiiJ5gLiAgVGhpcyBpcyBqdXN0IGEKcmVmb3JtdWxhdGlvbiBvZiB0ZW5kc3RvX3Bvd19kaXZfZmFjdG9yaWFsX2F0VG9wLCB3aGljaCBhc3NlcnRzIHRoZSBzYW1lIGZvciBgYSBeIG4gLyBuIWAKLS8KcHJpdmF0ZSBsZW1tYSB0ZW5kc3RvX3Bvd19kaXZfZmFjdG9yaWFsX2F0X3RvcF9hdXggKGEgOiDihJ0pIDoKICAgIFRlbmRzdG8gKGZ1biBuID0+IChhIDog4oSdKSBeICgyICogbiArIDEpIC8gbiAhKSBhdFRvcCAobmhkcyAwKSA6PSBieQogIHJ3IFvihpAgbXVsX3plcm8gYV0KICByZWZpbmUgKChGbG9vclNlbWlyaW5nLnRlbmRzdG9fcG93X2Rpdl9mYWN0b3JpYWxfYXRUb3AgKGEgXiAyKSkuY29uc3RfbXVsIGEpLmNvbmdyIChmdW4geCA9PiA/XykKICBydyBb4oaQIHBvd19tdWwsIG11bF9kaXZfYXNzb2MnLCBfcm9vdF8ucG93X3N1Y2MnXQoKLy0tIElmIGB4YCBpcyByYXRpb25hbCwgaXQgY2FuIGJlIHdyaXR0ZW4gYXMgYGEgLyBiYCB3aXRoIGBhIDog4oSkYCBhbmQgYGIgOiDihJVgIHNhdGlzZnlpbmcgYGIgPiAwYC4gLS8KcHJpdmF0ZSBsZW1tYSBub3RfaXJyYXRpb25hbF9leGlzdHNfcmVwIHt4IDog4oSdfSA6CiAgICDCrElycmF0aW9uYWwgeCDihpIg4oiDIChhIDog4oSkKSAoYiA6IOKElSksIDAgPCBiIOKIpyB4ID0gYSAvIGIgOj0gYnkKICBydyBbSXJyYXRpb25hbCwgbm90X25vdCwgbWVtX3JhbmdlXQogIHJpbnRybyDin6hxLCByZmzin6kKICBleGFjdCDin6hxLm51bSwgcS5kZW4sIHEucG9zLCBieSBleGFjdF9tb2RfY2FzdCAoUmF0Lm51bV9kaXZfZGVuIF8pLnN5bW3in6kKCkBbc2ltcF0gdGhlb3JlbSBpcnJhdGlvbmFsX3BpIDogSXJyYXRpb25hbCDPgCA6PSBieQogIGFwcGx5IElycmF0aW9uYWwub2ZfZGl2X25hdENhc3QgMgogIHJ3IFtOYXQuY2FzdF90d29dCiAgYnlfY29udHJhIGgnCiAgb2J0YWluIOKfqGEsIGIsIGhiLCBo4p+pIDo9IG5vdF9pcnJhdGlvbmFsX2V4aXN0c19yZXAgaCcKICBoYXZlIGhhIDogKDAgOiDihJ0pIDwgYSA6PSBieQogICAgaGF2ZSA6IDAgPCAoYSA6IOKEnSkgLyBiIDo9IGgg4pa4IHBpX2Rpdl90d29fcG9zCiAgICByd2EgW2x0X2Rpdl9pZmbigoAgKGJ5IHBvc2l0aXZpdHkpLCB6ZXJvX211bF0gYXQgdGhpcwogIGhhdmUgayAobiA6IOKElSkgOiAwIDwgKGEgOiDihJ0pIF4gKDIgKiBuICsgMSkgLyBuICEgOj0gYnkgcG9zaXRpdml0eQogIGhhdmUgaiA6IOKIgOG2oCBuIDog4oSVIGluIGF0VG9wLCAoYSA6IOKEnSkgXiAoMiAqIG4gKyAxKSAvIG4gISAqIEkgbiAoz4AgLyAyKSA8IDEgOj0gYnkKICAgIGhhdmUgOj0gKHRlbmRzdG9fcG93X2Rpdl9mYWN0b3JpYWxfYXRfdG9wX2F1eCBhKS5ldmVudHVhbGx5X2x0X2NvbnN0CiAgICAgIChzaG93ICgwIDog4oSdKSA8IDEgLyAyIGJ5IHNpbXApCiAgICBmaWx0ZXJfdXB3YXJkcyBbdGhpc10gd2l0aCBuIGhuCiAgICBydyBbbHRfZGl2X2lmZuKCgCAoemVyb19sdF90d28gOiAoMCA6IOKEnSkgPCAyKV0gYXQgaG4KICAgIGV4YWN0IGhuLnRyYW5zX2xlJyAobXVsX2xlX211bF9vZl9ub25uZWdfbGVmdCAoSV9sZSBfKSAoYnkgcG9zaXRpdml0eSkpCiAgb2J0YWluIOKfqG4sIGhu4p+pIDo9IGouZXhpc3RzCiAgaGF2ZSBobicgOiAwIDwgYSBeICgyICogbiArIDEpIC8gbiAhICogSSBuICjPgCAvIDIpIDo9IG11bF9wb3MgKGsgXykgSV9wb3MKICBvYnRhaW4g4p+oeiwgaHrin6kgOiDiiIMgeiA6IOKEpCwgKHNpblBvbHkgbikuZXZhbOKCgiAoSW50LmNhc3RSaW5nSG9tIOKEnSkgKGEgLyBiKSAqIGIgXiAoMiAqIG4gKyAxKSA9IHogOj0KICAgIGlzX2ludGVnZXIgYSBiICgoc2luUG9seV9uYXREZWdyZWVfbGUgXykudHJhbnMgKGJ5IGxpYSkpCiAgaGF2ZSBlIDo9IHNpblBvbHlfYWRkX2Nvc1BvbHlfZXZhbCAoz4AgLyAyKSBuCiAgcncgW2Nvc19waV9kaXZfdHdvLCBzaW5fcGlfZGl2X3R3bywgbXVsX3plcm8sIG11bF9vbmUsIGFkZF96ZXJvXSBhdCBlCiAgaGF2ZSA6IGEgXiAoMiAqIG4gKyAxKSAvIG4gISAqIEkgbiAoz4AgLyAyKSA9CiAgICAgIGV2YWzigoIgKEludC5jYXN0UmluZ0hvbSDihJ0pICjPgCAvIDIpIChzaW5Qb2x5IG4pICogYiBeICgyICogbiArIDEpIDo9IGJ5CiAgICBudGhfcncgMiBbaF0gYXQgZQogICAgc2ltcCBbZmllbGQsIGRpdl9wb3ddIGF0IGUg4oqiCiAgICBsaW5lYXJfY29tYmluYXRpb24gZQogIGhhdmUgOiAoMCA6IOKEnSkgPCB6IOKIpyAoeiA6IOKEnSkgPCAxIDo9IGJ5IHNpbXAgW+KGkCBoeiwg4oaQIGgsIOKGkCB0aGlzLCBobicsIGhuXQogIG5vcm1fY2FzdCBhdCB0aGlzCiAgbGlhCgplbmQK",
+            "byteLength": 14049,
+            "sha256": "0c041eca65dd0f02330634e15db157fb07e79db045b078c8cc3bfd7b14c321cf",
+            "bom": false,
+            "decoding": "utf-8"
+          },
+          "declaration": "irrational_pi",
+          "policy": "standard"
+        },
+        "referenceEnvironments": [
+          "eac6797e49eaa3bb7b9b699992960e737a88ac98558ea65e425b91c9e65b62b3"
+        ],
+        "diagnostics": [
+          {
+            "filename": "GLEAN_FRAGMENT_1",
+            "line": 1,
+            "column": 4,
+            "severity": "error",
+            "message": "Type mismatch\n  True.intro\nhas type\n  True\nbut is expected to have type\n  Irrational Real.pi",
+            "graphLocation": "root/source_call",
+            "fragmentField": "body",
+            "bodyLine": 1,
+            "bodyColumn": 4,
+            "columnEncoding": "unicode"
+          }
+        ],
+        "nodeTypes": {},
+        "projectId": "mathlib",
+        "policy": "standard",
+        "jobId": "55c0125003454048ae1dfcafdcf46911",
+        "phase": "complete",
+        "kernelAccepted": false,
+        "audit": null,
+        "filename": "Graph.lean",
+        "target": "glean_proof",
+        "timeoutSeconds": 240,
+        "sourceHash": "a9967943bb4917d3b7347a726b9a8c51c92d4b8d23c305a3ef14f40210270c8d",
+        "lean": {
+          "output": "GLEAN_FRAGMENT_1:1:3: error: Type mismatch\n  True.intro\nhas type\n  True\nbut is expected to have type\n  Irrational Real.pi\n",
+          "durationMs": 134526
+        },
+        "environment": {
+          "schema": 1,
+          "projectId": "mathlib",
+          "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+          "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+          "projectFiles": {
+            "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+            "lake-manifest.json": "8f67b2cf24143ac091cdb425e886c2164b2fc2d6fbccd6db9454b697f9541a67",
+            "lakefile.lean": "274e720ccc7dbabeb9fbf362290dc7e5ed2c5175fbade0ef20cc19b1331affaf",
+            "lakefile.toml": null
+          },
+          "sourceStateHash": "5536bd21822d534da2e06d33866484c0a2eca30f6110d247ef27d2f2ea4599bc",
+          "dependencies": [
+            {
+              "name": "Cli",
+              "kind": "git",
+              "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/Cli",
+              "declaredRevision": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+              "available": true,
+              "gitCommit": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+              "gitDirty": false,
+              "sourceStateHash": "1176f84a7b44e7caeee45de1494d1049822a8b48a44b762065a950a37cecba30",
+              "changedLeanInputs": 0,
+              "sourceIdentityKind": "git-and-modified-input-content"
+            },
+            {
+              "name": "LeanSearchClient",
+              "kind": "git",
+              "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/LeanSearchClient",
+              "declaredRevision": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+              "available": true,
+              "gitCommit": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+              "gitDirty": false,
+              "sourceStateHash": "c1172bbf0172ccc33bc75efaf8ca02f8487134427226fce770cc7020a9c450d4",
+              "changedLeanInputs": 0,
+              "sourceIdentityKind": "git-and-modified-input-content"
+            },
+            {
+              "name": "Qq",
+              "kind": "git",
+              "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/Qq",
+              "declaredRevision": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+              "available": true,
+              "gitCommit": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+              "gitDirty": false,
+              "sourceStateHash": "35aae8780b0a1049c6cb83dcd9cadcca0bd0ce3dfbbfd480a9e1ae3c5f5a05af",
+              "changedLeanInputs": 0,
+              "sourceIdentityKind": "git-and-modified-input-content"
+            },
+            {
+              "name": "aesop",
+              "kind": "git",
+              "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/aesop",
+              "declaredRevision": "355695d523e41d0554926416cba2a2b3544fbbc9",
+              "available": true,
+              "gitCommit": "355695d523e41d0554926416cba2a2b3544fbbc9",
+              "gitDirty": false,
+              "sourceStateHash": "459f439e876a2a4510d574aec9b7f34b569bdcdf9e9ea83ae3a7ef627a0f9843",
+              "changedLeanInputs": 0,
+              "sourceIdentityKind": "git-and-modified-input-content"
+            },
+            {
+              "name": "batteries",
+              "kind": "git",
+              "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/batteries",
+              "declaredRevision": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+              "available": true,
+              "gitCommit": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+              "gitDirty": false,
+              "sourceStateHash": "71e28be2d3cefe1ec90a7ad3e83ce9aca5169219c52a25a9865e1ce0144a6296",
+              "changedLeanInputs": 0,
+              "sourceIdentityKind": "git-and-modified-input-content"
+            },
+            {
+              "name": "importGraph",
+              "kind": "git",
+              "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/importGraph",
+              "declaredRevision": "e928b72544873815af278d38681b31c0293588e3",
+              "available": true,
+              "gitCommit": "e928b72544873815af278d38681b31c0293588e3",
+              "gitDirty": false,
+              "sourceStateHash": "fcaa5b446fc9a84ba55001ef0b7f5cb9d1e21c6937c4378d1fca72d9acfedd97",
+              "changedLeanInputs": 0,
+              "sourceIdentityKind": "git-and-modified-input-content"
+            },
+            {
+              "name": "plausible",
+              "kind": "git",
+              "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/plausible",
+              "declaredRevision": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+              "available": true,
+              "gitCommit": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+              "gitDirty": false,
+              "sourceStateHash": "3d2de043c8a2840b04e77e0ebdc26f39f14a235e43df7a50abcc9db29f8bd720",
+              "changedLeanInputs": 0,
+              "sourceIdentityKind": "git-and-modified-input-content"
+            },
+            {
+              "name": "proofwidgets",
+              "kind": "git",
+              "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/proofwidgets",
+              "declaredRevision": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5",
+              "available": true,
+              "gitCommit": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5",
+              "gitDirty": false,
+              "sourceStateHash": "585600a5908b5ebe759533071cb97249655c1296c6f32a144392eaa2b1031102",
+              "changedLeanInputs": 0,
+              "sourceIdentityKind": "git-and-modified-input-content"
+            }
+          ],
+          "compiledArtifacts": {
+            "kind": "path-size-mtime-metadata",
+            "count": 21231,
+            "hash": "7b5879e25f49525944e6c5b16921d4ef88fa3a7453f27f0b117b57d5783b4036"
+          },
+          "leanSearchPaths": [
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/Cli/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/batteries/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/Qq/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/aesop/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/proofwidgets/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/importGraph/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/LeanSearchClient/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/plausible/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+          ],
+          "gitCommit": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+          "gitDirty": false,
+          "changedLeanInputs": 0,
+          "sourceIdentityKind": "git-and-modified-input-content",
+          "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+          "manifestHash": "8f67b2cf24143ac091cdb425e886c2164b2fc2d6fbccd6db9454b697f9541a67",
+          "environmentHash": "eac6797e49eaa3bb7b9b699992960e737a88ac98558ea65e425b91c9e65b62b3",
+          "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+        },
+        "typedNodeTypes": {},
+        "typedNodeUsage": {},
+        "typedPortTypes": {},
+        "typedNodeAudit": {}
+      }
+    }
+  ]
+}

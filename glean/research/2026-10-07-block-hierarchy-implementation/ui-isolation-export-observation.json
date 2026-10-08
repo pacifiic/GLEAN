@@ -1,0 +1,16 @@
+{
+  "file": "________3_________.glean.json",
+  "documentKeys": [
+    "_copyright",
+    "kind",
+    "graph",
+    "review",
+    "presentation"
+  ],
+  "graphNodes": 5,
+  "graphEdges": 4,
+  "hasSessionView": false,
+  "hasIsolationStack": false,
+  "bytes": 5730,
+  "sha256": "ffd89d8f5727f874ba08c03f137452ca7df67d6093d185fac6e18dc1df37e3ee"
+}

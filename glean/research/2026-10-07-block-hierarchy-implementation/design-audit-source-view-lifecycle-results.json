@@ -1,0 +1,65 @@
+{
+  "provenance": {
+    "uploadedActualSorryDependency": true,
+    "uploadedUiStatus": "실제 명령 분석 1개 · 분석 완료 · 미검증",
+    "uploadUnverified": true,
+    "currentFileExplicit": true,
+    "installedDisclaimer": true,
+    "installedReferenceType": "Irrational Real.pi",
+    "referenceReceived": true,
+    "uploadedBodyNotAttachedToReference": true,
+    "lookupRequest": {
+      "projectId": "mathlib",
+      "imports": [
+        "Mathlib.Analysis.Real.Pi.Irrational"
+      ],
+      "declaration": "irrational_pi"
+    },
+    "controlledInstalledRecord": true,
+    "controlledDependencyModule": true,
+    "dependencyLookupRequest": {
+      "projectId": "mathlib",
+      "imports": [
+        "Controlled.Real.Pi"
+      ],
+      "declaration": "Real.pi"
+    },
+    "historicalCacheLabel": "저장된 선언 분석 1개 · 다시 분석해 현재 출처를 확인하세요."
+  },
+  "lateStart": {
+    "cacheCount": 0,
+    "renderedCards": 0,
+    "oldJobCancelled": true,
+    "runEnabled": true
+  },
+  "latePoll": {
+    "cacheCount": 0,
+    "renderedCards": 0,
+    "oldJobCancelled": true,
+    "runEnabled": true
+  },
+  "lateLookup": {
+    "installedPanels": 0,
+    "cacheCount": 1,
+    "status": "소스 또는 프로젝트 변경 · 저장된 분석의 위치 대응 미확정 · 다시 읽어 주세요."
+  },
+  "historicalSourceRelations": {
+    "summaryExplicit": true,
+    "localDependencyStored": true,
+    "noCurrentFileLabel": true,
+    "sourceCorrespondenceUnknown": true,
+    "allOriginalJumpsDisabled": true,
+    "proofWireCount": 0,
+    "actualAdapter": "lean-4.34.1-command-state"
+  },
+  "historicalLateLookupFailure": {
+    "status": "obsolete lookup failure",
+    "obsoleteFailureDisplayed": true,
+    "cacheCount": 0
+  },
+  "lateIndexToInvalidUtf8": {
+    "runDisabled": true,
+    "oldJobCancelled": true,
+    "oldCacheCount": 0
+  }
+}

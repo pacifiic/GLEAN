@@ -1,0 +1,33 @@
+{
+  "delivered": [
+    {
+      "status": "valid",
+      "verified": true,
+      "generatedCode": "actual newer source"
+    },
+    {
+      "status": "ready",
+      "preview": true,
+      "verified": false,
+      "generatedCode": "old preview source"
+    }
+  ],
+  "statuses": [
+    [
+      "checking",
+      "구조 미리보기 중",
+      "명시적 입력과 최종 목표를 확인합니다."
+    ],
+    [
+      "checking",
+      "Lean 타입·커널 검사 중",
+      "명시적 입력과 최종 목표를 확인합니다."
+    ]
+  ],
+  "lastStatus": "ready",
+  "lastVerified": false,
+  "expected": {
+    "lastStatus": "valid",
+    "lastVerified": true
+  }
+}

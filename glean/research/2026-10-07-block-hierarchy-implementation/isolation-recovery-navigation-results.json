@@ -1,0 +1,96 @@
+{
+  "kind": "actual typed event + actual app history callback / controlled DOM; separate model/store controls; not native UI or kernel",
+  "hashes": {
+    "app": "64a783f0a578f84ff40e55dc493f034ec7753a756f7974e1bbd057c3b692dd20",
+    "typedEditor": "7b6ddc6698b56456ae36d1ead422980949d5fb5cf47e1358b9827ab89631cd46",
+    "isolationRecovery": "6bfaeb23aa507fa1ecb0b81f88a121b795fb860d412f8f26c1553d6a64761ba7"
+  },
+  "cases": [
+    {
+      "id": "actual-app-undo-retains-current-isolation-and-manual-hidden-state",
+      "pass": true,
+      "hidden": [
+        "n:spare"
+      ],
+      "isolation": {
+        "version": 1,
+        "views": {
+          "root": {
+            "frames": [
+              {
+                "targets": [
+                  "zero"
+                ],
+                "revealed": [],
+                "viewport": {
+                  "x": -270,
+                  "y": -40,
+                  "zoom": 1
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "actual-explicit-resume-with-current-target-validation",
+      "pass": true,
+      "resumedOnlyAfterExplicitClick": true
+    },
+    {
+      "id": "separate-store-document-target-and-viewport-guards",
+      "pass": true,
+      "differentDocumentRejected": true,
+      "missingTargetRejected": true,
+      "malformedViewportRejected": true,
+      "ordinaryDocumentUnchanged": true
+    },
+    {
+      "id": "nested-navigation-resume-observation",
+      "pass": false,
+      "before": {
+        "path": [
+          {
+            "kind": "module",
+            "id": "outer"
+          }
+        ],
+        "trail": [
+          {
+            "scopeId": "root",
+            "nodeId": "callA",
+            "definitionId": "outer"
+          }
+        ],
+        "selected": "n_in",
+        "selectedOutput": "out",
+        "codeTarget": null,
+        "view": {
+          "x": -10,
+          "y": -40,
+          "zoom": 1
+        },
+        "dependencyPreview": false
+      },
+      "after": {
+        "path": [],
+        "trail": [],
+        "selected": null,
+        "selectedOutput": "out",
+        "codeTarget": null,
+        "view": {
+          "x": 20,
+          "y": 20,
+          "zoom": 1
+        },
+        "dependencyPreview": false
+      }
+    },
+    {
+      "id": "explicit-session-resume-restores-nested-navigation-selection-and-view",
+      "pass": false,
+      "error": "explicit restore retains child frame but loses child path, selection and viewport"
+    }
+  ]
+}

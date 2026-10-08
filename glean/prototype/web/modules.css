@@ -1,0 +1,30 @@
+/* Copyright (c) 2026 GLEAN contributors. Released under Apache 2.0. */
+.module-breadcrumb { display:flex; align-items:center; gap:12px; padding:5px 12px; background:#e0e5de; border-bottom:1px solid #adb7a5; font-size:11px; flex-shrink:0; }
+.module-breadcrumb[hidden],.selection-toolbar [hidden] { display:none; }
+.module-breadcrumb span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.module-context-hint,.module-library-intro,.module-guide,.module-empty { color:#60675b; font-size:11px; line-height:1.6; margin:8px 0 12px; }
+.modules-section { padding:14px 12px; }
+.modules-section h2 { margin-bottom:10px; }
+.module-card { border:1px solid #b3b7ac; border-radius:5px; padding:10px; background:linear-gradient(#f7f8f4,#e8ece2); margin:10px 0; }
+.module-card strong { display:block; font-size:13px; overflow-wrap:anywhere; }
+.module-card small { display:block; font-size:10px; color:#68705f; margin-top:4px; }
+.module-signature { white-space:pre-wrap; overflow-wrap:anywhere; font:11px/1.6 var(--mono); margin:8px 0; }
+.module-actions { display:flex; flex-wrap:wrap; gap:5px; }
+.selection-toolbar { width:max-content; max-width:calc(100% - 24px); flex-wrap:wrap; gap:5px; padding:6px 8px; }
+.selection-toolbar #module-name { width:106px; height:26px; min-width:60px; padding:3px 6px; border:1px solid #999; border-radius:3px; font-size:11px; }
+.selection-toolbar #selected-label { max-width:90px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.node.module { background:linear-gradient(#f4f8f2,#d1ddc9 30%,#aabca0); border-color:#6f8065; }
+.node.group { background:linear-gradient(#f1eef7,#dbd4e3 30%,#b8adc5); border-color:#84758e; box-shadow:inset 0 1px 0 #fff,3px 3px 0 #beb4c9,4px 4px 0 #84758e; }
+.node:is(.module,.group).selected { background:linear-gradient(#e0f5c5,#a7d47d 30%,#77b14d); border-color:#407324; }
+.node:is(.module,.group).error { background:linear-gradient(#ffcfc7,#ec9a8b 30%,#ce6e60); border-color:#9b4033; }
+.node:is(.module,.group).warning { background:linear-gradient(#ffe8c4,#ffc075 30%,#e49a45); border-color:#a26826; }
+.node:is(.module,.group) header { left:49px; right:15px; bottom:39px; }
+.node:is(.module,.group) .node-name { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.node:is(.module,.group) .port-label { max-width:39px; overflow:hidden; text-overflow:ellipsis; }
+.node .module-open { position:absolute; bottom:24px; right:14px; border:1px solid #839077; background:#ffffff66; border-radius:3px; font:9px/14px var(--sans); padding:0 5px; cursor:pointer; }
+.node .module-open:hover { background:#f5faeb; }
+.group-frame { position:absolute; border:1px solid #aba1b8; border-radius:12px; background:#d1c4df2b; pointer-events:none; }
+.group-frame-header { display:flex; align-items:center; gap:8px; height:28px; padding:0 12px; pointer-events:auto; cursor:grab; border-radius:11px 11px 0 0; background:#ddd5e58c; font-size:11px; }
+.group-frame-header strong { margin-right:auto; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.group-frame-header button { border:1px solid #a89ab4; background:#eee9f2; border-radius:3px; padding:1px 6px; font-size:10px; cursor:pointer; }
+@media(max-width:700px) { .selection-toolbar { top:8px; } .selection-toolbar .button { padding:3px 5px; font-size:10px; } }

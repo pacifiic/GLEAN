@@ -1,0 +1,55 @@
+{
+  "actualRecordUsed": {
+    "verified": true,
+    "sourceHash": "b0af3949dde5df82d6805b9eb1e39bbf0c35b0bb92ab126851599ab88f70c50d",
+    "environmentHash": "917976ff217f0f0fb12d0f5e79d860452ee0b9cabcf892da1d1d35b5e23bed1e",
+    "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)"
+  },
+  "names": [
+    "정상 A",
+    "편집 B"
+  ],
+  "diff": {
+    "names": [
+      "정상 A",
+      "편집 B"
+    ],
+    "fields": [
+      {
+        "path": "filename",
+        "before": "A.lean",
+        "after": "B.lean"
+      },
+      {
+        "path": "source",
+        "before": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n + 0 = n\") :=\n  (gleanTerm% \"@Nat.add_zero n\")\n\ntheorem glean_proof (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n + 0 = n\") :=\n  let glean_component_2 := glean_component_1 (n)\n  glean_component_2\n",
+        "after": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n + 0 = n\") :=\n  (gleanTerm% \"@Nat.zero_add n\")\n\ntheorem glean_proof (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n + 0 = n\") :=\n  let glean_component_2 := glean_component_1 (n)\n  glean_component_2\n"
+      },
+      {
+        "path": "policy",
+        "before": "standard",
+        "after": "strict"
+      }
+    ],
+    "source": [
+      {
+        "line": 29,
+        "before": "  (gleanTerm% \"@Nat.add_zero n\")",
+        "after": "  (gleanTerm% \"@Nat.zero_add n\")"
+      }
+    ],
+    "environmentChanged": true,
+    "policyChanged": true
+  },
+  "roundtrip": true,
+  "autoRecovery": true,
+  "poisonedGreenStripped": true,
+  "restoredADocument": {
+    "kind": "lean",
+    "filename": "A.lean",
+    "source": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n + 0 = n\") :=\n  (gleanTerm% \"@Nat.add_zero n\")\n\ntheorem glean_proof (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n + 0 = n\") :=\n  let glean_component_2 := glean_component_1 (n)\n  glean_component_2\n",
+    "projectId": "glean",
+    "target": "glean_proof",
+    "policy": "standard"
+  }
+}

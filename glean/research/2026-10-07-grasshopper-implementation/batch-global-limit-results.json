@@ -1,0 +1,22 @@
+{
+  "nodes": {
+    "beforeValidation": null,
+    "globalNodes": 253,
+    "globalEdges": 1,
+    "rejected": true,
+    "message": "배치 결과가 문서 크기 제한을 초과합니다.",
+    "unchanged": true,
+    "afterValidation": null,
+    "passed": true
+  },
+  "edges": {
+    "beforeValidation": null,
+    "globalNodes": 50,
+    "globalEdges": 511,
+    "rejected": true,
+    "message": "배치 결과가 문서 크기 제한을 초과합니다.",
+    "unchanged": true,
+    "afterValidation": null,
+    "passed": true
+  }
+}

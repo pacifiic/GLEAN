@@ -1,0 +1,2100 @@
+{
+  "codeHashes": {
+    "source_check.py": "f0383de5dc680d52be8871f6fab8d3b191169167eff9dc12b50e1b029c659cdb",
+    "typed_graph.py": "b2409aae856128c048a7881b06e78d85b72b1a6ea31f6854cbad9b8a8a3ab91d",
+    "graph_jobs.py": "f06841c35030e79102de29423224cab3b396723ecc76d5145c389c773fe9356b"
+  },
+  "cases": [
+    {
+      "id": "unused-argument",
+      "expected": "valid",
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "P",
+            "name": "P",
+            "type": "Prop"
+          },
+          {
+            "id": "Q",
+            "name": "Q",
+            "type": "Prop"
+          },
+          {
+            "id": "hp",
+            "name": "hp",
+            "type": "P"
+          },
+          {
+            "id": "hq",
+            "name": "hq",
+            "type": "Q"
+          }
+        ],
+        "goal": "P",
+        "nodes": [
+          {
+            "id": "P",
+            "kind": "input",
+            "ref": "P"
+          },
+          {
+            "id": "Q",
+            "kind": "input",
+            "ref": "Q"
+          },
+          {
+            "id": "hp",
+            "kind": "input",
+            "ref": "hp"
+          },
+          {
+            "id": "hq",
+            "kind": "input",
+            "ref": "hq"
+          },
+          {
+            "id": "select",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "P",
+                "name": "P",
+                "type": "Prop"
+              },
+              {
+                "id": "Q",
+                "name": "Q",
+                "type": "Prop"
+              },
+              {
+                "id": "hp",
+                "name": "hp",
+                "type": "P"
+              },
+              {
+                "id": "hq",
+                "name": "hq",
+                "type": "Q"
+              }
+            ],
+            "outputType": "P",
+            "body": "hp"
+          }
+        ],
+        "edges": [
+          {
+            "id": "P_out_select_P",
+            "source": "P",
+            "output": "out",
+            "target": "select",
+            "input": "P"
+          },
+          {
+            "id": "Q_out_select_Q",
+            "source": "Q",
+            "output": "out",
+            "target": "select",
+            "input": "Q"
+          },
+          {
+            "id": "hp_out_select_hp",
+            "source": "hp",
+            "output": "out",
+            "target": "select",
+            "input": "hp"
+          },
+          {
+            "id": "hq_out_select_hq",
+            "source": "hq",
+            "output": "out",
+            "target": "select",
+            "input": "hq"
+          }
+        ],
+        "result": {
+          "node": "select",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "result": {
+        "status": "valid",
+        "verified": true,
+        "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (P : (gleanTerm% \"Prop\")) (Q : (gleanTerm% \"Prop\")) (hp : (gleanTerm% \"P\")) (hq : (gleanTerm% \"Q\")) : (gleanTerm% \"P\") :=\n  (gleanTerm% \"hp\")\n\ntheorem glean_proof (P : (gleanTerm% \"Prop\")) (Q : (gleanTerm% \"Prop\")) (hp : (gleanTerm% \"P\")) (hq : (gleanTerm% \"Q\")) : (gleanTerm% \"P\") :=\n  let glean_component_2 := glean_component_1 (P) (Q) (hp) (hq)\n  glean_component_2\n",
+        "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (P : (gleanExpectedTerm% \"Prop\")) (Q : (gleanExpectedTerm% \"Prop\")) (hp : (gleanExpectedTerm% \"P\")) (hq : (gleanExpectedTerm% \"Q\")), (gleanExpectedTerm% \"P\")\n",
+        "sourceMap": {
+          "root/select": {
+            "startLine": 28,
+            "endLine": 30
+          },
+          "root": {
+            "startLine": 31,
+            "endLine": 34
+          }
+        },
+        "sourceLocations": [
+          {
+            "key": "root/select/out",
+            "startLine": 32,
+            "endLine": 32
+          }
+        ],
+        "nodeBindings": {
+          "glean_component_2": "root/select/out"
+        },
+        "nodeFunctions": {
+          "root/select": "glean_component_1",
+          "root/select/out": "glean_component_1"
+        },
+        "nodeInputPorts": {
+          "root/select/out": [
+            "P",
+            "Q",
+            "hp",
+            "hq"
+          ]
+        },
+        "inputBindings": {
+          "root/P/out": "glean_proof/P",
+          "root/Q/out": "glean_proof/Q",
+          "root/hp/out": "glean_proof/hp",
+          "root/hq/out": "glean_proof/hq"
+        },
+        "referenceEnvironments": [],
+        "diagnostics": [
+          {
+            "filename": "Graph.lean",
+            "line": 28,
+            "column": 114,
+            "severity": "warning",
+            "message": "Variable name `hq` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _hq\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`",
+            "graphLocation": "root/select"
+          }
+        ],
+        "nodeTypes": {},
+        "projectId": "glean",
+        "policy": "strict",
+        "jobId": "8b59e24caca840caacbd7e7b44219f97",
+        "phase": "complete",
+        "kernelAccepted": true,
+        "audit": {
+          "axioms": [],
+          "standardAxioms": [],
+          "customAxioms": [],
+          "hasSorry": false,
+          "policy": "strict",
+          "policyAccepted": true
+        },
+        "filename": "Graph.lean",
+        "target": "glean_proof",
+        "sourceHash": "b85b14d327610d18be624c3a9c664c0f46bc2963f994ca68d142a602a8ccc7ad",
+        "lean": {
+          "output": "Graph.lean:28:113: warning: Variable name `hq` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _hq\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\n/var/folders/bl/_h2n2k_d41g3q3fwxvy0gppr0000gn/T/glean-source-ov60y84x/GleanExpectedd6068cfa246e4b84ae9ac8b8ffd8d996.lean:28:105: warning: Variable name `hp` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _hp\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\n/var/folders/bl/_h2n2k_d41g3q3fwxvy0gppr0000gn/T/glean-source-ov60y84x/GleanExpectedd6068cfa246e4b84ae9ac8b8ffd8d996.lean:28:137: warning: Variable name `hq` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _hq\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\n",
+          "durationMs": 16184
+        },
+        "environment": {
+          "schema": 1,
+          "projectId": "glean",
+          "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+          "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+          "projectFiles": {
+            "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+            "lake-manifest.json": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+            "lakefile.lean": null,
+            "lakefile.toml": "a3500f3a6618de5748b6135a580e2b4357a9936564a0a43a9decbdb94f101580"
+          },
+          "sourceStateHash": "8e42ea7f844d4211928454b4232a8b9dc61fcb3192dc8942c803ce6cbd657213",
+          "dependencies": [],
+          "compiledArtifacts": {
+            "kind": "path-size-mtime-metadata",
+            "count": 10089,
+            "hash": "eff39cb727636d1b135ecdb35e3c8e15e665997e6a4f2255310687c6f71cb748"
+          },
+          "leanSearchPaths": [
+            "/Users/moonone/GLEAN/glean/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+          ],
+          "gitCommit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+          "gitDirty": true,
+          "changedLeanInputs": null,
+          "sourceIdentityKind": "source-content-in-parent-git",
+          "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+          "manifestHash": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+          "environmentHash": "917976ff217f0f0fb12d0f5e79d860452ee0b9cabcf892da1d1d35b5e23bed1e",
+          "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+        },
+        "bindingTypes": {
+          "glean_component_1/P": "Prop",
+          "glean_component_1/Q": "Prop",
+          "glean_component_1/hp": "P",
+          "glean_component_1/hq": "Q",
+          "glean_proof/P": "Prop",
+          "glean_proof/Q": "Prop",
+          "glean_proof/glean_component_2": "P",
+          "glean_proof/hp": "P",
+          "glean_proof/hq": "Q"
+        },
+        "bindingUsage": {
+          "glean_component_1": [
+            "P",
+            "hp"
+          ],
+          "glean_proof": [
+            "P",
+            "hp"
+          ]
+        },
+        "bindingDependencies": {
+          "glean_component_1/P": [
+            "P"
+          ],
+          "glean_component_1/Q": [
+            "Q"
+          ],
+          "glean_component_1/hp": [
+            "P",
+            "hp"
+          ],
+          "glean_component_1/hq": [
+            "Q",
+            "hq"
+          ],
+          "glean_proof/P": [
+            "P"
+          ],
+          "glean_proof/Q": [
+            "Q"
+          ],
+          "glean_proof/glean_component_2": [
+            "P",
+            "hp"
+          ],
+          "glean_proof/hp": [
+            "P",
+            "hp"
+          ],
+          "glean_proof/hq": [
+            "Q",
+            "hq"
+          ]
+        },
+        "bindingInputTypes": {
+          "glean_proof/glean_component_2": [
+            "Prop",
+            "Prop",
+            "P",
+            "Q"
+          ]
+        },
+        "typedNodeTypes": {
+          "root/select/out": "P",
+          "root/P/out": "Prop",
+          "root/Q/out": "Prop",
+          "root/hp/out": "P",
+          "root/hq/out": "Q"
+        },
+        "typedNodeUsage": {
+          "root/select/out": [
+            "P",
+            "hp"
+          ],
+          "root/P/out": [
+            "P"
+          ],
+          "root/Q/out": [
+            "Q"
+          ],
+          "root/hp/out": [
+            "P",
+            "hp"
+          ],
+          "root/hq/out": [
+            "Q",
+            "hq"
+          ]
+        },
+        "typedPortTypes": {
+          "root/select/P": "Prop",
+          "root/select/Q": "Prop",
+          "root/select/hp": "P",
+          "root/select/hq": "Q"
+        }
+      }
+    },
+    {
+      "id": "Cases-metadata",
+      "expected": "valid",
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "P",
+            "name": "P",
+            "type": "Prop"
+          },
+          {
+            "id": "Q",
+            "name": "Q",
+            "type": "Prop"
+          },
+          {
+            "id": "h",
+            "name": "h",
+            "type": "P ∨ Q"
+          }
+        ],
+        "goal": "Q ∨ P",
+        "nodes": [
+          {
+            "id": "P",
+            "kind": "input",
+            "ref": "P"
+          },
+          {
+            "id": "Q",
+            "kind": "input",
+            "ref": "Q"
+          },
+          {
+            "id": "h",
+            "kind": "input",
+            "ref": "h"
+          },
+          {
+            "id": "case",
+            "kind": "cases",
+            "inputs": [
+              {
+                "id": "P",
+                "name": "P",
+                "type": "Prop"
+              },
+              {
+                "id": "Q",
+                "name": "Q",
+                "type": "Prop"
+              },
+              {
+                "id": "h",
+                "name": "h",
+                "type": "P ∨ Q"
+              }
+            ],
+            "scrutinee": "h",
+            "outputType": "Q ∨ P",
+            "branches": [
+              {
+                "id": "left",
+                "constructor": "Or.inl",
+                "binders": [
+                  {
+                    "id": "hp",
+                    "name": "hp",
+                    "type": "P"
+                  }
+                ],
+                "nodes": [
+                  {
+                    "id": "P",
+                    "kind": "input",
+                    "ref": "P"
+                  },
+                  {
+                    "id": "Q",
+                    "kind": "input",
+                    "ref": "Q"
+                  },
+                  {
+                    "id": "hp",
+                    "kind": "input",
+                    "ref": "hp"
+                  },
+                  {
+                    "id": "join",
+                    "kind": "script",
+                    "inputs": [
+                      {
+                        "id": "P",
+                        "name": "P",
+                        "type": "Prop"
+                      },
+                      {
+                        "id": "Q",
+                        "name": "Q",
+                        "type": "Prop"
+                      },
+                      {
+                        "id": "hp",
+                        "name": "hp",
+                        "type": "P"
+                      }
+                    ],
+                    "outputType": "Q ∨ P",
+                    "body": "Or.inr hp"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "P_out_join_P",
+                    "source": "P",
+                    "output": "out",
+                    "target": "join",
+                    "input": "P"
+                  },
+                  {
+                    "id": "Q_out_join_Q",
+                    "source": "Q",
+                    "output": "out",
+                    "target": "join",
+                    "input": "Q"
+                  },
+                  {
+                    "id": "hp_out_join_hp",
+                    "source": "hp",
+                    "output": "out",
+                    "target": "join",
+                    "input": "hp"
+                  }
+                ],
+                "result": {
+                  "node": "join",
+                  "output": "out"
+                }
+              },
+              {
+                "id": "right",
+                "constructor": "Or.inr",
+                "binders": [
+                  {
+                    "id": "hq",
+                    "name": "hq",
+                    "type": "Q"
+                  }
+                ],
+                "nodes": [
+                  {
+                    "id": "P",
+                    "kind": "input",
+                    "ref": "P"
+                  },
+                  {
+                    "id": "Q",
+                    "kind": "input",
+                    "ref": "Q"
+                  },
+                  {
+                    "id": "hq",
+                    "kind": "input",
+                    "ref": "hq"
+                  },
+                  {
+                    "id": "join",
+                    "kind": "script",
+                    "inputs": [
+                      {
+                        "id": "P",
+                        "name": "P",
+                        "type": "Prop"
+                      },
+                      {
+                        "id": "Q",
+                        "name": "Q",
+                        "type": "Prop"
+                      },
+                      {
+                        "id": "hq",
+                        "name": "hq",
+                        "type": "Q"
+                      }
+                    ],
+                    "outputType": "Q ∨ P",
+                    "body": "Or.inl hq"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "P_out_join_P",
+                    "source": "P",
+                    "output": "out",
+                    "target": "join",
+                    "input": "P"
+                  },
+                  {
+                    "id": "Q_out_join_Q",
+                    "source": "Q",
+                    "output": "out",
+                    "target": "join",
+                    "input": "Q"
+                  },
+                  {
+                    "id": "hq_out_join_hq",
+                    "source": "hq",
+                    "output": "out",
+                    "target": "join",
+                    "input": "hq"
+                  }
+                ],
+                "result": {
+                  "node": "join",
+                  "output": "out"
+                }
+              }
+            ]
+          }
+        ],
+        "edges": [
+          {
+            "id": "P_out_case_P",
+            "source": "P",
+            "output": "out",
+            "target": "case",
+            "input": "P"
+          },
+          {
+            "id": "Q_out_case_Q",
+            "source": "Q",
+            "output": "out",
+            "target": "case",
+            "input": "Q"
+          },
+          {
+            "id": "h_out_case_h",
+            "source": "h",
+            "output": "out",
+            "target": "case",
+            "input": "h"
+          }
+        ],
+        "result": {
+          "node": "case",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "result": {
+        "status": "valid",
+        "verified": true,
+        "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_3 (P : (gleanTerm% \"Prop\")) (Q : (gleanTerm% \"Prop\")) (hp : (gleanTerm% \"P\")) : (gleanTerm% \"Q ∨ P\") :=\n  (gleanTerm% \"Or.inr hp\")\n\nnoncomputable def glean_component_2 (P : (gleanTerm% \"Prop\")) (Q : (gleanTerm% \"Prop\")) (h : (gleanTerm% \"P ∨ Q\")) (hp : (gleanTerm% \"P\")) : (gleanTerm% \"Q ∨ P\") :=\n  let glean_component_4 := glean_component_3 (P) (Q) (hp)\n  glean_component_4\n\nnoncomputable def glean_component_6 (P : (gleanTerm% \"Prop\")) (Q : (gleanTerm% \"Prop\")) (hq : (gleanTerm% \"Q\")) : (gleanTerm% \"Q ∨ P\") :=\n  (gleanTerm% \"Or.inl hq\")\n\nnoncomputable def glean_component_5 (P : (gleanTerm% \"Prop\")) (Q : (gleanTerm% \"Prop\")) (h : (gleanTerm% \"P ∨ Q\")) (hq : (gleanTerm% \"Q\")) : (gleanTerm% \"Q ∨ P\") :=\n  let glean_component_7 := glean_component_6 (P) (Q) (hq)\n  glean_component_7\n\nnoncomputable def glean_component_1 (P : (gleanTerm% \"Prop\")) (Q : (gleanTerm% \"Prop\")) (h : (gleanTerm% \"P ∨ Q\")) : (gleanTerm% \"Q ∨ P\") :=\n  match h with\n  | Or.inl hp =>\n    glean_component_2 (P) (Q) (h) (hp)\n  | Or.inr hq =>\n    glean_component_5 (P) (Q) (h) (hq)\n\ntheorem glean_proof (P : (gleanTerm% \"Prop\")) (Q : (gleanTerm% \"Prop\")) (h : (gleanTerm% \"P ∨ Q\")) : (gleanTerm% \"Q ∨ P\") :=\n  let glean_component_8 := glean_component_1 (P) (Q) (h)\n  glean_component_8\n",
+        "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (P : (gleanExpectedTerm% \"Prop\")) (Q : (gleanExpectedTerm% \"Prop\")) (h : (gleanExpectedTerm% \"P ∨ Q\")), (gleanExpectedTerm% \"Q ∨ P\")\n",
+        "sourceMap": {
+          "root/case/left/join": {
+            "startLine": 28,
+            "endLine": 30
+          },
+          "root/case/left": {
+            "startLine": 31,
+            "endLine": 34
+          },
+          "root/case/right/join": {
+            "startLine": 35,
+            "endLine": 37
+          },
+          "root/case/right": {
+            "startLine": 38,
+            "endLine": 41
+          },
+          "root/case": {
+            "startLine": 42,
+            "endLine": 48
+          },
+          "root": {
+            "startLine": 49,
+            "endLine": 52
+          }
+        },
+        "sourceLocations": [
+          {
+            "key": "root/case/left/join/out",
+            "startLine": 32,
+            "endLine": 32
+          },
+          {
+            "key": "root/case/right/join/out",
+            "startLine": 39,
+            "endLine": 39
+          },
+          {
+            "key": "root/case/out",
+            "startLine": 50,
+            "endLine": 50
+          }
+        ],
+        "nodeBindings": {
+          "glean_component_4": "root/case/left/join/out",
+          "glean_component_7": "root/case/right/join/out",
+          "glean_component_8": "root/case/out"
+        },
+        "nodeFunctions": {
+          "root/case/left/join": "glean_component_3",
+          "root/case/left/join/out": "glean_component_3",
+          "root/case/right/join": "glean_component_6",
+          "root/case/right/join/out": "glean_component_6",
+          "root/case": "glean_component_1",
+          "root/case/out": "glean_component_1"
+        },
+        "nodeInputPorts": {
+          "root/case/left/join/out": [
+            "P",
+            "Q",
+            "hp"
+          ],
+          "root/case/right/join/out": [
+            "P",
+            "Q",
+            "hq"
+          ],
+          "root/case/out": [
+            "P",
+            "Q",
+            "h"
+          ]
+        },
+        "inputBindings": {
+          "root/P/out": "glean_proof/P",
+          "root/Q/out": "glean_proof/Q",
+          "root/h/out": "glean_proof/h",
+          "root/case/left/P/out": "glean_component_2/P",
+          "root/case/left/Q/out": "glean_component_2/Q",
+          "root/case/left/hp/out": "glean_component_2/hp",
+          "root/case/right/P/out": "glean_component_5/P",
+          "root/case/right/Q/out": "glean_component_5/Q",
+          "root/case/right/hq/out": "glean_component_5/hq"
+        },
+        "referenceEnvironments": [],
+        "diagnostics": [
+          {
+            "filename": "Graph.lean",
+            "line": 31,
+            "column": 90,
+            "severity": "warning",
+            "message": "Variable name `h` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _h\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`",
+            "graphLocation": "root/case/left"
+          },
+          {
+            "filename": "Graph.lean",
+            "line": 38,
+            "column": 90,
+            "severity": "warning",
+            "message": "Variable name `h` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _h\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`",
+            "graphLocation": "root/case/right"
+          }
+        ],
+        "nodeTypes": {},
+        "projectId": "glean",
+        "policy": "strict",
+        "jobId": "7cfcae2b24914c869aa7162af498da46",
+        "phase": "complete",
+        "kernelAccepted": true,
+        "audit": {
+          "axioms": [],
+          "standardAxioms": [],
+          "customAxioms": [],
+          "hasSorry": false,
+          "policy": "strict",
+          "policyAccepted": true
+        },
+        "filename": "Graph.lean",
+        "target": "glean_proof",
+        "sourceHash": "8eaa4c20f49e89c887ba4b58cf4cff141870f537079a7fb8e3e8e1b8995ac48a",
+        "lean": {
+          "output": "Graph.lean:31:89: warning: Variable name `h` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _h\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\nGraph.lean:38:89: warning: Variable name `h` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _h\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\n/var/folders/bl/_h2n2k_d41g3q3fwxvy0gppr0000gn/T/glean-source-dsb8yxg3/GleanExpectedabcee74eda694721a0493dcb51fbc9e2.lean:28:105: warning: Variable name `h` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _h\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\n",
+          "durationMs": 33787
+        },
+        "environment": {
+          "schema": 1,
+          "projectId": "glean",
+          "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+          "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+          "projectFiles": {
+            "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+            "lake-manifest.json": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+            "lakefile.lean": null,
+            "lakefile.toml": "a3500f3a6618de5748b6135a580e2b4357a9936564a0a43a9decbdb94f101580"
+          },
+          "sourceStateHash": "8e42ea7f844d4211928454b4232a8b9dc61fcb3192dc8942c803ce6cbd657213",
+          "dependencies": [],
+          "compiledArtifacts": {
+            "kind": "path-size-mtime-metadata",
+            "count": 10089,
+            "hash": "eff39cb727636d1b135ecdb35e3c8e15e665997e6a4f2255310687c6f71cb748"
+          },
+          "leanSearchPaths": [
+            "/Users/moonone/GLEAN/glean/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+          ],
+          "gitCommit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+          "gitDirty": true,
+          "changedLeanInputs": null,
+          "sourceIdentityKind": "source-content-in-parent-git",
+          "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+          "manifestHash": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+          "environmentHash": "917976ff217f0f0fb12d0f5e79d860452ee0b9cabcf892da1d1d35b5e23bed1e",
+          "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+        },
+        "bindingTypes": {
+          "glean_component_1.match_1/P": "Prop",
+          "glean_component_1.match_1/Q": "Prop",
+          "glean_component_1.match_1/h._@.GleanSourceab8567794f924eb798b7eb842b3deff1.3550452863._hygCtx._hyg.29": "Or P Q",
+          "glean_component_1.match_1/h_1": "∀ (hp : P), motive ⋯",
+          "glean_component_1.match_1/h_2": "∀ (hq : Q), motive ⋯",
+          "glean_component_1.match_1/motive": "Or P Q → Prop",
+          "glean_component_1/P": "Prop",
+          "glean_component_1/Q": "Prop",
+          "glean_component_1/h": "Or P Q",
+          "glean_component_2/P": "Prop",
+          "glean_component_2/Q": "Prop",
+          "glean_component_2/glean_component_4": "Or Q P",
+          "glean_component_2/h": "Or P Q",
+          "glean_component_2/hp": "P",
+          "glean_component_3/P": "Prop",
+          "glean_component_3/Q": "Prop",
+          "glean_component_3/hp": "P",
+          "glean_component_5/P": "Prop",
+          "glean_component_5/Q": "Prop",
+          "glean_component_5/glean_component_7": "Or Q P",
+          "glean_component_5/h": "Or P Q",
+          "glean_component_5/hq": "Q",
+          "glean_component_6/P": "Prop",
+          "glean_component_6/Q": "Prop",
+          "glean_component_6/hq": "Q",
+          "glean_proof/P": "Prop",
+          "glean_proof/Q": "Prop",
+          "glean_proof/glean_component_8": "Or Q P",
+          "glean_proof/h": "Or P Q"
+        },
+        "bindingUsage": {
+          "glean_component_1": [
+            "P",
+            "Q",
+            "h"
+          ],
+          "glean_component_1.match_1": [
+            "P",
+            "Q",
+            "h._@.GleanSourceab8567794f924eb798b7eb842b3deff1.3550452863._hygCtx._hyg.29",
+            "h_1",
+            "h_2",
+            "motive"
+          ],
+          "glean_component_2": [
+            "P",
+            "Q",
+            "hp"
+          ],
+          "glean_component_3": [
+            "P",
+            "Q",
+            "hp"
+          ],
+          "glean_component_5": [
+            "P",
+            "Q",
+            "hq"
+          ],
+          "glean_component_6": [
+            "P",
+            "Q",
+            "hq"
+          ],
+          "glean_proof": [
+            "P",
+            "Q",
+            "h"
+          ]
+        },
+        "bindingDependencies": {
+          "glean_component_1.match_1/P": [
+            "P"
+          ],
+          "glean_component_1.match_1/Q": [
+            "Q"
+          ],
+          "glean_component_1.match_1/h._@.GleanSourceab8567794f924eb798b7eb842b3deff1.3550452863._hygCtx._hyg.29": [
+            "P",
+            "Q",
+            "h._@.GleanSourceab8567794f924eb798b7eb842b3deff1.3550452863._hygCtx._hyg.29"
+          ],
+          "glean_component_1.match_1/h_1": [
+            "P",
+            "Q",
+            "h_1",
+            "motive"
+          ],
+          "glean_component_1.match_1/h_2": [
+            "P",
+            "Q",
+            "h_2",
+            "motive"
+          ],
+          "glean_component_1.match_1/motive": [
+            "P",
+            "Q",
+            "motive"
+          ],
+          "glean_component_1/P": [
+            "P"
+          ],
+          "glean_component_1/Q": [
+            "Q"
+          ],
+          "glean_component_1/h": [
+            "P",
+            "Q",
+            "h"
+          ],
+          "glean_component_2/P": [
+            "P"
+          ],
+          "glean_component_2/Q": [
+            "Q"
+          ],
+          "glean_component_2/glean_component_4": [
+            "P",
+            "Q",
+            "hp"
+          ],
+          "glean_component_2/h": [
+            "P",
+            "Q",
+            "h"
+          ],
+          "glean_component_2/hp": [
+            "P",
+            "hp"
+          ],
+          "glean_component_3/P": [
+            "P"
+          ],
+          "glean_component_3/Q": [
+            "Q"
+          ],
+          "glean_component_3/hp": [
+            "P",
+            "hp"
+          ],
+          "glean_component_5/P": [
+            "P"
+          ],
+          "glean_component_5/Q": [
+            "Q"
+          ],
+          "glean_component_5/glean_component_7": [
+            "P",
+            "Q",
+            "hq"
+          ],
+          "glean_component_5/h": [
+            "P",
+            "Q",
+            "h"
+          ],
+          "glean_component_5/hq": [
+            "Q",
+            "hq"
+          ],
+          "glean_component_6/P": [
+            "P"
+          ],
+          "glean_component_6/Q": [
+            "Q"
+          ],
+          "glean_component_6/hq": [
+            "Q",
+            "hq"
+          ],
+          "glean_proof/P": [
+            "P"
+          ],
+          "glean_proof/Q": [
+            "Q"
+          ],
+          "glean_proof/glean_component_8": [
+            "P",
+            "Q",
+            "h"
+          ],
+          "glean_proof/h": [
+            "P",
+            "Q",
+            "h"
+          ]
+        },
+        "bindingInputTypes": {
+          "glean_component_2/glean_component_4": [
+            "Prop",
+            "Prop",
+            "P"
+          ],
+          "glean_component_5/glean_component_7": [
+            "Prop",
+            "Prop",
+            "Q"
+          ],
+          "glean_proof/glean_component_8": [
+            "Prop",
+            "Prop",
+            "Or P Q"
+          ]
+        },
+        "typedNodeTypes": {
+          "root/case/left/join/out": "Or Q P",
+          "root/case/right/join/out": "Or Q P",
+          "root/case/out": "Or Q P",
+          "root/P/out": "Prop",
+          "root/Q/out": "Prop",
+          "root/h/out": "Or P Q",
+          "root/case/left/P/out": "Prop",
+          "root/case/left/Q/out": "Prop",
+          "root/case/left/hp/out": "P",
+          "root/case/right/P/out": "Prop",
+          "root/case/right/Q/out": "Prop",
+          "root/case/right/hq/out": "Q"
+        },
+        "typedNodeUsage": {
+          "root/case/left/join/out": [
+            "P",
+            "Q",
+            "hp"
+          ],
+          "root/case/right/join/out": [
+            "P",
+            "Q",
+            "hq"
+          ],
+          "root/case/out": [
+            "P",
+            "Q",
+            "h"
+          ],
+          "root/P/out": [
+            "P"
+          ],
+          "root/Q/out": [
+            "Q"
+          ],
+          "root/h/out": [
+            "P",
+            "Q",
+            "h"
+          ],
+          "root/case/left/P/out": [
+            "P"
+          ],
+          "root/case/left/Q/out": [
+            "Q"
+          ],
+          "root/case/left/hp/out": [
+            "P",
+            "hp"
+          ],
+          "root/case/right/P/out": [
+            "P"
+          ],
+          "root/case/right/Q/out": [
+            "Q"
+          ],
+          "root/case/right/hq/out": [
+            "Q",
+            "hq"
+          ]
+        },
+        "typedPortTypes": {
+          "root/case/left/join/P": "Prop",
+          "root/case/left/join/Q": "Prop",
+          "root/case/left/join/hp": "P",
+          "root/case/right/join/P": "Prop",
+          "root/case/right/join/Q": "Prop",
+          "root/case/right/join/hq": "Q",
+          "root/case/P": "Prop",
+          "root/case/Q": "Prop",
+          "root/case/h": "Or P Q"
+        }
+      }
+    },
+    {
+      "id": "Fin-metadata",
+      "expected": "valid",
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [],
+        "goal": "2 < 3",
+        "nodes": [
+          {
+            "id": "three",
+            "kind": "nat",
+            "value": "3"
+          },
+          {
+            "id": "index",
+            "kind": "script",
+            "inputs": [],
+            "outputType": "Fin 3",
+            "body": "⟨2, by decide⟩"
+          },
+          {
+            "id": "callA",
+            "kind": "module",
+            "ref": "bound"
+          },
+          {
+            "id": "callB",
+            "kind": "module",
+            "ref": "bound"
+          }
+        ],
+        "edges": [
+          {
+            "id": "three_out_callA_n",
+            "source": "three",
+            "output": "out",
+            "target": "callA",
+            "input": "n"
+          },
+          {
+            "id": "three_out_callB_n",
+            "source": "three",
+            "output": "out",
+            "target": "callB",
+            "input": "n"
+          },
+          {
+            "id": "index_out_callA_i",
+            "source": "index",
+            "output": "out",
+            "target": "callA",
+            "input": "i"
+          },
+          {
+            "id": "index_out_callB_i",
+            "source": "index",
+            "output": "out",
+            "target": "callB",
+            "input": "i"
+          }
+        ],
+        "result": {
+          "node": "callB",
+          "output": "out"
+        },
+        "modules": [
+          {
+            "id": "bound",
+            "name": "Fin bound",
+            "inputs": [
+              {
+                "id": "n",
+                "name": "n",
+                "type": "Nat"
+              },
+              {
+                "id": "i",
+                "name": "i",
+                "type": "Fin n"
+              }
+            ],
+            "outputType": "i.val < n",
+            "nodes": [
+              {
+                "id": "n",
+                "kind": "input",
+                "ref": "n"
+              },
+              {
+                "id": "i",
+                "kind": "input",
+                "ref": "i"
+              },
+              {
+                "id": "proof",
+                "kind": "script",
+                "inputs": [
+                  {
+                    "id": "n",
+                    "name": "n",
+                    "type": "Nat"
+                  },
+                  {
+                    "id": "i",
+                    "name": "i",
+                    "type": "Fin n"
+                  }
+                ],
+                "outputType": "i.val < n",
+                "body": "i.isLt"
+              }
+            ],
+            "edges": [
+              {
+                "id": "n_out_proof_n",
+                "source": "n",
+                "output": "out",
+                "target": "proof",
+                "input": "n"
+              },
+              {
+                "id": "i_out_proof_i",
+                "source": "i",
+                "output": "out",
+                "target": "proof",
+                "input": "i"
+              }
+            ],
+            "result": {
+              "node": "proof",
+              "output": "out"
+            }
+          }
+        ]
+      },
+      "result": {
+        "status": "valid",
+        "verified": true,
+        "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (n : (gleanTerm% \"Nat\")) (i : (gleanTerm% \"Fin n\")) : (gleanTerm% \"i.val < n\") :=\n  (gleanTerm% \"i.isLt\")\n\nnoncomputable def glean_module_0 (n : (gleanTerm% \"Nat\")) (i : (gleanTerm% \"Fin n\")) : (gleanTerm% \"i.val < n\") :=\n  let glean_component_2 := glean_component_1 (n) (i)\n  glean_component_2\n\nnoncomputable def glean_component_4  : (gleanTerm% \"Fin 3\") :=\n  (gleanTerm% \"⟨2, by decide⟩\")\n\ntheorem glean_proof  : (gleanTerm% \"2 < 3\") :=\n  let glean_component_3 : Nat := 3\n  let glean_component_5 := glean_component_4 \n  let glean_component_6 := glean_module_0 (glean_component_3) (glean_component_5)\n  let glean_component_7 := glean_module_0 (glean_component_3) (glean_component_5)\n  glean_component_7\n",
+        "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := (gleanExpectedTerm% \"2 < 3\")\n",
+        "sourceMap": {
+          "module/bound/proof": {
+            "startLine": 28,
+            "endLine": 30
+          },
+          "root/index": {
+            "startLine": 35,
+            "endLine": 37
+          },
+          "root": {
+            "startLine": 38,
+            "endLine": 44
+          },
+          "root/three": {
+            "startLine": 39,
+            "endLine": 39
+          },
+          "root/callA": {
+            "startLine": 41,
+            "endLine": 41
+          },
+          "root/callB": {
+            "startLine": 42,
+            "endLine": 42
+          }
+        },
+        "sourceLocations": [
+          {
+            "key": "module/bound/proof/out",
+            "startLine": 32,
+            "endLine": 32
+          },
+          {
+            "key": "root/three/out",
+            "startLine": 39,
+            "endLine": 39
+          },
+          {
+            "key": "root/index/out",
+            "startLine": 40,
+            "endLine": 40
+          },
+          {
+            "key": "root/callA/out",
+            "startLine": 41,
+            "endLine": 41
+          },
+          {
+            "key": "root/callB/out",
+            "startLine": 42,
+            "endLine": 42
+          }
+        ],
+        "nodeBindings": {
+          "glean_component_2": "module/bound/proof/out",
+          "glean_component_3": "root/three/out",
+          "glean_component_5": "root/index/out",
+          "glean_component_6": "root/callA/out",
+          "glean_component_7": "root/callB/out"
+        },
+        "nodeFunctions": {
+          "module/bound/proof": "glean_component_1",
+          "module/bound/proof/out": "glean_component_1",
+          "root/index": "glean_component_4",
+          "root/index/out": "glean_component_4",
+          "root/callA": "glean_module_0",
+          "root/callA/out": "glean_module_0",
+          "root/callB": "glean_module_0",
+          "root/callB/out": "glean_module_0"
+        },
+        "nodeInputPorts": {
+          "module/bound/proof/out": [
+            "n",
+            "i"
+          ],
+          "root/index/out": [],
+          "root/callA/out": [
+            "n",
+            "i"
+          ],
+          "root/callB/out": [
+            "n",
+            "i"
+          ]
+        },
+        "inputBindings": {
+          "module/bound/n/out": "glean_module_0/n",
+          "module/bound/i/out": "glean_module_0/i"
+        },
+        "referenceEnvironments": [],
+        "diagnostics": [
+          {
+            "filename": "Graph.lean",
+            "line": 41,
+            "column": 7,
+            "severity": "warning",
+            "message": "Variable name `glean_component_6` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _glean_component_6\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`",
+            "graphLocation": "root/callA"
+          }
+        ],
+        "nodeTypes": {},
+        "projectId": "glean",
+        "policy": "strict",
+        "jobId": "3178451abd1e4841b1038f9008064b9e",
+        "phase": "complete",
+        "kernelAccepted": true,
+        "audit": {
+          "axioms": [],
+          "standardAxioms": [],
+          "customAxioms": [],
+          "hasSorry": false,
+          "policy": "strict",
+          "policyAccepted": true
+        },
+        "filename": "Graph.lean",
+        "target": "glean_proof",
+        "sourceHash": "3afdbb62e7f5fa7add9fe35b3a4c98bd74449503eea67f21ed22c6fbebe67e87",
+        "lean": {
+          "output": "Graph.lean:41:6: warning: Variable name `glean_component_6` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _glean_component_6\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\nPANIC at Lean.ConstantInfo.value! Lean.Declaration:509:62: declaration with value expected\nbacktrace:\n0   libleanshared.dylib                 0x00000001123e45a8 _ZN4leanL15print_backtraceEb + 60\n1   libleanshared.dylib                 0x00000001123db0ec _ZN4leanL15lean_panic_implEPKcmb + 176\n2   libleanshared.dylib                 0x00000001123db208 lean_panic_fn_borrowed + 64\n3   libleanshared.dylib                 0x000000010f368f90 Lean.ConstantInfo.instantiateValueLevelParams! [boxed] + 32\n4   libleanshared.dylib                 0x00000001123c6890 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 512\n5   libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n6   libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n7   libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n8   libleanshared.dylib                 0x00000001123c7fe4 _ZN4lean2ir11interpreter6stub_mEPP11lean_object + 396\n9   libleanshared.dylib                 0x00000001123c7c78 _ZN4lean2ir11interpreter10stub_m_auxEPP11lean_object + 92\n10  libleanshared.dylib                 0x00000001123c7954 _ZN4lean2ir11interpreter11stub_10_auxEP11lean_objectS3_S3_S3_S3_S3_S3_S3_S3_S3_ + 60\n11  libleanshared.dylib                 0x00000001123f2b24 <apply/6> + 5052\n12  libleanshared.dylib                 0x000000010e1007ac Lean.Meta.transformWithCache.visit [λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 452\n13  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n14  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n15  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n16  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n17  libleanshared.dylib                 0x000000010e0feb4c Array.mapMUnsafe.map [private] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 256\n18  libleanshared.dylib                 0x000000010e0fff88 Lean.Expr.withAppAux spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 1196\n19  libleanshared.dylib                 0x000000010e101348 Lean.Meta.transformWithCache.visit [λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 3424\n20  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n21  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n22  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n23  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n24  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n25  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n26  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n27  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n28  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n29  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n30  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n31  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n32  libleanshared.dylib                 0x000000010e0feb4c Array.mapMUnsafe.map [private] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 256\n33  libleanshared.dylib                 0x000000010e0fff88 Lean.Expr.withAppAux spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 1196\n34  libleanshared.dylib                 0x000000010e101348 Lean.Meta.transformWithCache.visit [λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 3424\n35  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n36  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n37  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n38  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n39  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n40  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n41  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n42  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n43  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n44  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n45  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n46  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n47  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n48  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n49  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n50  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n51  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n52  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n53  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n54  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n55  libleanshared.dylib                 0x000000010e102c14 Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 232\n56  libleanshared.dylib                 0x000000010e102e18 Lean.Meta.transform [boxed] spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 52\n57  libleanshared.dylib                 0x00000001123e7180 _ZN4lean5curryEPvjPP11lean_object + 472\n58  libleanshared.dylib                 0x00000001123c6890 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 512\n59  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n60  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n61  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n62  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n63  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n64  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n65  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n66  libleanshared.dylib                 0x00000001123c7fe4 _ZN4lean2ir11interpreter6stub_mEPP11lean_object + 396\n67  libleanshared.dylib                 0x00000001123c7c78 _ZN4lean2ir11interpreter10stub_m_auxEPP11lean_object + 92\n68  libleanshared.dylib                 0x00000001123c7a98 _ZN4lean2ir11interpreter11stub_13_auxEP11lean_objectS3_S3_S3_S3_S3_S3_S3_S3_S3_S3_S3_S3_ + 68\n69  libleanshared.dylib                 0x00000001123f3a7c <apply/7> + 2108\n70  libleanshared.dylib                 0x00000001113ad86c Lean.Meta.forallTelescopeReducing [boxed, λ, arity↓] spec at Lean.Meta.Rewrites.addImport + 148\n71  libleanshared.dylib                 0x00000001123f059c <apply/5> + 2864\n72  libleanshared.dylib                 0x000000010f6f82f0 Lean.Meta.lambdaTelescopeImp.process [arity↓, private] + 2384\n73  libleanshared.dylib                 0x000000010f6f8d10 Lean.Meta.lambdaTelescopeImp [private] + 108\n74  libleanshared.dylib                 0x00000001113ba1c8 Lean.Meta.lambdaLetTelescope [arity↓] spec at Lean.Meta.Rewrites.getSubexpressionMatches + 160\n75  libleanshared.dylib                 0x00000001113ba334 Lean.Meta.lambdaLetTelescope [boxed, arity↓] spec at Lean.Meta.Rewrites.getSubexpressionMatches + 48\n76  libleanshared.dylib                 0x00000001123e70a4 _ZN4lean5curryEPvjPP11lean_object + 252\n77  libleanshared.dylib                 0x00000001123c6890 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 512\n78  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n79  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n80  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n81  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n82  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n83  libleanshared.dylib                 0x00000001123c7fe4 _ZN4lean2ir11interpreter6stub_mEPP11lean_object + 396\n84  libleanshared.dylib                 0x00000001123c7c78 _ZN4lean2ir11interpreter10stub_m_auxEPP11lean_object + 92\n85  libleanshared.dylib                 0x00000001123c777c _ZN4lean2ir11interpreter10stub_5_auxEP11lean_objectS3_S3_S3_S3_ + 48\n86  libleanshared.dylib                 0x00000001123ea198 <apply/2> + 3164\n87  libleanshared.dylib                 0x00000001123c20b8 _ZN4lean2ir11interpreter10call_boxedERKNS_4nameEjPP11lean_object + 480\n88  libleanshared.dylib                 0x00000001123c848c _ZN4lean2ir11interpreter8run_mainERKNS_8list_refINS_10string_refEEE + 628\n89  libleanshared.dylib                 0x00000001123c1220 _ZN4lean2ir11interpreter16with_interpreterIjEET_RKNS_16elab_environmentERKNS_7optionsERKNS_4nameERKNSt3__18functionIFS3_RS1_EEE + 320\n90  libleanshared.dylib                 0x00000001123c0ff0 _ZN4lean2ir8run_mainERKNS_16elab_environmentERKNS_7optionsERKNS_8list_refINS_10string_refEEE + 144\n91  libleanshared.dylib                 0x00000001123c137c lean_eval_main + 36\n92  libleanshared.dylib                 0x000000011217e99c lean_shell_main + 13536\n93  libleanshared.dylib                 0x000000010bc4df04 _ZN4lean14run_shell_mainEiPPcRKNS_10object_refE + 376\n94  libleanshared.dylib                 0x000000010bc4fbfc _ZNSt3__110__function6__funcIZ9lean_mainE3$_0NS_9allocatorIS2_EEFvvEEclEv + 56\n95  libleanshared.dylib                 0x00000001123d89f8 _ZN4lean7lthread3imp5_mainEPv + 52\n96  libsystem_pthread.dylib             0x000000018d783c58 _pthread_start + 136\n97  libsystem_pthread.dylib             0x000000018d77ec1c thread_start + 8\nPANIC at Lean.ConstantInfo.value! Lean.Declaration:509:62: declaration with value expected\nbacktrace:\n0   libleanshared.dylib                 0x00000001123e45a8 _ZN4leanL15print_backtraceEb + 60\n1   libleanshared.dylib                 0x00000001123db0ec _ZN4leanL15lean_panic_implEPKcmb + 176\n2   libleanshared.dylib                 0x00000001123db208 lean_panic_fn_borrowed + 64\n3   libleanshared.dylib                 0x000000010f368f90 Lean.ConstantInfo.instantiateValueLevelParams! [boxed] + 32\n4   libleanshared.dylib                 0x00000001123c6890 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 512\n5   libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n6   libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n7   libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n8   libleanshared.dylib                 0x00000001123c7fe4 _ZN4lean2ir11interpreter6stub_mEPP11lean_object + 396\n9   libleanshared.dylib                 0x00000001123c7c78 _ZN4lean2ir11interpreter10stub_m_auxEPP11lean_object + 92\n10  libleanshared.dylib                 0x00000001123c7954 _ZN4lean2ir11interpreter11stub_10_auxEP11lean_objectS3_S3_S3_S3_S3_S3_S3_S3_S3_ + 60\n11  libleanshared.dylib                 0x00000001123f2b24 <apply/6> + 5052\n12  libleanshared.dylib                 0x000000010e1007ac Lean.Meta.transformWithCache.visit [λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 452\n13  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n14  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n15  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n16  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n17  libleanshared.dylib                 0x000000010e0feb4c Array.mapMUnsafe.map [private] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 256\n18  libleanshared.dylib                 0x000000010e0fff88 Lean.Expr.withAppAux spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 1196\n19  libleanshared.dylib                 0x000000010e101348 Lean.Meta.transformWithCache.visit [λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 3424\n20  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n21  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n22  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n23  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n24  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n25  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n26  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n27  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n28  libleanshared.dylib                 0x000000010e102c14 Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 232\n29  libleanshared.dylib                 0x000000010e102e18 Lean.Meta.transform [boxed] spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 52\n30  libleanshared.dylib                 0x00000001123e7180 _ZN4lean5curryEPvjPP11lean_object + 472\n31  libleanshared.dylib                 0x00000001123c6890 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 512\n32  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n33  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n34  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n35  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n36  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n37  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n38  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n39  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n40  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n41  libleanshared.dylib                 0x00000001123c7fe4 _ZN4lean2ir11interpreter6stub_mEPP11lean_object + 396\n42  libleanshared.dylib                 0x00000001123c7c78 _ZN4lean2ir11interpreter10stub_m_auxEPP11lean_object + 92\n43  libleanshared.dylib                 0x00000001123c7a98 _ZN4lean2ir11interpreter11stub_13_auxEP11lean_objectS3_S3_S3_S3_S3_S3_S3_S3_S3_S3_S3_S3_ + 68\n44  libleanshared.dylib                 0x00000001123f3a7c <apply/7> + 2108\n45  libleanshared.dylib                 0x00000001113ad86c Lean.Meta.forallTelescopeReducing [boxed, λ, arity↓] spec at Lean.Meta.Rewrites.addImport + 148\n46  libleanshared.dylib                 0x00000001123f059c <apply/5> + 2864\n47  libleanshared.dylib                 0x000000010f6f82f0 Lean.Meta.lambdaTelescopeImp.process [arity↓, private] + 2384\n48  libleanshared.dylib                 0x000000010f6f8d10 Lean.Meta.lambdaTelescopeImp [private] + 108\n49  libleanshared.dylib                 0x00000001113ba1c8 Lean.Meta.lambdaLetTelescope [arity↓] spec at Lean.Meta.Rewrites.getSubexpressionMatches + 160\n50  libleanshared.dylib                 0x00000001113ba334 Lean.Meta.lambdaLetTelescope [boxed, arity↓] spec at Lean.Meta.Rewrites.getSubexpressionMatches + 48\n51  libleanshared.dylib                 0x00000001123e70a4 _ZN4lean5curryEPvjPP11lean_object + 252\n52  libleanshared.dylib                 0x00000001123c6890 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 512\n53  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n54  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n55  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n56  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n57  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n58  libleanshared.dylib                 0x00000001123c7fe4 _ZN4lean2ir11interpreter6stub_mEPP11lean_object + 396\n59  libleanshared.dylib                 0x00000001123c7c78 _ZN4lean2ir11interpreter10stub_m_auxEPP11lean_object + 92\n60  libleanshared.dylib                 0x00000001123c777c _ZN4lean2ir11interpreter10stub_5_auxEP11lean_objectS3_S3_S3_S3_ + 48\n61  libleanshared.dylib                 0x00000001123ea198 <apply/2> + 3164\n62  libleanshared.dylib                 0x00000001123c20b8 _ZN4lean2ir11interpreter10call_boxedERKNS_4nameEjPP11lean_object + 480\n63  libleanshared.dylib                 0x00000001123c848c _ZN4lean2ir11interpreter8run_mainERKNS_8list_refINS_10string_refEEE + 628\n64  libleanshared.dylib                 0x00000001123c1220 _ZN4lean2ir11interpreter16with_interpreterIjEET_RKNS_16elab_environmentERKNS_7optionsERKNS_4nameERKNSt3__18functionIFS3_RS1_EEE + 320\n65  libleanshared.dylib                 0x00000001123c0ff0 _ZN4lean2ir8run_mainERKNS_16elab_environmentERKNS_7optionsERKNS_8list_refINS_10string_refEEE + 144\n66  libleanshared.dylib                 0x00000001123c137c lean_eval_main + 36\n67  libleanshared.dylib                 0x000000011217e99c lean_shell_main + 13536\n68  libleanshared.dylib                 0x000000010bc4df04 _ZN4lean14run_shell_mainEiPPcRKNS_10object_refE + 376\n69  libleanshared.dylib                 0x000000010bc4fbfc _ZNSt3__110__function6__funcIZ9lean_mainE3$_0NS_9allocatorIS2_EEFvvEEclEv + 56\n70  libleanshared.dylib                 0x00000001123d89f8 _ZN4lean7lthread3imp5_mainEPv + 52\n71  libsystem_pthread.dylib             0x000000018d783c58 _pthread_start + 136\n72  libsystem_pthread.dylib             0x000000018d77ec1c thread_start + 8\nPANIC at Lean.ConstantInfo.value! Lean.Declaration:509:62: declaration with value expected\nbacktrace:\n0   libleanshared.dylib                 0x00000001123e45a8 _ZN4leanL15print_backtraceEb + 60\n1   libleanshared.dylib                 0x00000001123db0ec _ZN4leanL15lean_panic_implEPKcmb + 176\n2   libleanshared.dylib                 0x00000001123db208 lean_panic_fn_borrowed + 64\n3   libleanshared.dylib                 0x000000010f368f90 Lean.ConstantInfo.instantiateValueLevelParams! [boxed] + 32\n4   libleanshared.dylib                 0x00000001123c6890 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 512\n5   libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n6   libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n7   libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n8   libleanshared.dylib                 0x00000001123c7fe4 _ZN4lean2ir11interpreter6stub_mEPP11lean_object + 396\n9   libleanshared.dylib                 0x00000001123c7c78 _ZN4lean2ir11interpreter10stub_m_auxEPP11lean_object + 92\n10  libleanshared.dylib                 0x00000001123c7954 _ZN4lean2ir11interpreter11stub_10_auxEP11lean_objectS3_S3_S3_S3_S3_S3_S3_S3_S3_ + 60\n11  libleanshared.dylib                 0x00000001123f2b24 <apply/6> + 5052\n12  libleanshared.dylib                 0x000000010e1007ac Lean.Meta.transformWithCache.visit [λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 452\n13  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n14  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n15  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n16  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n17  libleanshared.dylib                 0x000000010e0feb4c Array.mapMUnsafe.map [private] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 256\n18  libleanshared.dylib                 0x000000010e0fff88 Lean.Expr.withAppAux spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 1196\n19  libleanshared.dylib                 0x000000010e101348 Lean.Meta.transformWithCache.visit [λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 3424\n20  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n21  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n22  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n23  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n24  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n25  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n26  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n27  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n28  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n29  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n30  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n31  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n32  libleanshared.dylib                 0x000000010e0feb4c Array.mapMUnsafe.map [private] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 256\n33  libleanshared.dylib                 0x000000010e0fff88 Lean.Expr.withAppAux spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 1196\n34  libleanshared.dylib                 0x000000010e101348 Lean.Meta.transformWithCache.visit [λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 3424\n35  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n36  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n37  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n38  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n39  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n40  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n41  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n42  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n43  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n44  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n45  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n46  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n47  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n48  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n49  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n50  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n51  libleanshared.dylib                 0x000000010e102c14 Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 232\n52  libleanshared.dylib                 0x000000010e102e18 Lean.Meta.transform [boxed] spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 52\n53  libleanshared.dylib                 0x00000001123e7180 _ZN4lean5curryEPvjPP11lean_object + 472\n54  libleanshared.dylib                 0x00000001123c6890 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 512\n55  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n56  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n57  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n58  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n59  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n60  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n61  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n62  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n63  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n64  libleanshared.dylib                 0x00000001123c7fe4 _ZN4lean2ir11interpreter6stub_mEPP11lean_object + 396\n65  libleanshared.dylib                 0x00000001123c7c78 _ZN4lean2ir11interpreter10stub_m_auxEPP11lean_object + 92\n66  libleanshared.dylib                 0x00000001123c7a98 _ZN4lean2ir11interpreter11stub_13_auxEP11lean_objectS3_S3_S3_S3_S3_S3_S3_S3_S3_S3_S3_S3_ + 68\n67  libleanshared.dylib                 0x00000001123f3a7c <apply/7> + 2108\n68  libleanshared.dylib                 0x00000001113ad86c Lean.Meta.forallTelescopeReducing [boxed, λ, arity↓] spec at Lean.Meta.Rewrites.addImport + 148\n69  libleanshared.dylib                 0x00000001123f059c <apply/5> + 2864\n70  libleanshared.dylib                 0x000000010f6f82f0 Lean.Meta.lambdaTelescopeImp.process [arity↓, private] + 2384\n71  libleanshared.dylib                 0x000000010f6f8d10 Lean.Meta.lambdaTelescopeImp [private] + 108\n72  libleanshared.dylib                 0x00000001113ba1c8 Lean.Meta.lambdaLetTelescope [arity↓] spec at Lean.Meta.Rewrites.getSubexpressionMatches + 160\n73  libleanshared.dylib                 0x00000001113ba334 Lean.Meta.lambdaLetTelescope [boxed, arity↓] spec at Lean.Meta.Rewrites.getSubexpressionMatches + 48\n74  libleanshared.dylib                 0x00000001123e70a4 _ZN4lean5curryEPvjPP11lean_object + 252\n75  libleanshared.dylib                 0x00000001123c6890 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 512\n76  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n77  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n78  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n79  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n80  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n81  libleanshared.dylib                 0x00000001123c7fe4 _ZN4lean2ir11interpreter6stub_mEPP11lean_object + 396\n82  libleanshared.dylib                 0x00000001123c7c78 _ZN4lean2ir11interpreter10stub_m_auxEPP11lean_object + 92\n83  libleanshared.dylib                 0x00000001123c777c _ZN4lean2ir11interpreter10stub_5_auxEP11lean_objectS3_S3_S3_S3_ + 48\n84  libleanshared.dylib                 0x00000001123ea198 <apply/2> + 3164\n85  libleanshared.dylib                 0x00000001123c20b8 _ZN4lean2ir11interpreter10call_boxedERKNS_4nameEjPP11lean_object + 480\n86  libleanshared.dylib                 0x00000001123c848c _ZN4lean2ir11interpreter8run_mainERKNS_8list_refINS_10string_refEEE + 628\n87  libleanshared.dylib                 0x00000001123c1220 _ZN4lean2ir11interpreter16with_interpreterIjEET_RKNS_16elab_environmentERKNS_7optionsERKNS_4nameERKNSt3__18functionIFS3_RS1_EEE + 320\n88  libleanshared.dylib                 0x00000001123c0ff0 _ZN4lean2ir8run_mainERKNS_16elab_environmentERKNS_7optionsERKNS_8list_refINS_10string_refEEE + 144\n89  libleanshared.dylib                 0x00000001123c137c lean_eval_main + 36\n90  libleanshared.dylib                 0x000000011217e99c lean_shell_main + 13536\n91  libleanshared.dylib                 0x000000010bc4df04 _ZN4lean14run_shell_mainEiPPcRKNS_10object_refE + 376\n92  libleanshared.dylib                 0x000000010bc4fbfc _ZNSt3__110__function6__funcIZ9lean_mainE3$_0NS_9allocatorIS2_EEFvvEEclEv + 56\n93  libleanshared.dylib                 0x00000001123d89f8 _ZN4lean7lthread3imp5_mainEPv + 52\n94  libsystem_pthread.dylib             0x000000018d783c58 _pthread_start + 136\n95  libsystem_pthread.dylib             0x000000018d77ec1c thread_start + 8\nPANIC at Lean.ConstantInfo.value! Lean.Declaration:509:62: declaration with value expected\nbacktrace:\n0   libleanshared.dylib                 0x00000001123e45a8 _ZN4leanL15print_backtraceEb + 60\n1   libleanshared.dylib                 0x00000001123db0ec _ZN4leanL15lean_panic_implEPKcmb + 176\n2   libleanshared.dylib                 0x00000001123db208 lean_panic_fn_borrowed + 64\n3   libleanshared.dylib                 0x000000010f368f90 Lean.ConstantInfo.instantiateValueLevelParams! [boxed] + 32\n4   libleanshared.dylib                 0x00000001123c6890 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 512\n5   libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n6   libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n7   libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n8   libleanshared.dylib                 0x00000001123c7fe4 _ZN4lean2ir11interpreter6stub_mEPP11lean_object + 396\n9   libleanshared.dylib                 0x00000001123c7c78 _ZN4lean2ir11interpreter10stub_m_auxEPP11lean_object + 92\n10  libleanshared.dylib                 0x00000001123c7954 _ZN4lean2ir11interpreter11stub_10_auxEP11lean_objectS3_S3_S3_S3_S3_S3_S3_S3_S3_ + 60\n11  libleanshared.dylib                 0x00000001123f2b24 <apply/6> + 5052\n12  libleanshared.dylib                 0x000000010e1007ac Lean.Meta.transformWithCache.visit [λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 452\n13  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n14  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n15  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n16  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n17  libleanshared.dylib                 0x000000010e0feb4c Array.mapMUnsafe.map [private] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 256\n18  libleanshared.dylib                 0x000000010e0fff88 Lean.Expr.withAppAux spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 1196\n19  libleanshared.dylib                 0x000000010e101348 Lean.Meta.transformWithCache.visit [λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 3424\n20  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n21  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n22  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n23  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n24  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n25  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n26  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n27  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n28  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n29  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n30  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n31  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n32  libleanshared.dylib                 0x000000010e0feb4c Array.mapMUnsafe.map [private] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 256\n33  libleanshared.dylib                 0x000000010e0fff88 Lean.Expr.withAppAux spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 1196\n34  libleanshared.dylib                 0x000000010e101348 Lean.Meta.transformWithCache.visit [λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 3424\n35  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n36  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n37  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n38  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n39  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n40  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n41  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n42  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n43  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n44  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n45  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n46  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n47  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n48  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n49  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n50  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n51  libleanshared.dylib                 0x000000010e102c14 Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 232\n52  libleanshared.dylib                 0x000000010e102e18 Lean.Meta.transform [boxed] spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 52\n53  libleanshared.dylib                 0x00000001123e7180 _ZN4lean5curryEPvjPP11lean_object + 472\n54  libleanshared.dylib                 0x00000001123c6890 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 512\n55  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n56  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n57  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n58  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n59  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n60  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n61  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n62  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n63  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n64  libleanshared.dylib                 0x00000001123c7fe4 _ZN4lean2ir11interpreter6stub_mEPP11lean_object + 396\n65  libleanshared.dylib                 0x00000001123c7c78 _ZN4lean2ir11interpreter10stub_m_auxEPP11lean_object + 92\n66  libleanshared.dylib                 0x00000001123c7a98 _ZN4lean2ir11interpreter11stub_13_auxEP11lean_objectS3_S3_S3_S3_S3_S3_S3_S3_S3_S3_S3_S3_ + 68\n67  libleanshared.dylib                 0x00000001123f3a7c <apply/7> + 2108\n68  libleanshared.dylib                 0x00000001113ad86c Lean.Meta.forallTelescopeReducing [boxed, λ, arity↓] spec at Lean.Meta.Rewrites.addImport + 148\n69  libleanshared.dylib                 0x00000001123f059c <apply/5> + 2864\n70  libleanshared.dylib                 0x000000010f6f82f0 Lean.Meta.lambdaTelescopeImp.process [arity↓, private] + 2384\n71  libleanshared.dylib                 0x000000010f6f8d10 Lean.Meta.lambdaTelescopeImp [private] + 108\n72  libleanshared.dylib                 0x00000001113ba1c8 Lean.Meta.lambdaLetTelescope [arity↓] spec at Lean.Meta.Rewrites.getSubexpressionMatches + 160\n73  libleanshared.dylib                 0x00000001113ba334 Lean.Meta.lambdaLetTelescope [boxed, arity↓] spec at Lean.Meta.Rewrites.getSubexpressionMatches + 48\n74  libleanshared.dylib                 0x00000001123e70a4 _ZN4lean5curryEPvjPP11lean_object + 252\n75  libleanshared.dylib                 0x00000001123c6890 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 512\n76  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n77  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n78  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n79  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n80  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n81  libleanshared.dylib                 0x00000001123c7fe4 _ZN4lean2ir11interpreter6stub_mEPP11lean_object + 396\n82  libleanshared.dylib                 0x00000001123c7c78 _ZN4lean2ir11interpreter10stub_m_auxEPP11lean_object + 92\n83  libleanshared.dylib                 0x00000001123c777c _ZN4lean2ir11interpreter10stub_5_auxEP11lean_objectS3_S3_S3_S3_ + 48\n84  libleanshared.dylib                 0x00000001123ea198 <apply/2> + 3164\n85  libleanshared.dylib                 0x00000001123c20b8 _ZN4lean2ir11interpreter10call_boxedERKNS_4nameEjPP11lean_object + 480\n86  libleanshared.dylib                 0x00000001123c848c _ZN4lean2ir11interpreter8run_mainERKNS_8list_refINS_10string_refEEE + 628\n87  libleanshared.dylib                 0x00000001123c1220 _ZN4lean2ir11interpreter16with_interpreterIjEET_RKNS_16elab_environmentERKNS_7optionsERKNS_4nameERKNSt3__18functionIFS3_RS1_EEE + 320\n88  libleanshared.dylib                 0x00000001123c0ff0 _ZN4lean2ir8run_mainERKNS_16elab_environmentERKNS_7optionsERKNS_8list_refINS_10string_refEEE + 144\n89  libleanshared.dylib                 0x00000001123c137c lean_eval_main + 36\n90  libleanshared.dylib                 0x000000011217e99c lean_shell_main + 13536\n91  libleanshared.dylib                 0x000000010bc4df04 _ZN4lean14run_shell_mainEiPPcRKNS_10object_refE + 376\n92  libleanshared.dylib                 0x000000010bc4fbfc _ZNSt3__110__function6__funcIZ9lean_mainE3$_0NS_9allocatorIS2_EEFvvEEclEv + 56\n93  libleanshared.dylib                 0x00000001123d89f8 _ZN4lean7lthread3imp5_mainEPv + 52\n94  libsystem_pthread.dylib             0x000000018d783c58 _pthread_start + 136\n95  libsystem_pthread.dylib             0x000000018d77ec1c thread_start + 8\nPANIC at Lean.ConstantInfo.value! Lean.Declaration:509:62: declaration with value expected\nbacktrace:\n0   libleanshared.dylib                 0x00000001123e45a8 _ZN4leanL15print_backtraceEb + 60\n1   libleanshared.dylib                 0x00000001123db0ec _ZN4leanL15lean_panic_implEPKcmb + 176\n2   libleanshared.dylib                 0x00000001123db208 lean_panic_fn_borrowed + 64\n3   libleanshared.dylib                 0x000000010f368f90 Lean.ConstantInfo.instantiateValueLevelParams! [boxed] + 32\n4   libleanshared.dylib                 0x00000001123c6890 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 512\n5   libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n6   libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n7   libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n8   libleanshared.dylib                 0x00000001123c7fe4 _ZN4lean2ir11interpreter6stub_mEPP11lean_object + 396\n9   libleanshared.dylib                 0x00000001123c7c78 _ZN4lean2ir11interpreter10stub_m_auxEPP11lean_object + 92\n10  libleanshared.dylib                 0x00000001123c7954 _ZN4lean2ir11interpreter11stub_10_auxEP11lean_objectS3_S3_S3_S3_S3_S3_S3_S3_S3_ + 60\n11  libleanshared.dylib                 0x00000001123f2b24 <apply/6> + 5052\n12  libleanshared.dylib                 0x000000010e1007ac Lean.Meta.transformWithCache.visit [λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 452\n13  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n14  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n15  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n16  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n17  libleanshared.dylib                 0x000000010e0feb4c Array.mapMUnsafe.map [private] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 256\n18  libleanshared.dylib                 0x000000010e0fff88 Lean.Expr.withAppAux spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 1196\n19  libleanshared.dylib                 0x000000010e101348 Lean.Meta.transformWithCache.visit [λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 3424\n20  libleanshared.dylib                 0x000000010e101c80 Lean.Meta.transformWithCache.visit [boxed, λ, private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 60\n21  libleanshared.dylib                 0x00000001123f2624 <apply/6> + 3772\n22  libleanshared.dylib                 0x000000010e0fb798 Lean.Meta.withIncRecDepth [arity↓] spec at Lean.Meta.transformWithCache.visit spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 872\n23  libleanshared.dylib                 0x000000010e0fdbe8 Lean.Meta.transformWithCache.visit [private] spec at Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 568\n24  libleanshared.dylib                 0x000000010e102c14 Lean.Meta.transform spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 232\n25  libleanshared.dylib                 0x000000010e102e18 Lean.Meta.transform [boxed] spec at Lean.Elab.Term.StructInst.zetaDeltaImplDetailsInProps + 52\n26  libleanshared.dylib                 0x00000001123e7180 _ZN4lean5curryEPvjPP11lean_object + 472\n27  libleanshared.dylib                 0x00000001123c6890 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 512\n28  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n29  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n30  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n31  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n32  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n33  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n34  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n35  libleanshared.dylib                 0x00000001123c7fe4 _ZN4lean2ir11interpreter6stub_mEPP11lean_object + 396\n36  libleanshared.dylib                 0x00000001123c7c78 _ZN4lean2ir11interpreter10stub_m_auxEPP11lean_object + 92\n37  libleanshared.dylib                 0x00000001123c7a98 _ZN4lean2ir11interpreter11stub_13_auxEP11lean_objectS3_S3_S3_S3_S3_S3_S3_S3_S3_S3_S3_S3_ + 68\n38  libleanshared.dylib                 0x00000001123f3a7c <apply/7> + 2108\n39  libleanshared.dylib                 0x00000001113ad86c Lean.Meta.forallTelescopeReducing [boxed, λ, arity↓] spec at Lean.Meta.Rewrites.addImport + 148\n40  libleanshared.dylib                 0x00000001123f059c <apply/5> + 2864\n41  libleanshared.dylib                 0x000000010f6f82f0 Lean.Meta.lambdaTelescopeImp.process [arity↓, private] + 2384\n42  libleanshared.dylib                 0x000000010f6f8d10 Lean.Meta.lambdaTelescopeImp [private] + 108\n43  libleanshared.dylib                 0x00000001113ba1c8 Lean.Meta.lambdaLetTelescope [arity↓] spec at Lean.Meta.Rewrites.getSubexpressionMatches + 160\n44  libleanshared.dylib                 0x00000001113ba334 Lean.Meta.lambdaLetTelescope [boxed, arity↓] spec at Lean.Meta.Rewrites.getSubexpressionMatches + 48\n45  libleanshared.dylib                 0x00000001123e70a4 _ZN4lean5curryEPvjPP11lean_object + 252\n46  libleanshared.dylib                 0x00000001123c6890 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 512\n47  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n48  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n49  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n50  libleanshared.dylib                 0x00000001123c6a90 _ZN4lean2ir11interpreter4callERKNS_4nameERKNS_9array_refINS_10object_refEEE + 1024\n51  libleanshared.dylib                 0x00000001123c4b94 _ZN4lean2ir11interpreter9eval_bodyERKNS_10object_refE + 1784\n52  libleanshared.dylib                 0x00000001123c7fe4 _ZN4lean2ir11interpreter6stub_mEPP11lean_object + 396\n53  libleanshared.dylib                 0x00000001123c7c78 _ZN4lean2ir11interpreter10stub_m_auxEPP11lean_object + 92\n54  libleanshared.dylib                 0x00000001123c777c _ZN4lean2ir11interpreter10stub_5_auxEP11lean_objectS3_S3_S3_S3_ + 48\n55  libleanshared.dylib                 0x00000001123ea198 <apply/2> + 3164\n56  libleanshared.dylib                 0x00000001123c20b8 _ZN4lean2ir11interpreter10call_boxedERKNS_4nameEjPP11lean_object + 480\n57  libleanshared.dylib                 0x00000001123c848c _ZN4lean2ir11interpreter8run_mainERKNS_8list_refINS_10string_refEEE + 628\n58  libleanshared.dylib                 0x00000001123c1220 _ZN4lean2ir11interpreter16with_interpreterIjEET_RKNS_16elab_environmentERKNS_7optionsERKNS_4nameERKNSt3__18functionIFS3_RS1_EEE + 320\n59  libleanshared.dylib                 0x00000001123c0ff0 _ZN4lean2ir8run_mainERKNS_16elab_environmentERKNS_7optionsERKNS_8list_refINS_10string_refEEE + 144\n60  libleanshared.dylib                 0x00000001123c137c lean_eval_main + 36\n61  libleanshared.dylib                 0x000000011217e99c lean_shell_main + 13536\n62  libleanshared.dylib                 0x000000010bc4df04 _ZN4lean14run_shell_mainEiPPcRKNS_10object_refE + 376\n63  libleanshared.dylib                 0x000000010bc4fbfc _ZNSt3__110__function6__funcIZ9lean_mainE3$_0NS_9allocatorIS2_EEFvvEEclEv + 56\n64  libleanshared.dylib                 0x00000001123d89f8 _ZN4lean7lthread3imp5_mainEPv + 52\n65  libsystem_pthread.dylib             0x000000018d783c58 _pthread_start + 136\n66  libsystem_pthread.dylib             0x000000018d77ec1c thread_start + 8\n",
+          "durationMs": 19867
+        },
+        "environment": {
+          "schema": 1,
+          "projectId": "glean",
+          "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+          "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+          "projectFiles": {
+            "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+            "lake-manifest.json": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+            "lakefile.lean": null,
+            "lakefile.toml": "a3500f3a6618de5748b6135a580e2b4357a9936564a0a43a9decbdb94f101580"
+          },
+          "sourceStateHash": "8e42ea7f844d4211928454b4232a8b9dc61fcb3192dc8942c803ce6cbd657213",
+          "dependencies": [],
+          "compiledArtifacts": {
+            "kind": "path-size-mtime-metadata",
+            "count": 10089,
+            "hash": "eff39cb727636d1b135ecdb35e3c8e15e665997e6a4f2255310687c6f71cb748"
+          },
+          "leanSearchPaths": [
+            "/Users/moonone/GLEAN/glean/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+          ],
+          "gitCommit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+          "gitDirty": true,
+          "changedLeanInputs": null,
+          "sourceIdentityKind": "source-content-in-parent-git",
+          "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+          "manifestHash": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+          "environmentHash": "917976ff217f0f0fb12d0f5e79d860452ee0b9cabcf892da1d1d35b5e23bed1e",
+          "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+        },
+        "bindingTypes": {
+          "glean_component_1/i": "Fin n",
+          "glean_component_1/n": "Nat",
+          "glean_module_0/glean_component_2": "instLTNat.lt i.val n",
+          "glean_module_0/i": "Fin n",
+          "glean_module_0/n": "Nat",
+          "glean_proof/glean_component_3": "Nat",
+          "glean_proof/glean_component_5": "Fin 3",
+          "glean_proof/glean_component_6": "instLTNat.lt glean_component_5.val glean_component_3",
+          "glean_proof/glean_component_7": "instLTNat.lt glean_component_5.val glean_component_3"
+        },
+        "bindingUsage": {
+          "glean_component_1": [
+            "i",
+            "n"
+          ],
+          "glean_component_4": [],
+          "glean_component_4._proof_1": [],
+          "glean_module_0": [
+            "i",
+            "n"
+          ],
+          "glean_proof": []
+        },
+        "bindingDependencies": {
+          "glean_component_1/i": [
+            "i",
+            "n"
+          ],
+          "glean_component_1/n": [
+            "n"
+          ],
+          "glean_module_0/glean_component_2": [
+            "i",
+            "n"
+          ],
+          "glean_module_0/i": [
+            "i",
+            "n"
+          ],
+          "glean_module_0/n": [
+            "n"
+          ],
+          "glean_proof/glean_component_3": [],
+          "glean_proof/glean_component_5": [],
+          "glean_proof/glean_component_6": [],
+          "glean_proof/glean_component_7": []
+        },
+        "bindingInputTypes": {
+          "glean_module_0/glean_component_2": [
+            "Nat",
+            "Fin n"
+          ],
+          "glean_proof/glean_component_5": [],
+          "glean_proof/glean_component_6": [
+            "Nat",
+            "Fin glean_component_3"
+          ],
+          "glean_proof/glean_component_7": [
+            "Nat",
+            "Fin glean_component_3"
+          ]
+        },
+        "typedNodeTypes": {
+          "module/bound/proof/out": "instLTNat.lt i.val n",
+          "root/three/out": "Nat",
+          "root/index/out": "Fin 3",
+          "root/callA/out": "instLTNat.lt glean_component_5.val glean_component_3",
+          "root/callB/out": "instLTNat.lt glean_component_5.val glean_component_3",
+          "module/bound/n/out": "Nat",
+          "module/bound/i/out": "Fin n"
+        },
+        "typedNodeUsage": {
+          "module/bound/proof/out": [
+            "i",
+            "n"
+          ],
+          "root/three/out": [],
+          "root/index/out": [],
+          "root/callA/out": [],
+          "root/callB/out": [],
+          "module/bound/n/out": [
+            "n"
+          ],
+          "module/bound/i/out": [
+            "i",
+            "n"
+          ]
+        },
+        "typedPortTypes": {
+          "module/bound/proof/n": "Nat",
+          "module/bound/proof/i": "Fin n",
+          "root/callA/n": "Nat",
+          "root/callA/i": "Fin glean_component_3",
+          "root/callB/n": "Nat",
+          "root/callB/i": "Fin glean_component_3"
+        }
+      }
+    },
+    {
+      "id": "disconnected-sorry",
+      "expected": "incomplete",
+      "fixture": {
+        "version": 3,
+        "name": "Disconnected unfinished node",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [],
+        "goal": "True",
+        "modules": [],
+        "nodes": [
+          {
+            "id": "valid",
+            "kind": "script",
+            "inputs": [],
+            "outputType": "True",
+            "body": "True.intro"
+          },
+          {
+            "id": "unfinished",
+            "kind": "script",
+            "inputs": [],
+            "outputType": "False",
+            "body": "by sorry"
+          }
+        ],
+        "edges": [],
+        "result": {
+          "node": "valid",
+          "output": "out"
+        }
+      },
+      "result": {
+        "status": "incomplete",
+        "verified": false,
+        "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1  : (gleanTerm% \"True\") :=\n  (gleanTerm% \"True.intro\")\n\nnoncomputable def glean_component_3  : (gleanTerm% \"False\") :=\n  (gleanTerm% \"by sorry\")\n\ntheorem glean_proof  : (gleanTerm% \"True\") :=\n  let glean_component_2 := glean_component_1 \n  let glean_component_4 := glean_component_3 \n  glean_component_2\n",
+        "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := (gleanExpectedTerm% \"True\")\n",
+        "sourceMap": {
+          "root/valid": {
+            "startLine": 28,
+            "endLine": 30
+          },
+          "root/unfinished": {
+            "startLine": 31,
+            "endLine": 33
+          },
+          "root": {
+            "startLine": 34,
+            "endLine": 38
+          }
+        },
+        "sourceLocations": [
+          {
+            "key": "root/valid/out",
+            "startLine": 35,
+            "endLine": 35
+          },
+          {
+            "key": "root/unfinished/out",
+            "startLine": 36,
+            "endLine": 36
+          }
+        ],
+        "nodeBindings": {
+          "glean_component_2": "root/valid/out",
+          "glean_component_4": "root/unfinished/out"
+        },
+        "nodeFunctions": {
+          "root/valid": "glean_component_1",
+          "root/valid/out": "glean_component_1",
+          "root/unfinished": "glean_component_3",
+          "root/unfinished/out": "glean_component_3"
+        },
+        "nodeInputPorts": {
+          "root/valid/out": [],
+          "root/unfinished/out": []
+        },
+        "inputBindings": {},
+        "referenceEnvironments": [],
+        "diagnostics": [
+          {
+            "filename": "Graph.lean",
+            "line": 31,
+            "column": 19,
+            "severity": "warning",
+            "message": "declaration uses `sorry`",
+            "graphLocation": "root/unfinished"
+          },
+          {
+            "filename": "Graph.lean",
+            "line": 36,
+            "column": 7,
+            "severity": "warning",
+            "message": "Variable name `glean_component_4` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _glean_component_4\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`",
+            "graphLocation": "root/unfinished/out"
+          },
+          {
+            "severity": "warning",
+            "message": "대상 정리에 sorry로 남겨 둔 증명이 있습니다."
+          }
+        ],
+        "nodeTypes": {},
+        "projectId": "glean",
+        "policy": "strict",
+        "jobId": "5131a3fab98b478abf33a477fccd1d81",
+        "phase": "complete",
+        "kernelAccepted": true,
+        "audit": {
+          "axioms": [
+            "sorryAx"
+          ],
+          "standardAxioms": [],
+          "customAxioms": [],
+          "hasSorry": true,
+          "policy": "strict",
+          "policyAccepted": false
+        },
+        "filename": "Graph.lean",
+        "target": "glean_proof",
+        "sourceHash": "e6a402625f60897e995f12d1886243e134650c3d82105f6504e6a71e414b3f87",
+        "lean": {
+          "output": "Graph.lean:31:18: warning: declaration uses `sorry`\nGraph.lean:36:6: warning: Variable name `glean_component_4` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _glean_component_4\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\n",
+          "durationMs": 16344
+        },
+        "environment": {
+          "schema": 1,
+          "projectId": "glean",
+          "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+          "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+          "projectFiles": {
+            "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+            "lake-manifest.json": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+            "lakefile.lean": null,
+            "lakefile.toml": "a3500f3a6618de5748b6135a580e2b4357a9936564a0a43a9decbdb94f101580"
+          },
+          "sourceStateHash": "8e42ea7f844d4211928454b4232a8b9dc61fcb3192dc8942c803ce6cbd657213",
+          "dependencies": [],
+          "compiledArtifacts": {
+            "kind": "path-size-mtime-metadata",
+            "count": 10089,
+            "hash": "eff39cb727636d1b135ecdb35e3c8e15e665997e6a4f2255310687c6f71cb748"
+          },
+          "leanSearchPaths": [
+            "/Users/moonone/GLEAN/glean/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+          ],
+          "gitCommit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+          "gitDirty": true,
+          "changedLeanInputs": null,
+          "sourceIdentityKind": "source-content-in-parent-git",
+          "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+          "manifestHash": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+          "environmentHash": "917976ff217f0f0fb12d0f5e79d860452ee0b9cabcf892da1d1d35b5e23bed1e",
+          "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+        },
+        "bindingTypes": {
+          "glean_proof/glean_component_2": "True",
+          "glean_proof/glean_component_4": "False"
+        },
+        "bindingUsage": {
+          "glean_component_1": [],
+          "glean_component_3": [],
+          "glean_proof": []
+        },
+        "bindingDependencies": {
+          "glean_proof/glean_component_2": [],
+          "glean_proof/glean_component_4": []
+        },
+        "bindingInputTypes": {
+          "glean_proof/glean_component_2": [],
+          "glean_proof/glean_component_4": []
+        },
+        "typedNodeTypes": {
+          "root/valid/out": "True",
+          "root/unfinished/out": "False"
+        },
+        "typedNodeUsage": {
+          "root/valid/out": [],
+          "root/unfinished/out": []
+        },
+        "typedPortTypes": {}
+      },
+      "initialExpected": "valid",
+      "expectationCorrection": "The generated target retains the disconnected let value; its actual constant dependency cone includes sorryAx. INCOMPLETE is the correct target-axiom result. Actual run output is unchanged."
+    },
+    {
+      "id": "Cases-sibling-scope-negative",
+      "expected": "invalid",
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "P",
+            "name": "P",
+            "type": "Prop"
+          },
+          {
+            "id": "Q",
+            "name": "Q",
+            "type": "Prop"
+          },
+          {
+            "id": "h",
+            "name": "h",
+            "type": "P ∨ Q"
+          }
+        ],
+        "goal": "Q ∨ P",
+        "nodes": [
+          {
+            "id": "P",
+            "kind": "input",
+            "ref": "P"
+          },
+          {
+            "id": "Q",
+            "kind": "input",
+            "ref": "Q"
+          },
+          {
+            "id": "h",
+            "kind": "input",
+            "ref": "h"
+          },
+          {
+            "id": "case",
+            "kind": "cases",
+            "inputs": [
+              {
+                "id": "P",
+                "name": "P",
+                "type": "Prop"
+              },
+              {
+                "id": "Q",
+                "name": "Q",
+                "type": "Prop"
+              },
+              {
+                "id": "h",
+                "name": "h",
+                "type": "P ∨ Q"
+              }
+            ],
+            "scrutinee": "h",
+            "outputType": "Q ∨ P",
+            "branches": [
+              {
+                "id": "left",
+                "constructor": "Or.inl",
+                "binders": [
+                  {
+                    "id": "hp",
+                    "name": "hp",
+                    "type": "P"
+                  }
+                ],
+                "nodes": [
+                  {
+                    "id": "P",
+                    "kind": "input",
+                    "ref": "P"
+                  },
+                  {
+                    "id": "Q",
+                    "kind": "input",
+                    "ref": "Q"
+                  },
+                  {
+                    "id": "hp",
+                    "kind": "input",
+                    "ref": "hp"
+                  },
+                  {
+                    "id": "join",
+                    "kind": "script",
+                    "inputs": [
+                      {
+                        "id": "P",
+                        "name": "P",
+                        "type": "Prop"
+                      },
+                      {
+                        "id": "Q",
+                        "name": "Q",
+                        "type": "Prop"
+                      },
+                      {
+                        "id": "hp",
+                        "name": "hp",
+                        "type": "P"
+                      }
+                    ],
+                    "outputType": "Q ∨ P",
+                    "body": "Or.inr hp"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "P_out_join_P",
+                    "source": "P",
+                    "output": "out",
+                    "target": "join",
+                    "input": "P"
+                  },
+                  {
+                    "id": "Q_out_join_Q",
+                    "source": "Q",
+                    "output": "out",
+                    "target": "join",
+                    "input": "Q"
+                  },
+                  {
+                    "id": "hp_out_join_hp",
+                    "source": "hp",
+                    "output": "out",
+                    "target": "join",
+                    "input": "hp"
+                  }
+                ],
+                "result": {
+                  "node": "join",
+                  "output": "out"
+                }
+              },
+              {
+                "id": "right",
+                "constructor": "Or.inr",
+                "binders": [
+                  {
+                    "id": "hq",
+                    "name": "hq",
+                    "type": "Q"
+                  }
+                ],
+                "nodes": [
+                  {
+                    "id": "P",
+                    "kind": "input",
+                    "ref": "P"
+                  },
+                  {
+                    "id": "Q",
+                    "kind": "input",
+                    "ref": "Q"
+                  },
+                  {
+                    "id": "hq",
+                    "kind": "input",
+                    "ref": "hp"
+                  },
+                  {
+                    "id": "join",
+                    "kind": "script",
+                    "inputs": [
+                      {
+                        "id": "P",
+                        "name": "P",
+                        "type": "Prop"
+                      },
+                      {
+                        "id": "Q",
+                        "name": "Q",
+                        "type": "Prop"
+                      },
+                      {
+                        "id": "hq",
+                        "name": "hq",
+                        "type": "Q"
+                      }
+                    ],
+                    "outputType": "Q ∨ P",
+                    "body": "Or.inl hq"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "P_out_join_P",
+                    "source": "P",
+                    "output": "out",
+                    "target": "join",
+                    "input": "P"
+                  },
+                  {
+                    "id": "Q_out_join_Q",
+                    "source": "Q",
+                    "output": "out",
+                    "target": "join",
+                    "input": "Q"
+                  },
+                  {
+                    "id": "hq_out_join_hq",
+                    "source": "hq",
+                    "output": "out",
+                    "target": "join",
+                    "input": "hq"
+                  }
+                ],
+                "result": {
+                  "node": "join",
+                  "output": "out"
+                }
+              }
+            ]
+          }
+        ],
+        "edges": [
+          {
+            "id": "P_out_case_P",
+            "source": "P",
+            "output": "out",
+            "target": "case",
+            "input": "P"
+          },
+          {
+            "id": "Q_out_case_Q",
+            "source": "Q",
+            "output": "out",
+            "target": "case",
+            "input": "Q"
+          },
+          {
+            "id": "h_out_case_h",
+            "source": "h",
+            "output": "out",
+            "target": "case",
+            "input": "h"
+          }
+        ],
+        "result": {
+          "node": "case",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "result": {
+        "status": "invalid",
+        "verified": false,
+        "generatedCode": null,
+        "expectedSource": null,
+        "sourceMap": {},
+        "nodeTypes": {},
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "Input refers to an undeclared or out-of-scope binder",
+            "scopeId": "root/case/right",
+            "nodeId": "hq"
+          }
+        ]
+      }
+    },
+    {
+      "id": "wrong-term-negative",
+      "expected": "invalid",
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "P",
+            "name": "P",
+            "type": "Prop"
+          },
+          {
+            "id": "Q",
+            "name": "Q",
+            "type": "Prop"
+          },
+          {
+            "id": "hp",
+            "name": "hp",
+            "type": "P"
+          },
+          {
+            "id": "hq",
+            "name": "hq",
+            "type": "Q"
+          }
+        ],
+        "goal": "P",
+        "nodes": [
+          {
+            "id": "P",
+            "kind": "input",
+            "ref": "P"
+          },
+          {
+            "id": "Q",
+            "kind": "input",
+            "ref": "Q"
+          },
+          {
+            "id": "hp",
+            "kind": "input",
+            "ref": "hp"
+          },
+          {
+            "id": "hq",
+            "kind": "input",
+            "ref": "hq"
+          },
+          {
+            "id": "select",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "P",
+                "name": "P",
+                "type": "Prop"
+              },
+              {
+                "id": "Q",
+                "name": "Q",
+                "type": "Prop"
+              },
+              {
+                "id": "hp",
+                "name": "hp",
+                "type": "P"
+              },
+              {
+                "id": "hq",
+                "name": "hq",
+                "type": "Q"
+              }
+            ],
+            "outputType": "P",
+            "body": "True.intro"
+          }
+        ],
+        "edges": [
+          {
+            "id": "P_out_select_P",
+            "source": "P",
+            "output": "out",
+            "target": "select",
+            "input": "P"
+          },
+          {
+            "id": "Q_out_select_Q",
+            "source": "Q",
+            "output": "out",
+            "target": "select",
+            "input": "Q"
+          },
+          {
+            "id": "hp_out_select_hp",
+            "source": "hp",
+            "output": "out",
+            "target": "select",
+            "input": "hp"
+          },
+          {
+            "id": "hq_out_select_hq",
+            "source": "hq",
+            "output": "out",
+            "target": "select",
+            "input": "hq"
+          }
+        ],
+        "result": {
+          "node": "select",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "result": {
+        "status": "invalid",
+        "verified": false,
+        "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (P : (gleanTerm% \"Prop\")) (Q : (gleanTerm% \"Prop\")) (hp : (gleanTerm% \"P\")) (hq : (gleanTerm% \"Q\")) : (gleanTerm% \"P\") :=\n  (gleanTerm% \"True.intro\")\n\ntheorem glean_proof (P : (gleanTerm% \"Prop\")) (Q : (gleanTerm% \"Prop\")) (hp : (gleanTerm% \"P\")) (hq : (gleanTerm% \"Q\")) : (gleanTerm% \"P\") :=\n  let glean_component_2 := glean_component_1 (P) (Q) (hp) (hq)\n  glean_component_2\n",
+        "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (P : (gleanExpectedTerm% \"Prop\")) (Q : (gleanExpectedTerm% \"Prop\")) (hp : (gleanExpectedTerm% \"P\")) (hq : (gleanExpectedTerm% \"Q\")), (gleanExpectedTerm% \"P\")\n",
+        "sourceMap": {
+          "root/select": {
+            "startLine": 28,
+            "endLine": 30
+          },
+          "root": {
+            "startLine": 31,
+            "endLine": 34
+          }
+        },
+        "sourceLocations": [
+          {
+            "key": "root/select/out",
+            "startLine": 32,
+            "endLine": 32
+          }
+        ],
+        "nodeBindings": {
+          "glean_component_2": "root/select/out"
+        },
+        "nodeFunctions": {
+          "root/select": "glean_component_1",
+          "root/select/out": "glean_component_1"
+        },
+        "nodeInputPorts": {
+          "root/select/out": [
+            "P",
+            "Q",
+            "hp",
+            "hq"
+          ]
+        },
+        "inputBindings": {
+          "root/P/out": "glean_proof/P",
+          "root/Q/out": "glean_proof/Q",
+          "root/hp/out": "glean_proof/hp",
+          "root/hq/out": "glean_proof/hq"
+        },
+        "referenceEnvironments": [],
+        "diagnostics": [
+          {
+            "filename": "Graph.lean",
+            "line": 29,
+            "column": 3,
+            "severity": "error",
+            "message": "Type mismatch\n  True.intro\nhas type\n  True\nbut is expected to have type\n  P",
+            "graphLocation": "root/select"
+          }
+        ],
+        "nodeTypes": {},
+        "projectId": "glean",
+        "policy": "strict",
+        "jobId": "424e6ae980ab4471b3960a6c2bf6afcb",
+        "phase": "complete",
+        "kernelAccepted": false,
+        "audit": null,
+        "filename": "Graph.lean",
+        "target": "glean_proof",
+        "sourceHash": "b85cfa705f11f0dfb99673f8a99eed2d9c1735ffa2534a33b4f09c2a82b7779c",
+        "lean": {
+          "output": "Graph.lean:29:2: error: Type mismatch\n  True.intro\nhas type\n  True\nbut is expected to have type\n  P\n",
+          "durationMs": 6215
+        },
+        "environment": {
+          "schema": 1,
+          "projectId": "glean",
+          "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+          "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+          "projectFiles": {
+            "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+            "lake-manifest.json": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+            "lakefile.lean": null,
+            "lakefile.toml": "a3500f3a6618de5748b6135a580e2b4357a9936564a0a43a9decbdb94f101580"
+          },
+          "sourceStateHash": "8e42ea7f844d4211928454b4232a8b9dc61fcb3192dc8942c803ce6cbd657213",
+          "dependencies": [],
+          "compiledArtifacts": {
+            "kind": "path-size-mtime-metadata",
+            "count": 10089,
+            "hash": "eff39cb727636d1b135ecdb35e3c8e15e665997e6a4f2255310687c6f71cb748"
+          },
+          "leanSearchPaths": [
+            "/Users/moonone/GLEAN/glean/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+          ],
+          "gitCommit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+          "gitDirty": true,
+          "changedLeanInputs": null,
+          "sourceIdentityKind": "source-content-in-parent-git",
+          "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+          "manifestHash": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+          "environmentHash": "917976ff217f0f0fb12d0f5e79d860452ee0b9cabcf892da1d1d35b5e23bed1e",
+          "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+        },
+        "typedNodeTypes": {},
+        "typedNodeUsage": {},
+        "typedPortTypes": {}
+      }
+    }
+  ]
+}

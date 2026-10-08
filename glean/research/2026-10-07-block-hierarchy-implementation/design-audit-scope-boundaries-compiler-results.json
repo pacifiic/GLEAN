@@ -1,0 +1,86 @@
+[
+  {
+    "case": "cases-positive",
+    "expected": "ready",
+    "status": "ready",
+    "diagnostics": [],
+    "generatedHash": "c5f8cc15548d236649425f7e862a4f3837a1f5f7432e54a15793b73c7fc73e20"
+  },
+  {
+    "case": "parent-positive",
+    "expected": "ready",
+    "status": "ready",
+    "diagnostics": [],
+    "generatedHash": "7e6e9fac60e932c17c5dc3fcae8752c07300d5ceaf589e7223fc462f6d9e7774"
+  },
+  {
+    "case": "cross-sibling-wire",
+    "expected": "invalid",
+    "status": "invalid",
+    "diagnostics": [
+      {
+        "severity": "error",
+        "message": "Edges cannot leave their scope or refer to missing nodes",
+        "scopeId": "root/split/right",
+        "nodeId": "right_proof"
+      }
+    ],
+    "unchanged": true
+  },
+  {
+    "case": "escaped-branch-binder",
+    "expected": "invalid",
+    "status": "invalid",
+    "diagnostics": [
+      {
+        "severity": "error",
+        "message": "Input refers to an undeclared or out-of-scope binder",
+        "scopeId": "root",
+        "nodeId": "escaped"
+      }
+    ],
+    "unchanged": true
+  },
+  {
+    "case": "outside-to-inner-plain",
+    "expected": "invalid",
+    "status": "invalid",
+    "diagnostics": [
+      {
+        "severity": "error",
+        "message": "Edges cannot leave their scope or refer to missing nodes",
+        "scopeId": "root",
+        "nodeId": "proof"
+      }
+    ],
+    "unchanged": true
+  },
+  {
+    "case": "outside-to-inner-qualified",
+    "expected": "invalid",
+    "status": "invalid",
+    "diagnostics": [
+      {
+        "severity": "error",
+        "message": "Edges cannot leave their scope or refer to missing nodes",
+        "scopeId": "root",
+        "nodeId": "proof"
+      }
+    ],
+    "unchanged": true
+  },
+  {
+    "case": "inner-to-outside-qualified",
+    "expected": "invalid",
+    "status": "invalid",
+    "diagnostics": [
+      {
+        "severity": "error",
+        "message": "Edges cannot leave their scope or refer to missing nodes",
+        "scopeId": "root",
+        "nodeId": "proof"
+      }
+    ],
+    "unchanged": true
+  }
+]

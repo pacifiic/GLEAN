@@ -1,0 +1,14 @@
+{
+  "analyzed": true,
+  "unverified": true,
+  "noKernelClaim": true,
+  "hasErrors": true,
+  "exactSourceHash": true,
+  "privateActualName": true,
+  "macroActualName": true,
+  "instanceActual": true,
+  "validAfterError": true,
+  "sorryDependencyActual": true,
+  "directCurrentDependency": true,
+  "realUtf16Range": true
+}

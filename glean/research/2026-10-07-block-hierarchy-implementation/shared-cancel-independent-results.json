@@ -1,0 +1,13 @@
+{
+  "kind": "independent actual native post-cancel/shared export; no new kernel check",
+  "pass": true,
+  "fileBytes": 1115533,
+  "fileHash": "09b12ab59b2c9ec0862810179eb3e22e006093a0f6c579d364c4369000163b31",
+  "bodyBytes": 1048483,
+  "bodyHash": "8b8ad61bdda3b1f598f3dab08f7adfa11246133f7ed0838f52798f7bc2426eab",
+  "calls": 200,
+  "modules": 1,
+  "fullBodyOccurrences": 1,
+  "bodyMatchesOriginalExactly": true,
+  "activeIsolationExcluded": true
+}

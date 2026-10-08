@@ -1,0 +1,80 @@
+Browser tab: 1, Title: "GLEAN · 증명을 연결하다", URL: "http://127.0.0.1:8765/".
+1 AXWebArea GLEAN · 증명을 연결하다, URL: 127.0.0.1:8765/
+	2 container
+		3 link Description: GLEAN 홈, Value: 127.0.0.1:8765/
+		4 button (disabled) ↶ 취소, Help: 실행 취소 (⌘/Ctrl+Z), ID: undo-button
+		5 button (disabled) ↷ 다시, Help: 다시 실행 (⌘/Ctrl+Shift+Z), ID: redo-button
+		6 button 이전 초안, Help: 이전 자동 저장본 복원, ID: recover-button
+		7 pop up button (collapsed) 패널 · 레이아웃, ID: panels-button, Secondary Actions: Expand
+		8 button 열기, ID: import-button
+		9 button 그래프 저장 ↗, ID: save-button
+		10 button ▷ Lean으로 검증, ID: check-button
+	11 container 컴포넌트 도구 모음
+		12 container 컴포넌트 분류
+			13 checkbox 전체, Value: 1
+			14 checkbox Params, Value: 0
+			15 checkbox Logic, Value: 0
+			16 checkbox Proof, Value: 0
+			17 text Visual programming for formal proofs
+		18 button 가정 추가, Help: 선택한 가정의 파라미터 노드 추가
+		19 button 가정·목표, Help: 명제, 가정과 목표 편집
+		20 text Params · 매개변수
+		21 button 함수 적용, Help: Apply · 함수와 인자를 연결
+		22 button 논리곱, Help: Pair · 두 증명의 논리곱
+		23 button 왼쪽 추출, Help: First · 논리곱의 왼쪽 증명
+		24 button 오른쪽 추출, Help: Second · 논리곱의 오른쪽 증명
+		25 button 모듈, Help: 재사용 함수와 접기 그룹
+		26 text Logic · 논리 연산
+		27 button 검증, Help: 현재 그래프를 Lean 커널로 검증
+		28 button Lean 코드, Help: 생성된 Lean 코드 패널 열기
+		29 button 예제, Help: 예제 그래프 패널 열기
+		30 text Proof · 커널 검증
+	31 container
+		32 container 노드 증명 편집기
+			33 heading irrational_pi · 원문 호출, Value: 1, ID: graph-title
+				138 text irrational_pi · 원문 호출
+			35 checkbox Description: ⛶ 전체화면, Help: 그래프만 전체화면으로 보기, Value: 0, ID: fullscreen-button
+			36 container Description: 수학 그래프 검증 완료 · 커널 재검사 + 의도한 목표 타입 대조 · 공리: Classical.choice, Quot.sound, propext, ID: graph-checkstate
+				219 text 현재 목표 · 커널 검증 완료
+			38 button Lean 검사, ID: graph-check-run
+			39 button (collapsed) 진단 / 오류 위치, Secondary Actions: Expand
+				40 text 진단 / 오류 위치
+			121 container typed-workbench
+				220 button 루트
+				221 button (collapsed) 컴포넌트 ▾, Secondary Actions: Expand
+					222 text 컴포넌트 ▾
+				223 button (collapsed) 더보기 ▾, Secondary Actions: Expand
+					224 text 더보기 ▾
+				225 text 100%
+				226 button 100%
+				227 button 선택 맞춤
+				228 button 전체 맞춤
+				131 container
+					229 button (collapsed) 보기 ▾, Secondary Actions: Expand
+						230 text 보기 ▾
+					231 button (collapsed) 숨긴 항목 0개, Secondary Actions: Expand
+						232 text 숨긴 항목 0개
+				136 container
+					137 image
+					233 container
+						234 text irrational_pi Lean 코드
+						235 button out ●
+						236 button 코드 열기
+						237 button 설정
+			63 container
+				64 text Shift + 클릭  여러 노드 선택 ·  휠  확대·축소
+		66 container 왼쪽 패널
+			67 tab group 왼쪽 패널 탭
+				212 tab (selectable, settable, boolean) Description: 논리 도구, Help: 논리 도구 · 끌어서 이동, Value: 0, ID: workspace-tab-components
+				213 tab (selected, settable, boolean) Description: 가정과 목표, Help: 가정과 목표 · 끌어서 이동, Value: 1, ID: workspace-tab-context
+		70 container 오른쪽 패널
+			71 tab group 오른쪽 패널 탭
+				214 tab (selected, settable, boolean) Description: 증명 확인, Help: 증명 확인 · 끌어서 이동, Value: 1, ID: workspace-tab-verification
+				215 tab (selectable, settable, boolean) Description: 예제, Help: 예제 · 끌어서 이동, Value: 0, ID: workspace-tab-examples
+				216 tab (selectable, settable, boolean) Description: 모듈 라이브러리, Help: 모듈 라이브러리 · 끌어서 이동, Value: 0, ID: workspace-tab-modules
+				217 tab (selectable, settable, boolean) Description: Inspector / Watch, Help: Inspector / Watch · 끌어서 이동, Value: 0, ID: workspace-tab-inspector
+		99 container 아래쪽 패널
+			100 tab group 아래쪽 패널 탭
+				218 tab (selected, settable, boolean) Description: Lean 코드, Help: Lean 코드 · 끌어서 이동, Value: 1, ID: workspace-tab-source
+
+The focused UI element is 1 AXWebArea GLEAN · 증명을 연결하다, URL: 127.0.0.1:8765/

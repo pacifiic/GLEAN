@@ -1,0 +1,1377 @@
+{
+  "cases": [
+    {
+      "id": "R03-Lean-reference",
+      "expected": "valid",
+      "result": {
+        "status": "valid",
+        "verified": true,
+        "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n + 0 = n\") :=\n  (gleanTerm% \"@Nat.add_zero n\")\n\ntheorem glean_proof (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n + 0 = n\") :=\n  let glean_component_2 := glean_component_1 (n)\n  glean_component_2\n",
+        "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (n : (gleanExpectedTerm% \"Nat\")), (gleanExpectedTerm% \"n + 0 = n\")\n",
+        "sourceMap": {
+          "root/reference": {
+            "startLine": 28,
+            "endLine": 30
+          },
+          "root": {
+            "startLine": 31,
+            "endLine": 34
+          }
+        },
+        "sourceLocations": [
+          {
+            "key": "root/reference/out",
+            "startLine": 32,
+            "endLine": 32
+          }
+        ],
+        "nodeBindings": {
+          "glean_component_2": "root/reference/out"
+        },
+        "nodeFunctions": {
+          "root/reference": "glean_component_1"
+        },
+        "inputBindings": {
+          "root/arg0/out": "glean_proof/n"
+        },
+        "referenceEnvironments": [
+          "917976ff217f0f0fb12d0f5e79d860452ee0b9cabcf892da1d1d35b5e23bed1e"
+        ],
+        "diagnostics": [],
+        "nodeTypes": {},
+        "projectId": "glean",
+        "policy": "standard",
+        "jobId": "2a048044634c427b82fd8d2a7a120b47",
+        "phase": "complete",
+        "kernelAccepted": true,
+        "audit": {
+          "axioms": [],
+          "standardAxioms": [],
+          "customAxioms": [],
+          "hasSorry": false,
+          "policy": "standard",
+          "policyAccepted": true
+        },
+        "filename": "Graph.lean",
+        "target": "glean_proof",
+        "sourceHash": "b0af3949dde5df82d6805b9eb1e39bbf0c35b0bb92ab126851599ab88f70c50d",
+        "lean": {
+          "output": "",
+          "durationMs": 19009
+        },
+        "environment": {
+          "schema": 1,
+          "projectId": "glean",
+          "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+          "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+          "projectFiles": {
+            "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+            "lake-manifest.json": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+            "lakefile.lean": null,
+            "lakefile.toml": "a3500f3a6618de5748b6135a580e2b4357a9936564a0a43a9decbdb94f101580"
+          },
+          "sourceStateHash": "8e42ea7f844d4211928454b4232a8b9dc61fcb3192dc8942c803ce6cbd657213",
+          "dependencies": [],
+          "compiledArtifacts": {
+            "kind": "path-size-mtime-metadata",
+            "count": 10089,
+            "hash": "eff39cb727636d1b135ecdb35e3c8e15e665997e6a4f2255310687c6f71cb748"
+          },
+          "leanSearchPaths": [
+            "/Users/moonone/GLEAN/glean/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+          ],
+          "gitCommit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+          "gitDirty": true,
+          "changedLeanInputs": null,
+          "sourceIdentityKind": "source-content-in-parent-git",
+          "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+          "manifestHash": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+          "environmentHash": "917976ff217f0f0fb12d0f5e79d860452ee0b9cabcf892da1d1d35b5e23bed1e",
+          "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+        },
+        "bindingTypes": {
+          "glean_component_1/n": "Nat",
+          "glean_proof/glean_component_2": "Eq (instHAdd.hAdd n 0) n",
+          "glean_proof/n": "Nat"
+        },
+        "bindingUsage": {
+          "glean_component_1": [
+            "n"
+          ],
+          "glean_proof": [
+            "n",
+            "glean_component_2"
+          ]
+        },
+        "typedNodeTypes": {
+          "root/reference/out": "Eq (instHAdd.hAdd n 0) n",
+          "root/arg0/out": "Nat"
+        }
+      },
+      "graph": {
+        "version": 3,
+        "name": "Independent actual declaration audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "standard",
+        "inputs": [
+          {
+            "implicit": false,
+            "instance": false,
+            "name": "n",
+            "type": "Nat",
+            "id": "arg0"
+          }
+        ],
+        "goal": "n + 0 = n",
+        "nodes": [
+          {
+            "id": "arg0",
+            "kind": "input",
+            "ref": "arg0"
+          },
+          {
+            "id": "reference",
+            "kind": "reference",
+            "declaration": "Nat.add_zero",
+            "inputs": [
+              {
+                "implicit": false,
+                "instance": false,
+                "name": "n",
+                "type": "Nat",
+                "id": "arg0"
+              }
+            ],
+            "outputType": "n + 0 = n",
+            "reference": {
+              "inputs": [
+                {
+                  "implicit": false,
+                  "instance": false,
+                  "name": "n",
+                  "type": "Nat",
+                  "id": "arg0"
+                }
+              ],
+              "module": "Init.Core",
+              "name": "Nat.add_zero",
+              "outputType": "n + 0 = n",
+              "type": "∀ (n : Nat), n + 0 = n",
+              "universes": [],
+              "environment": {
+                "schema": 1,
+                "projectId": "glean",
+                "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+                "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+                "projectFiles": {
+                  "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+                  "lake-manifest.json": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+                  "lakefile.lean": null,
+                  "lakefile.toml": "a3500f3a6618de5748b6135a580e2b4357a9936564a0a43a9decbdb94f101580"
+                },
+                "sourceStateHash": "8e42ea7f844d4211928454b4232a8b9dc61fcb3192dc8942c803ce6cbd657213",
+                "dependencies": [],
+                "compiledArtifacts": {
+                  "kind": "path-size-mtime-metadata",
+                  "count": 10089,
+                  "hash": "eff39cb727636d1b135ecdb35e3c8e15e665997e6a4f2255310687c6f71cb748"
+                },
+                "leanSearchPaths": [
+                  "/Users/moonone/GLEAN/glean/.lake/build/lib/lean",
+                  "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+                ],
+                "gitCommit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+                "gitDirty": true,
+                "changedLeanInputs": null,
+                "sourceIdentityKind": "source-content-in-parent-git",
+                "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+                "manifestHash": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+                "environmentHash": "917976ff217f0f0fb12d0f5e79d860452ee0b9cabcf892da1d1d35b5e23bed1e",
+                "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+              },
+              "projectId": "glean",
+              "imports": [],
+              "signatureHash": "e088fc1c23497f4f03c5b4b29a78b62989a0214143e1faab11439a3868df5e0e"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e0",
+            "source": "arg0",
+            "output": "out",
+            "target": "reference",
+            "input": "arg0"
+          }
+        ],
+        "result": {
+          "node": "reference",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "passed": true
+    },
+    {
+      "id": "R03-implicit-dependent-reference",
+      "expected": "valid",
+      "result": {
+        "status": "invalid",
+        "verified": false,
+        "generatedCode": null,
+        "expectedSource": null,
+        "sourceMap": {},
+        "nodeTypes": {},
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "Input aliases must be unique non-keyword ASCII Lean names"
+          }
+        ]
+      },
+      "graph": {
+        "version": 3,
+        "name": "Independent actual declaration audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "standard",
+        "inputs": [
+          {
+            "implicit": true,
+            "instance": false,
+            "name": "n",
+            "type": "Nat",
+            "id": "arg0"
+          },
+          {
+            "implicit": true,
+            "instance": false,
+            "name": "m",
+            "type": "Nat",
+            "id": "arg1"
+          },
+          {
+            "implicit": true,
+            "instance": false,
+            "name": "k",
+            "type": "Nat",
+            "id": "arg2"
+          },
+          {
+            "implicit": false,
+            "instance": false,
+            "name": "a._@._internal._hyg.0",
+            "type": "n ≤ m",
+            "id": "arg3"
+          },
+          {
+            "implicit": false,
+            "instance": false,
+            "name": "a._@._internal._hyg.0",
+            "type": "m ≤ k",
+            "id": "arg4"
+          }
+        ],
+        "goal": "n ≤ k",
+        "nodes": [
+          {
+            "id": "arg0",
+            "kind": "input",
+            "ref": "arg0"
+          },
+          {
+            "id": "arg1",
+            "kind": "input",
+            "ref": "arg1"
+          },
+          {
+            "id": "arg2",
+            "kind": "input",
+            "ref": "arg2"
+          },
+          {
+            "id": "arg3",
+            "kind": "input",
+            "ref": "arg3"
+          },
+          {
+            "id": "arg4",
+            "kind": "input",
+            "ref": "arg4"
+          },
+          {
+            "id": "reference",
+            "kind": "reference",
+            "declaration": "Nat.le_trans",
+            "inputs": [
+              {
+                "implicit": true,
+                "instance": false,
+                "name": "n",
+                "type": "Nat",
+                "id": "arg0"
+              },
+              {
+                "implicit": true,
+                "instance": false,
+                "name": "m",
+                "type": "Nat",
+                "id": "arg1"
+              },
+              {
+                "implicit": true,
+                "instance": false,
+                "name": "k",
+                "type": "Nat",
+                "id": "arg2"
+              },
+              {
+                "implicit": false,
+                "instance": false,
+                "name": "a._@._internal._hyg.0",
+                "type": "n ≤ m",
+                "id": "arg3"
+              },
+              {
+                "implicit": false,
+                "instance": false,
+                "name": "a._@._internal._hyg.0",
+                "type": "m ≤ k",
+                "id": "arg4"
+              }
+            ],
+            "outputType": "n ≤ k",
+            "reference": {
+              "inputs": [
+                {
+                  "implicit": true,
+                  "instance": false,
+                  "name": "n",
+                  "type": "Nat",
+                  "id": "arg0"
+                },
+                {
+                  "implicit": true,
+                  "instance": false,
+                  "name": "m",
+                  "type": "Nat",
+                  "id": "arg1"
+                },
+                {
+                  "implicit": true,
+                  "instance": false,
+                  "name": "k",
+                  "type": "Nat",
+                  "id": "arg2"
+                },
+                {
+                  "implicit": false,
+                  "instance": false,
+                  "name": "a._@._internal._hyg.0",
+                  "type": "n ≤ m",
+                  "id": "arg3"
+                },
+                {
+                  "implicit": false,
+                  "instance": false,
+                  "name": "a._@._internal._hyg.0",
+                  "type": "m ≤ k",
+                  "id": "arg4"
+                }
+              ],
+              "module": "Init.Prelude",
+              "name": "Nat.le_trans",
+              "outputType": "n ≤ k",
+              "type": "∀ {n m k : Nat}, n ≤ m → m ≤ k → n ≤ k",
+              "universes": [],
+              "environment": {
+                "schema": 1,
+                "projectId": "glean",
+                "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+                "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+                "projectFiles": {
+                  "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+                  "lake-manifest.json": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+                  "lakefile.lean": null,
+                  "lakefile.toml": "a3500f3a6618de5748b6135a580e2b4357a9936564a0a43a9decbdb94f101580"
+                },
+                "sourceStateHash": "8e42ea7f844d4211928454b4232a8b9dc61fcb3192dc8942c803ce6cbd657213",
+                "dependencies": [],
+                "compiledArtifacts": {
+                  "kind": "path-size-mtime-metadata",
+                  "count": 10089,
+                  "hash": "eff39cb727636d1b135ecdb35e3c8e15e665997e6a4f2255310687c6f71cb748"
+                },
+                "leanSearchPaths": [
+                  "/Users/moonone/GLEAN/glean/.lake/build/lib/lean",
+                  "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+                ],
+                "gitCommit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+                "gitDirty": true,
+                "changedLeanInputs": null,
+                "sourceIdentityKind": "source-content-in-parent-git",
+                "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+                "manifestHash": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+                "environmentHash": "917976ff217f0f0fb12d0f5e79d860452ee0b9cabcf892da1d1d35b5e23bed1e",
+                "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+              },
+              "projectId": "glean",
+              "imports": [],
+              "signatureHash": "47a3737d5a8649e408065a98cec9be3800bd95a1f2469e2023374355ebe5a790"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e0",
+            "source": "arg0",
+            "output": "out",
+            "target": "reference",
+            "input": "arg0"
+          },
+          {
+            "id": "e1",
+            "source": "arg1",
+            "output": "out",
+            "target": "reference",
+            "input": "arg1"
+          },
+          {
+            "id": "e2",
+            "source": "arg2",
+            "output": "out",
+            "target": "reference",
+            "input": "arg2"
+          },
+          {
+            "id": "e3",
+            "source": "arg3",
+            "output": "out",
+            "target": "reference",
+            "input": "arg3"
+          },
+          {
+            "id": "e4",
+            "source": "arg4",
+            "output": "out",
+            "target": "reference",
+            "input": "arg4"
+          }
+        ],
+        "result": {
+          "node": "reference",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "passed": false
+    },
+    {
+      "id": "R03-mathlib-reference",
+      "expected": "valid",
+      "result": {
+        "status": "valid",
+        "verified": true,
+        "generatedCode": "import Lean\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1  : (gleanTerm% \"0 < Real.pi\") :=\n  (gleanTerm% \"@Real.pi_pos \")\n\ntheorem glean_proof  : (gleanTerm% \"0 < Real.pi\") :=\n  let glean_component_2 := glean_component_1 \n  glean_component_2\n",
+        "expectedSource": "import Lean\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := (gleanExpectedTerm% \"0 < Real.pi\")\n",
+        "sourceMap": {
+          "root/reference": {
+            "startLine": 29,
+            "endLine": 31
+          },
+          "root": {
+            "startLine": 32,
+            "endLine": 35
+          }
+        },
+        "sourceLocations": [
+          {
+            "key": "root/reference/out",
+            "startLine": 33,
+            "endLine": 33
+          }
+        ],
+        "nodeBindings": {
+          "glean_component_2": "root/reference/out"
+        },
+        "nodeFunctions": {
+          "root/reference": "glean_component_1"
+        },
+        "inputBindings": {},
+        "referenceEnvironments": [
+          "eac6797e49eaa3bb7b9b699992960e737a88ac98558ea65e425b91c9e65b62b3"
+        ],
+        "diagnostics": [],
+        "nodeTypes": {},
+        "projectId": "mathlib",
+        "policy": "standard",
+        "jobId": "94eff0e2487f4e418a634d0ffb8f4e45",
+        "phase": "complete",
+        "kernelAccepted": true,
+        "audit": {
+          "axioms": [
+            "Classical.choice",
+            "Quot.sound",
+            "propext"
+          ],
+          "standardAxioms": [
+            "Classical.choice",
+            "Quot.sound",
+            "propext"
+          ],
+          "customAxioms": [],
+          "hasSorry": false,
+          "policy": "standard",
+          "policyAccepted": true
+        },
+        "filename": "Graph.lean",
+        "target": "glean_proof",
+        "sourceHash": "03830e51b1450fce5b027cad06051ca521027d4a6a90a809f409601eb97a7017",
+        "lean": {
+          "output": "",
+          "durationMs": 136738
+        },
+        "environment": {
+          "schema": 1,
+          "projectId": "mathlib",
+          "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+          "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+          "projectFiles": {
+            "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+            "lake-manifest.json": "8f67b2cf24143ac091cdb425e886c2164b2fc2d6fbccd6db9454b697f9541a67",
+            "lakefile.lean": "274e720ccc7dbabeb9fbf362290dc7e5ed2c5175fbade0ef20cc19b1331affaf",
+            "lakefile.toml": null
+          },
+          "sourceStateHash": "5536bd21822d534da2e06d33866484c0a2eca30f6110d247ef27d2f2ea4599bc",
+          "dependencies": [
+            {
+              "name": "Cli",
+              "kind": "git",
+              "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/Cli",
+              "declaredRevision": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+              "available": true,
+              "gitCommit": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+              "gitDirty": false,
+              "sourceStateHash": "1176f84a7b44e7caeee45de1494d1049822a8b48a44b762065a950a37cecba30",
+              "changedLeanInputs": 0,
+              "sourceIdentityKind": "git-and-modified-input-content"
+            },
+            {
+              "name": "LeanSearchClient",
+              "kind": "git",
+              "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/LeanSearchClient",
+              "declaredRevision": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+              "available": true,
+              "gitCommit": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+              "gitDirty": false,
+              "sourceStateHash": "c1172bbf0172ccc33bc75efaf8ca02f8487134427226fce770cc7020a9c450d4",
+              "changedLeanInputs": 0,
+              "sourceIdentityKind": "git-and-modified-input-content"
+            },
+            {
+              "name": "Qq",
+              "kind": "git",
+              "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/Qq",
+              "declaredRevision": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+              "available": true,
+              "gitCommit": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+              "gitDirty": false,
+              "sourceStateHash": "35aae8780b0a1049c6cb83dcd9cadcca0bd0ce3dfbbfd480a9e1ae3c5f5a05af",
+              "changedLeanInputs": 0,
+              "sourceIdentityKind": "git-and-modified-input-content"
+            },
+            {
+              "name": "aesop",
+              "kind": "git",
+              "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/aesop",
+              "declaredRevision": "355695d523e41d0554926416cba2a2b3544fbbc9",
+              "available": true,
+              "gitCommit": "355695d523e41d0554926416cba2a2b3544fbbc9",
+              "gitDirty": false,
+              "sourceStateHash": "459f439e876a2a4510d574aec9b7f34b569bdcdf9e9ea83ae3a7ef627a0f9843",
+              "changedLeanInputs": 0,
+              "sourceIdentityKind": "git-and-modified-input-content"
+            },
+            {
+              "name": "batteries",
+              "kind": "git",
+              "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/batteries",
+              "declaredRevision": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+              "available": true,
+              "gitCommit": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+              "gitDirty": false,
+              "sourceStateHash": "71e28be2d3cefe1ec90a7ad3e83ce9aca5169219c52a25a9865e1ce0144a6296",
+              "changedLeanInputs": 0,
+              "sourceIdentityKind": "git-and-modified-input-content"
+            },
+            {
+              "name": "importGraph",
+              "kind": "git",
+              "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/importGraph",
+              "declaredRevision": "e928b72544873815af278d38681b31c0293588e3",
+              "available": true,
+              "gitCommit": "e928b72544873815af278d38681b31c0293588e3",
+              "gitDirty": false,
+              "sourceStateHash": "fcaa5b446fc9a84ba55001ef0b7f5cb9d1e21c6937c4378d1fca72d9acfedd97",
+              "changedLeanInputs": 0,
+              "sourceIdentityKind": "git-and-modified-input-content"
+            },
+            {
+              "name": "plausible",
+              "kind": "git",
+              "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/plausible",
+              "declaredRevision": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+              "available": true,
+              "gitCommit": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+              "gitDirty": false,
+              "sourceStateHash": "3d2de043c8a2840b04e77e0ebdc26f39f14a235e43df7a50abcc9db29f8bd720",
+              "changedLeanInputs": 0,
+              "sourceIdentityKind": "git-and-modified-input-content"
+            },
+            {
+              "name": "proofwidgets",
+              "kind": "git",
+              "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/proofwidgets",
+              "declaredRevision": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5",
+              "available": true,
+              "gitCommit": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5",
+              "gitDirty": false,
+              "sourceStateHash": "585600a5908b5ebe759533071cb97249655c1296c6f32a144392eaa2b1031102",
+              "changedLeanInputs": 0,
+              "sourceIdentityKind": "git-and-modified-input-content"
+            }
+          ],
+          "compiledArtifacts": {
+            "kind": "path-size-mtime-metadata",
+            "count": 21231,
+            "hash": "7b5879e25f49525944e6c5b16921d4ef88fa3a7453f27f0b117b57d5783b4036"
+          },
+          "leanSearchPaths": [
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/Cli/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/batteries/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/Qq/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/aesop/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/proofwidgets/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/importGraph/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/LeanSearchClient/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/plausible/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+          ],
+          "gitCommit": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+          "gitDirty": false,
+          "changedLeanInputs": 0,
+          "sourceIdentityKind": "git-and-modified-input-content",
+          "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+          "manifestHash": "8f67b2cf24143ac091cdb425e886c2164b2fc2d6fbccd6db9454b697f9541a67",
+          "environmentHash": "eac6797e49eaa3bb7b9b699992960e737a88ac98558ea65e425b91c9e65b62b3",
+          "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+        },
+        "bindingTypes": {
+          "glean_proof/glean_component_2": "Real.instLT.lt 0 Real.pi"
+        },
+        "bindingUsage": {
+          "glean_component_1": [],
+          "glean_proof": [
+            "glean_component_2"
+          ]
+        },
+        "typedNodeTypes": {
+          "root/reference/out": "Real.instLT.lt 0 Real.pi"
+        }
+      },
+      "graph": {
+        "version": 3,
+        "name": "Independent actual declaration audit",
+        "projectId": "mathlib",
+        "imports": [
+          "Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic"
+        ],
+        "policy": "standard",
+        "inputs": [],
+        "goal": "0 < Real.pi",
+        "nodes": [
+          {
+            "id": "reference",
+            "kind": "reference",
+            "declaration": "Real.pi_pos",
+            "inputs": [],
+            "outputType": "0 < Real.pi",
+            "reference": {
+              "inputs": [],
+              "module": "Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic",
+              "name": "Real.pi_pos",
+              "outputType": "0 < Real.pi",
+              "type": "0 < Real.pi",
+              "universes": [],
+              "environment": {
+                "schema": 1,
+                "projectId": "mathlib",
+                "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+                "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+                "projectFiles": {
+                  "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+                  "lake-manifest.json": "8f67b2cf24143ac091cdb425e886c2164b2fc2d6fbccd6db9454b697f9541a67",
+                  "lakefile.lean": "274e720ccc7dbabeb9fbf362290dc7e5ed2c5175fbade0ef20cc19b1331affaf",
+                  "lakefile.toml": null
+                },
+                "sourceStateHash": "5536bd21822d534da2e06d33866484c0a2eca30f6110d247ef27d2f2ea4599bc",
+                "dependencies": [
+                  {
+                    "name": "Cli",
+                    "kind": "git",
+                    "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/Cli",
+                    "declaredRevision": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+                    "available": true,
+                    "gitCommit": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+                    "gitDirty": false,
+                    "sourceStateHash": "1176f84a7b44e7caeee45de1494d1049822a8b48a44b762065a950a37cecba30",
+                    "changedLeanInputs": 0,
+                    "sourceIdentityKind": "git-and-modified-input-content"
+                  },
+                  {
+                    "name": "LeanSearchClient",
+                    "kind": "git",
+                    "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/LeanSearchClient",
+                    "declaredRevision": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+                    "available": true,
+                    "gitCommit": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+                    "gitDirty": false,
+                    "sourceStateHash": "c1172bbf0172ccc33bc75efaf8ca02f8487134427226fce770cc7020a9c450d4",
+                    "changedLeanInputs": 0,
+                    "sourceIdentityKind": "git-and-modified-input-content"
+                  },
+                  {
+                    "name": "Qq",
+                    "kind": "git",
+                    "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/Qq",
+                    "declaredRevision": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+                    "available": true,
+                    "gitCommit": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+                    "gitDirty": false,
+                    "sourceStateHash": "35aae8780b0a1049c6cb83dcd9cadcca0bd0ce3dfbbfd480a9e1ae3c5f5a05af",
+                    "changedLeanInputs": 0,
+                    "sourceIdentityKind": "git-and-modified-input-content"
+                  },
+                  {
+                    "name": "aesop",
+                    "kind": "git",
+                    "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/aesop",
+                    "declaredRevision": "355695d523e41d0554926416cba2a2b3544fbbc9",
+                    "available": true,
+                    "gitCommit": "355695d523e41d0554926416cba2a2b3544fbbc9",
+                    "gitDirty": false,
+                    "sourceStateHash": "459f439e876a2a4510d574aec9b7f34b569bdcdf9e9ea83ae3a7ef627a0f9843",
+                    "changedLeanInputs": 0,
+                    "sourceIdentityKind": "git-and-modified-input-content"
+                  },
+                  {
+                    "name": "batteries",
+                    "kind": "git",
+                    "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/batteries",
+                    "declaredRevision": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+                    "available": true,
+                    "gitCommit": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+                    "gitDirty": false,
+                    "sourceStateHash": "71e28be2d3cefe1ec90a7ad3e83ce9aca5169219c52a25a9865e1ce0144a6296",
+                    "changedLeanInputs": 0,
+                    "sourceIdentityKind": "git-and-modified-input-content"
+                  },
+                  {
+                    "name": "importGraph",
+                    "kind": "git",
+                    "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/importGraph",
+                    "declaredRevision": "e928b72544873815af278d38681b31c0293588e3",
+                    "available": true,
+                    "gitCommit": "e928b72544873815af278d38681b31c0293588e3",
+                    "gitDirty": false,
+                    "sourceStateHash": "fcaa5b446fc9a84ba55001ef0b7f5cb9d1e21c6937c4378d1fca72d9acfedd97",
+                    "changedLeanInputs": 0,
+                    "sourceIdentityKind": "git-and-modified-input-content"
+                  },
+                  {
+                    "name": "plausible",
+                    "kind": "git",
+                    "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/plausible",
+                    "declaredRevision": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+                    "available": true,
+                    "gitCommit": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+                    "gitDirty": false,
+                    "sourceStateHash": "3d2de043c8a2840b04e77e0ebdc26f39f14a235e43df7a50abcc9db29f8bd720",
+                    "changedLeanInputs": 0,
+                    "sourceIdentityKind": "git-and-modified-input-content"
+                  },
+                  {
+                    "name": "proofwidgets",
+                    "kind": "git",
+                    "root": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/proofwidgets",
+                    "declaredRevision": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5",
+                    "available": true,
+                    "gitCommit": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5",
+                    "gitDirty": false,
+                    "sourceStateHash": "585600a5908b5ebe759533071cb97249655c1296c6f32a144392eaa2b1031102",
+                    "changedLeanInputs": 0,
+                    "sourceIdentityKind": "git-and-modified-input-content"
+                  }
+                ],
+                "compiledArtifacts": {
+                  "kind": "path-size-mtime-metadata",
+                  "count": 21231,
+                  "hash": "7b5879e25f49525944e6c5b16921d4ef88fa3a7453f27f0b117b57d5783b4036"
+                },
+                "leanSearchPaths": [
+                  "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/Cli/.lake/build/lib/lean",
+                  "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/batteries/.lake/build/lib/lean",
+                  "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/Qq/.lake/build/lib/lean",
+                  "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/aesop/.lake/build/lib/lean",
+                  "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/proofwidgets/.lake/build/lib/lean",
+                  "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/importGraph/.lake/build/lib/lean",
+                  "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/LeanSearchClient/.lake/build/lib/lean",
+                  "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/packages/plausible/.lake/build/lib/lean",
+                  "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/.lake/build/lib/lean",
+                  "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+                ],
+                "gitCommit": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+                "gitDirty": false,
+                "changedLeanInputs": 0,
+                "sourceIdentityKind": "git-and-modified-input-content",
+                "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+                "manifestHash": "8f67b2cf24143ac091cdb425e886c2164b2fc2d6fbccd6db9454b697f9541a67",
+                "environmentHash": "eac6797e49eaa3bb7b9b699992960e737a88ac98558ea65e425b91c9e65b62b3",
+                "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+              },
+              "projectId": "mathlib",
+              "imports": [
+                "Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic"
+              ],
+              "signatureHash": "5047789649391f335bd9f290ad554cdaf1a43202772fb2b4a98e2d5b462d6f99"
+            }
+          }
+        ],
+        "edges": [],
+        "result": {
+          "node": "reference",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "passed": true
+    },
+    {
+      "id": "R03-missing-or-injected-name",
+      "declaration": "Nat.this_declaration_does_not_exist",
+      "passed": true,
+      "message": "/var/folders/bl/_h2n2k_d41g3q3fwxvy0gppr0000gn/T/glean-declaration-kcbpm8mv/Query.lean:4:0: error(lean.unknownIdentifier): Unknown constant `Nat.this_declaration_does_not_exist`\n"
+    },
+    {
+      "id": "R03-missing-or-injected-name",
+      "declaration": "Nat.add_zero\n#eval 1",
+      "passed": true,
+      "message": "Enter a qualified Lean declaration name"
+    },
+    {
+      "id": "R03-wrong-argument",
+      "expected": "invalid",
+      "result": {
+        "status": "invalid",
+        "verified": false,
+        "generatedCode": null,
+        "expectedSource": null,
+        "sourceMap": {},
+        "nodeTypes": {},
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "Reference ports differ from the queried signature; refresh the declaration",
+            "scopeId": "root",
+            "nodeId": "reference"
+          }
+        ]
+      },
+      "graph": {
+        "version": 3,
+        "name": "Independent actual declaration audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "standard",
+        "inputs": [
+          {
+            "implicit": false,
+            "instance": false,
+            "name": "n",
+            "type": "Bool",
+            "id": "arg0"
+          }
+        ],
+        "goal": "n + 0 = n",
+        "nodes": [
+          {
+            "id": "arg0",
+            "kind": "input",
+            "ref": "arg0"
+          },
+          {
+            "id": "reference",
+            "kind": "reference",
+            "declaration": "Nat.add_zero",
+            "inputs": [
+              {
+                "implicit": false,
+                "instance": false,
+                "name": "n",
+                "type": "Bool",
+                "id": "arg0"
+              }
+            ],
+            "outputType": "n + 0 = n",
+            "reference": {
+              "inputs": [
+                {
+                  "implicit": false,
+                  "instance": false,
+                  "name": "n",
+                  "type": "Nat",
+                  "id": "arg0"
+                }
+              ],
+              "module": "Init.Core",
+              "name": "Nat.add_zero",
+              "outputType": "n + 0 = n",
+              "type": "∀ (n : Nat), n + 0 = n",
+              "universes": [],
+              "environment": {
+                "schema": 1,
+                "projectId": "glean",
+                "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+                "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+                "projectFiles": {
+                  "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+                  "lake-manifest.json": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+                  "lakefile.lean": null,
+                  "lakefile.toml": "a3500f3a6618de5748b6135a580e2b4357a9936564a0a43a9decbdb94f101580"
+                },
+                "sourceStateHash": "8e42ea7f844d4211928454b4232a8b9dc61fcb3192dc8942c803ce6cbd657213",
+                "dependencies": [],
+                "compiledArtifacts": {
+                  "kind": "path-size-mtime-metadata",
+                  "count": 10089,
+                  "hash": "eff39cb727636d1b135ecdb35e3c8e15e665997e6a4f2255310687c6f71cb748"
+                },
+                "leanSearchPaths": [
+                  "/Users/moonone/GLEAN/glean/.lake/build/lib/lean",
+                  "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+                ],
+                "gitCommit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+                "gitDirty": true,
+                "changedLeanInputs": null,
+                "sourceIdentityKind": "source-content-in-parent-git",
+                "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+                "manifestHash": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+                "environmentHash": "917976ff217f0f0fb12d0f5e79d860452ee0b9cabcf892da1d1d35b5e23bed1e",
+                "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+              },
+              "projectId": "glean",
+              "imports": [],
+              "signatureHash": "e088fc1c23497f4f03c5b4b29a78b62989a0214143e1faab11439a3868df5e0e"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e0",
+            "source": "arg0",
+            "output": "out",
+            "target": "reference",
+            "input": "arg0"
+          }
+        ],
+        "result": {
+          "node": "reference",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "passed": true
+    },
+    {
+      "id": "R03-actual-environment-change-rejects-old-signature",
+      "expected": "invalid",
+      "result": {
+        "status": "invalid",
+        "verified": false,
+        "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n + 0 = n\") :=\n  (gleanTerm% \"@Nat.add_zero n\")\n\ntheorem glean_proof (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n + 0 = n\") :=\n  let glean_component_2 := glean_component_1 (n)\n  glean_component_2\n",
+        "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (n : (gleanExpectedTerm% \"Nat\")), (gleanExpectedTerm% \"n + 0 = n\")\n",
+        "sourceMap": {
+          "root/reference": {
+            "startLine": 28,
+            "endLine": 30
+          },
+          "root": {
+            "startLine": 31,
+            "endLine": 34
+          }
+        },
+        "sourceLocations": [
+          {
+            "key": "root/reference/out",
+            "startLine": 32,
+            "endLine": 32
+          }
+        ],
+        "nodeBindings": {
+          "glean_component_2": "root/reference/out"
+        },
+        "nodeFunctions": {
+          "root/reference": "glean_component_1"
+        },
+        "inputBindings": {
+          "root/arg0/out": "glean_proof/n"
+        },
+        "referenceEnvironments": [
+          "917976ff217f0f0fb12d0f5e79d860452ee0b9cabcf892da1d1d35b5e23bed1e"
+        ],
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "선언 참조의 Lean 환경이 변경되었습니다. 시그니처를 다시 조회하세요."
+          }
+        ],
+        "nodeTypes": {},
+        "projectId": "glean",
+        "policy": "standard",
+        "jobId": "5923edb52bbf4c6d9e7e8be7573b9a73",
+        "phase": "complete",
+        "kernelAccepted": false,
+        "audit": null,
+        "filename": "Graph.lean",
+        "target": "glean_proof",
+        "sourceHash": "b0af3949dde5df82d6805b9eb1e39bbf0c35b0bb92ab126851599ab88f70c50d",
+        "lean": {
+          "output": "",
+          "durationMs": 604
+        },
+        "typedNodeTypes": {}
+      },
+      "graph": {
+        "version": 3,
+        "name": "Independent actual declaration audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "standard",
+        "inputs": [
+          {
+            "implicit": false,
+            "instance": false,
+            "name": "n",
+            "type": "Nat",
+            "id": "arg0"
+          }
+        ],
+        "goal": "n + 0 = n",
+        "nodes": [
+          {
+            "id": "arg0",
+            "kind": "input",
+            "ref": "arg0"
+          },
+          {
+            "id": "reference",
+            "kind": "reference",
+            "declaration": "Nat.add_zero",
+            "inputs": [
+              {
+                "implicit": false,
+                "instance": false,
+                "name": "n",
+                "type": "Nat",
+                "id": "arg0"
+              }
+            ],
+            "outputType": "n + 0 = n",
+            "reference": {
+              "inputs": [
+                {
+                  "implicit": false,
+                  "instance": false,
+                  "name": "n",
+                  "type": "Nat",
+                  "id": "arg0"
+                }
+              ],
+              "module": "Init.Core",
+              "name": "Nat.add_zero",
+              "outputType": "n + 0 = n",
+              "type": "∀ (n : Nat), n + 0 = n",
+              "universes": [],
+              "environment": {
+                "schema": 1,
+                "projectId": "glean",
+                "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+                "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+                "projectFiles": {
+                  "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+                  "lake-manifest.json": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+                  "lakefile.lean": null,
+                  "lakefile.toml": "a3500f3a6618de5748b6135a580e2b4357a9936564a0a43a9decbdb94f101580"
+                },
+                "sourceStateHash": "8e42ea7f844d4211928454b4232a8b9dc61fcb3192dc8942c803ce6cbd657213",
+                "dependencies": [],
+                "compiledArtifacts": {
+                  "kind": "path-size-mtime-metadata",
+                  "count": 10089,
+                  "hash": "eff39cb727636d1b135ecdb35e3c8e15e665997e6a4f2255310687c6f71cb748"
+                },
+                "leanSearchPaths": [
+                  "/Users/moonone/GLEAN/glean/.lake/build/lib/lean",
+                  "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+                ],
+                "gitCommit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+                "gitDirty": true,
+                "changedLeanInputs": null,
+                "sourceIdentityKind": "source-content-in-parent-git",
+                "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+                "manifestHash": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+                "environmentHash": "917976ff217f0f0fb12d0f5e79d860452ee0b9cabcf892da1d1d35b5e23bed1e",
+                "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+              },
+              "projectId": "glean",
+              "imports": [],
+              "signatureHash": "e088fc1c23497f4f03c5b4b29a78b62989a0214143e1faab11439a3868df5e0e"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e0",
+            "source": "arg0",
+            "output": "out",
+            "target": "reference",
+            "input": "arg0"
+          }
+        ],
+        "result": {
+          "node": "reference",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "passed": true
+    },
+    {
+      "id": "R03-refreshed-signature-in-new-environment",
+      "expected": "valid",
+      "result": {
+        "status": "valid",
+        "verified": true,
+        "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n + 0 = n\") :=\n  (gleanTerm% \"@Nat.add_zero n\")\n\ntheorem glean_proof (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n + 0 = n\") :=\n  let glean_component_2 := glean_component_1 (n)\n  glean_component_2\n",
+        "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (n : (gleanExpectedTerm% \"Nat\")), (gleanExpectedTerm% \"n + 0 = n\")\n",
+        "sourceMap": {
+          "root/reference": {
+            "startLine": 28,
+            "endLine": 30
+          },
+          "root": {
+            "startLine": 31,
+            "endLine": 34
+          }
+        },
+        "sourceLocations": [
+          {
+            "key": "root/reference/out",
+            "startLine": 32,
+            "endLine": 32
+          }
+        ],
+        "nodeBindings": {
+          "glean_component_2": "root/reference/out"
+        },
+        "nodeFunctions": {
+          "root/reference": "glean_component_1"
+        },
+        "inputBindings": {
+          "root/arg0/out": "glean_proof/n"
+        },
+        "referenceEnvironments": [
+          "57ea93516545dcf950c08f25d9ed92e8d042ca8475deaa4700ba3a5db09f32ea"
+        ],
+        "diagnostics": [],
+        "nodeTypes": {},
+        "projectId": "glean",
+        "policy": "standard",
+        "jobId": "1f93473b5a914436a439a3c37dee98ac",
+        "phase": "complete",
+        "kernelAccepted": true,
+        "audit": {
+          "axioms": [],
+          "standardAxioms": [],
+          "customAxioms": [],
+          "hasSorry": false,
+          "policy": "standard",
+          "policyAccepted": true
+        },
+        "filename": "Graph.lean",
+        "target": "glean_proof",
+        "sourceHash": "b0af3949dde5df82d6805b9eb1e39bbf0c35b0bb92ab126851599ab88f70c50d",
+        "lean": {
+          "output": "",
+          "durationMs": 9724
+        },
+        "environment": {
+          "schema": 1,
+          "projectId": "glean",
+          "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+          "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+          "projectFiles": {
+            "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+            "lake-manifest.json": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+            "lakefile.lean": null,
+            "lakefile.toml": "a3500f3a6618de5748b6135a580e2b4357a9936564a0a43a9decbdb94f101580"
+          },
+          "sourceStateHash": "a825b778f3989ea9bbc2fc59e961f66330c4d13352b7f5b9e52758a7f69011c4",
+          "dependencies": [],
+          "compiledArtifacts": {
+            "kind": "path-size-mtime-metadata",
+            "count": 10089,
+            "hash": "eff39cb727636d1b135ecdb35e3c8e15e665997e6a4f2255310687c6f71cb748"
+          },
+          "leanSearchPaths": [
+            "/Users/moonone/GLEAN/glean/.lake/build/lib/lean",
+            "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+          ],
+          "gitCommit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+          "gitDirty": true,
+          "changedLeanInputs": null,
+          "sourceIdentityKind": "source-content-in-parent-git",
+          "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+          "manifestHash": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+          "environmentHash": "57ea93516545dcf950c08f25d9ed92e8d042ca8475deaa4700ba3a5db09f32ea",
+          "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+        },
+        "bindingTypes": {
+          "glean_component_1/n": "Nat",
+          "glean_proof/glean_component_2": "Eq (instHAdd.hAdd n 0) n",
+          "glean_proof/n": "Nat"
+        },
+        "bindingUsage": {
+          "glean_component_1": [
+            "n"
+          ],
+          "glean_proof": [
+            "n",
+            "glean_component_2"
+          ]
+        },
+        "typedNodeTypes": {
+          "root/reference/out": "Eq (instHAdd.hAdd n 0) n",
+          "root/arg0/out": "Nat"
+        }
+      },
+      "graph": {
+        "version": 3,
+        "name": "Independent actual declaration audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "standard",
+        "inputs": [
+          {
+            "implicit": false,
+            "instance": false,
+            "name": "n",
+            "type": "Nat",
+            "id": "arg0"
+          }
+        ],
+        "goal": "n + 0 = n",
+        "nodes": [
+          {
+            "id": "arg0",
+            "kind": "input",
+            "ref": "arg0"
+          },
+          {
+            "id": "reference",
+            "kind": "reference",
+            "declaration": "Nat.add_zero",
+            "inputs": [
+              {
+                "implicit": false,
+                "instance": false,
+                "name": "n",
+                "type": "Nat",
+                "id": "arg0"
+              }
+            ],
+            "outputType": "n + 0 = n",
+            "reference": {
+              "inputs": [
+                {
+                  "implicit": false,
+                  "instance": false,
+                  "name": "n",
+                  "type": "Nat",
+                  "id": "arg0"
+                }
+              ],
+              "module": "Init.Core",
+              "name": "Nat.add_zero",
+              "outputType": "n + 0 = n",
+              "type": "∀ (n : Nat), n + 0 = n",
+              "universes": [],
+              "environment": {
+                "schema": 1,
+                "projectId": "glean",
+                "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+                "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+                "projectFiles": {
+                  "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+                  "lake-manifest.json": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+                  "lakefile.lean": null,
+                  "lakefile.toml": "a3500f3a6618de5748b6135a580e2b4357a9936564a0a43a9decbdb94f101580"
+                },
+                "sourceStateHash": "a825b778f3989ea9bbc2fc59e961f66330c4d13352b7f5b9e52758a7f69011c4",
+                "dependencies": [],
+                "compiledArtifacts": {
+                  "kind": "path-size-mtime-metadata",
+                  "count": 10089,
+                  "hash": "eff39cb727636d1b135ecdb35e3c8e15e665997e6a4f2255310687c6f71cb748"
+                },
+                "leanSearchPaths": [
+                  "/Users/moonone/GLEAN/glean/.lake/build/lib/lean",
+                  "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+                ],
+                "gitCommit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+                "gitDirty": true,
+                "changedLeanInputs": null,
+                "sourceIdentityKind": "source-content-in-parent-git",
+                "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+                "manifestHash": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+                "environmentHash": "57ea93516545dcf950c08f25d9ed92e8d042ca8475deaa4700ba3a5db09f32ea",
+                "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+              },
+              "projectId": "glean",
+              "imports": [],
+              "signatureHash": "2a51355eb9a18cb5543fb87ab2fcfeae8bab7ab186803bec3879ec5ae3bbbe78"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e0",
+            "source": "arg0",
+            "output": "out",
+            "target": "reference",
+            "input": "arg0"
+          }
+        ],
+        "result": {
+          "node": "reference",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "passed": true
+    }
+  ]
+}

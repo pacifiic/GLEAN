@@ -1,0 +1,22 @@
+{
+  "valid": {
+    "status": "valid",
+    "verified": true,
+    "kernelAccepted": true,
+    "audit": {
+      "axioms": [],
+      "standardAxioms": [],
+      "customAxioms": [],
+      "hasSorry": false,
+      "policy": "strict",
+      "policyAccepted": true
+    }
+  },
+  "cancel": {
+    "phaseBefore": "elaborating",
+    "processObserved": true,
+    "status": "cancelled",
+    "verified": false,
+    "processExited": true
+  }
+}

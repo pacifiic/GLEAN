@@ -1,0 +1,249 @@
+{
+  "kind": "graph",
+  "graph": {
+    "version": 3,
+    "name": "Nat · LeanScript",
+    "projectId": "glean",
+    "imports": [],
+    "policy": "standard",
+    "inputs": [
+      {
+        "id": "n",
+        "name": "n",
+        "type": "Nat"
+      }
+    ],
+    "goal": "n + 0 = n",
+    "modules": [],
+    "nodes": [
+      {
+        "id": "n",
+        "kind": "input",
+        "ref": "n",
+        "x": 50,
+        "y": 100
+      },
+      {
+        "id": "zero",
+        "kind": "script",
+        "name": "add_zero",
+        "inputs": [
+          {
+            "id": "x",
+            "name": "x",
+            "type": "Nat"
+          }
+        ],
+        "outputType": "x + 0 = x",
+        "body": "by exact Nat.add_zero x",
+        "x": 330,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "id": "wire",
+        "source": "n",
+        "output": "out",
+        "target": "zero",
+        "input": "x"
+      }
+    ],
+    "result": {
+      "node": "zero",
+      "output": "out"
+    }
+  },
+  "review": {
+    "documentId": "handler-audit",
+    "watches": [],
+    "notebook": {
+      "variants": [
+        {
+          "name": "A",
+          "document": {
+            "kind": "graph",
+            "graph": {
+              "version": 3,
+              "name": "Nat · LeanScript",
+              "projectId": "glean",
+              "imports": [],
+              "policy": "standard",
+              "inputs": [
+                {
+                  "id": "n",
+                  "name": "n",
+                  "type": "Nat"
+                }
+              ],
+              "goal": "n + 0 = n",
+              "modules": [],
+              "nodes": [
+                {
+                  "id": "n",
+                  "kind": "input",
+                  "ref": "n",
+                  "x": 50,
+                  "y": 100
+                },
+                {
+                  "id": "zero",
+                  "kind": "script",
+                  "name": "add_zero",
+                  "inputs": [
+                    {
+                      "id": "x",
+                      "name": "x",
+                      "type": "Nat"
+                    }
+                  ],
+                  "outputType": "x + 0 = x",
+                  "body": "by rfl",
+                  "x": 330,
+                  "y": 100
+                }
+              ],
+              "edges": [
+                {
+                  "id": "wire",
+                  "source": "n",
+                  "output": "out",
+                  "target": "zero",
+                  "input": "x"
+                }
+              ],
+              "result": {
+                "node": "zero",
+                "output": "out"
+              }
+            }
+          },
+          "provenance": {
+            "projectId": "glean",
+            "target": "glean_proof",
+            "policy": "standard",
+            "sourceHash": "b0af3949dde5df82d6805b9eb1e39bbf0c35b0bb92ab126851599ab88f70c50d",
+            "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n + 0 = n\") :=\n  (gleanTerm% \"@Nat.add_zero n\")\n\ntheorem glean_proof (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n + 0 = n\") :=\n  let glean_component_2 := glean_component_1 (n)\n  glean_component_2\n",
+            "environment": {
+              "schema": 1,
+              "projectId": "glean",
+              "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+              "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+              "projectFiles": {
+                "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+                "lake-manifest.json": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+                "lakefile.lean": null,
+                "lakefile.toml": "a3500f3a6618de5748b6135a580e2b4357a9936564a0a43a9decbdb94f101580"
+              },
+              "sourceStateHash": "8e42ea7f844d4211928454b4232a8b9dc61fcb3192dc8942c803ce6cbd657213",
+              "dependencies": [],
+              "compiledArtifacts": {
+                "kind": "path-size-mtime-metadata",
+                "count": 10089,
+                "hash": "eff39cb727636d1b135ecdb35e3c8e15e665997e6a4f2255310687c6f71cb748"
+              },
+              "leanSearchPaths": [
+                "/Users/moonone/GLEAN/glean/.lake/build/lib/lean",
+                "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+              ],
+              "gitCommit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+              "gitDirty": true,
+              "changedLeanInputs": null,
+              "sourceIdentityKind": "source-content-in-parent-git",
+              "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+              "manifestHash": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+              "environmentHash": "917976ff217f0f0fb12d0f5e79d860452ee0b9cabcf892da1d1d35b5e23bed1e",
+              "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+            },
+            "audit": {
+              "axioms": [],
+              "standardAxioms": [],
+              "customAxioms": [],
+              "hasSorry": false,
+              "policy": "standard",
+              "policyAccepted": true
+            },
+            "observedStatus": "valid",
+            "historical": true
+          },
+          "createdAt": "2026-10-07T13:42:41.950Z"
+        },
+        {
+          "name": "B",
+          "document": {
+            "kind": "graph",
+            "graph": {
+              "version": 3,
+              "name": "Nat · LeanScript",
+              "projectId": "glean",
+              "imports": [],
+              "policy": "standard",
+              "inputs": [
+                {
+                  "id": "n",
+                  "name": "n",
+                  "type": "Nat"
+                }
+              ],
+              "goal": "n + 0 = n",
+              "modules": [],
+              "nodes": [
+                {
+                  "id": "n",
+                  "kind": "input",
+                  "ref": "n",
+                  "x": 50,
+                  "y": 100
+                },
+                {
+                  "id": "zero",
+                  "kind": "script",
+                  "name": "add_zero",
+                  "inputs": [
+                    {
+                      "id": "x",
+                      "name": "x",
+                      "type": "Nat"
+                    }
+                  ],
+                  "outputType": "x + 0 = x",
+                  "body": "by exact Nat.add_zero x",
+                  "x": 330,
+                  "y": 100
+                }
+              ],
+              "edges": [
+                {
+                  "id": "wire",
+                  "source": "n",
+                  "output": "out",
+                  "target": "zero",
+                  "input": "x"
+                }
+              ],
+              "result": {
+                "node": "zero",
+                "output": "out"
+              }
+            }
+          },
+          "provenance": {
+            "projectId": "glean",
+            "target": "glean_proof",
+            "policy": "standard",
+            "sourceHash": null,
+            "generatedCode": null,
+            "environment": null,
+            "audit": null,
+            "observedStatus": "unverified",
+            "historical": true
+          },
+          "createdAt": "2026-10-07T13:42:41.958Z"
+        }
+      ],
+      "steps": []
+    }
+  },
+  "verified": true,
+  "kernelAccepted": true
+}

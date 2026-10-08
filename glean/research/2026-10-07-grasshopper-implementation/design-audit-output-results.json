@@ -1,0 +1,24 @@
+{
+  "selectedRight": {
+    "outputId": "right",
+    "sourceRange": {
+      "startLine": 2,
+      "endLine": 4
+    }
+  },
+  "clickedLeftWire": {
+    "outputId": "right",
+    "name": "pair · right",
+    "sourceRange": {
+      "startLine": 2,
+      "endLine": 4
+    }
+  },
+  "expected": {
+    "outputId": "left",
+    "sourceRange": {
+      "startLine": 6,
+      "endLine": 8
+    }
+  }
+}

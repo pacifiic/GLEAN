@@ -1,0 +1,10 @@
+{
+  "warnings": [
+    "{\"scopeId\":\"module/M\",\"trail\":[{\"scopeId\":\"root\",\"nodeId\":\"callA\",\"definitionId\":\"M\"}]}: 대응하지 않는 호출 탐색 상태를 제외했습니다."
+  ],
+  "recoveryPreserved": true,
+  "requestedAHidden": [],
+  "liveMismatchRejected": true,
+  "liveMismatch": "저장된 호출 탐색 경로가 현재 호출과 다릅니다.",
+  "expectedHidden": []
+}

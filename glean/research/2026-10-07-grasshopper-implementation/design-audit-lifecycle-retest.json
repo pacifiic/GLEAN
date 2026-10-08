@@ -1,0 +1,53 @@
+{
+  "nullNotebook": {
+    "variants": [],
+    "steps": []
+  },
+  "malformedGoalNormalized": {
+    "sessionId": "",
+    "version": null,
+    "position": {
+      "line": 0,
+      "character": 0
+    },
+    "goals": [],
+    "structuredGoals": [
+      {
+        "mvarId": "",
+        "name": "",
+        "type": "P",
+        "hypotheses": []
+      }
+    ]
+  },
+  "malformedProvenanceValidation": null,
+  "malformedProvenanceRender": "no throw",
+  "crossDocumentPendingWire": {
+    "edges": [],
+    "changes": 0
+  },
+  "previewAfterModeChange": {
+    "results": [],
+    "statuses": [
+      [
+        "checking",
+        "구조 미리보기 중",
+        "명시적 입력과 최종 목표를 확인합니다."
+      ]
+    ]
+  },
+  "constructDeletion": {
+    "remainingVisible": 0,
+    "storedOutputs": [
+      {
+        "id": "left",
+        "name": "left",
+        "type": "Nat",
+        "term": "value.fst"
+      }
+    ],
+    "changes": 1,
+    "lastResult": null
+  },
+  "lookupFailureAfterReplacement": []
+}

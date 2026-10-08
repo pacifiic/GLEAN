@@ -1,0 +1,48 @@
+{
+  "kind": "actual typed editor/menu/history callbacks with controlled DOM/transport; pure model atomic limit negative; no native UI or Lean",
+  "productHashes": {
+    "typed-editor.mjs": "eec219460168feb99bd16eb813f84fe5a891f1bc4afd59be9f1f1a10dd1b4970",
+    "typed-model.mjs": "8568780e0da3462ec3d04af10c94f0105e61fa0e11f060fa012e40ef6ab3e269"
+  },
+  "cases": [
+    {
+      "name": "actual-copy-paste-in-isolation-and-document-undo",
+      "pass": true,
+      "createdIds": [
+        "paste_24e89b05",
+        "paste_d507342a"
+      ],
+      "targets": [
+        "spare",
+        "paste_24e89b05",
+        "paste_d507342a"
+      ],
+      "internalWires": [
+        {
+          "id": "wire_4c134958",
+          "source": "paste_24e89b05",
+          "output": "out",
+          "target": "paste_d507342a",
+          "input": "x"
+        }
+      ],
+      "externalWiresPreserved": true
+    },
+    {
+      "name": "actual-cross-scope-paste-rejects-before-mutation",
+      "pass": true,
+      "status": [
+        "invalid",
+        "입력을 확인하세요",
+        "같은 문서·의미 범위에만 블록을 붙여넣을 수 있습니다."
+      ]
+    },
+    {
+      "name": "copy-external-wires-not-copied-and-overlimit-atomic",
+      "pass": true,
+      "externalWiresExcluded": true,
+      "allocationsBeforeLimitRejection": 0
+    }
+  ],
+  "pass": true
+}

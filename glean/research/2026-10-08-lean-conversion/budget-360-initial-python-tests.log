@@ -1,0 +1,21 @@
+test_cancel_and_worker_cleanup_stop_the_same_child_only_once (glean.tests.prototype.test_source_budget.SourceBudgetTests.test_cancel_and_worker_cleanup_stop_the_same_child_only_once) ... ok
+test_completed_kernel_result_cannot_be_published_after_the_aggregate_deadline (glean.tests.prototype.test_source_budget.SourceBudgetTests.test_completed_kernel_result_cannot_be_published_after_the_aggregate_deadline) ... ok
+test_permission_denied_for_a_live_process_is_not_hidden (glean.tests.prototype.test_source_budget.SourceBudgetTests.test_permission_denied_for_a_live_process_is_not_hidden) ... ok
+test_process_pointer_is_cleared_even_when_termination_raises (glean.tests.prototype.test_source_budget.SourceBudgetTests.test_process_pointer_is_cleared_even_when_termination_raises) ... ok
+test_repeated_termination_of_an_exited_process_group_is_harmless (glean.tests.prototype.test_source_budget.SourceBudgetTests.test_repeated_termination_of_an_exited_process_group_is_harmless) ... ok
+test_server_selects_120_or_360_without_client_timeout_override_or_policy_changes (glean.tests.prototype.test_source_budget.SourceBudgetTests.test_server_selects_120_or_360_without_client_timeout_override_or_policy_changes) ... FAIL
+test_source_context_budget_is_measured_from_job_start_across_stages (glean.tests.prototype.test_source_budget.SourceBudgetTests.test_source_context_budget_is_measured_from_job_start_across_stages) ... ok
+
+======================================================================
+FAIL: test_server_selects_120_or_360_without_client_timeout_override_or_policy_changes (glean.tests.prototype.test_source_budget.SourceBudgetTests.test_server_selects_120_or_360_without_client_timeout_override_or_policy_changes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/moonone/GLEAN/glean/tests/prototype/test_source_budget.py", line 25, in test_server_selects_120_or_360_without_client_timeout_override_or_policy_changes
+    self.assertEqual(compound['timeoutSeconds'],360)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 240 != 360
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.226s
+
+FAILED (failures=1)

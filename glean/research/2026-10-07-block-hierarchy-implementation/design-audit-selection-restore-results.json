@@ -1,0 +1,25 @@
+[
+  {
+    "mode": "single",
+    "selectedBefore": [
+      "zero"
+    ],
+    "selectedAfter": [],
+    "disabledBefore": false,
+    "disabledAfter": true,
+    "inspectorAfter": "zero",
+    "stateSelected": "zero"
+  },
+  {
+    "mode": "multiple",
+    "selectedBefore": [
+      "n",
+      "zero"
+    ],
+    "selectedAfter": [],
+    "disabledBefore": false,
+    "disabledAfter": true,
+    "inspectorAfter": "zero",
+    "stateSelected": "zero"
+  }
+]

@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "name": "compose",
+  "propositions": [
+    "P",
+    "Q",
+    "R"
+  ],
+  "assumptions": [
+    {
+      "id": "hp",
+      "type": "P"
+    },
+    {
+      "id": "f",
+      "type": "P → Q"
+    },
+    {
+      "id": "g",
+      "type": "Q → R"
+    }
+  ],
+  "goal": "R",
+  "nodes": [
+    {
+      "id": "f",
+      "kind": "assumption",
+      "ref": "f",
+      "x": 60,
+      "y": 80
+    },
+    {
+      "id": "hp",
+      "kind": "assumption",
+      "ref": "hp",
+      "x": 60,
+      "y": 270
+    },
+    {
+      "id": "g",
+      "kind": "assumption",
+      "ref": "g",
+      "x": 340,
+      "y": 400
+    },
+    {
+      "id": "apply1",
+      "kind": "apply",
+      "x": 340,
+      "y": 140
+    },
+    {
+      "id": "apply2",
+      "kind": "apply",
+      "x": 620,
+      "y": 230
+    },
+    {
+      "id": "goal",
+      "kind": "goal",
+      "x": 900,
+      "y": 230
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "source": "f",
+      "target": "apply1",
+      "input": "fn"
+    },
+    {
+      "id": "e2",
+      "source": "hp",
+      "target": "apply1",
+      "input": "arg"
+    },
+    {
+      "id": "e3",
+      "source": "g",
+      "target": "apply2",
+      "input": "fn"
+    },
+    {
+      "id": "e4",
+      "source": "apply1",
+      "target": "apply2",
+      "input": "arg"
+    },
+    {
+      "id": "e5",
+      "source": "apply2",
+      "target": "goal",
+      "input": "proof"
+    }
+  ],
+  "_copyright": "Copyright (c) 2026 GLEAN contributors. Released under Apache 2.0."
+}

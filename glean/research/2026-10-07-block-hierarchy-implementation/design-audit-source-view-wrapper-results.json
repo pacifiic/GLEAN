@@ -1,0 +1,44 @@
+[
+  {
+    "name": "nonrecord",
+    "sourceFileView": "broken",
+    "warnings": [],
+    "original": null,
+    "hidden": []
+  },
+  {
+    "name": "badOuterVersion",
+    "sourceFileView": {
+      "version": 99,
+      "presentation": {
+        "version": 1,
+        "scopes": {
+          "root": {
+            "hidden": [
+              "n:file"
+            ],
+            "containers": []
+          }
+        },
+        "occurrenceViews": {}
+      }
+    },
+    "warnings": [],
+    "original": null,
+    "hidden": [
+      "n:file"
+    ]
+  },
+  {
+    "name": "nonrecordPresentation",
+    "sourceFileView": {
+      "version": 1,
+      "presentation": "broken"
+    },
+    "warnings": [
+      "표현 형식 버전을 복구했습니다. 원본 표현은 보관됩니다."
+    ],
+    "original": "broken",
+    "hidden": []
+  }
+]

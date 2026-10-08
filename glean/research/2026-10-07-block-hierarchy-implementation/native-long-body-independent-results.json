@@ -1,0 +1,21 @@
+{
+  "kind": "independent actual native exported document inspection, no new kernel run",
+  "pass": true,
+  "fileBytes": 1060146,
+  "bodyHash": "8b8ad61bdda3b1f598f3dab08f7adfa11246133f7ed0838f52798f7bc2426eab",
+  "bodyBytes": 1048483,
+  "bodyLines": 10281,
+  "matchingFixtureExactly": true,
+  "nodeId": "proof",
+  "inputs": [
+    {
+      "id": "n",
+      "name": "n",
+      "type": "Nat"
+    }
+  ],
+  "outputType": "n + 0 = n",
+  "goal": "n + 0 = n",
+  "nodes": 2,
+  "edges": 1
+}

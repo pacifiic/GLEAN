@@ -1,0 +1,542 @@
+Browser tab: 1, Title: "GLEAN · 증명을 연결하다", URL: "http://127.0.0.1:8765/".
+0 AXWebArea GLEAN · 증명을 연결하다, URL: 127.0.0.1:8765/
+	1 container
+		2 link Description: GLEAN 홈, Value: 127.0.0.1:8765/
+		3 text Lean 4.34.1 · 준비 완료
+		4 pop up button (collapsed) 패널 · 레이아웃, ID: panels-button, Secondary Actions: Expand
+		5 button 열기, ID: import-button
+		6 button 그래프 저장, ID: save-button
+		7 button ▷ Lean으로 검증, ID: check-button
+	8 container 컴포넌트 도구 모음
+		9 container 컴포넌트 분류
+			10 checkbox 전체, Value: 1
+			11 checkbox Params, Value: 0
+			12 checkbox Logic, Value: 0
+			13 checkbox Proof, Value: 0
+			14 text Visual programming for formal proofs
+		15 button 가정 추가, Help: 선택한 가정의 파라미터 노드 추가
+		16 button 가정·목표, Help: 명제, 가정과 목표 편집
+		17 text Params · 매개변수
+		18 button 함수 적용, Help: Apply · 함수와 인자를 연결
+		19 button 논리곱, Help: Pair · 두 증명의 논리곱
+		20 button 왼쪽 추출, Help: First · 논리곱의 왼쪽 증명
+		21 button 오른쪽 추출, Help: Second · 논리곱의 오른쪽 증명
+		22 text Logic · 논리 연산
+		23 button 검증, Help: 현재 그래프를 Lean 커널로 검증
+		24 button Lean 코드, Help: 생성된 Lean 코드 패널 열기
+		25 button 예제, Help: 예제 그래프 패널 열기
+		26 text Proof · 커널 검증
+		27 text G[LEAN]
+		28 text Connect. Compose. Prove.
+	29 container
+		30 container 노드 증명 편집기
+			31 heading audit_stress_not_pi_40_applications, Value: 1, ID: graph-title
+				541 text audit_stress_not_pi_40_applications
+			33 button Description: 축소, ID: zoom-out
+			153 text 24%
+			35 button Description: 확대, ID: zoom-in
+			36 button 전체 보기, ID: fit-button
+			37 checkbox Description: ⛶ 전체화면, Help: 그래프만 전체화면으로 보기, Value: 0, ID: fullscreen-button
+			38 container Description: 노드 캔버스. 노드를 끌어 이동하고 출력과 입력 포트를 차례로 선택하세요., ID: canvas
+				39 container nodes
+					542 container Description: hp · P, Help: hp · P hp
+						543 container
+							544 text h hp
+						545 button Description: hp 출력, Help: hp · 증명 출력: P
+						546 text P
+					547 container Description: f · P → P, Help: f · P → P f
+						548 container
+							549 text h f
+						550 button Description: f 출력, Help: f · 증명 출력: P → P
+						551 text P → P
+					552 container Description: 함수 적용 · P, Help: 함수 적용 · P apply01
+						553 container
+							554 text → 함수 적용
+						555 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						556 text 함수
+						557 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						558 text 입력
+						559 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						560 text P
+					561 container Description: 함수 적용 · P, Help: 함수 적용 · P apply02
+						562 container
+							563 text → 함수 적용
+						564 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						565 text 함수
+						566 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						567 text 입력
+						568 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						569 text P
+					570 container Description: 함수 적용 · P, Help: 함수 적용 · P apply03
+						571 container
+							572 text → 함수 적용
+						573 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						574 text 함수
+						575 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						576 text 입력
+						577 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						578 text P
+					579 container Description: 함수 적용 · P, Help: 함수 적용 · P apply04
+						580 container
+							581 text → 함수 적용
+						582 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						583 text 함수
+						584 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						585 text 입력
+						586 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						587 text P
+					588 container Description: 함수 적용 · P, Help: 함수 적용 · P apply05
+						589 container
+							590 text → 함수 적용
+						591 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						592 text 함수
+						593 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						594 text 입력
+						595 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						596 text P
+					597 container Description: 함수 적용 · P, Help: 함수 적용 · P apply06
+						598 container
+							599 text → 함수 적용
+						600 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						601 text 함수
+						602 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						603 text 입력
+						604 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						605 text P
+					606 container Description: 함수 적용 · P, Help: 함수 적용 · P apply07
+						607 container
+							608 text → 함수 적용
+						609 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						610 text 함수
+						611 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						612 text 입력
+						613 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						614 text P
+					615 container Description: 함수 적용 · P, Help: 함수 적용 · P apply08
+						616 container
+							617 text → 함수 적용
+						618 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						619 text 함수
+						620 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						621 text 입력
+						622 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						623 text P
+					624 container Description: 함수 적용 · P, Help: 함수 적용 · P apply09
+						625 container
+							626 text → 함수 적용
+						627 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						628 text 함수
+						629 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						630 text 입력
+						631 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						632 text P
+					633 container Description: 함수 적용 · P, Help: 함수 적용 · P apply10
+						634 container
+							635 text → 함수 적용
+						636 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						637 text 함수
+						638 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						639 text 입력
+						640 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						641 text P
+					642 container Description: 함수 적용 · P, Help: 함수 적용 · P apply11
+						643 container
+							644 text → 함수 적용
+						645 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						646 text 함수
+						647 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						648 text 입력
+						649 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						650 text P
+					651 container Description: 함수 적용 · P, Help: 함수 적용 · P apply12
+						652 container
+							653 text → 함수 적용
+						654 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						655 text 함수
+						656 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						657 text 입력
+						658 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						659 text P
+					660 container Description: 함수 적용 · P, Help: 함수 적용 · P apply13
+						661 container
+							662 text → 함수 적용
+						663 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						664 text 함수
+						665 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						666 text 입력
+						667 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						668 text P
+					669 container Description: 함수 적용 · P, Help: 함수 적용 · P apply14
+						670 container
+							671 text → 함수 적용
+						672 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						673 text 함수
+						674 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						675 text 입력
+						676 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						677 text P
+					678 container Description: 함수 적용 · P, Help: 함수 적용 · P apply15
+						679 container
+							680 text → 함수 적용
+						681 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						682 text 함수
+						683 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						684 text 입력
+						685 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						686 text P
+					687 container Description: 함수 적용 · P, Help: 함수 적용 · P apply16
+						688 container
+							689 text → 함수 적용
+						690 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						691 text 함수
+						692 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						693 text 입력
+						694 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						695 text P
+					696 container Description: 함수 적용 · P, Help: 함수 적용 · P apply17
+						697 container
+							698 text → 함수 적용
+						699 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						700 text 함수
+						701 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						702 text 입력
+						703 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						704 text P
+					705 container Description: 함수 적용 · P, Help: 함수 적용 · P apply18
+						706 container
+							707 text → 함수 적용
+						708 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						709 text 함수
+						710 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						711 text 입력
+						712 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						713 text P
+					714 container Description: 함수 적용 · P, Help: 함수 적용 · P apply19
+						715 container
+							716 text → 함수 적용
+						717 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						718 text 함수
+						719 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						720 text 입력
+						721 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						722 text P
+					723 container Description: 함수 적용 · P, Help: 함수 적용 · P apply20
+						724 container
+							725 text → 함수 적용
+						726 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						727 text 함수
+						728 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						729 text 입력
+						730 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						731 text P
+					732 container Description: 함수 적용 · P, Help: 함수 적용 · P apply21
+						733 container
+							734 text → 함수 적용
+						735 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						736 text 함수
+						737 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						738 text 입력
+						739 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						740 text P
+					741 container Description: 함수 적용 · P, Help: 함수 적용 · P apply22
+						742 container
+							743 text → 함수 적용
+						744 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						745 text 함수
+						746 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						747 text 입력
+						748 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						749 text P
+					750 container Description: 함수 적용 · P, Help: 함수 적용 · P apply23
+						751 container
+							752 text → 함수 적용
+						753 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						754 text 함수
+						755 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						756 text 입력
+						757 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						758 text P
+					759 container Description: 함수 적용 · P, Help: 함수 적용 · P apply24
+						760 container
+							761 text → 함수 적용
+						762 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						763 text 함수
+						764 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						765 text 입력
+						766 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						767 text P
+					768 container Description: 함수 적용 · P, Help: 함수 적용 · P apply25
+						769 container
+							770 text → 함수 적용
+						771 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						772 text 함수
+						773 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						774 text 입력
+						775 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						776 text P
+					777 container Description: 함수 적용 · P, Help: 함수 적용 · P apply26
+						778 container
+							779 text → 함수 적용
+						780 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						781 text 함수
+						782 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						783 text 입력
+						784 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						785 text P
+					786 container Description: 함수 적용 · P, Help: 함수 적용 · P apply27
+						787 container
+							788 text → 함수 적용
+						789 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						790 text 함수
+						791 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						792 text 입력
+						793 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						794 text P
+					795 container Description: 함수 적용 · P, Help: 함수 적용 · P apply28
+						796 container
+							797 text → 함수 적용
+						798 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						799 text 함수
+						800 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						801 text 입력
+						802 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						803 text P
+					804 container Description: 함수 적용 · P, Help: 함수 적용 · P apply29
+						805 container
+							806 text → 함수 적용
+						807 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						808 text 함수
+						809 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						810 text 입력
+						811 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						812 text P
+					813 container Description: 함수 적용 · P, Help: 함수 적용 · P apply30
+						814 container
+							815 text → 함수 적용
+						816 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						817 text 함수
+						818 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						819 text 입력
+						820 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						821 text P
+					822 container Description: 함수 적용 · P, Help: 함수 적용 · P apply31
+						823 container
+							824 text → 함수 적용
+						825 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						826 text 함수
+						827 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						828 text 입력
+						829 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						830 text P
+					831 container Description: 함수 적용 · P, Help: 함수 적용 · P apply32
+						832 container
+							833 text → 함수 적용
+						834 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						835 text 함수
+						836 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						837 text 입력
+						838 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						839 text P
+					840 container Description: 함수 적용 · P, Help: 함수 적용 · P apply33
+						841 container
+							842 text → 함수 적용
+						843 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						844 text 함수
+						845 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						846 text 입력
+						847 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						848 text P
+					849 container Description: 함수 적용 · P, Help: 함수 적용 · P apply34
+						850 container
+							851 text → 함수 적용
+						852 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						853 text 함수
+						854 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						855 text 입력
+						856 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						857 text P
+					858 container Description: 함수 적용 · P, Help: 함수 적용 · P apply35
+						859 container
+							860 text → 함수 적용
+						861 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						862 text 함수
+						863 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						864 text 입력
+						865 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						866 text P
+					867 container Description: 함수 적용 · P, Help: 함수 적용 · P apply36
+						868 container
+							869 text → 함수 적용
+						870 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						871 text 함수
+						872 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						873 text 입력
+						874 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						875 text P
+					876 container Description: 함수 적용 · P, Help: 함수 적용 · P apply37
+						877 container
+							878 text → 함수 적용
+						879 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						880 text 함수
+						881 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						882 text 입력
+						883 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						884 text P
+					885 container Description: 함수 적용 · P, Help: 함수 적용 · P apply38
+						886 container
+							887 text → 함수 적용
+						888 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						889 text 함수
+						890 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						891 text 입력
+						892 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						893 text P
+					894 container Description: 함수 적용 · P, Help: 함수 적용 · P apply39
+						895 container
+							896 text → 함수 적용
+						897 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						898 text 함수
+						899 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						900 text 입력
+						901 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						902 text P
+					903 container Description: 함수 적용 · P, Help: 함수 적용 · P apply40
+						904 container
+							905 text → 함수 적용
+						906 button Description: 함수 적용 함수 입력, Help: 함수 적용 · 함수 입력 (Alt + 클릭: 연결 해제)
+						907 text 함수
+						908 button Description: 함수 적용 입력 입력, Help: 함수 적용 · 입력 입력 (Alt + 클릭: 연결 해제)
+						909 text 입력
+						910 button Description: 함수 적용 출력, Help: 함수 적용 · 증명 출력: P
+						911 text P
+					912 container Description: 목표 · P, Help: 목표 · P goal
+						913 container
+							914 text ⊢ 목표
+						915 button Description: 목표 증명 입력, Help: 목표 · 증명 입력 (Alt + 클릭: 연결 해제)
+						916 text 증명
+						917 text P
+						918 container 검증 완료
+							919 text ✓
+				920 text ◉ 출력 포트 → 입력 포트 순서로 연결하세요
+			80 container
+				81 text 드래그  노드 이동 · 빈 공간 이동  / 휠  확대·축소
+				921 text 현재 그래프 검증 완료
+		83 container 왼쪽 패널
+			84 tab group 왼쪽 패널 탭
+				85 tab (selected, settable, boolean) Description: 가정과 목표, Help: 가정과 목표 · 끌어서 이동, Value: 1, ID: workspace-tab-context
+				86 tab (selectable, settable, boolean) Description: 논리 도구, Help: 논리 도구 · 끌어서 이동, Value: 0, ID: workspace-tab-components
+			87 pop up button 왼쪽 활성 패널 이동 메뉴
+			88 button 왼쪽 활성 패널 닫기
+			89 container Description: 가정과 목표, ID: workspace-panel-context
+				90 container
+					91 text 01 / CONTEXT ∀
+					92 heading 증명 속성, Value: 2
+						93 text 증명 속성
+					94 text 명제 · 주어진 가정 · 증명할 목표
+					95 container context-form
+						96 container
+							97 text 정리 이름
+							98 text field (settable) 정리 이름, Value: audit_stress_not_pi_40_applications, ID: theorem-name
+						99 container
+							100 text 명제 쉼표로 구분 · P, Q, R
+							101 text field (settable) 명제 쉼표로 구분 · P, Q, R, Value: P, ID: propositions
+						102 text 가정
+						103 button + 추가, ID: add-assumption
+						104 container assumptions-list
+							533 text field (settable) Description: 가정 이름, Value: hp
+							534 text :
+							535 text field (settable) Description: 가정 타입, Value: P
+							536 button hp 가정 제거
+							537 text field (settable) Description: 가정 이름, Value: f
+							538 text :
+							539 text field (settable) Description: 가정 타입, Value: P → P
+							540 button f 가정 제거
+						117 container
+							118 text 목표
+							119 text field (settable) 목표, Value: P, ID: goal-type
+						120 container
+							121 text 논리식:  →  또는  -> ,  ∧  또는  /\ , 괄호
+						122 button 설정 적용, ID: apply-context
+		123 splitter Description: 왼쪽 패널 크기, Value: 260
+		124 container 오른쪽 패널
+			125 tab group 오른쪽 패널 탭
+				126 tab (selected, settable, boolean) Description: 증명 확인, Help: 증명 확인 · 끌어서 이동, Value: 1, ID: workspace-tab-verification
+				127 tab (selectable, settable, boolean) Description: 예제, Help: 예제 · 끌어서 이동, Value: 0, ID: workspace-tab-examples
+			128 pop up button 오른쪽 활성 패널 이동 메뉴
+			129 button 오른쪽 활성 패널 닫기
+			130 container Description: 증명 확인, ID: workspace-panel-verification
+				131 container
+					132 text 03 / VERIFICATION L∃∀N 4
+					133 heading 증명 확인, Value: 2
+						134 text 증명 확인
+					135 container status-card
+						136 heading 증명이 검증되었습니다, Value: 3, ID: status-title
+							922 text 증명이 검증되었습니다
+						923 text 주어진 가정 아래 목표가 증명되었습니다. 추가 공리 없음 · 1.06초
+					139 text 검증 기준 Lean 커널 + 공리 검사
+					924 button (collapsed) Lean 실행 로그, Secondary Actions: Expand
+						925 text Lean 실행 로그
+		140 splitter Description: 오른쪽 패널 크기, Value: 280
+		141 container 아래쪽 패널
+			142 tab group 아래쪽 패널 탭
+				143 tab (selected, settable, boolean) Description: Lean 코드, Help: Lean 코드 · 끌어서 이동, Value: 1, ID: workspace-tab-source
+			144 pop up button 아래쪽 활성 패널 이동 메뉴
+			145 button 아래쪽 활성 패널 닫기
+			146 container Description: Lean 코드, ID: workspace-panel-source
+				147 container 생성된 Lean 코드
+					148 text 그래프에서 생성된 증명
+					149 button .lean 내보내기 ↗, ID: export-button
+					926 text module
+
+public section
+
+theorem glean_proof (p0 : Prop) (h0 : p0) (h1 : p0 → p0) : p0 :=
+  let n0 : p0 := h0
+  let n1 : p0 → p0 := h1
+  let n2 : p0 := n1 n0
+  let n3 : p0 := n1 n2
+  let n4 : p0 := n1 n3
+  let n5 : p0 := n1 n4
+  let n6 : p0 := n1 n5
+  let n7 : p0 := n1 n6
+  let n8 : p0 := n1 n7
+  let n9 : p0 := n1 n8
+  let n10 : p0 := n1 n9
+  let n11 : p0 := n1 n10
+  let n12 : p0 := n1 n11
+  let n13 : p0 := n1 n12
+  let n14 : p0 := n1 n13
+  let n15 : p0 := n1 n14
+  let n16 : p0 := n1 n15
+  let n17 : p0 := n1 n16
+  let n18 : p0 := n1 n17
+  let n19 : p0 := n1 n18
+  let n20 : p0 := n1 n19
+  let n21 : p0 := n1 n20
+  let n22 : p0 := n1 n21
+  let n23 : p0 := n1 n22
+  let n24 : p0 := n1 n23
+  let n25 : p0 := n1 n24
+  let n26 : p0 := n1 n25
+  let n27 : p0 := n1 n26
+  let n28 : p0 := n1 n27
+  let n29 : p0 := n1 n28
+  let n30 : p0 := n1 n29
+  let n31 : p0 := n1 n30
+  let n32 : p0 := n1 n31
+  let n33 : p0 := n1 n32
+  let n34 : p0 := n1 n33
+  let n35 : p0 := n1 n34
+  let n36 : p0 := n1 n35
+  let n37 : p0 := n1 n36
+  let n38 : p0 := n1 n37
+  let n39 : p0 := n1 n38
+  let n40 : p0 := n1 n39
+  let n41 : p0 := n1 n40
+  n41
+
+#print axioms glean_proof
+
+		151 splitter Description: 아래쪽 패널 크기, Value: 220
+
+The focused UI element is 0 AXWebArea GLEAN · 증명을 연결하다, URL: 127.0.0.1:8765/

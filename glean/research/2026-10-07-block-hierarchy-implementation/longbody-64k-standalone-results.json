@@ -1,0 +1,29 @@
+{
+  "kind": "actual standalone Lean fixture resource/negative controls; not product graph acceptance",
+  "bodyBytes": 65530,
+  "bodyLines": 1193,
+  "resourcePositive": {
+    "exitCode": 0,
+    "options": {
+      "maxRecDepth": 20000,
+      "maxHeartbeats": 2000000
+    },
+    "output": "'audit_longbody' does not depend on any axioms\n"
+  },
+  "controls": [
+    {
+      "id": "audit-longbody-64k-default",
+      "exitCode": 0,
+      "elapsedSeconds": 2.570944207953289,
+      "fileHash": "2727d994ecf14d58bd139cbc6aa5fa85b4add2d76bbce42a65ab9628c02ed559",
+      "output": "'audit_longbody' does not depend on any axioms\n"
+    },
+    {
+      "id": "audit-longbody-64k-bad",
+      "exitCode": 1,
+      "elapsedSeconds": 2.3253790410235524,
+      "fileHash": "b6099c777a7849ce59386f491f77e0ea24d4649521c2a79e84f24d29095c8686",
+      "output": "/Users/moonone/GLEAN/glean/research/2026-10-07-block-hierarchy-implementation/audit-longbody-64k-bad.lean:1203:2: error: Type mismatch\n  True.intro\nhas type\n  True\nbut is expected to have type\n  n + 0 = n\n'audit_longbody' depends on axioms: [sorryAx]\n"
+    }
+  ]
+}

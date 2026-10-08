@@ -1,0 +1,45 @@
+{
+  "missingScopeRestore": {
+    "path": [],
+    "trail": [],
+    "caption": "Nat · LeanScript",
+    "recoveryWarnings": [],
+    "occurrenceKeys": []
+  },
+  "changedCallRestore": {
+    "path": [],
+    "trail": [],
+    "recoveryWarnings": []
+  },
+  "actualDiagnostic": {
+    "visible": {
+      "inside": 1,
+      "outside": 0,
+      "unknown": 0
+    },
+    "outside": {
+      "inside": 0,
+      "outside": 1,
+      "unknown": 0
+    },
+    "unknown": {
+      "inside": 0,
+      "outside": 0,
+      "unknown": 1
+    },
+    "ancestorHidden": true
+  },
+  "fullscreen": {
+    "firstEscapeKeepsFocus": true,
+    "firstEscapePrevented": true,
+    "originalWirePreserved": true,
+    "secondEscapeExits": true
+  },
+  "nestedOccurrences": {
+    "leafBVisible": true,
+    "semanticUnchanged": true,
+    "callAViewHidden": true,
+    "callBViewVisible": true,
+    "genericInnerViewVisible": true
+  }
+}

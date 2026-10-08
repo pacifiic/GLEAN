@@ -1,0 +1,269 @@
+{
+  "kind": "independent actual native exported mixed authoring document / pure compiler; root independently ran actual strict kernel",
+  "bytes": 15098,
+  "sha256": "3cdfe450c394163020fcb53931e9622a6c5ec84c1cf8bd493b071a70f0fe77a2",
+  "modules": 7,
+  "compileStatus": "ready",
+  "generatedBytes": 4232,
+  "sourceHash": "76522ff553281d55f285d8542c943a4be7c1cde93c6d30fa3252db064fcb453f",
+  "rootInsertion": [
+    {
+      "id": "wire_ce15f584",
+      "source": "three",
+      "output": "out",
+      "target": "call_bed2a112",
+      "input": "x"
+    },
+    {
+      "id": "wire_fb9e4fee",
+      "source": "call_bed2a112",
+      "output": "out",
+      "target": "callA",
+      "input": "n"
+    }
+  ],
+  "authoredScopes": {
+    "module_7c6de242": {
+      "blockKind": "graph",
+      "inputs": [
+        {
+          "id": "x",
+          "name": "x",
+          "type": "Nat"
+        }
+      ],
+      "outputType": "Nat",
+      "result": {
+        "node": "body",
+        "output": "out"
+      },
+      "nodes": [
+        {
+          "id": "public_x",
+          "kind": "input",
+          "ref": "x",
+          "x": 70,
+          "y": 90,
+          "name": "input"
+        },
+        {
+          "id": "body",
+          "kind": "script",
+          "name": "본문",
+          "inputs": [
+            {
+              "id": "x",
+              "name": "x",
+              "type": "Nat"
+            }
+          ],
+          "outputType": "Nat",
+          "body": "x",
+          "x": 320,
+          "y": 90
+        },
+        {
+          "id": "call_9c953d3f",
+          "kind": "module",
+          "name": "코드 부모",
+          "ref": "module_4b8dc041",
+          "x": 550,
+          "y": 280
+        },
+        {
+          "id": "call_6fbd80d9",
+          "kind": "module",
+          "name": "그래프 부모",
+          "ref": "module_66c92602",
+          "x": 870,
+          "y": 100
+        }
+      ],
+      "edges": [
+        {
+          "id": "wire_55f306af",
+          "source": "public_x",
+          "output": "out",
+          "target": "call_9c953d3f",
+          "input": "x"
+        },
+        {
+          "id": "wire_be425824",
+          "source": "call_9c953d3f",
+          "output": "out",
+          "target": "call_6fbd80d9",
+          "input": "x"
+        },
+        {
+          "id": "wire_97223c37",
+          "source": "call_6fbd80d9",
+          "output": "out",
+          "target": "body",
+          "input": "x"
+        }
+      ]
+    },
+    "module_4b8dc041": {
+      "blockKind": "code",
+      "inputs": [
+        {
+          "id": "x",
+          "name": "x",
+          "type": "Nat"
+        }
+      ],
+      "outputType": "Nat",
+      "result": {
+        "node": "body",
+        "output": "out"
+      },
+      "nodes": [
+        {
+          "id": "public_x",
+          "kind": "input",
+          "ref": "x",
+          "x": 70,
+          "y": 90
+        },
+        {
+          "id": "body",
+          "kind": "script",
+          "name": "본문",
+          "inputs": [
+            {
+              "id": "x",
+              "name": "x",
+              "type": "Nat"
+            }
+          ],
+          "outputType": "Nat",
+          "body": "x",
+          "x": 320,
+          "y": 90
+        }
+      ],
+      "edges": [
+        {
+          "id": "wire_f4978982",
+          "source": "public_x",
+          "output": "out",
+          "target": "body",
+          "input": "x"
+        }
+      ]
+    },
+    "module_66c92602": {
+      "blockKind": "graph",
+      "inputs": [
+        {
+          "id": "x",
+          "name": "x",
+          "type": "Nat"
+        }
+      ],
+      "outputType": "Nat",
+      "result": {
+        "node": "body",
+        "output": "out"
+      },
+      "nodes": [
+        {
+          "id": "public_x",
+          "kind": "input",
+          "ref": "x",
+          "x": 70,
+          "y": 90
+        },
+        {
+          "id": "body",
+          "kind": "script",
+          "name": "본문",
+          "inputs": [
+            {
+              "id": "x",
+              "name": "x",
+              "type": "Nat"
+            }
+          ],
+          "outputType": "Nat",
+          "body": "x",
+          "x": 320,
+          "y": 90
+        },
+        {
+          "id": "call_1aa51e36",
+          "kind": "module",
+          "name": "코드 부모",
+          "ref": "module_1f869b6d",
+          "x": 300,
+          "y": 300
+        }
+      ],
+      "edges": [
+        {
+          "id": "wire_3f29b7f6",
+          "source": "public_x",
+          "output": "out",
+          "target": "call_1aa51e36",
+          "input": "x"
+        },
+        {
+          "id": "wire_73c0f68a",
+          "source": "call_1aa51e36",
+          "output": "out",
+          "target": "body",
+          "input": "x"
+        }
+      ]
+    },
+    "module_1f869b6d": {
+      "blockKind": "code",
+      "inputs": [
+        {
+          "id": "x",
+          "name": "x",
+          "type": "Nat"
+        }
+      ],
+      "outputType": "Nat",
+      "result": {
+        "node": "body",
+        "output": "out"
+      },
+      "nodes": [
+        {
+          "id": "public_x",
+          "kind": "input",
+          "ref": "x",
+          "x": 70,
+          "y": 90
+        },
+        {
+          "id": "body",
+          "kind": "script",
+          "name": "본문",
+          "inputs": [
+            {
+              "id": "x",
+              "name": "x",
+              "type": "Nat"
+            }
+          ],
+          "outputType": "Nat",
+          "body": "x + 0",
+          "x": 320,
+          "y": 90
+        }
+      ],
+      "edges": [
+        {
+          "id": "wire_f44c0e60",
+          "source": "public_x",
+          "output": "out",
+          "target": "body",
+          "input": "x"
+        }
+      ]
+    }
+  }
+}

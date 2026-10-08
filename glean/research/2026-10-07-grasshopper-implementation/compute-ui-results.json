@@ -1,0 +1,94 @@
+{
+  "typedEditorHash": "5d459779c1c3c69822faa24d5fef4e0e0dc8c64911adabec11dcb2825aa1a376",
+  "networkResponsesAreTestDoubles": true,
+  "manual": {
+    "immediateInspector": {
+      "id": "select",
+      "kind": "script",
+      "name": "script · out",
+      "scopeId": "root",
+      "type": null,
+      "declaredType": "P",
+      "inputs": [
+        {
+          "id": "P",
+          "name": "P",
+          "source": "P.out",
+          "actualType": null,
+          "expectedType": "Prop",
+          "declared": true
+        },
+        {
+          "id": "Q",
+          "name": "Q",
+          "source": "Q.out",
+          "actualType": null,
+          "expectedType": "Prop",
+          "declared": true
+        },
+        {
+          "id": "hp",
+          "name": "hp",
+          "source": "hp.out",
+          "actualType": null,
+          "expectedType": "P",
+          "declared": true
+        },
+        {
+          "id": "hq",
+          "name": "hq",
+          "source": "hq.out",
+          "actualType": null,
+          "expectedType": "Q",
+          "declared": true
+        }
+      ],
+      "assumptions": [],
+      "assumptionsKnown": false,
+      "outputId": "out",
+      "outputName": "out",
+      "dependencies": [
+        "select",
+        "hq",
+        "hp",
+        "Q",
+        "P"
+      ],
+      "source": null,
+      "verification": "unverified"
+    },
+    "editsMade": 2,
+    "previewJobs": 1,
+    "extraKernelJobs": 0,
+    "checkedBody": "by exact (hp)",
+    "pendingInputPreserved": "by exact (hp)"
+  },
+  "automatic": {
+    "rapidEdits": 3,
+    "kernelStartJobs": 1,
+    "checkedBody": "by exact Nat.add_zero x",
+    "modeChangeCancelledPendingKernel": true,
+    "manualEditPreviewOnly": true
+  },
+  "cancel": {
+    "lateStartedJobCancelled": true,
+    "obsoleteResultShown": false
+  },
+  "modeStaleResponse": {
+    "responseDelivered": false
+  },
+  "sameDocumentOverlap": [
+    {
+      "oldResponse": "success",
+      "latestVerifiedPreserved": true,
+      "obsoleteResultDelivered": false,
+      "obsoleteErrorDisplayed": false
+    },
+    {
+      "oldResponse": "error",
+      "latestVerifiedPreserved": true,
+      "obsoleteResultDelivered": false,
+      "obsoleteErrorDisplayed": false
+    }
+  ]
+}

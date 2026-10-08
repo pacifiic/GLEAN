@@ -1,0 +1,50 @@
+{
+  "missingScopeRestore": {
+    "path": [],
+    "trail": [
+      {
+        "scopeId": "root",
+        "nodeId": "A",
+        "definitionId": "M"
+      }
+    ],
+    "caption": "Nat · LeanScript > 함수 호출 [M]",
+    "recoveryWarnings": [
+      "{\"scopeId\":\"root\",\"trail\":[{\"scopeId\":\"root\",\"nodeId\":\"A\",\"definitionId\":\"M\"}]}: 대응하지 않는 호출 탐색 상태를 제외했습니다."
+    ],
+    "occurrenceKeys": [
+      "{\"scopeId\":\"root\",\"trail\":[{\"scopeId\":\"root\",\"nodeId\":\"A\",\"definitionId\":\"M\"}]}"
+    ]
+  },
+  "actualDiagnostic": {
+    "visible": {
+      "inside": 1,
+      "outside": 0,
+      "unknown": 0
+    },
+    "outside": {
+      "inside": 0,
+      "outside": 1,
+      "unknown": 0
+    },
+    "unknown": {
+      "inside": 0,
+      "outside": 0,
+      "unknown": 1
+    },
+    "ancestorHidden": true
+  },
+  "fullscreen": {
+    "firstEscapeKeepsFocus": true,
+    "firstEscapePrevented": true,
+    "originalWirePreserved": true,
+    "secondEscapeExits": true
+  },
+  "nestedOccurrences": {
+    "leafBVisible": true,
+    "semanticUnchanged": true,
+    "callAViewHidden": true,
+    "callBViewVisible": true,
+    "genericInnerViewVisible": true
+  }
+}

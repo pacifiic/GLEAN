@@ -1,0 +1,8 @@
+{
+  "kind": "actual typed output click/cancelInteraction with controlled types and DOM, no native UI or Lean",
+  "pass": false,
+  "candidateClassCleared": true,
+  "candidateTitle": "타입 표시가 일치하는 연결 후보 · 연결 후 Lean 재검사\n제공: Nat\n요구: Nat",
+  "afterCancelTitle": "타입 표시가 일치하는 연결 후보 · 연결 후 Lean 재검사\n제공: Nat\n요구: Nat",
+  "hash": "5f55b8f6aaaa78cdd05d087eef4e167934cae55d549638e660b8f6f8d7a6f4d2"
+}

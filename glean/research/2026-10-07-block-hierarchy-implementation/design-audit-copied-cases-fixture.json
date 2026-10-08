@@ -1,0 +1,495 @@
+{
+  "kind": "graph",
+  "graph": {
+    "version": 3,
+    "name": "H04 independent Cases scope",
+    "projectId": "glean",
+    "imports": [],
+    "policy": "strict",
+    "inputs": [
+      {
+        "id": "P",
+        "name": "P",
+        "type": "Prop"
+      },
+      {
+        "id": "Q",
+        "name": "Q",
+        "type": "Prop"
+      },
+      {
+        "id": "h",
+        "name": "h",
+        "type": "P ∨ Q"
+      }
+    ],
+    "goal": "P ∨ Q",
+    "modules": [],
+    "nodes": [
+      {
+        "id": "P",
+        "kind": "input",
+        "ref": "P"
+      },
+      {
+        "id": "Q",
+        "kind": "input",
+        "ref": "Q"
+      },
+      {
+        "id": "h",
+        "kind": "input",
+        "ref": "h"
+      },
+      {
+        "id": "split",
+        "kind": "cases",
+        "inputs": [
+          {
+            "id": "P",
+            "name": "P",
+            "type": "Prop"
+          },
+          {
+            "id": "Q",
+            "name": "Q",
+            "type": "Prop"
+          },
+          {
+            "id": "h",
+            "name": "h",
+            "type": "P ∨ Q"
+          }
+        ],
+        "outputType": "P ∨ Q",
+        "scrutinee": "h",
+        "branches": [
+          {
+            "id": "left",
+            "constructor": "Or.inl",
+            "binders": [
+              {
+                "id": "w",
+                "name": "w",
+                "type": "P"
+              }
+            ],
+            "nodes": [
+              {
+                "id": "left_P",
+                "kind": "input",
+                "ref": "P"
+              },
+              {
+                "id": "left_Q",
+                "kind": "input",
+                "ref": "Q"
+              },
+              {
+                "id": "left_w",
+                "kind": "input",
+                "ref": "w"
+              },
+              {
+                "id": "left_proof",
+                "kind": "script",
+                "inputs": [
+                  {
+                    "id": "P",
+                    "name": "P",
+                    "type": "Prop"
+                  },
+                  {
+                    "id": "Q",
+                    "name": "Q",
+                    "type": "Prop"
+                  },
+                  {
+                    "id": "w",
+                    "name": "w",
+                    "type": "P"
+                  }
+                ],
+                "outputType": "P ∨ Q",
+                "body": "Or.inl w"
+              }
+            ],
+            "edges": [
+              {
+                "id": "left_P_wire",
+                "source": "left_P",
+                "output": "out",
+                "target": "left_proof",
+                "input": "P"
+              },
+              {
+                "id": "left_Q_wire",
+                "source": "left_Q",
+                "output": "out",
+                "target": "left_proof",
+                "input": "Q"
+              },
+              {
+                "id": "left_w_wire",
+                "source": "left_w",
+                "output": "out",
+                "target": "left_proof",
+                "input": "w"
+              }
+            ],
+            "result": {
+              "node": "left_proof",
+              "output": "out"
+            }
+          },
+          {
+            "id": "right",
+            "constructor": "Or.inr",
+            "binders": [
+              {
+                "id": "w",
+                "name": "w",
+                "type": "Q"
+              }
+            ],
+            "nodes": [
+              {
+                "id": "right_P",
+                "kind": "input",
+                "ref": "P"
+              },
+              {
+                "id": "right_Q",
+                "kind": "input",
+                "ref": "Q"
+              },
+              {
+                "id": "right_w",
+                "kind": "input",
+                "ref": "w"
+              },
+              {
+                "id": "right_proof",
+                "kind": "script",
+                "inputs": [
+                  {
+                    "id": "P",
+                    "name": "P",
+                    "type": "Prop"
+                  },
+                  {
+                    "id": "Q",
+                    "name": "Q",
+                    "type": "Prop"
+                  },
+                  {
+                    "id": "w",
+                    "name": "w",
+                    "type": "Q"
+                  }
+                ],
+                "outputType": "P ∨ Q",
+                "body": "Or.inr w"
+              }
+            ],
+            "edges": [
+              {
+                "id": "right_P_wire",
+                "source": "right_P",
+                "output": "out",
+                "target": "right_proof",
+                "input": "P"
+              },
+              {
+                "id": "right_Q_wire",
+                "source": "right_Q",
+                "output": "out",
+                "target": "right_proof",
+                "input": "Q"
+              },
+              {
+                "id": "right_w_wire",
+                "source": "right_w",
+                "output": "out",
+                "target": "right_proof",
+                "input": "w"
+              }
+            ],
+            "result": {
+              "node": "right_proof",
+              "output": "out"
+            }
+          }
+        ]
+      },
+      {
+        "id": "paste_1",
+        "kind": "input",
+        "ref": "P",
+        "x": 30,
+        "y": 30
+      },
+      {
+        "id": "paste_2",
+        "kind": "input",
+        "ref": "Q",
+        "x": 30,
+        "y": 30
+      },
+      {
+        "id": "paste_3",
+        "kind": "input",
+        "ref": "h",
+        "x": 30,
+        "y": 30
+      },
+      {
+        "id": "paste_4",
+        "kind": "cases",
+        "inputs": [
+          {
+            "id": "P",
+            "name": "P",
+            "type": "Prop"
+          },
+          {
+            "id": "Q",
+            "name": "Q",
+            "type": "Prop"
+          },
+          {
+            "id": "h",
+            "name": "h",
+            "type": "P ∨ Q"
+          }
+        ],
+        "outputType": "P ∨ Q",
+        "scrutinee": "h",
+        "branches": [
+          {
+            "id": "branch_5",
+            "constructor": "Or.inl",
+            "binders": [
+              {
+                "id": "w",
+                "name": "w",
+                "type": "P"
+              }
+            ],
+            "nodes": [
+              {
+                "id": "paste_6",
+                "kind": "input",
+                "ref": "P",
+                "x": 30,
+                "y": 30
+              },
+              {
+                "id": "paste_7",
+                "kind": "input",
+                "ref": "Q",
+                "x": 30,
+                "y": 30
+              },
+              {
+                "id": "paste_8",
+                "kind": "input",
+                "ref": "w",
+                "x": 30,
+                "y": 30
+              },
+              {
+                "id": "paste_9",
+                "kind": "script",
+                "inputs": [
+                  {
+                    "id": "P",
+                    "name": "P",
+                    "type": "Prop"
+                  },
+                  {
+                    "id": "Q",
+                    "name": "Q",
+                    "type": "Prop"
+                  },
+                  {
+                    "id": "w",
+                    "name": "w",
+                    "type": "P"
+                  }
+                ],
+                "outputType": "P ∨ Q",
+                "body": "Or.inl w",
+                "x": 30,
+                "y": 30
+              }
+            ],
+            "edges": [
+              {
+                "id": "wire_10",
+                "source": "paste_6",
+                "output": "out",
+                "target": "paste_9",
+                "input": "P"
+              },
+              {
+                "id": "wire_11",
+                "source": "paste_7",
+                "output": "out",
+                "target": "paste_9",
+                "input": "Q"
+              },
+              {
+                "id": "wire_12",
+                "source": "paste_8",
+                "output": "out",
+                "target": "paste_9",
+                "input": "w"
+              }
+            ],
+            "result": {
+              "node": "paste_9",
+              "output": "out"
+            }
+          },
+          {
+            "id": "branch_13",
+            "constructor": "Or.inr",
+            "binders": [
+              {
+                "id": "w",
+                "name": "w",
+                "type": "Q"
+              }
+            ],
+            "nodes": [
+              {
+                "id": "paste_14",
+                "kind": "input",
+                "ref": "P",
+                "x": 30,
+                "y": 30
+              },
+              {
+                "id": "paste_15",
+                "kind": "input",
+                "ref": "Q",
+                "x": 30,
+                "y": 30
+              },
+              {
+                "id": "paste_16",
+                "kind": "input",
+                "ref": "w",
+                "x": 30,
+                "y": 30
+              },
+              {
+                "id": "paste_17",
+                "kind": "script",
+                "inputs": [
+                  {
+                    "id": "P",
+                    "name": "P",
+                    "type": "Prop"
+                  },
+                  {
+                    "id": "Q",
+                    "name": "Q",
+                    "type": "Prop"
+                  },
+                  {
+                    "id": "w",
+                    "name": "w",
+                    "type": "Q"
+                  }
+                ],
+                "outputType": "P ∨ Q",
+                "body": "Or.inr w",
+                "x": 30,
+                "y": 30
+              }
+            ],
+            "edges": [
+              {
+                "id": "wire_18",
+                "source": "paste_14",
+                "output": "out",
+                "target": "paste_17",
+                "input": "P"
+              },
+              {
+                "id": "wire_19",
+                "source": "paste_15",
+                "output": "out",
+                "target": "paste_17",
+                "input": "Q"
+              },
+              {
+                "id": "wire_20",
+                "source": "paste_16",
+                "output": "out",
+                "target": "paste_17",
+                "input": "w"
+              }
+            ],
+            "result": {
+              "node": "paste_17",
+              "output": "out"
+            }
+          }
+        ],
+        "x": 30,
+        "y": 30
+      }
+    ],
+    "edges": [
+      {
+        "id": "root_P_wire",
+        "source": "P",
+        "output": "out",
+        "target": "split",
+        "input": "P"
+      },
+      {
+        "id": "root_Q_wire",
+        "source": "Q",
+        "output": "out",
+        "target": "split",
+        "input": "Q"
+      },
+      {
+        "id": "root_h_wire",
+        "source": "h",
+        "output": "out",
+        "target": "split",
+        "input": "h"
+      },
+      {
+        "id": "wire_21",
+        "source": "paste_1",
+        "output": "out",
+        "target": "paste_4",
+        "input": "P"
+      },
+      {
+        "id": "wire_22",
+        "source": "paste_2",
+        "output": "out",
+        "target": "paste_4",
+        "input": "Q"
+      },
+      {
+        "id": "wire_23",
+        "source": "paste_3",
+        "output": "out",
+        "target": "paste_4",
+        "input": "h"
+      }
+    ],
+    "result": {
+      "node": "split",
+      "output": "out"
+    }
+  }
+}

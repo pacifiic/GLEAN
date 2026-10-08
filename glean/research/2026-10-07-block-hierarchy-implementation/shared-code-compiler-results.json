@@ -1,0 +1,13 @@
+{
+  "kind": "actual pure typed compiler; no Lean job or native UI",
+  "compilerHash": "ab67fa1bfa1f20b4202e046ab4a18454a9b4c64901acc965e153e59961dca812",
+  "calls": 200,
+  "nodesIncludingDefinition": 203,
+  "jsonBytes": 1092344,
+  "bodyBytes": 1048483,
+  "serializedFullBodyOccurrences": 1,
+  "generatedFullBodyOccurrences": 1,
+  "generatedBytes": 1073462,
+  "status": "ready",
+  "pass": true
+}

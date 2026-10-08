@@ -1,0 +1,41 @@
+{
+  "kind": "independent current source inspection plus Agent3 actual affected metadata regression; does not claim another 64 KiB/1 MiB execution",
+  "beforeProductHashes": {
+    "typed_graph.py": "bd83f9a2cd23929006b5951ceb608e3087f522e6a1aeff4a8e17bc51534fc7cc",
+    "graph_jobs.py": "6ab762e9b30d2af1ef20e59039f23bf0a8083fb6383a2553b21740090bcc1f31",
+    "source_check.py": "bd76ff24b91f29dc26d220dc759ecbc81d061619068d3e02db9b6d25bd72a189",
+    "limits.py": "f8f8c5f225a9b7add3a03b575ed8db70438ddb797456dd86d185b240005d4d35"
+  },
+  "currentProductHashes": {
+    "typed_graph.py": "bd83f9a2cd23929006b5951ceb608e3087f522e6a1aeff4a8e17bc51534fc7cc",
+    "graph_jobs.py": "6ab762e9b30d2af1ef20e59039f23bf0a8083fb6383a2553b21740090bcc1f31",
+    "source_check.py": "4092760cf515a0041cb1496b0b680529987d750698fccfb508390a3dd10b2636",
+    "limits.py": "f8f8c5f225a9b7add3a03b575ed8db70438ddb797456dd86d185b240005d4d35"
+  },
+  "unchangedCompilerGraphJobsLimits": true,
+  "changedSourceCheckScope": "compiler-owned optional local binding whitelist keys use exact Name.mkSimple for owner/name keys and manifest lines; existing generated proof, expected-type matching, kernel replay and axiom policy are unchanged by this repair",
+  "exactMetadataNameSites": [
+    "Name.mkSimple (owner.toString ++ \"/\" ++ name.toString)",
+    "set.insert (Name.mkSimple value)"
+  ],
+  "nameSitesPresent": true,
+  "affectedActualResult": "design-audit-metadata-owner-cases-retest.json",
+  "actualStatus": "valid",
+  "actualVerified": true,
+  "actualKernelAccepted": true,
+  "actualAxioms": [],
+  "actualDurationMs": 20132,
+  "actualLeftPortType": "Or P Q",
+  "actualRightPortType": "Or P Q",
+  "actualLeftUsed": [
+    "P",
+    "Q",
+    "w"
+  ],
+  "actualRightUsed": [
+    "P",
+    "Q",
+    "w"
+  ],
+  "pass": true
+}

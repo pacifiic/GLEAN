@@ -1,0 +1,606 @@
+{
+  "copyright": "Copyright (c) 2026 GLEAN contributors. Released under Apache 2.0.",
+  "auditDate": "2026-10-07",
+  "source": {
+    "repository": "leanprover-community/mathlib4",
+    "commit": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+    "tag": "v4.34.1",
+    "file": "reference/Irrational.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean",
+    "lineCount": 311,
+    "theorem": "irrational_pi",
+    "theoremLines": {
+      "startLine": 281,
+      "endLine": 309,
+      "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L281-L309"
+    },
+    "privateDeclarations": 15,
+    "privateDefinitions": 3,
+    "privateLemmas": 12
+  },
+  "scope": "Source-level mathematical analysis and executed current-compiler boundary probes. This is neither an imported GLEAN proof nor a claim that an abstract graph proves π irrational. Original-source verification is independently recorded by the reference runner.",
+  "mainConclusion": "Current GLEAN cannot yet start this genuine proof in its formal model: the target itself is outside its grammar. The bottleneck is mathematical representation and project/Lean integration, before canvas styling. Preserve the existing useful node UX while adding Lean-backed typed, scoped components and source-backed opaque blocks.",
+  "mathOutline": [
+    {
+      "step": 1,
+      "claim": "Define I n θ = ∫[-1,1] (1-x²)^n cos(xθ) dx and derive a recurrence by integration by parts.",
+      "source": {
+        "startLine": 44,
+        "endLine": 139,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L44-L139"
+      }
+    },
+    {
+      "step": 2,
+      "claim": "Construct integer-coefficient sinPoly/cosPoly recursively; bound the degree of sinPoly n by n; express I n θ·θ^(2n+1) through n! and their sine/cosine combination.",
+      "source": {
+        "startLine": 147,
+        "endLine": 207,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L147-L207"
+      }
+    },
+    {
+      "step": 3,
+      "claim": "Prove integer polynomial evaluation at a/b becomes integral after multiplying by b^k when degree ≤ k.",
+      "source": {
+        "startLine": 215,
+        "endLine": 230,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L215-L230"
+      }
+    },
+    {
+      "step": 4,
+      "claim": "Show 0 < I n (π/2) ≤ 2 and a^(2n+1)/n! → 0.",
+      "source": {
+        "startLine": 239,
+        "endLine": 272,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L239-L272"
+      }
+    },
+    {
+      "step": 5,
+      "claim": "Under a rationality contradiction assumption obtain π/2=a/b, b>0 and a>0; select n for which t=a^(2n+1)/n!·I n(π/2) satisfies 0<t<1.",
+      "source": {
+        "startLine": 281,
+        "endLine": 297,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L281-L297"
+      }
+    },
+    {
+      "step": 6,
+      "claim": "Use the degree bound and polynomial identity to equate t with an integer z, giving 0<z<1; cast to ℤ and derive a contradiction.",
+      "source": {
+        "startLine": 298,
+        "endLine": 309,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L298-L309"
+      }
+    }
+  ],
+  "declarations": [
+    {
+      "name": "I",
+      "kind": "def",
+      "visibility": "private",
+      "source": {
+        "startLine": 45,
+        "endLine": 45,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L45-L45"
+      },
+      "sourceLevelLocalDependencies": []
+    },
+    {
+      "name": "I_zero",
+      "kind": "lemma",
+      "visibility": "private",
+      "source": {
+        "startLine": 49,
+        "endLine": 51,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L49-L51"
+      },
+      "sourceLevelLocalDependencies": [
+        "I"
+      ]
+    },
+    {
+      "name": "recursion'",
+      "kind": "lemma",
+      "visibility": "private",
+      "source": {
+        "startLine": 63,
+        "endLine": 120,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L63-L120"
+      },
+      "sourceLevelLocalDependencies": [
+        "I"
+      ]
+    },
+    {
+      "name": "recursion",
+      "kind": "lemma",
+      "visibility": "private",
+      "source": {
+        "startLine": 126,
+        "endLine": 131,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L126-L131"
+      },
+      "sourceLevelLocalDependencies": [
+        "recursion'"
+      ]
+    },
+    {
+      "name": "I_one",
+      "kind": "lemma",
+      "visibility": "private",
+      "source": {
+        "startLine": 137,
+        "endLine": 139,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L137-L139"
+      },
+      "sourceLevelLocalDependencies": [
+        "recursion'",
+        "I_zero"
+      ]
+    },
+    {
+      "name": "sinPoly",
+      "kind": "def",
+      "visibility": "private",
+      "source": {
+        "startLine": 147,
+        "endLine": 150,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L147-L150"
+      },
+      "sourceLevelLocalDependencies": [
+        "sinPoly"
+      ]
+    },
+    {
+      "name": "cosPoly",
+      "kind": "def",
+      "visibility": "private",
+      "source": {
+        "startLine": 158,
+        "endLine": 161,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L158-L161"
+      },
+      "sourceLevelLocalDependencies": [
+        "cosPoly"
+      ]
+    },
+    {
+      "name": "sinPoly_natDegree_le",
+      "kind": "lemma",
+      "visibility": "private",
+      "source": {
+        "startLine": 168,
+        "endLine": 176,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L168-L176"
+      },
+      "sourceLevelLocalDependencies": [
+        "sinPoly",
+        "sinPoly_natDegree_le"
+      ]
+    },
+    {
+      "name": "cosPoly_natDegree_le",
+      "kind": "lemma",
+      "visibility": "private",
+      "source": {
+        "startLine": 183,
+        "endLine": 190,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L183-L190"
+      },
+      "sourceLevelLocalDependencies": [
+        "cosPoly",
+        "cosPoly_natDegree_le"
+      ]
+    },
+    {
+      "name": "sinPoly_add_cosPoly_eval",
+      "kind": "lemma",
+      "visibility": "private",
+      "source": {
+        "startLine": 197,
+        "endLine": 207,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L197-L207"
+      },
+      "sourceLevelLocalDependencies": [
+        "I",
+        "I_zero",
+        "I_one",
+        "recursion",
+        "sinPoly",
+        "cosPoly",
+        "sinPoly_add_cosPoly_eval"
+      ]
+    },
+    {
+      "name": "is_integer",
+      "kind": "lemma",
+      "visibility": "private",
+      "source": {
+        "startLine": 215,
+        "endLine": 230,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L215-L230"
+      },
+      "sourceLevelLocalDependencies": []
+    },
+    {
+      "name": "I_pos",
+      "kind": "lemma",
+      "visibility": "private",
+      "source": {
+        "startLine": 239,
+        "endLine": 245,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L239-L245"
+      },
+      "sourceLevelLocalDependencies": [
+        "I"
+      ]
+    },
+    {
+      "name": "I_le",
+      "kind": "lemma",
+      "visibility": "private",
+      "source": {
+        "startLine": 252,
+        "endLine": 261,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L252-L261"
+      },
+      "sourceLevelLocalDependencies": [
+        "I",
+        "I_pos"
+      ]
+    },
+    {
+      "name": "tendsto_pow_div_factorial_at_top_aux",
+      "kind": "lemma",
+      "visibility": "private",
+      "source": {
+        "startLine": 268,
+        "endLine": 272,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L268-L272"
+      },
+      "sourceLevelLocalDependencies": []
+    },
+    {
+      "name": "not_irrational_exists_rep",
+      "kind": "lemma",
+      "visibility": "private",
+      "source": {
+        "startLine": 275,
+        "endLine": 279,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L275-L279"
+      },
+      "sourceLevelLocalDependencies": []
+    }
+  ],
+  "dependencyCaveat": "Dependencies listed here are manually read local source references, including names in types and definitions; they are not an extracted kernel dependency graph. Recursive self references indicate structural recursion, never unguarded graph cycles. cosPoly_natDegree_le is not in the main theorem source-level dependency closure.",
+  "privateNameImplication": "The public theorem is globally named irrational_pi (not Real.irrational_pi). All 15 local declarations are private. A component palette importing this module cannot simply reference the short names I, sinPoly, is_integer, etc.; in-file source context/private declaration identity must be retained rather than exporting them as public APIs.",
+  "operations": [
+    {
+      "id": "O01",
+      "operation": "프로젝트와 소스 문맥 열기",
+      "source": {
+        "startLine": 6,
+        "endLine": 42,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L6-L42"
+      },
+      "actualProofWork": "Lean module, three public imports, a noncomputable section, five opened namespaces and Nat notation scope establish the meaning of later terms.",
+      "currentGleanSupport": "The import action parses JSON only; the generated module has no user imports. Supplying imports/binders fields to graph JSON silently leaves generated code unchanged.",
+      "priority": "P0",
+      "nextProductAcceptance": "Open this .lean file inside its pinned Lake project; show resolved imports/toolchain and preserve module/namespace/private context. Unsupported graph-only fields must not imply they affect Lean semantics.",
+      "probeIds": [
+        "raw-lean-source",
+        "unknown-extension-fields"
+      ]
+    },
+    {
+      "id": "O02",
+      "operation": "수학 대상과 증명 포트 구별",
+      "source": {
+        "startLine": 44,
+        "endLine": 47,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L44-L47"
+      },
+      "actualProofWork": "I takes n : ℕ and θ : ℝ and returns ℝ; its body binds x in an interval integral. These are mathematical values, not proofs of free Prop symbols.",
+      "currentGleanSupport": "All current input assumptions and node types use the same propositional grammar. ℕ, ℝ, integral syntax, and dependent function application cannot be entered.",
+      "priority": "P0",
+      "nextProductAcceptance": "Render and connect n : ℕ, θ : ℝ, and I n θ : ℝ with Lean-elaborated types; visually distinguish data ports from proof ports.",
+      "probeIds": [
+        "typed-data-port",
+        "integral-equation"
+      ]
+    },
+    {
+      "id": "O03",
+      "operation": "범위 안의 지역 함수 9개 정의",
+      "source": {
+        "startLine": 67,
+        "endLine": 83,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L67-L83"
+      },
+      "actualProofWork": "Inside recursion', f,u₁,u₁',v₁,v₁',u₂,u₂',v₂,v₂' are local ℝ → ℝ functions, followed by continuity and endpoint proofs. Their definitions are reused and only exist in this proof scope.",
+      "currentGleanSupport": "One global assumptions list and no local let/lambda/subgraph scope. Flattening local names into global assumptions changes what is proved.",
+      "priority": "P0",
+      "nextProductAcceptance": "A nested proof component owns local definitions and keeps its parameter n and θ in context; exporting a local wire beyond that scope is rejected.",
+      "probeIds": [
+        "typed-data-port",
+        "derivative-proof-port"
+      ]
+    },
+    {
+      "id": "O04",
+      "operation": "매개변수 있는 증명 만들기",
+      "source": {
+        "startLine": 84,
+        "endLine": 96,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L84-L96"
+      },
+      "actualProofWork": "hf,hu₁,hv₁,hu₂,hv₂ each bind x and construct a HasDerivAt proof. convert! opens an equality obligation and simp/ring close it.",
+      "currentGleanSupport": "Apply only consumes an implication between Prop atoms; it cannot introduce x or synthesize a dependent result.",
+      "priority": "P0",
+      "nextProductAcceptance": "Introduce x in a local proof scope and expose a reusable ∀ x derivative proof; keep conversion subgoals attached to the step.",
+      "probeIds": [
+        "derivative-proof-port",
+        "two-branch-goals"
+      ]
+    },
+    {
+      "id": "O05",
+      "operation": "조건이 있는 정리 적용과 식 재작성",
+      "source": {
+        "startLine": 97,
+        "endLine": 109,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L97-L109"
+      },
+      "actualProofWork": "Integration by parts is applied twice. Each rewrite consumes derivative evidence and interval integrability proofs, plus explicit endpoint rewrites; convert_to adds equality obligations.",
+      "currentGleanSupport": "No imported theorem references, rewrite orientation/target, or side-condition ports; graph inputs fn/arg cannot display these concrete requirements.",
+      "priority": "P0",
+      "nextProductAcceptance": "Search integral_mul_deriv_eq_deriv_mul, infer explicit/implicit arguments, display remaining side-condition goals and the exact rewritten expression.",
+      "probeIds": [
+        "theorem-reference-node",
+        "rewrite-node",
+        "two-branch-goals"
+      ]
+    },
+    {
+      "id": "O06",
+      "operation": "분기와 여러 미해결 목표 관리",
+      "source": {
+        "startLine": 110,
+        "endLine": 120,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L110-L120"
+      },
+      "actualProofWork": "cases n creates zero/succ contexts. Later an integral rewrite leaves multiple integrability obligations, all discharged by all_goals.",
+      "currentGleanSupport": "Exactly one global goal and a flat acyclic graph; two goal nodes are rejected. This is not equivalent to one theorem with nested subgoals.",
+      "priority": "P0",
+      "nextProductAcceptance": "Show zero/succ branches with local n and a goal stack; all_goals applies to a clearly indicated collection without merging branch-local binders.",
+      "probeIds": [
+        "two-branch-goals"
+      ]
+    },
+    {
+      "id": "O07",
+      "operation": "재귀 정의와 귀납 증명 접기",
+      "source": {
+        "startLine": 147,
+        "endLine": 190,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L147-L190"
+      },
+      "actualProofWork": "sinPoly and cosPoly have cases 0,1,n+2. Their degree lemmas recurse on n+1 and n. cosPoly_natDegree_le is present but not needed by the source-level dependency chain of irrational_pi.",
+      "currentGleanSupport": "Direct graph feedback cycles are rightly rejected; there is no typed recursion/induction component. A graph cycle is not a faithful replacement for well-founded recursion.",
+      "priority": "P1",
+      "nextProductAcceptance": "Use collapsed recursive/inductive components with base and step scopes, measures checked by Lean, and relevance-filtered theorem dependencies.",
+      "probeIds": [
+        "recursion-as-cycle",
+        "universal-degree"
+      ]
+    },
+    {
+      "id": "O08",
+      "operation": "계산 체인과 재사용 가능한 보조 정리",
+      "source": {
+        "startLine": 197,
+        "endLine": 207,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L197-L207"
+      },
+      "actualProofWork": "A three-case proof expresses I via polynomial evaluations and n!. The n+2 case has a calc chain; recursion and two inductive instances are reused; simp/ring close algebraic details.",
+      "currentGleanSupport": "No equality type, calc chain, implicit typeclass inference, or source-linked nested component. Hundreds of primitive operation nodes would obscure the mathematical structure.",
+      "priority": "P1",
+      "nextProductAcceptance": "Expose this lemma as one expandable component with typed ports θ and n; reveal calc steps and preserve the exact simp/ring blocks as source-backed internals.",
+      "probeIds": [
+        "integral-equation",
+        "theorem-reference-node"
+      ]
+    },
+    {
+      "id": "O09",
+      "operation": "존재 증인 생성과 경우 나누기",
+      "source": {
+        "startLine": 215,
+        "endLine": 230,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L215-L230"
+      },
+      "actualProofWork": "is_integer binds p : ℤ[X], a b : ℤ, k : ℕ and hp. It branches on b=0, then k=0; otherwise constructs a finite sum witness z and proves its equation. conv rewrites only the left side and sum_congr binds i,hi.",
+      "currentGleanSupport": "Neither ∃, dependent binders, scoped witness outputs, targeted rewrite, nor finite sums are expressible.",
+      "priority": "P0",
+      "nextProductAcceptance": "Provide a witness component with z : ℤ and a dependent equality proof in scope, branch contexts, and a rewrite target breadcrumb such as goal → lhs.",
+      "probeIds": [
+        "integer-witness",
+        "typed-data-port",
+        "rewrite-node",
+        "two-branch-goals"
+      ]
+    },
+    {
+      "id": "O10",
+      "operation": "해석학 부등식과 자동화 검사",
+      "source": {
+        "startLine": 239,
+        "endLine": 261,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L239-L261"
+      },
+      "actualProofWork": "I_pos uses an explicit positive point, interval assumptions, trigonometric bounds and nlinarith. I_le introduces x,hx, derives |1-x²|≤1, and invokes bound.",
+      "currentGleanSupport": "The existing pair node resembles conjunction construction, but cannot encode actual inequalities or proof automation. An abstract P∧Q control is not a proof of these bounds.",
+      "priority": "P1",
+      "nextProductAcceptance": "Allow a source-backed tactic component showing input context, generated goals and discharged status; expanding a step reveals the used inequalities.",
+      "probeIds": [
+        "integral-bound",
+        "integer-inequality-conjunction"
+      ]
+    },
+    {
+      "id": "O11",
+      "operation": "극한과 Eventually의 바인더 다루기",
+      "source": {
+        "startLine": 268,
+        "endLine": 272,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L268-L272"
+      },
+      "actualProofWork": "The auxiliary lemma proves Tendsto for a sequence parameterized by a, using a library limit, congr, and an introduced x.",
+      "currentGleanSupport": "Function-valued sequences, filters and equalities are outside the grammar.",
+      "priority": "P1",
+      "nextProductAcceptance": "Import the library limit as a typed component; retain lambda binders and show the pointwise equality goal inside congr.",
+      "probeIds": [
+        "eventual-filter",
+        "theorem-reference-node"
+      ]
+    },
+    {
+      "id": "O12",
+      "operation": "귀류법 문맥과 유리수 표현 꺼내기",
+      "source": {
+        "startLine": 275,
+        "endLine": 288,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L275-L288"
+      },
+      "actualProofWork": "The helper extracts q.num,q.den and casts. irrational_pi applies a division lemma, assumes ¬Irrational(π/2), obtains a : ℤ,b : ℕ,hb : 0<b,h : π/2=a/b, then proves a>0.",
+      "currentGleanSupport": "No negation or scope-discharge operation; globalizing h' would change the theorem. One-output nodes cannot directly introduce four dependent items.",
+      "priority": "P0",
+      "nextProductAcceptance": "A contradiction scope must discharge h'; obtain has linked outputs a,b,hb,h whose types update under renaming and cannot escape their binder scope.",
+      "probeIds": [
+        "irrational-goal",
+        "rational-negation",
+        "integer-witness",
+        "contradiction-node"
+      ]
+    },
+    {
+      "id": "O13",
+      "operation": "필터 속 자연수 증인 선택",
+      "source": {
+        "startLine": 289,
+        "endLine": 297,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L289-L297"
+      },
+      "actualProofWork": "k is a proof function of n. j states eventually the scaled integral is below 1; filter_upwards introduces n,hn. j.exists selects a particular n reused later and hn' proves positivity at that same n.",
+      "currentGleanSupport": "∀ᶠ and witness selection cannot be represented; a flat collection of independent P atoms would lose that every later expression uses the same selected n.",
+      "priority": "P0",
+      "nextProductAcceptance": "Represent eventual proof then witness extraction with shared binder identity; hovering n shows its introduction and all dependent downstream expressions.",
+      "probeIds": [
+        "eventual-filter",
+        "integer-witness",
+        "typed-data-port"
+      ]
+    },
+    {
+      "id": "O14",
+      "operation": "정리 매개변수 추론과 강제 형변환",
+      "source": {
+        "startLine": 298,
+        "endLine": 306,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L298-L306"
+      },
+      "actualProofWork": "is_integer is instantiated using sinPoly n and k=2n+1; b : ℕ is coerced to ℤ, polynomial evaluation to ℝ. The degree proof uses lia. nth_rw changes only the second occurrence in e; simp [field] acts both on e and the goal; linear_combination consumes e.",
+      "currentGleanSupport": "No typed theorem lookup, implicit argument ports, coercion visibility, occurrence selection, or distinction between hypothesis and goal rewrite targets.",
+      "priority": "P0",
+      "nextProductAcceptance": "Clicking this application reveals inferred p,k and casts; a rewrite preview identifies occurrence 2 of h in e and shows before/after affected expressions.",
+      "probeIds": [
+        "theorem-reference-node",
+        "rewrite-node",
+        "integer-witness"
+      ]
+    },
+    {
+      "id": "O15",
+      "operation": "정수 모순으로 종결하고 신뢰 정보 보기",
+      "source": {
+        "startLine": 307,
+        "endLine": 309,
+        "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Real/Pi/Irrational.lean#L307-L309"
+      },
+      "actualProofWork": "The final conjunction 0<(z:ℝ)∧(z:ℝ)<1 uses equalities and both bounds, then norm_cast moves to ℤ and lia closes the contradiction. Actual source axiom audit reports propext, Classical.choice, Quot.sound.",
+      "currentGleanSupport": "The pair node only supports abstract conjunction. The server verification gate additionally demands zero axioms, which excludes this kernel-accepted standard mathlib theorem.",
+      "priority": "P0",
+      "nextProductAcceptance": "Show Lean acceptance separately from an explicit axiom inventory; reject sorryAx or unknown custom axioms according to an explicit project policy without labeling ordinary standard axioms a compile failure.",
+      "probeIds": [
+        "integer-inequality-conjunction",
+        "control-conjunction"
+      ]
+    }
+  ],
+  "executedProbeSummary": {
+    "count": 20,
+    "ready": 2,
+    "invalid": 17,
+    "incomplete": 1,
+    "readyMeaning": "One abstract P∧Q positive control and the identical control with ignored extra fields. The positive control was checked by actual Lean. Neither ready result proves anything about π.",
+    "realExpressionProbes": 10,
+    "realExpressionFrontendShapeAccepted": 10,
+    "realExpressionCompilerRejected": 10,
+    "artifact": "compiler-probes.json",
+    "rerun": "python3 glean/research/2026-10-07-pi-audit/probe_compiler.py"
+  },
+  "notableMeasuredIssues": [
+    {
+      "id": "D01",
+      "priority": "P0",
+      "finding": "`Irrational π` is accepted as frontend goal text but compilation reports only Unsupported type syntax at character 2.",
+      "evidence": "compiler-probes.json → irrational-goal",
+      "impact": "The user first encounters a generic parse error at the theorem statement, before graph construction.",
+      "acceptance": "Either elaborate the term in the active Lean environment or label unsupported language explicitly, locate the exact text span and explain supported alternatives without suggesting renaming it into a fresh Prop."
+    },
+    {
+      "id": "D02",
+      "priority": "P0",
+      "finding": "imports, binders, sourceMap fields are silently ignored in an otherwise valid graph; generated Lean is byte-for-byte identical to the abstract control.",
+      "evidence": "compiler-probes.json → unknown-extension-fields",
+      "impact": "Future interoperability must avoid visually carrying mathematical metadata that the verifier never consumes.",
+      "acceptance": "Version the extended graph format; validate/reject unsupported semantic fields and show precisely what generated source the verification result covers."
+    },
+    {
+      "id": "D03",
+      "priority": "P1",
+      "finding": "An unused unfinished Apply node turns an otherwise complete checked goal into incomplete.",
+      "evidence": "compiler-probes.json → disconnected-scratch-blocks-proof",
+      "impact": "Exploration alongside a proof blocks goal verification, a concrete friction for iterative theorem development.",
+      "acceptance": "Support explicit scratch/disabled regions or verify the selected theorem dependency closure while separately showing unresolved scratch content."
+    },
+    {
+      "id": "D04",
+      "priority": "P0",
+      "finding": "server.py:67–78 requires the exact no-axioms string, while the real downloaded theorem uses standard axioms propext, Classical.choice, Quot.sound.",
+      "evidence": "reference runner evidence/reference-wrappers.log and server.py:47–78",
+      "impact": "Even after representation/import support is added, a kernel-accepted mathlib theorem would fail current no-axioms policy.",
+      "acceptance": "Separate kernel acceptance, unresolved sorry/custom-axiom policy, and displayed axiom inventory. This is a policy upgrade, not disabling proof checking."
+    }
+  ],
+  "recommendedNextSlice": {
+    "name": "소스와 연결된 정리 컴포넌트 + 범위가 있는 증명 블록",
+    "rationale": "Enables a real mathlib case without reimplementing all Lean syntax as primitive visual nodes. Retains Grasshopper interaction while keeping Lean the authoritative elaborator/kernel.",
+    "acceptanceOrder": [
+      "Open the pinned Lake project and show/verify original irrational_pi with dependency and axiom information.",
+      "Show source-backed theorem components, inferred typed ports, source ranges and a before/after goal inspector; source blocks preserve tactics not yet represented visually.",
+      "Represent the main contradiction scope and obtain a,b,hb,h with true dependent binder identity; add named theorem application is_integer with implicit arguments inferred by Lean.",
+      "Expand the final equality chain, cast and contradiction blocks, then test graph edit → generated Lean → checker result on the same theorem.",
+      "Only after correct round-trip behavior add broad tactic palettes, automatic graph layout and visual simplification; no requirement to display every kernel term."
+    ]
+  },
+  "excludedClaims": [
+    "No faithful GLEAN translation of irrational_pi was produced.",
+    "No randomized or human user study occurred; these are agent-operated case-study findings.",
+    "No graph size/performance limit was hit by the real source because import/type support blocked earlier.",
+    "No source-level dependency map is represented as a kernel-extracted proof trace."
+  ]
+}

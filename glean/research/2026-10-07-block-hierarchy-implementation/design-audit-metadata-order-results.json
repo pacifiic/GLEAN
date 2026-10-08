@@ -1,0 +1,25 @@
+{
+  "kind": "real actual metadata replay, no new kernel verification",
+  "records": [
+    {
+      "reversedObjectOrder": false,
+      "legacyBasenameObservedType": "Bool",
+      "currentOwnedObservedType": "Or P Q",
+      "currentOwnedUsage": [
+        "P",
+        "Q",
+        "w"
+      ]
+    },
+    {
+      "reversedObjectOrder": true,
+      "legacyBasenameObservedType": "Or P Q",
+      "currentOwnedObservedType": "Or P Q",
+      "currentOwnedUsage": [
+        "P",
+        "Q",
+        "w"
+      ]
+    }
+  ]
+}

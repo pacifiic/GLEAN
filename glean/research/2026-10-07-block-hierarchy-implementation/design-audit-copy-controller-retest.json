@@ -1,0 +1,29 @@
+{
+  "productHashes": {
+    "app.js": "b3a2d92f6377fb418e04cecfe0ec25e8de54788caf4354b20072bb0ece94cf65",
+    "typed-editor.mjs": "eec219460168feb99bd16eb813f84fe5a891f1bc4afd59be9f1f1a10dd1b4970",
+    "typed-model.mjs": "8568780e0da3462ec3d04af10c94f0105e61fa0e11f060fa012e40ef6ab3e269",
+    "proof-review.mjs": "b715db1b9f5783dcf42d889bcdae6b58566ba6903522a74eb477a7d5cd7c4732"
+  },
+  "executedAt": "2026-10-07T17:06:21.533Z",
+  "kind": "actual app loadDocument/currentDocument/navigateHistory and actual typed editor callbacks; real DocumentHistory; controlled DOM, no Lean job",
+  "controllerId": "40847840-c8c3-44d3-ba76-cf6084328d25",
+  "editorIdAtFirstOpen": "40847840-c8c3-44d3-ba76-cf6084328d25",
+  "identityInitializedBeforeOpen": true,
+  "undoRetainedDocumentId": true,
+  "nodesBeforeSameDocumentPaste": 2,
+  "nodesAfterSameDocumentPaste": 3,
+  "sameDocumentPasteAccepted": true,
+  "sameDocumentPasteStatus": [
+    "unverified",
+    "타입 그래프 변경됨",
+    "Lean 검증을 다시 실행하세요."
+  ],
+  "distinctDocumentId": true,
+  "foreignPasteAtomicReject": true,
+  "foreignPasteStatus": [
+    "invalid",
+    "입력을 확인하세요",
+    "같은 문서·의미 범위에만 블록을 붙여넣을 수 있습니다."
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "kind": "actual app loadDocument/currentDocument/navigateHistory and actual typed editor callbacks; real DocumentHistory; controlled DOM, no Lean job",
+  "controllerId": "0220b95c-d245-47ea-935e-66aa4665dc47",
+  "editorIdAtFirstOpen": "0220b95c-d245-47ea-935e-66aa4665dc47",
+  "identityInitializedBeforeOpen": true,
+  "undoRetainedDocumentId": false,
+  "nodesBeforeSameDocumentPaste": 2,
+  "nodesAfterSameDocumentPaste": 3,
+  "sameDocumentPasteAccepted": true,
+  "sameDocumentPasteStatus": [
+    "unverified",
+    "타입 그래프 변경됨",
+    "Lean 검증을 다시 실행하세요."
+  ],
+  "distinctDocumentId": true,
+  "foreignPasteAtomicReject": true,
+  "foreignPasteStatus": [
+    "invalid",
+    "입력을 확인하세요",
+    "같은 문서·의미 범위에만 블록을 붙여넣을 수 있습니다."
+  ]
+}

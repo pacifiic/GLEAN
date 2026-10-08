@@ -1,0 +1,45 @@
+{
+  "kind": "actual visibility menu callbacks with controlled DOM/transport plus pure source relation model; no native UI or Lean",
+  "hashes": {
+    "typed-editor.mjs": "eec219460168feb99bd16eb813f84fe5a891f1bc4afd59be9f1f1a10dd1b4970",
+    "visibility-tools.mjs": "064a305752da285dd54243d53fef06eb300c9478aee0055b409438077464b3a3"
+  },
+  "cases": [
+    {
+      "name": "actual-direct-input-hidden-count-explicit-add-and-hide-preservation",
+      "pass": true,
+      "status": "정적 포트 연결 · 직접 추가 0개 · 수동 숨긴 관련 1개 · 본문 소스 참조 미확정",
+      "manualHiddenPreserved": true,
+      "semanticAndRealWiresUnchanged": true,
+      "additionalRequests": 0
+    },
+    {
+      "name": "actual-direct-users-only-no-transitive-selection",
+      "pass": true,
+      "targets": [
+        "zero",
+        "use"
+      ],
+      "sourceReferenceExplicitUnknown": true,
+      "noTransitiveAfter": true
+    },
+    {
+      "name": "source-direct-relation-unknown-range-without-fabricated-proof-wires",
+      "pass": true,
+      "selected": [
+        "b",
+        "c"
+      ],
+      "additions": [
+        "a"
+      ],
+      "hidden": [],
+      "unresolved": [
+        "Library.unknown"
+      ],
+      "relation": "소스 상수 직접 참조",
+      "sourceUnknown": false
+    }
+  ],
+  "pass": true
+}

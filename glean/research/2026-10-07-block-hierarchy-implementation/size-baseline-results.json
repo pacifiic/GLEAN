@@ -1,0 +1,82 @@
+{
+  "kind": "pure compiler and validation baseline, not a kernel result",
+  "cases": [
+    {
+      "minimum": 65536,
+      "bodyBytes": 65530,
+      "bodyLines": 1193,
+      "bodyHash": "9f965714946be6bdc8c7a47f11972d049ca409d6cb8188b54a82bf81b36bf4e0",
+      "requestJsonBytes": 67248,
+      "compile": {
+        "status": "invalid",
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "Lean body must be nonempty text, at most 8192 bytes",
+            "scopeId": "root",
+            "nodeId": "proof"
+          }
+        ]
+      },
+      "sourceCheck": {
+        "accepted": true
+      },
+      "lsp": {
+        "accepted": true
+      }
+    },
+    {
+      "minimum": 1048576,
+      "bodyBytes": 1048483,
+      "bodyLines": 10281,
+      "bodyHash": "8b8ad61bdda3b1f598f3dab08f7adfa11246133f7ed0838f52798f7bc2426eab",
+      "requestJsonBytes": 1059289,
+      "compile": {
+        "status": "invalid",
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "Lean body must be nonempty text, at most 8192 bytes",
+            "scopeId": "root",
+            "nodeId": "proof"
+          }
+        ]
+      },
+      "sourceCheck": {
+        "accepted": false,
+        "error": "Lean source must be nonempty and at most 128 KiB"
+      },
+      "lsp": {
+        "accepted": false,
+        "error": "Lean 파일은 128 KiB 이하여야 합니다."
+      }
+    }
+  ],
+  "textIndex": {
+    "source": "namespace AuditNamespace\nsection\nvariable (n : Nat)\nprivate theorem hidden_proof : n + 0 = n := by exact Nat.add_zero n\nmacro \"generated_identity\" : command => `(def generated : Nat := 3)\ngenerated_identity\nend\nend AuditNamespace\n",
+    "declarations": [
+      {
+        "id": "declaration-0",
+        "name": "hidden_proof",
+        "kind": "theorem",
+        "range": {
+          "start": {
+            "line": 3,
+            "character": 8
+          },
+          "end": {
+            "line": 8,
+            "character": 0
+          }
+        }
+      }
+    ],
+    "interpretation": "Conservative text only: not actual private/full names, types or macro-generated declarations."
+  },
+  "fileHashes": {
+    "glean/prototype/typed_graph.py": "b2409aae856128c048a7881b06e78d85b72b1a6ea31f6854cbad9b8a8a3ab91d",
+    "glean/prototype/source_check.py": "290d598b121b378af3984bde08f9f3f59508b2225ec92afc6b65594f9904048c",
+    "glean/prototype/lean_lsp.py": "ffd175ee23f66d4bcd6cec7e1c7244e1908a7f870df547dc34d03fbab4b15be7",
+    "glean/prototype/server.py": "7602c826ddb537aa5c2acd8656f3ce8183e90afbe669852583d5efe2b5d112f1"
+  }
+}

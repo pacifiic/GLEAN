@@ -1,0 +1,478 @@
+{
+  "compilerHash": "ec339207eccb8958d676ca83d244fc4585e206ff4852e0599b2d1b14e9cc0f19",
+  "sourceCheckerHash": "7c1e54e9d931c08ab6b7643fcb0aeba661aecd5c256e8fb04e551015b1b0eb1b",
+  "cases": [
+    {
+      "id": "R13-equality-chain",
+      "expected": "valid",
+      "status": "valid",
+      "passed": true,
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "n",
+            "name": "n",
+            "type": "Nat"
+          }
+        ],
+        "goal": "n + 0 + 0 = n",
+        "nodes": [
+          {
+            "id": "n",
+            "kind": "input",
+            "ref": "n"
+          },
+          {
+            "id": "calc",
+            "kind": "calc",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x + 0 + 0 = x",
+            "start": "x + 0 + 0",
+            "steps": [
+              {
+                "id": "first",
+                "relation": "=",
+                "term": "x + 0",
+                "proof": "by rfl"
+              },
+              {
+                "id": "second",
+                "relation": "=",
+                "term": "x",
+                "proof": "by rfl"
+              }
+            ]
+          }
+        ],
+        "edges": [
+          {
+            "id": "n_out_calc_x",
+            "source": "n",
+            "output": "out",
+            "target": "calc",
+            "input": "x"
+          }
+        ],
+        "result": {
+          "node": "calc",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "sourceMap": {
+        "root/calc": {
+          "startLine": 28,
+          "endLine": 32
+        },
+        "root/calc/first": {
+          "startLine": 30,
+          "endLine": 30
+        },
+        "root/calc/second": {
+          "startLine": 31,
+          "endLine": 31
+        },
+        "root": {
+          "startLine": 33,
+          "endLine": 36
+        }
+      },
+      "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (x : (gleanTerm% \"Nat\")) : (gleanTerm% \"x + 0 + 0 = x\") :=\n  calc\n    (gleanTerm% \"x + 0 + 0\") = (gleanTerm% \"x + 0\") := (gleanTerm% \"by rfl\")\n    _ = (gleanTerm% \"x\") := (gleanTerm% \"by rfl\")\n\ntheorem glean_proof (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n + 0 + 0 = n\") :=\n  let glean_component_2 := glean_component_1 (n)\n  glean_component_2\n",
+      "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (n : (gleanExpectedTerm% \"Nat\")), (gleanExpectedTerm% \"n + 0 + 0 = n\")\n",
+      "result": {
+        "jobId": "8648ab3f2bfe49a19e5752578ee6c773",
+        "status": "valid",
+        "phase": "complete",
+        "verified": true,
+        "kernelAccepted": true,
+        "audit": {
+          "axioms": [],
+          "standardAxioms": [],
+          "customAxioms": [],
+          "hasSorry": false,
+          "policy": "strict",
+          "policyAccepted": true
+        },
+        "diagnostics": [],
+        "filename": "Requirement.lean",
+        "projectId": "glean",
+        "target": "glean_proof",
+        "policy": "strict",
+        "sourceHash": "85cb1b2c86783830a4f88e0acfeb854307d8bfb09b7be9aa9e6ea4da56f0faeb",
+        "lean": {
+          "output": "",
+          "durationMs": 14902
+        }
+      }
+    },
+    {
+      "id": "R13-equality-wrong-step",
+      "expected": "invalid",
+      "status": "invalid",
+      "passed": true,
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "n",
+            "name": "n",
+            "type": "Nat"
+          }
+        ],
+        "goal": "n + 0 + 0 = n",
+        "nodes": [
+          {
+            "id": "n",
+            "kind": "input",
+            "ref": "n"
+          },
+          {
+            "id": "calc",
+            "kind": "calc",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x + 0 + 0 = x",
+            "start": "x + 0 + 0",
+            "steps": [
+              {
+                "id": "first",
+                "relation": "=",
+                "term": "x + 3",
+                "proof": "by rfl"
+              },
+              {
+                "id": "second",
+                "relation": "=",
+                "term": "x",
+                "proof": "by rfl"
+              }
+            ]
+          }
+        ],
+        "edges": [
+          {
+            "id": "n_out_calc_x",
+            "source": "n",
+            "output": "out",
+            "target": "calc",
+            "input": "x"
+          }
+        ],
+        "result": {
+          "node": "calc",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "sourceMap": {
+        "root/calc": {
+          "startLine": 28,
+          "endLine": 32
+        },
+        "root/calc/first": {
+          "startLine": 30,
+          "endLine": 30
+        },
+        "root/calc/second": {
+          "startLine": 31,
+          "endLine": 31
+        },
+        "root": {
+          "startLine": 33,
+          "endLine": 36
+        }
+      },
+      "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (x : (gleanTerm% \"Nat\")) : (gleanTerm% \"x + 0 + 0 = x\") :=\n  calc\n    (gleanTerm% \"x + 0 + 0\") = (gleanTerm% \"x + 3\") := (gleanTerm% \"by rfl\")\n    _ = (gleanTerm% \"x\") := (gleanTerm% \"by rfl\")\n\ntheorem glean_proof (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n + 0 + 0 = n\") :=\n  let glean_component_2 := glean_component_1 (n)\n  glean_component_2\n",
+      "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (n : (gleanExpectedTerm% \"Nat\")), (gleanExpectedTerm% \"n + 0 + 0 = n\")\n",
+      "result": {
+        "jobId": "84c1888991a044c4bb2614e96fe98e20",
+        "status": "invalid",
+        "phase": "complete",
+        "verified": false,
+        "kernelAccepted": false,
+        "audit": null,
+        "diagnostics": [
+          {
+            "filename": "Requirement.lean",
+            "line": 30,
+            "column": 68,
+            "severity": "error",
+            "message": "Tactic `rfl` failed: The left-hand side\n  x + 0 + 0\nis not definitionally equal to the right-hand side\n  x + 3\n\nx : Nat\n⊢ x + 0 + 0 = x + 3"
+          },
+          {
+            "filename": "Requirement.lean",
+            "line": 31,
+            "column": 41,
+            "severity": "error",
+            "message": "Tactic `rfl` failed: The left-hand side\n  x + 3\nis not definitionally equal to the right-hand side\n  x\n\nx : Nat\n⊢ x + 3 = x"
+          }
+        ],
+        "filename": "Requirement.lean",
+        "projectId": "glean",
+        "target": "glean_proof",
+        "policy": "strict",
+        "sourceHash": "285fdbd9258babd052da45e5fdfca972ef18ddee063c192286202b0427bdc0e9",
+        "lean": {
+          "output": "Requirement.lean:30:67: error: Tactic `rfl` failed: The left-hand side\n  x + 0 + 0\nis not definitionally equal to the right-hand side\n  x + 3\n\nx : Nat\n⊢ x + 0 + 0 = x + 3\nRequirement.lean:31:40: error: Tactic `rfl` failed: The left-hand side\n  x + 3\nis not definitionally equal to the right-hand side\n  x\n\nx : Nat\n⊢ x + 3 = x\n",
+          "durationMs": 4956
+        }
+      }
+    },
+    {
+      "id": "R13-inequality-chain",
+      "expected": "valid",
+      "status": "valid",
+      "passed": true,
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "n",
+            "name": "n",
+            "type": "Nat"
+          }
+        ],
+        "goal": "n ≤ n + 2",
+        "nodes": [
+          {
+            "id": "n",
+            "kind": "input",
+            "ref": "n"
+          },
+          {
+            "id": "calc",
+            "kind": "calc",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x ≤ x + 2",
+            "start": "x",
+            "steps": [
+              {
+                "id": "first",
+                "relation": "≤",
+                "term": "x + 1",
+                "proof": "Nat.le_succ x"
+              },
+              {
+                "id": "second",
+                "relation": "≤",
+                "term": "x + 2",
+                "proof": "Nat.le_succ (x + 1)"
+              }
+            ]
+          }
+        ],
+        "edges": [
+          {
+            "id": "n_out_calc_x",
+            "source": "n",
+            "output": "out",
+            "target": "calc",
+            "input": "x"
+          }
+        ],
+        "result": {
+          "node": "calc",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "sourceMap": {
+        "root/calc": {
+          "startLine": 28,
+          "endLine": 32
+        },
+        "root/calc/first": {
+          "startLine": 30,
+          "endLine": 30
+        },
+        "root/calc/second": {
+          "startLine": 31,
+          "endLine": 31
+        },
+        "root": {
+          "startLine": 33,
+          "endLine": 36
+        }
+      },
+      "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (x : (gleanTerm% \"Nat\")) : (gleanTerm% \"x ≤ x + 2\") :=\n  calc\n    (gleanTerm% \"x\") ≤ (gleanTerm% \"x + 1\") := (gleanTerm% \"Nat.le_succ x\")\n    _ ≤ (gleanTerm% \"x + 2\") := (gleanTerm% \"Nat.le_succ (x + 1)\")\n\ntheorem glean_proof (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n ≤ n + 2\") :=\n  let glean_component_2 := glean_component_1 (n)\n  glean_component_2\n",
+      "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (n : (gleanExpectedTerm% \"Nat\")), (gleanExpectedTerm% \"n ≤ n + 2\")\n",
+      "result": {
+        "jobId": "2eb90befe307482d8ece71c9cd230c4f",
+        "status": "valid",
+        "phase": "complete",
+        "verified": true,
+        "kernelAccepted": true,
+        "audit": {
+          "axioms": [],
+          "standardAxioms": [],
+          "customAxioms": [],
+          "hasSorry": false,
+          "policy": "strict",
+          "policyAccepted": true
+        },
+        "diagnostics": [],
+        "filename": "Requirement.lean",
+        "projectId": "glean",
+        "target": "glean_proof",
+        "policy": "strict",
+        "sourceHash": "1481608c2c916caa5e9f77612f8a7a13e7049311da6cf714a231420e8c51936a",
+        "lean": {
+          "output": "",
+          "durationMs": 9218
+        }
+      }
+    },
+    {
+      "id": "R13-inequality-wrong-step",
+      "expected": "invalid",
+      "status": "invalid",
+      "passed": true,
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "n",
+            "name": "n",
+            "type": "Nat"
+          }
+        ],
+        "goal": "n ≤ n + 2",
+        "nodes": [
+          {
+            "id": "n",
+            "kind": "input",
+            "ref": "n"
+          },
+          {
+            "id": "calc",
+            "kind": "calc",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x ≤ x + 2",
+            "start": "x",
+            "steps": [
+              {
+                "id": "first",
+                "relation": "≤",
+                "term": "x + 3",
+                "proof": "Nat.le_succ x"
+              },
+              {
+                "id": "second",
+                "relation": "≤",
+                "term": "x + 2",
+                "proof": "Nat.le_succ (x + 1)"
+              }
+            ]
+          }
+        ],
+        "edges": [
+          {
+            "id": "n_out_calc_x",
+            "source": "n",
+            "output": "out",
+            "target": "calc",
+            "input": "x"
+          }
+        ],
+        "result": {
+          "node": "calc",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "sourceMap": {
+        "root/calc": {
+          "startLine": 28,
+          "endLine": 32
+        },
+        "root/calc/first": {
+          "startLine": 30,
+          "endLine": 30
+        },
+        "root/calc/second": {
+          "startLine": 31,
+          "endLine": 31
+        },
+        "root": {
+          "startLine": 33,
+          "endLine": 36
+        }
+      },
+      "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (x : (gleanTerm% \"Nat\")) : (gleanTerm% \"x ≤ x + 2\") :=\n  calc\n    (gleanTerm% \"x\") ≤ (gleanTerm% \"x + 3\") := (gleanTerm% \"Nat.le_succ x\")\n    _ ≤ (gleanTerm% \"x + 2\") := (gleanTerm% \"Nat.le_succ (x + 1)\")\n\ntheorem glean_proof (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n ≤ n + 2\") :=\n  let glean_component_2 := glean_component_1 (n)\n  glean_component_2\n",
+      "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (n : (gleanExpectedTerm% \"Nat\")), (gleanExpectedTerm% \"n ≤ n + 2\")\n",
+      "result": {
+        "jobId": "02cfb6b6a0cb48de90a1b9f14f27bde1",
+        "status": "invalid",
+        "phase": "complete",
+        "verified": false,
+        "kernelAccepted": false,
+        "audit": null,
+        "diagnostics": [
+          {
+            "filename": "Requirement.lean",
+            "line": 30,
+            "column": 48,
+            "severity": "error",
+            "message": "Type mismatch\n  Nat.le_succ x\nhas type\n  x ≤ x.succ\nbut is expected to have type\n  x ≤ x + 3"
+          },
+          {
+            "filename": "Requirement.lean",
+            "line": 31,
+            "column": 33,
+            "severity": "error",
+            "message": "Type mismatch\n  Nat.le_succ (x + 1)\nhas type\n  x + 1 ≤ (x + 1).succ\nbut is expected to have type\n  x + 3 ≤ x + 2"
+          }
+        ],
+        "filename": "Requirement.lean",
+        "projectId": "glean",
+        "target": "glean_proof",
+        "policy": "strict",
+        "sourceHash": "dcd72c5482c7e43e237e4ef3c418a06a8871ea70e6aebbf34e632524aa98c187",
+        "lean": {
+          "output": "Requirement.lean:30:47: error: Type mismatch\n  Nat.le_succ x\nhas type\n  x ≤ x.succ\nbut is expected to have type\n  x ≤ x + 3\nRequirement.lean:31:32: error: Type mismatch\n  Nat.le_succ (x + 1)\nhas type\n  x + 1 ≤ (x + 1).succ\nbut is expected to have type\n  x + 3 ≤ x + 2\n",
+          "durationMs": 5758
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "excludedNode": {
+    "kernelVerified": true,
+    "included": false,
+    "inspectorVerification": "verified-document",
+    "inspectorDiagnostics": 0,
+    "actualWorkspaceErrors": 1
+  },
+  "restoredWatch": {
+    "accepted": true,
+    "stale": false,
+    "persistedVerification": "verified-document"
+  },
+  "groupedPort": {
+    "selectedVirtualId": "group:g1",
+    "inspector": null
+  },
+  "pendingForm": {
+    "sameFingerprintAfterUnappliedFormEdit": true,
+    "formActuallyChanged": "goal changed to unsupported formula, graph unapplied"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "kind": "pure frontend import/model baseline",
+  "cases": [
+    {
+      "sizeClass": 65536,
+      "bodyBytes": 65536,
+      "lines": 1259,
+      "serializedBytes": 67316,
+      "modelValidation": null,
+      "fileImport": {
+        "accepted": true
+      }
+    },
+    {
+      "sizeClass": 1048576,
+      "bodyBytes": 1048557,
+      "lines": 19625,
+      "serializedBytes": 1068703,
+      "modelValidation": null,
+      "fileImport": {
+        "accepted": false,
+        "error": "Lean 파일은 128 KiB, 작업 기록은 1 MiB 이하여야 합니다."
+      }
+    }
+  ],
+  "fileHashes": {
+    "document.mjs": "a9246aa9344111c8fd2f3a0c6d35b2e8f3fbd2935416e6f6267a4a2bc389f229",
+    "history.mjs": "5bb9ae2b0b6f24f228f6539cb843046a08451b1f2a8d90b09558ef9f74fe0748",
+    "app.js": "b8e20d9d21e9bd93d7c9bbc353dc214b8c4ed07f2bc96a63a89276e28aa0f813"
+  }
+}

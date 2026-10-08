@@ -1,0 +1,40 @@
+{
+  "semanticChanges": [
+    {
+      "id": "node-position",
+      "semanticUnchanged": true,
+      "documentUnchanged": false
+    },
+    {
+      "id": "outer-presentation",
+      "semanticUnchanged": false,
+      "documentUnchanged": false
+    },
+    {
+      "id": "node-hidden",
+      "semanticUnchanged": false,
+      "documentUnchanged": false
+    },
+    {
+      "id": "source-body",
+      "semanticUnchanged": false,
+      "documentUnchanged": false
+    }
+  ],
+  "history": {
+    "canUndo": true,
+    "undoRestoresOriginal": true
+  },
+  "sourceBytes": {
+    "rawLength": 53,
+    "decodedLength": 50,
+    "bomPreserved": false,
+    "crlfPreserved": true,
+    "hasRawSnapshot": false
+  },
+  "malformedUtf8": {
+    "replacementPresent": true,
+    "acceptedAfterReplacement": true,
+    "error": null
+  }
+}

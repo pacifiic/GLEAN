@@ -1,0 +1,15 @@
+queued preparing 0.0
+running command-analysis 10.0
+analyzed complete 46.2
+queued preparing 0.0
+running source-context-elaboration 5.9
+running elaborating 18.2
+running expected-signature-elaboration 51.4
+running kernel-audit 97.0
+valid complete 170.7
+original_call valid verified True sourceReplay True
+queued preparing 0.0
+running source-context-elaboration 5.9
+running elaborating 29.6
+invalid complete 134.6
+wrong_call invalid verified False sourceReplay None

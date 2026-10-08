@@ -1,0 +1,309 @@
+{
+  "kind": "graph",
+  "graph": {
+    "version": 3,
+    "name": "H04 independent Cases scope",
+    "projectId": "glean",
+    "imports": [],
+    "policy": "strict",
+    "inputs": [
+      {
+        "id": "P",
+        "name": "P",
+        "type": "Prop"
+      },
+      {
+        "id": "Q",
+        "name": "Q",
+        "type": "Prop"
+      },
+      {
+        "id": "h",
+        "name": "h",
+        "type": "P ∨ Q"
+      }
+    ],
+    "goal": "P ∨ Q",
+    "modules": [],
+    "nodes": [
+      {
+        "id": "P",
+        "kind": "input",
+        "ref": "P",
+        "x": 40,
+        "y": 70
+      },
+      {
+        "id": "Q",
+        "kind": "input",
+        "ref": "Q",
+        "x": 280,
+        "y": 70
+      },
+      {
+        "id": "h",
+        "kind": "input",
+        "ref": "h",
+        "x": 520,
+        "y": 70
+      },
+      {
+        "id": "split",
+        "kind": "cases",
+        "inputs": [
+          {
+            "id": "P",
+            "name": "P",
+            "type": "Prop"
+          },
+          {
+            "id": "Q",
+            "name": "Q",
+            "type": "Prop"
+          },
+          {
+            "id": "h",
+            "name": "h",
+            "type": "P ∨ Q"
+          }
+        ],
+        "outputType": "P ∨ Q",
+        "scrutinee": "h",
+        "branches": [
+          {
+            "id": "left",
+            "constructor": "Or.inl",
+            "binders": [
+              {
+                "id": "w",
+                "name": "w",
+                "type": "P"
+              }
+            ],
+            "nodes": [
+              {
+                "id": "left_P",
+                "kind": "input",
+                "ref": "P",
+                "x": 40,
+                "y": 70
+              },
+              {
+                "id": "left_Q",
+                "kind": "input",
+                "ref": "Q",
+                "x": 280,
+                "y": 70
+              },
+              {
+                "id": "left_w",
+                "kind": "input",
+                "ref": "w",
+                "x": 520,
+                "y": 70
+              },
+              {
+                "id": "left_proof",
+                "kind": "script",
+                "inputs": [
+                  {
+                    "id": "P",
+                    "name": "P",
+                    "type": "Prop"
+                  },
+                  {
+                    "id": "Q",
+                    "name": "Q",
+                    "type": "Prop"
+                  },
+                  {
+                    "id": "w",
+                    "name": "w",
+                    "type": "P"
+                  }
+                ],
+                "outputType": "P ∨ Q",
+                "body": "Or.inl w",
+                "x": 760,
+                "y": 70
+              }
+            ],
+            "edges": [
+              {
+                "id": "left_P_wire",
+                "source": "left_P",
+                "output": "out",
+                "target": "left_proof",
+                "input": "P"
+              },
+              {
+                "id": "left_Q_wire",
+                "source": "left_Q",
+                "output": "out",
+                "target": "left_proof",
+                "input": "Q"
+              },
+              {
+                "id": "left_w_wire",
+                "source": "left_w",
+                "output": "out",
+                "target": "left_proof",
+                "input": "w"
+              }
+            ],
+            "result": {
+              "node": "left_proof",
+              "output": "out"
+            }
+          },
+          {
+            "id": "right",
+            "constructor": "Or.inr",
+            "binders": [
+              {
+                "id": "w",
+                "name": "w",
+                "type": "Q"
+              }
+            ],
+            "nodes": [
+              {
+                "id": "right_P",
+                "kind": "input",
+                "ref": "P",
+                "x": 40,
+                "y": 70
+              },
+              {
+                "id": "right_Q",
+                "kind": "input",
+                "ref": "Q",
+                "x": 280,
+                "y": 70
+              },
+              {
+                "id": "right_w",
+                "kind": "input",
+                "ref": "w",
+                "x": 520,
+                "y": 70
+              },
+              {
+                "id": "right_proof",
+                "kind": "script",
+                "inputs": [
+                  {
+                    "id": "P",
+                    "name": "P",
+                    "type": "Prop"
+                  },
+                  {
+                    "id": "Q",
+                    "name": "Q",
+                    "type": "Prop"
+                  },
+                  {
+                    "id": "w",
+                    "name": "w",
+                    "type": "Q"
+                  }
+                ],
+                "outputType": "P ∨ Q",
+                "body": "Or.inr w",
+                "x": 760,
+                "y": 70
+              }
+            ],
+            "edges": [
+              {
+                "id": "right_P_wire",
+                "source": "right_P",
+                "output": "out",
+                "target": "right_proof",
+                "input": "P"
+              },
+              {
+                "id": "right_Q_wire",
+                "source": "right_Q",
+                "output": "out",
+                "target": "right_proof",
+                "input": "Q"
+              },
+              {
+                "id": "right_w_wire",
+                "source": "right_w",
+                "output": "out",
+                "target": "right_proof",
+                "input": "w"
+              }
+            ],
+            "result": {
+              "node": "right_proof",
+              "output": "out"
+            }
+          }
+        ],
+        "x": 760,
+        "y": 70
+      }
+    ],
+    "edges": [
+      {
+        "id": "root_P_wire",
+        "source": "P",
+        "output": "out",
+        "target": "split",
+        "input": "P"
+      },
+      {
+        "id": "root_Q_wire",
+        "source": "Q",
+        "output": "out",
+        "target": "split",
+        "input": "Q"
+      },
+      {
+        "id": "root_h_wire",
+        "source": "h",
+        "output": "out",
+        "target": "split",
+        "input": "h"
+      }
+    ],
+    "result": {
+      "node": "split",
+      "output": "out"
+    }
+  },
+  "presentation": {
+    "version": 1,
+    "scopes": {
+      "root": {
+        "hidden": [],
+        "containers": []
+      },
+      "root/split/left": {
+        "hidden": [],
+        "containers": []
+      },
+      "root/split/right": {
+        "hidden": [
+          "n:right_proof"
+        ],
+        "containers": [
+          {
+            "id": "container_052da593",
+            "name": "그룹 1",
+            "children": [
+              "n:right_proof"
+            ],
+            "collapsed": true,
+            "x": 760,
+            "y": 70
+          }
+        ]
+      }
+    },
+    "occurrenceViews": {}
+  }
+}

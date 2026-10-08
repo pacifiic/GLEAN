@@ -1,0 +1,19 @@
+// Copyright (c) 2026 GLEAN contributors. Released under Apache 2.0.
+import fs from 'node:fs';import crypto from 'node:crypto';import vm from 'node:vm';import assert from 'node:assert/strict';
+import {validateDocument,parseDocument} from '../../prototype/web/document.mjs';
+import {typedDemo} from '../../prototype/web/typed-model.mjs';
+import {normalizePresentation} from '../../prototype/web/presentation.mjs';
+
+const app=fs.readFileSync(new URL('../../prototype/web/app.js',import.meta.url),'utf8');
+const start=app.indexOf('function loadDocument('),end=app.indexOf('\nasync function navigateHistory',start);assert.ok(start>=0&&end>start);
+const setupStart=app.indexOf('const typedEditor=initTypedEditor('),setupEnd=app.indexOf('\nconst leanEditor=',setupStart),routeStart=app.indexOf("$('file-input').addEventListener('change'"),routeEnd=app.indexOf("\n$('canvas').addEventListener",routeStart);assert.ok(setupStart>=0&&setupEnd>setupStart&&routeStart>=0&&routeEnd>routeStart);
+const warningStart=app.indexOf('function renderPresentationWarning('),warningEnd=app.indexOf('\nfunction status(',warningStart);assert.ok(warningStart>=0&&warningEnd>warningStart);
+const statuses=[],toasts=[],nodes=new Map(),doc={kind:'graph',graph:typedDemo(),presentation:{version:1,scopes:{root:'broken'}}};
+let opened;
+const status=(...args)=>statuses.push(args);
+const context={doc,validateDocument,parseDocument,crypto,structuredClone,normalizePresentation,verificationEpoch:0,loading:false,restoring:false,contextObservations:[],sourceGraphSelection:null,result:null,formDirty:false,review:{},$:id=>{if(!nodes.has(id))nodes.set(id,{value:'',listeners:{},replaceChildren(){},addEventListener(k,f){this.listeners[k]=f;}});return nodes.get(id);},toast:(...args)=>toasts.push(args),status,setMode(){},clearSource(){},workspace:{reveal(){}},leanEditor:{close(){}},graphRunner:{cancel(){}},computeGate:{cancel(){},setMode(){}},requestController:null,gate:{bump(){}},restoreWatches:v=>v??[],normalizeNotebook:v=>v??{variants:[],steps:[]},renderNotebook(){},updateHistoryButtons(){},persistDraft(){},recordDocument(){},renderTypedResult(){},renderInspector(){},revealSource(){},history:{reset(){}},currentDocument:()=>opened,initTypedEditor(options){return {open(value){const normalized=normalizePresentation(value);opened={...structuredClone(value),presentation:normalized.value,presentationRecovery:normalized.original};if(normalized.warnings.length){options.onStatus('unverified','표현 복구 · 원본 보관됨',normalized.warnings.join('\n'));options.onWarning?.(normalized.warnings);}return {warnings:normalized.warnings,original:normalized.original};},setAutomatic(){},current:()=>opened};}};
+vm.createContext(context);vm.runInContext(app.slice(warningStart,warningEnd)+'\n'+app.slice(setupStart,setupEnd)+'\n'+app.slice(start,end)+'\n'+app.slice(routeStart,routeEnd),context);
+const input=nodes.get('file-input');await input.listeners.change({target:{value:'chosen',files:[{name:'corrupted.glean.json',size:JSON.stringify(doc).length,text:async()=>JSON.stringify(doc)}]}});
+const last=statuses.at(-1),panel=nodes.get('presentation-warning'),warningText=nodes.get('presentation-warning-text')?.textContent,visibleWarning=last?.join(' ').includes('복구')||toasts.at(-1)?.join(' ').includes('복구')||(panel?.hidden===false&&warningText?.includes('복구'));
+const result={kind:'actual app typed callback registration + file-input change + loadDocument + warning renderer; controlled editor model, not native UI',appHash:crypto.createHash('sha256').update(app).digest('hex'),statuses,toasts,originalPreserved:JSON.stringify(opened?.presentationRecovery)===JSON.stringify(doc.presentation),panelHidden:panel?.hidden,warningText,visibleWarning,pass:!!visibleWarning};
+fs.writeFileSync(new URL(process.argv[2]??'import-warning-route-retest-results.json',import.meta.url),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));process.exitCode=result.pass?0:1;

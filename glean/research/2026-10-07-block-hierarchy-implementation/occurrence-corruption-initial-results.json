@@ -1,0 +1,22 @@
+{
+  "kind": "pure recovery checks, not UI/Lean",
+  "presentationHash": "69959e5dada5701c5174967d06fba8b129518edc5b5668b2ca8b645ca160784a",
+  "cases": [
+    {
+      "id": "malformed",
+      "pass": false,
+      "error": "silent loss without warning",
+      "warnings": [],
+      "count": 0,
+      "originalPreserved": false
+    },
+    {
+      "id": "overflow",
+      "pass": false,
+      "error": "silent loss without warning",
+      "warnings": [],
+      "count": 256,
+      "originalPreserved": false
+    }
+  ]
+}

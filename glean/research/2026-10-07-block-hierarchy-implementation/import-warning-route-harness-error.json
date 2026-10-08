@@ -1,0 +1,14 @@
+{
+  "kind": "actual app typed callback registration + file-input change + loadDocument; controlled editor model, not native UI",
+  "appHash": "fde12b9d61be7d06ad93010b670a520a10a6d6101034d967584bab18c39aff01",
+  "statuses": [],
+  "toasts": [
+    [
+      "renderPresentationWarning is not defined",
+      true
+    ]
+  ],
+  "originalPreserved": false,
+  "visibleWarning": false,
+  "pass": false
+}

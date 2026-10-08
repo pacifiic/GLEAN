@@ -1,0 +1,70 @@
+{
+  "appHash": "b8e20d9d21e9bd93d7c9bbc353dc214b8c4ed07f2bc96a63a89276e28aa0f813",
+  "typedEditorHash": "5d459779c1c3c69822faa24d5fef4e0e0dc8c64911adabec11dcb2825aa1a376",
+  "observationsAreTestDoubles": true,
+  "cases": [
+    {
+      "id": "Cases-left",
+      "scopeId": "root/case/left",
+      "nodeIds": [
+        "join",
+        "hp",
+        "Q",
+        "P"
+      ],
+      "sourceRange": {
+        "startLine": 28,
+        "endLine": 30
+      },
+      "sourceIdentity": "2e8f68cb:2464",
+      "projectId": "glean",
+      "filename": "Graph.lean",
+      "roundtrip": true,
+      "invalidated": [
+        "source",
+        "project",
+        "file"
+      ],
+      "exploreJumps": [
+        [
+          28,
+          4
+        ]
+      ],
+      "reveals": [
+        "inspector"
+      ]
+    },
+    {
+      "id": "Fin-module",
+      "scopeId": "module/bound",
+      "nodeIds": [
+        "proof",
+        "i",
+        "n"
+      ],
+      "sourceRange": {
+        "startLine": 28,
+        "endLine": 30
+      },
+      "sourceIdentity": "90d6384e:1913",
+      "projectId": "glean",
+      "filename": "Graph.lean",
+      "roundtrip": true,
+      "invalidated": [
+        "source",
+        "project",
+        "file"
+      ],
+      "exploreJumps": [
+        [
+          28,
+          4
+        ]
+      ],
+      "reveals": [
+        "inspector"
+      ]
+    }
+  ]
+}

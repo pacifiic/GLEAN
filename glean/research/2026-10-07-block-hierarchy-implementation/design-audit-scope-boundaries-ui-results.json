@@ -1,0 +1,75 @@
+{
+  "casesModel": {
+    "crossSiblingContainmentRejected": true,
+    "containmentRejectedBeforeMutation": true,
+    "crossSiblingWireRejected": true,
+    "wireUnchanged": true,
+    "validGroup": true,
+    "foreignImportWarned": true,
+    "foreignImportOriginalRetained": true,
+    "foreignMemberRemoved": true,
+    "projectedOriginalTargets": [
+      "left_proof",
+      "left_proof"
+    ]
+  },
+  "parentModel": {
+    "foreignChildContainmentRejected": true,
+    "atomic": true,
+    "publicInputPorts": [
+      {
+        "nodeId": "parent",
+        "input": "x"
+      }
+    ],
+    "publicOutputPorts": [
+      {
+        "nodeId": "parent",
+        "output": "out"
+      }
+    ],
+    "inputEdge": {
+      "id": "outer-input",
+      "source": "n",
+      "output": "out",
+      "target": "@container:valid",
+      "input": "[\"in\",\"parent\",\"x\"]",
+      "originalSource": "n",
+      "originalOutput": "out",
+      "originalTarget": "parent",
+      "originalInput": "x"
+    },
+    "resultEdge": {
+      "id": "outer-result",
+      "source": "@container:valid",
+      "output": "[\"out\",\"parent\",\"out\"]",
+      "target": "proof",
+      "input": "y",
+      "originalSource": "parent",
+      "originalOutput": "out",
+      "originalTarget": "proof",
+      "originalInput": "y",
+      "sourcePort": "[\"out\",\"parent\",\"out\"]"
+    }
+  },
+  "casesEditor": {
+    "originalEdgePreserved": true,
+    "semanticUnchanged": true,
+    "foreignNodeNotRendered": true,
+    "scope": "root/split/right",
+    "semanticAfterPresentation": true
+  },
+  "parentEditor": {
+    "innerEdgePreserved": true,
+    "semanticUnchanged": true,
+    "rootNatNotRendered": true,
+    "trail": [
+      {
+        "scopeId": "root",
+        "nodeId": "parent",
+        "definitionId": "M"
+      }
+    ],
+    "semanticAfterPresentation": true
+  }
+}

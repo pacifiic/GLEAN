@@ -1,0 +1,64 @@
+{
+  "cases": [
+    {
+      "scenario": "late-preview-success",
+      "delivered": [
+        {
+          "status": "valid",
+          "verified": true,
+          "generatedCode": "actual newer source"
+        }
+      ],
+      "statuses": [
+        [
+          "checking",
+          "구조 미리보기 중",
+          "명시적 입력과 최종 목표를 확인합니다."
+        ],
+        [
+          "checking",
+          "Lean 타입·커널 검사 중",
+          "명시적 입력과 최종 목표를 확인합니다."
+        ]
+      ],
+      "lastStatus": "valid",
+      "lastVerified": true,
+      "obsoleteErrorShown": false,
+      "expected": {
+        "lastStatus": "valid",
+        "lastVerified": true,
+        "obsoleteErrorShown": false
+      }
+    },
+    {
+      "scenario": "late-preview-error",
+      "delivered": [
+        {
+          "status": "valid",
+          "verified": true,
+          "generatedCode": "actual newer source"
+        }
+      ],
+      "statuses": [
+        [
+          "checking",
+          "구조 미리보기 중",
+          "명시적 입력과 최종 목표를 확인합니다."
+        ],
+        [
+          "checking",
+          "Lean 타입·커널 검사 중",
+          "명시적 입력과 최종 목표를 확인합니다."
+        ]
+      ],
+      "lastStatus": "valid",
+      "lastVerified": true,
+      "obsoleteErrorShown": false,
+      "expected": {
+        "lastStatus": "valid",
+        "lastVerified": true,
+        "obsoleteErrorShown": false
+      }
+    }
+  ]
+}

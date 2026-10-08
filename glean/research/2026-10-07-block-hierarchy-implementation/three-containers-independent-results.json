@@ -1,0 +1,64 @@
+{
+  "kind": "independent inspection of actual native downloaded export; actual pure compiler; no new kernel run",
+  "exportBytes": 3269,
+  "exportHash": "cfbbbabc4c650cc32790fa7dc3b48e924451aec75b093212087834de16295755",
+  "pass": true,
+  "movedIds": [
+    "f",
+    "hp",
+    "g",
+    "apply1",
+    "apply2"
+  ],
+  "delta": {
+    "x": 155,
+    "y": 86
+  },
+  "unmovedIds": [
+    "goal"
+  ],
+  "realEdgesUnchanged": true,
+  "generatedCodeUnchanged": true,
+  "generatedCodeHash": "717c73175eeab1decb401515f60641d7903712843bf7002d542ebd918f9b8b03",
+  "beforeCompiler": "ready",
+  "afterCompiler": "ready",
+  "containers": [
+    {
+      "id": "legacy-group",
+      "name": "이전 문서 함수 적용",
+      "children": [
+        "n:f",
+        "n:hp",
+        "n:apply1"
+      ],
+      "collapsed": true,
+      "x": 215,
+      "y": 166
+    },
+    {
+      "id": "container_525b56fb",
+      "name": "그룹 2",
+      "children": [
+        "c:legacy-group",
+        "n:g"
+      ],
+      "collapsed": true,
+      "x": 215,
+      "y": 166
+    },
+    {
+      "id": "container_52a1499a",
+      "name": "그룹 3",
+      "children": [
+        "c:container_525b56fb",
+        "n:apply2"
+      ],
+      "collapsed": true,
+      "x": 215,
+      "y": 166
+    }
+  ],
+  "hidden": [
+    "c:container_52a1499a"
+  ]
+}

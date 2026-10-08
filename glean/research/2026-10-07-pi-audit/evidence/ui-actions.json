@@ -1,0 +1,58 @@
+{
+  "copyright": "Copyright (c) 2026 GLEAN contributors. Released under Apache 2.0.",
+  "not_pi_proof": true,
+  "sequence": [
+    {
+      "action": "set goal Irrational Real.pi; apply; verify",
+      "result": "Goal type: Unsupported type syntax at character 2."
+    },
+    {
+      "action": "upload official Irrational.lean via file chooser",
+      "result": "JSON 파일을 읽지 못했습니다. GLEAN 그래프 파일인지 확인해 주세요."
+    },
+    {
+      "action": "set goal ∀ n : ℕ, n ≤ n; apply; verify",
+      "result": "Goal type: Unsupported type syntax at character 1."
+    },
+    {
+      "action": "restore compose/R; verify",
+      "result": "Verified, additional axioms none,1.41seconds"
+    },
+    {
+      "action": "drag f header (402,234)→(420,214)",
+      "result": "다시 검증해 주세요; source emptied; export disabled"
+    },
+    {
+      "action": "delete f; Meta+Z; Control+Z",
+      "result": "5nodes/4wires persists"
+    },
+    {
+      "action": "doubleclick empty canvas(766,430)",
+      "result": "No search or menu; AX unchanged"
+    },
+    {
+      "action": "import ui-stress-40.json; verify",
+      "result": "Verified43nodes/81wires,1.06seconds, fit24%"
+    },
+    {
+      "action": "fullscreen; pan empty canvas; wheel up",
+      "result": "Fullscreen fit65%, wheel200%; verification retained"
+    },
+    {
+      "action": "import missing-input fixture; verify; click apply20/fn diagnostic",
+      "result": "Correct node centered but zoom24%, node39.07x21.98px, generic selected label"
+    },
+    {
+      "action": "click f output then apply20 fn input; verify",
+      "result": "43nodes/81wires verified"
+    },
+    {
+      "action": "click apply20 header",
+      "result": "Selected label 함수 적용; source plain PRE; no code navigation/highlight"
+    },
+    {
+      "action": "reload unsaved repaired43node graph",
+      "result": "compose6nodes/5wires restored; no recovery of test draft"
+    }
+  ]
+}

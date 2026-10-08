@@ -1,0 +1,9 @@
+{
+  "kind": "independent parse and semantic comparison of root native downloaded file; does not itself drive browser",
+  "bytes": 5730,
+  "sha256": "ffd89d8f5727f874ba08c03f137452ca7df67d6093d185fac6e18dc1df37e3ee",
+  "semanticEqualToOriginal": true,
+  "nodes": 5,
+  "edges": 4,
+  "containsActiveSession": false
+}

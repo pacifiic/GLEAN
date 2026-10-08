@@ -1,0 +1,24 @@
+{
+  "kind": "actual source-analysis visibility callbacks consuming saved independently obtained actual command-state metadata; controlled DOM/start response; no native UI/new Lean",
+  "pass": true,
+  "sourceMetadataHash": "38997832614cd723175764ad226bdca012fee0c22f74c4ca149c34fcb2f923ee",
+  "actualInputStatus": "소스 상수 직접 참조 · 직접 추가 0개 · 수동 숨긴 관련 1개 · 범위 밖 참조 1개",
+  "directUsers": [
+    "declaration:Scoped.generated",
+    "declaration:Scoped.from_macro",
+    "declaration:Scoped.valid_after_error"
+  ],
+  "fullSourceAndSemanticKeyPreservedDuringVisibility": true,
+  "realProofEdges": 0,
+  "analysisRequestsOnly": 1,
+  "viewCommits": 2,
+  "historicalJumpsDisabledAfterSourceEdit": true,
+  "historicalLocalDependencyLabel": true,
+  "historicalRelationshipExplicitUnknown": true,
+  "warnings": [],
+  "productHashes": {
+    "source-analysis.mjs": "d7a1e81f7eb8e2a5bc02c1901ff0e6f7db24daaad64c62b0904c760b97bbda2e",
+    "source-view.mjs": "3a95b9a7aba5b1ec195b0dce4980f60913f92a5c158c48954f63d83cc24b2145",
+    "visibility-tools.mjs": "0041fb157301d3e111256c59ad4cebbf468e7c721083282287190fd9e5e93cac"
+  }
+}

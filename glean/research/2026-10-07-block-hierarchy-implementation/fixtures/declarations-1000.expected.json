@@ -1,0 +1,14 @@
+{
+  "kind": "expected source fixture identity; actual adapter result must be independently compared",
+  "sourceSha256": "1c0381a9f9025858899bd2d776e4b22c7b39715d417f3f34e8391b15dd83678d",
+  "bytes": 65203,
+  "expectedCommands": 1000,
+  "firstFullName": "GleanLargeIndex.declaration_0000",
+  "lastFullName": "GleanLargeIndex.declaration_0999",
+  "expectedOrderedInputNames": [
+    "n"
+  ],
+  "expectedInputType": "Nat",
+  "expectedOutputType": "n + 0 = n",
+  "expectedDirectDependency": "Nat.add_zero"
+}

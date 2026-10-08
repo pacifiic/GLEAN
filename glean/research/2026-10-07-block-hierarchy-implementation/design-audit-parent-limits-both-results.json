@@ -1,0 +1,42 @@
+[
+  {
+    "condition": "module-limit",
+    "kind": "코드",
+    "validationBefore": null,
+    "validationAfter": null,
+    "unchanged": true,
+    "changes": 0,
+    "moduleCount": 32,
+    "nodeCount": 34
+  },
+  {
+    "condition": "module-limit",
+    "kind": "그래프",
+    "validationBefore": null,
+    "validationAfter": null,
+    "unchanged": true,
+    "changes": 0,
+    "moduleCount": 32,
+    "nodeCount": 34
+  },
+  {
+    "condition": "node-limit",
+    "kind": "코드",
+    "validationBefore": null,
+    "validationAfter": null,
+    "unchanged": true,
+    "changes": 0,
+    "moduleCount": 0,
+    "nodeCount": 254
+  },
+  {
+    "condition": "node-limit",
+    "kind": "그래프",
+    "validationBefore": null,
+    "validationAfter": null,
+    "unchanged": true,
+    "changes": 0,
+    "moduleCount": 0,
+    "nodeCount": 254
+  }
+]

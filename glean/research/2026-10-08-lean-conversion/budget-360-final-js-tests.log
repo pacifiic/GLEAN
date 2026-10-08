@@ -1,0 +1,14 @@
+✔ compound checks describe the current phase, elapsed time and server budget without estimating completion (2.442625ms)
+✔ progress never replaces a final verification state and does not invent missing server budgets (0.38825ms)
+✔ cancel during start cancels returned late job and never delivers it (2.997042ms)
+✔ replacement awaits cancellation before starting and sends terminal result only once (0.766083ms)
+✔ progress reports server phases and budget without publishing an intermediate verification result (2.649125ms)
+✔ cancelled late poll publishes neither progress nor a result (2.242333ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 222.987584

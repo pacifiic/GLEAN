@@ -1,0 +1,69 @@
+{
+  "kind": "pure model/import/history controls, not Lean or browser acceptance",
+  "cases": [
+    {
+      "id": "three-level-roundtrip-v1",
+      "pass": true,
+      "version": 1,
+      "levels": 3,
+      "hidden": [
+        "n:f"
+      ],
+      "undoRedo": true,
+      "fileRoundtrip": true,
+      "draftRoundtrip": true
+    },
+    {
+      "id": "three-level-roundtrip-v2",
+      "pass": true,
+      "version": 2,
+      "levels": 3,
+      "hidden": [
+        "n:f"
+      ],
+      "undoRedo": true,
+      "fileRoundtrip": true,
+      "draftRoundtrip": true
+    },
+    {
+      "id": "three-level-roundtrip-v3",
+      "pass": true,
+      "version": 3,
+      "levels": 3,
+      "hidden": [
+        "n:n"
+      ],
+      "undoRedo": true,
+      "fileRoundtrip": true,
+      "draftRoundtrip": true
+    },
+    {
+      "id": "malformed-scope-quarantine",
+      "pass": true,
+      "warnings": [
+        "root: 손상된 범위 표현을 복구했습니다."
+      ],
+      "originalPreserved": true
+    },
+    {
+      "id": "overflow-containers-quarantine",
+      "pass": true,
+      "count": 256,
+      "warnings": [
+        "root: 컨테이너 한도를 넘은 표현을 복구했습니다."
+      ],
+      "originalPreserved": true
+    },
+    {
+      "id": "empty-container-finite-grouping",
+      "pass": true,
+      "atomicRejection": true,
+      "error": "빈 그룹은 묶을 수 없습니다."
+    }
+  ],
+  "fileHashes": {
+    "presentation.mjs": "69959e5dada5701c5174967d06fba8b129518edc5b5668b2ca8b645ca160784a",
+    "history.mjs": "516a868b459439556e5c4043a9d2806f25e10ec83f538ccd678d4caaee6ea112",
+    "document.mjs": "a9246aa9344111c8fd2f3a0c6d35b2e8f3fbd2935416e6f6267a4a2bc389f229"
+  }
+}

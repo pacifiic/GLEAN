@@ -1,0 +1,120 @@
+{
+  "originCorrection": {
+    "display": "원본 바이트 SHA-256 e38ff0282ddc575462c4035285554085bec76b407986d9870ce48ef114ee0bd2 · BOM 없음 · 저장된 출처 hash 불일치",
+    "actualHash": "e38ff0282ddc575462c4035285554085bec76b407986d9870ce48ef114ee0bd2",
+    "mismatchWarning": true
+  },
+  "kind": "actual app import/load/currentDocument/file-block/open/back/save/export callbacks, actual Lean editor with controlled transport; real DraftStore/DocumentHistory; no native UI or Lean process",
+  "appHash": "bd72d6e96ee13239b5fa1831b5f02bfb4d9c3b91dccfde59ec988379ad3cfef6",
+  "fixtures": [
+    {
+      "name": "RawPreserved.lean",
+      "bytes": 152,
+      "sha256": "60f03bdd58ac43f7cac5a480880cdc67e3b1813bbe962cdb8d949414b3b9b92b",
+      "originHash": "60f03bdd58ac43f7cac5a480880cdc67e3b1813bbe962cdb8d949414b3b9b92b",
+      "decoding": "utf-8",
+      "bom": true,
+      "fileBlockMeta": "Lean 원본 파일 · 분석 전 · 152 bytes · glean",
+      "sourceTextIncludesReplacement": false,
+      "actualImportOpenBackSaveExportPass": true,
+      "jsonRoundTripPass": true,
+      "draftRecoveryPass": true,
+      "undoPass": true,
+      "originalBytesAfterEdit": "60f03bdd58ac43f7cac5a480880cdc67e3b1813bbe962cdb8d949414b3b9b92b",
+      "currentBytesAfterEditDiffer": true
+    },
+    {
+      "name": "RawInvalidUtf8.lean",
+      "bytes": 109,
+      "sha256": "2404302eff76273fd11c2a4d05c4f5b33ccf44cd1683ca6fd58be47a908b5b3c",
+      "originHash": "2404302eff76273fd11c2a4d05c4f5b33ccf44cd1683ca6fd58be47a908b5b3c",
+      "decoding": "invalid-utf8",
+      "bom": false,
+      "fileBlockMeta": "UTF-8 해독 실패 · 원본 바이트 보관됨 · 109 bytes · glean",
+      "sourceTextIncludesReplacement": false,
+      "actualImportOpenBackSaveExportPass": true,
+      "jsonRoundTripPass": true,
+      "draftRecoveryPass": true,
+      "undoPass": true,
+      "originalBytesAfterEdit": "2404302eff76273fd11c2a4d05c4f5b33ccf44cd1683ca6fd58be47a908b5b3c",
+      "currentBytesAfterEditDiffer": true
+    }
+  ],
+  "sizes": [
+    {
+      "size": 65536,
+      "validated": true,
+      "error": null
+    },
+    {
+      "size": 1048576,
+      "validated": true,
+      "error": null
+    },
+    {
+      "size": 8388608,
+      "validated": true,
+      "error": null
+    }
+  ],
+  "malformedOriginValidation": [
+    {
+      "name": "missingHash",
+      "error": "원본 Lean 파일 바이트 및 출처 정보의 형식을 확인하세요."
+    },
+    {
+      "name": "wrongHash",
+      "error": null
+    },
+    {
+      "name": "wrongByteLength",
+      "error": "원본 Lean 파일 바이트 및 출처 정보의 형식을 확인하세요."
+    },
+    {
+      "name": "wrongDecoding",
+      "error": "원본 Lean 파일 바이트 및 출처 정보의 형식을 확인하세요."
+    }
+  ],
+  "toasts": [
+    [
+      "Lean 원본 파일을 열었습니다. 소스 열기 또는 선언 분석을 선택하세요."
+    ],
+    [
+      "UTF-8 해독 실패 · 원본 바이트가 보관되었습니다. 원본 파일 저장으로 복구하세요."
+    ],
+    [
+      "Lean 원본 파일을 열었습니다. 소스 열기 또는 선언 분석을 선택하세요."
+    ],
+    [
+      "저장된 원본 hash와 실제 바이트가 다릅니다. 실제 바이트의 SHA-256을 표시합니다.",
+      true
+    ]
+  ],
+  "statuses": [
+    [
+      "unverified",
+      "Lean 소스 검사 대기",
+      "검증할 정리를 지정하고 Lean으로 검증을 누르세요."
+    ],
+    [
+      "unverified",
+      "Lean 소스 검사 대기",
+      "검증할 정리를 지정하고 Lean으로 검증을 누르세요."
+    ],
+    [
+      "unverified",
+      "Lean 소스 검사 대기",
+      "검증할 정리를 지정하고 Lean으로 검증을 누르세요."
+    ]
+  ],
+  "transportRequests": [
+    "/api/lean/projects",
+    "/api/lean/open",
+    "/api/lean/projects",
+    "/api/lean/close",
+    "/api/lean/open",
+    "/api/lean/projects",
+    "/api/lean/close",
+    "/api/lean/open"
+  ]
+}

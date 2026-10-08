@@ -1,0 +1,11 @@
+{
+  "kind": "actual typed Map creation while isolated; controlled DOM/fetch, no native UI or Lean",
+  "pass": true,
+  "createdId": "map_8870b972_0",
+  "createdVisible": true,
+  "targets": [
+    "zero",
+    "map_8870b972_0"
+  ],
+  "hash": "a63af461f71f714d0a52e0fed44970e862fad11be904822e39c4020ea7b4bf0c"
+}

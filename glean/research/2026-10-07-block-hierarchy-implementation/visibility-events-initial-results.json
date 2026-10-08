@@ -1,0 +1,40 @@
+{
+  "kind": "actual product event callbacks / small DOM model / controlled fetch, not native UI or kernel",
+  "hashes": {
+    "typedEditor": "cb06bc25d1f9db24d8f913a98cc5bd6ac70026693d887227a7ed93e69b43a5d6",
+    "presentation": "65f2bd4263c70b4ee85ac2ff1ebde432186150e5d940a512bf406aeb695f5045",
+    "visibilityTools": "8e253499eb85bc01ee633903b570e5c844b254e621c00d141fe0c31cc87281fc"
+  },
+  "cases": [
+    {
+      "id": "hide-delete-prunes-saved-hidden-id",
+      "pass": false,
+      "error": "normal user deletion must not create corrupted presentation\n+ actual - expected\n\n+ [\n+   'root: 없는 숨김 항목을 제외했습니다.'\n+ ]\n- []\n"
+    },
+    {
+      "id": "group-delete-prunes-saved-child-id",
+      "pass": false,
+      "error": "normal group child deletion must not create corrupted presentation\n+ actual - expected\n\n+ [\n+   'root: 존재하지 않거나 중복된 소속을 제외했습니다.'\n+ ]\n- []\n"
+    },
+    {
+      "id": "deleting-last-isolation-target-safely-ends-frame",
+      "pass": true,
+      "visible": [
+        "n",
+        "zero"
+      ]
+    },
+    {
+      "id": "new-node-is-immediately-in-current-isolation",
+      "pass": true,
+      "added": "nat_22efeef7"
+    },
+    {
+      "id": "presentation-events-preserve-result-and-do-not-request-check",
+      "pass": true,
+      "requests": 1,
+      "layoutCommits": 1,
+      "navigationCommits": 0
+    }
+  ]
+}

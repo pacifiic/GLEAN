@@ -1,0 +1,81 @@
+[
+  {
+    "case": "type",
+    "originalDisplayedErrors": 2,
+    "currentMergedErrors": 1,
+    "diagnostics": [
+      {
+        "filename": "GLEAN_FRAGMENT_1",
+        "line": 4,
+        "column": 3,
+        "severity": "error",
+        "message": "Type mismatch\n  0\nhas type\n  Nat\nof sort `Type` but is expected to have type\n  True\nof sort `Prop`",
+        "graphLocation": "root/proof",
+        "fragmentField": "body",
+        "bodyLine": 4,
+        "bodyColumn": 3,
+        "columnEncoding": "unicode"
+      }
+    ]
+  },
+  {
+    "case": "syntax",
+    "originalDisplayedErrors": 2,
+    "currentMergedErrors": 1,
+    "diagnostics": [
+      {
+        "filename": "GLEAN_FRAGMENT_1",
+        "line": 3,
+        "column": 10,
+        "severity": "error",
+        "message": "unexpected end of input; expected ')', '_' or identifier",
+        "graphLocation": "root/proof",
+        "fragmentField": "body",
+        "bodyLine": 3,
+        "bodyColumn": 10,
+        "columnEncoding": "unicode"
+      }
+    ]
+  },
+  {
+    "case": "syntax_eof_newline",
+    "originalDisplayedErrors": 2,
+    "currentMergedErrors": 1,
+    "diagnostics": [
+      {
+        "filename": "GLEAN_FRAGMENT_1",
+        "line": 4,
+        "column": 1,
+        "severity": "error",
+        "message": "unexpected end of input; expected ')', '_' or identifier",
+        "graphLocation": "root/proof",
+        "fragmentField": "body",
+        "bodyLine": 4,
+        "bodyColumn": 1,
+        "columnEncoding": "unicode"
+      }
+    ]
+  },
+  {
+    "case": "unicode",
+    "originalDisplayedErrors": 2,
+    "currentMergedErrors": 1,
+    "diagnostics": [
+      {
+        "filename": "GLEAN_FRAGMENT_1",
+        "line": 2,
+        "column": 24,
+        "severity": "error",
+        "message": "Type mismatch\n  0\nhas type\n  Nat\nof sort `Type` but is expected to have type\n  True\nof sort `Prop`",
+        "graphLocation": "root/proof",
+        "fragmentField": "body",
+        "bodyLine": 2,
+        "bodyColumn": 24,
+        "columnEncoding": "unicode"
+      }
+    ]
+  },
+  {
+    "independentWrapperDiagnosticPreserved": true
+  }
+]

@@ -1,0 +1,2934 @@
+{
+  "compilerHash": "d405b2f8793272823bc41ee6953b081482e2b27bf3545ce5f2e0e41ff59cd49c",
+  "sourceCheckerHash": "7c1e54e9d931c08ab6b7643fcb0aeba661aecd5c256e8fb04e551015b1b0eb1b",
+  "cases": [
+    {
+      "id": "R02-script-valid",
+      "expected": "valid",
+      "status": "valid",
+      "passed": true,
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "n",
+            "name": "n",
+            "type": "Nat"
+          }
+        ],
+        "goal": "n + 0 = n",
+        "nodes": [
+          {
+            "id": "n",
+            "kind": "input",
+            "ref": "n"
+          },
+          {
+            "id": "s",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x + 0 = x",
+            "body": "by rfl"
+          }
+        ],
+        "edges": [
+          {
+            "id": "n_out_s_x",
+            "source": "n",
+            "output": "out",
+            "target": "s",
+            "input": "x"
+          }
+        ],
+        "result": {
+          "node": "s",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "sourceMap": {
+        "root/s": {
+          "startLine": 28,
+          "endLine": 30
+        },
+        "root": {
+          "startLine": 31,
+          "endLine": 34
+        }
+      },
+      "result": {
+        "jobId": "529ad61efcee4b76a4a7d361d5b73356",
+        "status": "valid",
+        "phase": "complete",
+        "verified": true,
+        "kernelAccepted": true,
+        "audit": {
+          "axioms": [],
+          "standardAxioms": [],
+          "customAxioms": [],
+          "hasSorry": false,
+          "policy": "strict",
+          "policyAccepted": true
+        },
+        "diagnostics": [],
+        "filename": "Requirement.lean",
+        "projectId": "glean",
+        "target": "glean_proof",
+        "policy": "strict",
+        "sourceHash": "d47cd34a0c1654974590bb866c911c1b07c22ced0720e79e7041cf2835b40267",
+        "lean": {
+          "output": "",
+          "durationMs": 22647
+        }
+      },
+      "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (x : (gleanTerm% \"Nat\")) : (gleanTerm% \"x + 0 = x\") :=\n  (gleanTerm% \"by rfl\")\n\ntheorem glean_proof (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n + 0 = n\") :=\n  let glean_component_2 := glean_component_1 (n)\n  glean_component_2\n",
+      "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (n : (gleanExpectedTerm% \"Nat\")), (gleanExpectedTerm% \"n + 0 = n\")\n"
+    },
+    {
+      "id": "R02-wrong-term",
+      "expected": "invalid",
+      "status": "invalid",
+      "passed": true,
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "n",
+            "name": "n",
+            "type": "Nat"
+          }
+        ],
+        "goal": "n + 0 = n",
+        "nodes": [
+          {
+            "id": "n",
+            "kind": "input",
+            "ref": "n"
+          },
+          {
+            "id": "s",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x + 0 = x",
+            "body": "True.intro"
+          }
+        ],
+        "edges": [
+          {
+            "id": "n_out_s_x",
+            "source": "n",
+            "output": "out",
+            "target": "s",
+            "input": "x"
+          }
+        ],
+        "result": {
+          "node": "s",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "sourceMap": {
+        "root/s": {
+          "startLine": 28,
+          "endLine": 30
+        },
+        "root": {
+          "startLine": 31,
+          "endLine": 34
+        }
+      },
+      "result": {
+        "jobId": "d9aaf6af87a044ccb0017a88c14bb0dc",
+        "status": "invalid",
+        "phase": "complete",
+        "verified": false,
+        "kernelAccepted": false,
+        "audit": null,
+        "diagnostics": [
+          {
+            "filename": "Requirement.lean",
+            "line": 29,
+            "column": 3,
+            "severity": "error",
+            "message": "Type mismatch\n  True.intro\nhas type\n  True\nbut is expected to have type\n  x + 0 = x"
+          }
+        ],
+        "filename": "Requirement.lean",
+        "projectId": "glean",
+        "target": "glean_proof",
+        "policy": "strict",
+        "sourceHash": "2a1d7c9ef2bec5de9674ef59d4ef4b7c36a1dfee0729470588b03dcda13f3c1f",
+        "lean": {
+          "output": "Requirement.lean:29:2: error: Type mismatch\n  True.intro\nhas type\n  True\nbut is expected to have type\n  x + 0 = x\n",
+          "durationMs": 4647
+        }
+      },
+      "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (x : (gleanTerm% \"Nat\")) : (gleanTerm% \"x + 0 = x\") :=\n  (gleanTerm% \"True.intro\")\n\ntheorem glean_proof (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n + 0 = n\") :=\n  let glean_component_2 := glean_component_1 (n)\n  glean_component_2\n",
+      "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (n : (gleanExpectedTerm% \"Nat\")), (gleanExpectedTerm% \"n + 0 = n\")\n"
+    },
+    {
+      "id": "R02-sorry",
+      "expected": "incomplete",
+      "status": "incomplete",
+      "passed": true,
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "n",
+            "name": "n",
+            "type": "Nat"
+          }
+        ],
+        "goal": "n + 0 = n",
+        "nodes": [
+          {
+            "id": "n",
+            "kind": "input",
+            "ref": "n"
+          },
+          {
+            "id": "s",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x + 0 = x",
+            "body": "by sorry"
+          }
+        ],
+        "edges": [
+          {
+            "id": "n_out_s_x",
+            "source": "n",
+            "output": "out",
+            "target": "s",
+            "input": "x"
+          }
+        ],
+        "result": {
+          "node": "s",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "sourceMap": {
+        "root/s": {
+          "startLine": 28,
+          "endLine": 30
+        },
+        "root": {
+          "startLine": 31,
+          "endLine": 34
+        }
+      },
+      "result": {
+        "jobId": "af6a82bbfe00418a8c7471484f5a66c3",
+        "status": "incomplete",
+        "phase": "complete",
+        "verified": false,
+        "kernelAccepted": true,
+        "audit": {
+          "axioms": [
+            "sorryAx"
+          ],
+          "standardAxioms": [],
+          "customAxioms": [],
+          "hasSorry": true,
+          "policy": "strict",
+          "policyAccepted": false
+        },
+        "diagnostics": [
+          {
+            "filename": "Requirement.lean",
+            "line": 28,
+            "column": 19,
+            "severity": "warning",
+            "message": "declaration uses `sorry`"
+          },
+          {
+            "severity": "warning",
+            "message": "대상 정리에 sorry로 남겨 둔 증명이 있습니다."
+          }
+        ],
+        "filename": "Requirement.lean",
+        "projectId": "glean",
+        "target": "glean_proof",
+        "policy": "strict",
+        "sourceHash": "53b6723245830a3bb7c10da6036298627622871b24a21402a8d5444ab9720597",
+        "lean": {
+          "output": "Requirement.lean:28:18: warning: declaration uses `sorry`\n",
+          "durationMs": 7284
+        }
+      },
+      "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (x : (gleanTerm% \"Nat\")) : (gleanTerm% \"x + 0 = x\") :=\n  (gleanTerm% \"by sorry\")\n\ntheorem glean_proof (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n + 0 = n\") :=\n  let glean_component_2 := glean_component_1 (n)\n  glean_component_2\n",
+      "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (n : (gleanExpectedTerm% \"Nat\")), (gleanExpectedTerm% \"n + 0 = n\")\n"
+    },
+    {
+      "id": "R02-undeclared-local",
+      "expected": "invalid",
+      "status": "invalid",
+      "passed": true,
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "n",
+            "name": "n",
+            "type": "Nat"
+          }
+        ],
+        "goal": "n + 0 = n",
+        "nodes": [
+          {
+            "id": "n",
+            "kind": "input",
+            "ref": "n"
+          },
+          {
+            "id": "s",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x + 0 = x",
+            "body": "by exact n"
+          }
+        ],
+        "edges": [
+          {
+            "id": "n_out_s_x",
+            "source": "n",
+            "output": "out",
+            "target": "s",
+            "input": "x"
+          }
+        ],
+        "result": {
+          "node": "s",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "sourceMap": {
+        "root/s": {
+          "startLine": 28,
+          "endLine": 30
+        },
+        "root": {
+          "startLine": 31,
+          "endLine": 34
+        }
+      },
+      "result": {
+        "jobId": "e09ba8b9e340442bbd2528a6d1f1f457",
+        "status": "invalid",
+        "phase": "complete",
+        "verified": false,
+        "kernelAccepted": false,
+        "audit": null,
+        "diagnostics": [
+          {
+            "filename": "Requirement.lean",
+            "line": 29,
+            "column": 15,
+            "severity": "error",
+            "message": "Unknown identifier `n`"
+          }
+        ],
+        "filename": "Requirement.lean",
+        "projectId": "glean",
+        "target": "glean_proof",
+        "policy": "strict",
+        "sourceHash": "b0426a82b89357b113b59dbaf74377dbe9651044473a7f402af75abed5bc7c04",
+        "lean": {
+          "output": "Requirement.lean:29:14: error(lean.unknownIdentifier): Unknown identifier `n`\n",
+          "durationMs": 4510
+        }
+      },
+      "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (x : (gleanTerm% \"Nat\")) : (gleanTerm% \"x + 0 = x\") :=\n  (gleanTerm% \"by exact n\")\n\ntheorem glean_proof (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n + 0 = n\") :=\n  let glean_component_2 := glean_component_1 (n)\n  glean_component_2\n",
+      "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (n : (gleanExpectedTerm% \"Nat\")), (gleanExpectedTerm% \"n + 0 = n\")\n"
+    },
+    {
+      "id": "R05-both-branches",
+      "expected": "valid",
+      "status": "valid",
+      "passed": true,
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "P",
+            "name": "P",
+            "type": "Prop"
+          },
+          {
+            "id": "Q",
+            "name": "Q",
+            "type": "Prop"
+          },
+          {
+            "id": "h",
+            "name": "h",
+            "type": "P ∨ Q"
+          }
+        ],
+        "goal": "Q ∨ P",
+        "nodes": [
+          {
+            "id": "P",
+            "kind": "input",
+            "ref": "P"
+          },
+          {
+            "id": "Q",
+            "kind": "input",
+            "ref": "Q"
+          },
+          {
+            "id": "h",
+            "kind": "input",
+            "ref": "h"
+          },
+          {
+            "id": "case",
+            "kind": "cases",
+            "inputs": [
+              {
+                "id": "P",
+                "name": "P",
+                "type": "Prop"
+              },
+              {
+                "id": "Q",
+                "name": "Q",
+                "type": "Prop"
+              },
+              {
+                "id": "h",
+                "name": "h",
+                "type": "P ∨ Q"
+              }
+            ],
+            "scrutinee": "h",
+            "outputType": "Q ∨ P",
+            "branches": [
+              {
+                "id": "left",
+                "constructor": "Or.inl",
+                "binders": [
+                  {
+                    "id": "hp",
+                    "name": "hp",
+                    "type": "P"
+                  }
+                ],
+                "nodes": [
+                  {
+                    "id": "P",
+                    "kind": "input",
+                    "ref": "P"
+                  },
+                  {
+                    "id": "Q",
+                    "kind": "input",
+                    "ref": "Q"
+                  },
+                  {
+                    "id": "hp",
+                    "kind": "input",
+                    "ref": "hp"
+                  },
+                  {
+                    "id": "join",
+                    "kind": "script",
+                    "inputs": [
+                      {
+                        "id": "P",
+                        "name": "P",
+                        "type": "Prop"
+                      },
+                      {
+                        "id": "Q",
+                        "name": "Q",
+                        "type": "Prop"
+                      },
+                      {
+                        "id": "hp",
+                        "name": "hp",
+                        "type": "P"
+                      }
+                    ],
+                    "outputType": "Q ∨ P",
+                    "body": "Or.inr hp"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "P_out_join_P",
+                    "source": "P",
+                    "output": "out",
+                    "target": "join",
+                    "input": "P"
+                  },
+                  {
+                    "id": "Q_out_join_Q",
+                    "source": "Q",
+                    "output": "out",
+                    "target": "join",
+                    "input": "Q"
+                  },
+                  {
+                    "id": "hp_out_join_hp",
+                    "source": "hp",
+                    "output": "out",
+                    "target": "join",
+                    "input": "hp"
+                  }
+                ],
+                "result": {
+                  "node": "join",
+                  "output": "out"
+                }
+              },
+              {
+                "id": "right",
+                "constructor": "Or.inr",
+                "binders": [
+                  {
+                    "id": "hq",
+                    "name": "hq",
+                    "type": "Q"
+                  }
+                ],
+                "nodes": [
+                  {
+                    "id": "P",
+                    "kind": "input",
+                    "ref": "P"
+                  },
+                  {
+                    "id": "Q",
+                    "kind": "input",
+                    "ref": "Q"
+                  },
+                  {
+                    "id": "hq",
+                    "kind": "input",
+                    "ref": "hq"
+                  },
+                  {
+                    "id": "join",
+                    "kind": "script",
+                    "inputs": [
+                      {
+                        "id": "P",
+                        "name": "P",
+                        "type": "Prop"
+                      },
+                      {
+                        "id": "Q",
+                        "name": "Q",
+                        "type": "Prop"
+                      },
+                      {
+                        "id": "hq",
+                        "name": "hq",
+                        "type": "Q"
+                      }
+                    ],
+                    "outputType": "Q ∨ P",
+                    "body": "Or.inl hq"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "P_out_join_P",
+                    "source": "P",
+                    "output": "out",
+                    "target": "join",
+                    "input": "P"
+                  },
+                  {
+                    "id": "Q_out_join_Q",
+                    "source": "Q",
+                    "output": "out",
+                    "target": "join",
+                    "input": "Q"
+                  },
+                  {
+                    "id": "hq_out_join_hq",
+                    "source": "hq",
+                    "output": "out",
+                    "target": "join",
+                    "input": "hq"
+                  }
+                ],
+                "result": {
+                  "node": "join",
+                  "output": "out"
+                }
+              }
+            ]
+          }
+        ],
+        "edges": [
+          {
+            "id": "P_out_case_P",
+            "source": "P",
+            "output": "out",
+            "target": "case",
+            "input": "P"
+          },
+          {
+            "id": "Q_out_case_Q",
+            "source": "Q",
+            "output": "out",
+            "target": "case",
+            "input": "Q"
+          },
+          {
+            "id": "h_out_case_h",
+            "source": "h",
+            "output": "out",
+            "target": "case",
+            "input": "h"
+          }
+        ],
+        "result": {
+          "node": "case",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "sourceMap": {
+        "root/case/left/join": {
+          "startLine": 28,
+          "endLine": 30
+        },
+        "root/case/right/join": {
+          "startLine": 31,
+          "endLine": 33
+        },
+        "root/case": {
+          "startLine": 34,
+          "endLine": 44
+        },
+        "root": {
+          "startLine": 45,
+          "endLine": 48
+        }
+      },
+      "result": {
+        "jobId": "081a1d1d837d4ba1a4d69e0fb81c7d97",
+        "status": "valid",
+        "phase": "complete",
+        "verified": true,
+        "kernelAccepted": true,
+        "audit": {
+          "axioms": [],
+          "standardAxioms": [],
+          "customAxioms": [],
+          "hasSorry": false,
+          "policy": "strict",
+          "policyAccepted": true
+        },
+        "diagnostics": [],
+        "filename": "Requirement.lean",
+        "projectId": "glean",
+        "target": "glean_proof",
+        "policy": "strict",
+        "sourceHash": "f31979a88e5f4b3612ecfc5ddac0dbc12f364eb26023a7a12a07c1669b4267f7",
+        "lean": {
+          "output": "/var/folders/bl/_h2n2k_d41g3q3fwxvy0gppr0000gn/T/glean-source-lj5grbb7/GleanExpected286b4a994ca0480eaa9070338440ea0b.lean:28:105: warning: Variable name `h` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _h\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\n",
+          "durationMs": 7313
+        }
+      },
+      "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_2 (P : (gleanTerm% \"Prop\")) (Q : (gleanTerm% \"Prop\")) (hp : (gleanTerm% \"P\")) : (gleanTerm% \"Q ∨ P\") :=\n  (gleanTerm% \"Or.inr hp\")\n\nnoncomputable def glean_component_4 (P : (gleanTerm% \"Prop\")) (Q : (gleanTerm% \"Prop\")) (hq : (gleanTerm% \"Q\")) : (gleanTerm% \"Q ∨ P\") :=\n  (gleanTerm% \"Or.inl hq\")\n\nnoncomputable def glean_component_1 (P : (gleanTerm% \"Prop\")) (Q : (gleanTerm% \"Prop\")) (h : (gleanTerm% \"P ∨ Q\")) : (gleanTerm% \"Q ∨ P\") :=\n  match h with\n  | Or.inl hp =>\n    let hp : (gleanTerm% \"P\") := hp\n    let glean_component_3 := glean_component_2 (P) (Q) (hp)\n    glean_component_3\n  | Or.inr hq =>\n    let hq : (gleanTerm% \"Q\") := hq\n    let glean_component_5 := glean_component_4 (P) (Q) (hq)\n    glean_component_5\n\ntheorem glean_proof (P : (gleanTerm% \"Prop\")) (Q : (gleanTerm% \"Prop\")) (h : (gleanTerm% \"P ∨ Q\")) : (gleanTerm% \"Q ∨ P\") :=\n  let glean_component_6 := glean_component_1 (P) (Q) (h)\n  glean_component_6\n",
+      "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (P : (gleanExpectedTerm% \"Prop\")) (Q : (gleanExpectedTerm% \"Prop\")) (h : (gleanExpectedTerm% \"P ∨ Q\")), (gleanExpectedTerm% \"Q ∨ P\")\n"
+    },
+    {
+      "id": "R05-missing-branch",
+      "expected": "invalid",
+      "status": "invalid",
+      "passed": true,
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "P",
+            "name": "P",
+            "type": "Prop"
+          },
+          {
+            "id": "Q",
+            "name": "Q",
+            "type": "Prop"
+          },
+          {
+            "id": "h",
+            "name": "h",
+            "type": "P ∨ Q"
+          }
+        ],
+        "goal": "Q ∨ P",
+        "nodes": [
+          {
+            "id": "P",
+            "kind": "input",
+            "ref": "P"
+          },
+          {
+            "id": "Q",
+            "kind": "input",
+            "ref": "Q"
+          },
+          {
+            "id": "h",
+            "kind": "input",
+            "ref": "h"
+          },
+          {
+            "id": "case",
+            "kind": "cases",
+            "inputs": [
+              {
+                "id": "P",
+                "name": "P",
+                "type": "Prop"
+              },
+              {
+                "id": "Q",
+                "name": "Q",
+                "type": "Prop"
+              },
+              {
+                "id": "h",
+                "name": "h",
+                "type": "P ∨ Q"
+              }
+            ],
+            "scrutinee": "h",
+            "outputType": "Q ∨ P",
+            "branches": [
+              {
+                "id": "left",
+                "constructor": "Or.inl",
+                "binders": [
+                  {
+                    "id": "hp",
+                    "name": "hp",
+                    "type": "P"
+                  }
+                ],
+                "nodes": [
+                  {
+                    "id": "P",
+                    "kind": "input",
+                    "ref": "P"
+                  },
+                  {
+                    "id": "Q",
+                    "kind": "input",
+                    "ref": "Q"
+                  },
+                  {
+                    "id": "hp",
+                    "kind": "input",
+                    "ref": "hp"
+                  },
+                  {
+                    "id": "join",
+                    "kind": "script",
+                    "inputs": [
+                      {
+                        "id": "P",
+                        "name": "P",
+                        "type": "Prop"
+                      },
+                      {
+                        "id": "Q",
+                        "name": "Q",
+                        "type": "Prop"
+                      },
+                      {
+                        "id": "hp",
+                        "name": "hp",
+                        "type": "P"
+                      }
+                    ],
+                    "outputType": "Q ∨ P",
+                    "body": "Or.inr hp"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "P_out_join_P",
+                    "source": "P",
+                    "output": "out",
+                    "target": "join",
+                    "input": "P"
+                  },
+                  {
+                    "id": "Q_out_join_Q",
+                    "source": "Q",
+                    "output": "out",
+                    "target": "join",
+                    "input": "Q"
+                  },
+                  {
+                    "id": "hp_out_join_hp",
+                    "source": "hp",
+                    "output": "out",
+                    "target": "join",
+                    "input": "hp"
+                  }
+                ],
+                "result": {
+                  "node": "join",
+                  "output": "out"
+                }
+              }
+            ]
+          }
+        ],
+        "edges": [
+          {
+            "id": "P_out_case_P",
+            "source": "P",
+            "output": "out",
+            "target": "case",
+            "input": "P"
+          },
+          {
+            "id": "Q_out_case_Q",
+            "source": "Q",
+            "output": "out",
+            "target": "case",
+            "input": "Q"
+          },
+          {
+            "id": "h_out_case_h",
+            "source": "h",
+            "output": "out",
+            "target": "case",
+            "input": "h"
+          }
+        ],
+        "result": {
+          "node": "case",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "sourceMap": {
+        "root/case/left/join": {
+          "startLine": 28,
+          "endLine": 30
+        },
+        "root/case": {
+          "startLine": 31,
+          "endLine": 37
+        },
+        "root": {
+          "startLine": 38,
+          "endLine": 41
+        }
+      },
+      "result": {
+        "jobId": "a1c793f723d44db195adadabab9e1724",
+        "status": "invalid",
+        "phase": "complete",
+        "verified": false,
+        "kernelAccepted": false,
+        "audit": null,
+        "diagnostics": [
+          {
+            "filename": "Requirement.lean",
+            "line": 32,
+            "column": 3,
+            "severity": "error",
+            "message": "Missing cases:\n(Or.inr _)"
+          }
+        ],
+        "filename": "Requirement.lean",
+        "projectId": "glean",
+        "target": "glean_proof",
+        "policy": "strict",
+        "sourceHash": "a534fcb24a541553517b0e626c82e7b1ea3fb7856e99b412ad1f93f25a9809cc",
+        "lean": {
+          "output": "Requirement.lean:32:2: error: Missing cases:\n(Or.inr _)\n",
+          "durationMs": 4123
+        }
+      },
+      "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_2 (P : (gleanTerm% \"Prop\")) (Q : (gleanTerm% \"Prop\")) (hp : (gleanTerm% \"P\")) : (gleanTerm% \"Q ∨ P\") :=\n  (gleanTerm% \"Or.inr hp\")\n\nnoncomputable def glean_component_1 (P : (gleanTerm% \"Prop\")) (Q : (gleanTerm% \"Prop\")) (h : (gleanTerm% \"P ∨ Q\")) : (gleanTerm% \"Q ∨ P\") :=\n  match h with\n  | Or.inl hp =>\n    let hp : (gleanTerm% \"P\") := hp\n    let glean_component_3 := glean_component_2 (P) (Q) (hp)\n    glean_component_3\n\ntheorem glean_proof (P : (gleanTerm% \"Prop\")) (Q : (gleanTerm% \"Prop\")) (h : (gleanTerm% \"P ∨ Q\")) : (gleanTerm% \"Q ∨ P\") :=\n  let glean_component_4 := glean_component_1 (P) (Q) (h)\n  glean_component_4\n",
+      "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (P : (gleanExpectedTerm% \"Prop\")) (Q : (gleanExpectedTerm% \"Prop\")) (h : (gleanExpectedTerm% \"P ∨ Q\")), (gleanExpectedTerm% \"Q ∨ P\")\n"
+    },
+    {
+      "id": "R05-sibling-local-leak",
+      "expected": "invalid",
+      "status": "invalid",
+      "passed": true,
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "P",
+            "name": "P",
+            "type": "Prop"
+          },
+          {
+            "id": "Q",
+            "name": "Q",
+            "type": "Prop"
+          },
+          {
+            "id": "h",
+            "name": "h",
+            "type": "P ∨ Q"
+          }
+        ],
+        "goal": "Q ∨ P",
+        "nodes": [
+          {
+            "id": "P",
+            "kind": "input",
+            "ref": "P"
+          },
+          {
+            "id": "Q",
+            "kind": "input",
+            "ref": "Q"
+          },
+          {
+            "id": "h",
+            "kind": "input",
+            "ref": "h"
+          },
+          {
+            "id": "case",
+            "kind": "cases",
+            "inputs": [
+              {
+                "id": "P",
+                "name": "P",
+                "type": "Prop"
+              },
+              {
+                "id": "Q",
+                "name": "Q",
+                "type": "Prop"
+              },
+              {
+                "id": "h",
+                "name": "h",
+                "type": "P ∨ Q"
+              }
+            ],
+            "scrutinee": "h",
+            "outputType": "Q ∨ P",
+            "branches": [
+              {
+                "id": "left",
+                "constructor": "Or.inl",
+                "binders": [
+                  {
+                    "id": "hp",
+                    "name": "hp",
+                    "type": "P"
+                  }
+                ],
+                "nodes": [
+                  {
+                    "id": "P",
+                    "kind": "input",
+                    "ref": "P"
+                  },
+                  {
+                    "id": "Q",
+                    "kind": "input",
+                    "ref": "Q"
+                  },
+                  {
+                    "id": "hp",
+                    "kind": "input",
+                    "ref": "hp"
+                  },
+                  {
+                    "id": "join",
+                    "kind": "script",
+                    "inputs": [
+                      {
+                        "id": "P",
+                        "name": "P",
+                        "type": "Prop"
+                      },
+                      {
+                        "id": "Q",
+                        "name": "Q",
+                        "type": "Prop"
+                      },
+                      {
+                        "id": "hp",
+                        "name": "hp",
+                        "type": "P"
+                      }
+                    ],
+                    "outputType": "Q ∨ P",
+                    "body": "Or.inr hp"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "P_out_join_P",
+                    "source": "P",
+                    "output": "out",
+                    "target": "join",
+                    "input": "P"
+                  },
+                  {
+                    "id": "Q_out_join_Q",
+                    "source": "Q",
+                    "output": "out",
+                    "target": "join",
+                    "input": "Q"
+                  },
+                  {
+                    "id": "hp_out_join_hp",
+                    "source": "hp",
+                    "output": "out",
+                    "target": "join",
+                    "input": "hp"
+                  }
+                ],
+                "result": {
+                  "node": "join",
+                  "output": "out"
+                }
+              },
+              {
+                "id": "right",
+                "constructor": "Or.inr",
+                "binders": [
+                  {
+                    "id": "hq",
+                    "name": "hq",
+                    "type": "Q"
+                  }
+                ],
+                "nodes": [
+                  {
+                    "id": "P",
+                    "kind": "input",
+                    "ref": "P"
+                  },
+                  {
+                    "id": "Q",
+                    "kind": "input",
+                    "ref": "Q"
+                  },
+                  {
+                    "id": "hq",
+                    "kind": "input",
+                    "ref": "hp"
+                  },
+                  {
+                    "id": "join",
+                    "kind": "script",
+                    "inputs": [
+                      {
+                        "id": "P",
+                        "name": "P",
+                        "type": "Prop"
+                      },
+                      {
+                        "id": "Q",
+                        "name": "Q",
+                        "type": "Prop"
+                      },
+                      {
+                        "id": "hq",
+                        "name": "hq",
+                        "type": "Q"
+                      }
+                    ],
+                    "outputType": "Q ∨ P",
+                    "body": "Or.inl hq"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "P_out_join_P",
+                    "source": "P",
+                    "output": "out",
+                    "target": "join",
+                    "input": "P"
+                  },
+                  {
+                    "id": "Q_out_join_Q",
+                    "source": "Q",
+                    "output": "out",
+                    "target": "join",
+                    "input": "Q"
+                  },
+                  {
+                    "id": "hq_out_join_hq",
+                    "source": "hq",
+                    "output": "out",
+                    "target": "join",
+                    "input": "hq"
+                  }
+                ],
+                "result": {
+                  "node": "join",
+                  "output": "out"
+                }
+              }
+            ]
+          }
+        ],
+        "edges": [
+          {
+            "id": "P_out_case_P",
+            "source": "P",
+            "output": "out",
+            "target": "case",
+            "input": "P"
+          },
+          {
+            "id": "Q_out_case_Q",
+            "source": "Q",
+            "output": "out",
+            "target": "case",
+            "input": "Q"
+          },
+          {
+            "id": "h_out_case_h",
+            "source": "h",
+            "output": "out",
+            "target": "case",
+            "input": "h"
+          }
+        ],
+        "result": {
+          "node": "case",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "sourceMap": {},
+      "result": {
+        "status": "invalid",
+        "verified": false,
+        "generatedCode": null,
+        "expectedSource": null,
+        "sourceMap": {},
+        "nodeTypes": {},
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "Input refers to an undeclared or out-of-scope binder",
+            "scopeId": "root/case/right",
+            "nodeId": "hq"
+          }
+        ]
+      },
+      "generatedCode": null,
+      "expectedSource": null
+    },
+    {
+      "id": "R05-wrong-branch-proof",
+      "expected": "invalid",
+      "status": "invalid",
+      "passed": true,
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "P",
+            "name": "P",
+            "type": "Prop"
+          },
+          {
+            "id": "Q",
+            "name": "Q",
+            "type": "Prop"
+          },
+          {
+            "id": "h",
+            "name": "h",
+            "type": "P ∨ Q"
+          }
+        ],
+        "goal": "Q ∨ P",
+        "nodes": [
+          {
+            "id": "P",
+            "kind": "input",
+            "ref": "P"
+          },
+          {
+            "id": "Q",
+            "kind": "input",
+            "ref": "Q"
+          },
+          {
+            "id": "h",
+            "kind": "input",
+            "ref": "h"
+          },
+          {
+            "id": "case",
+            "kind": "cases",
+            "inputs": [
+              {
+                "id": "P",
+                "name": "P",
+                "type": "Prop"
+              },
+              {
+                "id": "Q",
+                "name": "Q",
+                "type": "Prop"
+              },
+              {
+                "id": "h",
+                "name": "h",
+                "type": "P ∨ Q"
+              }
+            ],
+            "scrutinee": "h",
+            "outputType": "Q ∨ P",
+            "branches": [
+              {
+                "id": "left",
+                "constructor": "Or.inl",
+                "binders": [
+                  {
+                    "id": "hp",
+                    "name": "hp",
+                    "type": "P"
+                  }
+                ],
+                "nodes": [
+                  {
+                    "id": "P",
+                    "kind": "input",
+                    "ref": "P"
+                  },
+                  {
+                    "id": "Q",
+                    "kind": "input",
+                    "ref": "Q"
+                  },
+                  {
+                    "id": "hp",
+                    "kind": "input",
+                    "ref": "hp"
+                  },
+                  {
+                    "id": "join",
+                    "kind": "script",
+                    "inputs": [
+                      {
+                        "id": "P",
+                        "name": "P",
+                        "type": "Prop"
+                      },
+                      {
+                        "id": "Q",
+                        "name": "Q",
+                        "type": "Prop"
+                      },
+                      {
+                        "id": "hp",
+                        "name": "hp",
+                        "type": "P"
+                      }
+                    ],
+                    "outputType": "Q ∨ P",
+                    "body": "Or.inr hp"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "P_out_join_P",
+                    "source": "P",
+                    "output": "out",
+                    "target": "join",
+                    "input": "P"
+                  },
+                  {
+                    "id": "Q_out_join_Q",
+                    "source": "Q",
+                    "output": "out",
+                    "target": "join",
+                    "input": "Q"
+                  },
+                  {
+                    "id": "hp_out_join_hp",
+                    "source": "hp",
+                    "output": "out",
+                    "target": "join",
+                    "input": "hp"
+                  }
+                ],
+                "result": {
+                  "node": "join",
+                  "output": "out"
+                }
+              },
+              {
+                "id": "right",
+                "constructor": "Or.inr",
+                "binders": [
+                  {
+                    "id": "hq",
+                    "name": "hq",
+                    "type": "Q"
+                  }
+                ],
+                "nodes": [
+                  {
+                    "id": "P",
+                    "kind": "input",
+                    "ref": "P"
+                  },
+                  {
+                    "id": "Q",
+                    "kind": "input",
+                    "ref": "Q"
+                  },
+                  {
+                    "id": "hq",
+                    "kind": "input",
+                    "ref": "hq"
+                  },
+                  {
+                    "id": "join",
+                    "kind": "script",
+                    "inputs": [
+                      {
+                        "id": "P",
+                        "name": "P",
+                        "type": "Prop"
+                      },
+                      {
+                        "id": "Q",
+                        "name": "Q",
+                        "type": "Prop"
+                      },
+                      {
+                        "id": "hq",
+                        "name": "hq",
+                        "type": "Q"
+                      }
+                    ],
+                    "outputType": "Q ∨ P",
+                    "body": "Or.inr hq"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "P_out_join_P",
+                    "source": "P",
+                    "output": "out",
+                    "target": "join",
+                    "input": "P"
+                  },
+                  {
+                    "id": "Q_out_join_Q",
+                    "source": "Q",
+                    "output": "out",
+                    "target": "join",
+                    "input": "Q"
+                  },
+                  {
+                    "id": "hq_out_join_hq",
+                    "source": "hq",
+                    "output": "out",
+                    "target": "join",
+                    "input": "hq"
+                  }
+                ],
+                "result": {
+                  "node": "join",
+                  "output": "out"
+                }
+              }
+            ]
+          }
+        ],
+        "edges": [
+          {
+            "id": "P_out_case_P",
+            "source": "P",
+            "output": "out",
+            "target": "case",
+            "input": "P"
+          },
+          {
+            "id": "Q_out_case_Q",
+            "source": "Q",
+            "output": "out",
+            "target": "case",
+            "input": "Q"
+          },
+          {
+            "id": "h_out_case_h",
+            "source": "h",
+            "output": "out",
+            "target": "case",
+            "input": "h"
+          }
+        ],
+        "result": {
+          "node": "case",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "sourceMap": {
+        "root/case/left/join": {
+          "startLine": 28,
+          "endLine": 30
+        },
+        "root/case/right/join": {
+          "startLine": 31,
+          "endLine": 33
+        },
+        "root/case": {
+          "startLine": 34,
+          "endLine": 44
+        },
+        "root": {
+          "startLine": 45,
+          "endLine": 48
+        }
+      },
+      "result": {
+        "jobId": "e49e5a5e117b456a955c79a3e3e04eb3",
+        "status": "invalid",
+        "phase": "complete",
+        "verified": false,
+        "kernelAccepted": false,
+        "audit": null,
+        "diagnostics": [
+          {
+            "filename": "Requirement.lean",
+            "line": 32,
+            "column": 15,
+            "severity": "error",
+            "message": "Application type mismatch: The argument\n  hq\nhas type\n  Q\nbut is expected to have type\n  P\nin the application\n  Or.inr hq"
+          }
+        ],
+        "filename": "Requirement.lean",
+        "projectId": "glean",
+        "target": "glean_proof",
+        "policy": "strict",
+        "sourceHash": "1a00b8b353ae625883952690e10957cb02c2affd141e9d7e8ba52a9f010ac312",
+        "lean": {
+          "output": "Requirement.lean:32:14: error: Application type mismatch: The argument\n  hq\nhas type\n  Q\nbut is expected to have type\n  P\nin the application\n  Or.inr hq\n",
+          "durationMs": 1093
+        }
+      },
+      "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_2 (P : (gleanTerm% \"Prop\")) (Q : (gleanTerm% \"Prop\")) (hp : (gleanTerm% \"P\")) : (gleanTerm% \"Q ∨ P\") :=\n  (gleanTerm% \"Or.inr hp\")\n\nnoncomputable def glean_component_4 (P : (gleanTerm% \"Prop\")) (Q : (gleanTerm% \"Prop\")) (hq : (gleanTerm% \"Q\")) : (gleanTerm% \"Q ∨ P\") :=\n  (gleanTerm% \"Or.inr hq\")\n\nnoncomputable def glean_component_1 (P : (gleanTerm% \"Prop\")) (Q : (gleanTerm% \"Prop\")) (h : (gleanTerm% \"P ∨ Q\")) : (gleanTerm% \"Q ∨ P\") :=\n  match h with\n  | Or.inl hp =>\n    let hp : (gleanTerm% \"P\") := hp\n    let glean_component_3 := glean_component_2 (P) (Q) (hp)\n    glean_component_3\n  | Or.inr hq =>\n    let hq : (gleanTerm% \"Q\") := hq\n    let glean_component_5 := glean_component_4 (P) (Q) (hq)\n    glean_component_5\n\ntheorem glean_proof (P : (gleanTerm% \"Prop\")) (Q : (gleanTerm% \"Prop\")) (h : (gleanTerm% \"P ∨ Q\")) : (gleanTerm% \"Q ∨ P\") :=\n  let glean_component_6 := glean_component_1 (P) (Q) (h)\n  glean_component_6\n",
+      "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (P : (gleanExpectedTerm% \"Prop\")) (Q : (gleanExpectedTerm% \"Prop\")) (h : (gleanExpectedTerm% \"P ∨ Q\")), (gleanExpectedTerm% \"Q ∨ P\")\n"
+    },
+    {
+      "id": "R09-Prod-multioutput",
+      "expected": "valid",
+      "status": "valid",
+      "passed": true,
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "n",
+            "name": "n",
+            "type": "Nat"
+          }
+        ],
+        "goal": "n + (n + 1) = n + (n + 1)",
+        "nodes": [
+          {
+            "id": "n",
+            "kind": "input",
+            "ref": "n"
+          },
+          {
+            "id": "make",
+            "kind": "construct",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "Nat × Nat",
+            "body": "(x, x + 1)",
+            "outputs": [
+              {
+                "id": "fst",
+                "name": "first",
+                "type": "Nat",
+                "term": "value.fst"
+              },
+              {
+                "id": "snd",
+                "name": "successor",
+                "type": "Nat",
+                "term": "value.snd"
+              }
+            ]
+          },
+          {
+            "id": "use",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "a",
+                "name": "a",
+                "type": "Nat"
+              },
+              {
+                "id": "b",
+                "name": "b",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "a + b = a + b",
+            "body": "by rfl"
+          }
+        ],
+        "edges": [
+          {
+            "id": "n_out_make_x",
+            "source": "n",
+            "output": "out",
+            "target": "make",
+            "input": "x"
+          },
+          {
+            "id": "make_fst_use_a",
+            "source": "make",
+            "output": "fst",
+            "target": "use",
+            "input": "a"
+          },
+          {
+            "id": "make_snd_use_b",
+            "source": "make",
+            "output": "snd",
+            "target": "use",
+            "input": "b"
+          }
+        ],
+        "result": {
+          "node": "use",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "sourceMap": {
+        "root/make": {
+          "startLine": 28,
+          "endLine": 30
+        },
+        "root/make/fst": {
+          "startLine": 31,
+          "endLine": 34
+        },
+        "root/make/snd": {
+          "startLine": 35,
+          "endLine": 38
+        },
+        "root/use": {
+          "startLine": 39,
+          "endLine": 41
+        },
+        "root": {
+          "startLine": 42,
+          "endLine": 47
+        }
+      },
+      "result": {
+        "jobId": "068dc649d35e4b4eac145dab3a3909b2",
+        "status": "valid",
+        "phase": "complete",
+        "verified": true,
+        "kernelAccepted": true,
+        "audit": {
+          "axioms": [],
+          "standardAxioms": [],
+          "customAxioms": [],
+          "hasSorry": false,
+          "policy": "strict",
+          "policyAccepted": true
+        },
+        "diagnostics": [
+          {
+            "filename": "Requirement.lean",
+            "line": 31,
+            "column": 69,
+            "severity": "warning",
+            "message": "Variable name `value` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _value\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`"
+          },
+          {
+            "filename": "Requirement.lean",
+            "line": 35,
+            "column": 69,
+            "severity": "warning",
+            "message": "Variable name `value` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _value\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`"
+          }
+        ],
+        "filename": "Requirement.lean",
+        "projectId": "glean",
+        "target": "glean_proof",
+        "policy": "strict",
+        "sourceHash": "95be320dbeabcf40a9fc91806c27091355b67a7b98055225f0409d5fd10ba99a",
+        "lean": {
+          "output": "Requirement.lean:31:68: warning: Variable name `value` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _value\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\nRequirement.lean:35:68: warning: Variable name `value` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _value\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\n",
+          "durationMs": 7441
+        }
+      },
+      "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (x : (gleanTerm% \"Nat\")) : (gleanTerm% \"Nat × Nat\") :=\n  (gleanTerm% \"(x, x + 1)\")\n\nnoncomputable def glean_component_2 (x : (gleanTerm% \"Nat\")) : (let value := (glean_component_1 x); (gleanTerm% \"Nat\")) :=\n  let value := (glean_component_1 x)\n  (gleanTerm% \"value.fst\")\n\nnoncomputable def glean_component_3 (x : (gleanTerm% \"Nat\")) : (let value := (glean_component_1 x); (gleanTerm% \"Nat\")) :=\n  let value := (glean_component_1 x)\n  (gleanTerm% \"value.snd\")\n\nnoncomputable def glean_component_6 (a : (gleanTerm% \"Nat\")) (b : (gleanTerm% \"Nat\")) : (gleanTerm% \"a + b = a + b\") :=\n  (gleanTerm% \"by rfl\")\n\ntheorem glean_proof (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n + (n + 1) = n + (n + 1)\") :=\n  let glean_component_4 := glean_component_2 (n)\n  let glean_component_5 := glean_component_3 (n)\n  let glean_component_7 := glean_component_6 (glean_component_4) (glean_component_5)\n  glean_component_7\n",
+      "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (n : (gleanExpectedTerm% \"Nat\")), (gleanExpectedTerm% \"n + (n + 1) = n + (n + 1)\")\n"
+    },
+    {
+      "id": "R09-Prod-wrong-projection",
+      "expected": "invalid",
+      "status": "invalid",
+      "passed": true,
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "n",
+            "name": "n",
+            "type": "Nat"
+          }
+        ],
+        "goal": "n + (n + 1) = n + (n + 1)",
+        "nodes": [
+          {
+            "id": "n",
+            "kind": "input",
+            "ref": "n"
+          },
+          {
+            "id": "make",
+            "kind": "construct",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "Nat × Nat",
+            "body": "(x, x + 1)",
+            "outputs": [
+              {
+                "id": "fst",
+                "name": "first",
+                "type": "Nat",
+                "term": "value.fst"
+              },
+              {
+                "id": "snd",
+                "name": "successor",
+                "type": "Nat",
+                "term": "True.intro"
+              }
+            ]
+          },
+          {
+            "id": "use",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "a",
+                "name": "a",
+                "type": "Nat"
+              },
+              {
+                "id": "b",
+                "name": "b",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "a + b = a + b",
+            "body": "by rfl"
+          }
+        ],
+        "edges": [
+          {
+            "id": "n_out_make_x",
+            "source": "n",
+            "output": "out",
+            "target": "make",
+            "input": "x"
+          },
+          {
+            "id": "make_fst_use_a",
+            "source": "make",
+            "output": "fst",
+            "target": "use",
+            "input": "a"
+          },
+          {
+            "id": "make_snd_use_b",
+            "source": "make",
+            "output": "snd",
+            "target": "use",
+            "input": "b"
+          }
+        ],
+        "result": {
+          "node": "use",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "sourceMap": {
+        "root/make": {
+          "startLine": 28,
+          "endLine": 30
+        },
+        "root/make/fst": {
+          "startLine": 31,
+          "endLine": 34
+        },
+        "root/make/snd": {
+          "startLine": 35,
+          "endLine": 38
+        },
+        "root/use": {
+          "startLine": 39,
+          "endLine": 41
+        },
+        "root": {
+          "startLine": 42,
+          "endLine": 47
+        }
+      },
+      "result": {
+        "jobId": "7998299ebe4a47cabe00b1ff1fb4540d",
+        "status": "invalid",
+        "phase": "complete",
+        "verified": false,
+        "kernelAccepted": false,
+        "audit": null,
+        "diagnostics": [
+          {
+            "filename": "Requirement.lean",
+            "line": 31,
+            "column": 69,
+            "severity": "warning",
+            "message": "Variable name `value` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _value\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`"
+          },
+          {
+            "filename": "Requirement.lean",
+            "line": 37,
+            "column": 3,
+            "severity": "error",
+            "message": "Type mismatch\n  True.intro\nhas type\n  True\nof sort `Prop` but is expected to have type\n  let value := glean_component_1 x;\n  Nat\nof sort `Type`"
+          },
+          {
+            "filename": "Requirement.lean",
+            "line": 46,
+            "column": 3,
+            "severity": "error",
+            "message": "Type mismatch\n  glean_component_7\nhas type\n  glean_component_4 + glean_component_5 = glean_component_4 + glean_component_5\nbut is expected to have type\n  n + (n + 1) = n + (n + 1)"
+          }
+        ],
+        "filename": "Requirement.lean",
+        "projectId": "glean",
+        "target": "glean_proof",
+        "policy": "strict",
+        "sourceHash": "835a025f270df2c32e3889175ce7394d47a38b2c05f85e460d675f1c430c0aa2",
+        "lean": {
+          "output": "Requirement.lean:31:68: warning: Variable name `value` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _value\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\nRequirement.lean:37:2: error: Type mismatch\n  True.intro\nhas type\n  True\nof sort `Prop` but is expected to have type\n  let value := glean_component_1 x;\n  Nat\nof sort `Type`\nRequirement.lean:46:2: error: Type mismatch\n  glean_component_7\nhas type\n  glean_component_4 + glean_component_5 = glean_component_4 + glean_component_5\nbut is expected to have type\n  n + (n + 1) = n + (n + 1)\n",
+          "durationMs": 4562
+        }
+      },
+      "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (x : (gleanTerm% \"Nat\")) : (gleanTerm% \"Nat × Nat\") :=\n  (gleanTerm% \"(x, x + 1)\")\n\nnoncomputable def glean_component_2 (x : (gleanTerm% \"Nat\")) : (let value := (glean_component_1 x); (gleanTerm% \"Nat\")) :=\n  let value := (glean_component_1 x)\n  (gleanTerm% \"value.fst\")\n\nnoncomputable def glean_component_3 (x : (gleanTerm% \"Nat\")) : (let value := (glean_component_1 x); (gleanTerm% \"Nat\")) :=\n  let value := (glean_component_1 x)\n  (gleanTerm% \"True.intro\")\n\nnoncomputable def glean_component_6 (a : (gleanTerm% \"Nat\")) (b : (gleanTerm% \"Nat\")) : (gleanTerm% \"a + b = a + b\") :=\n  (gleanTerm% \"by rfl\")\n\ntheorem glean_proof (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n + (n + 1) = n + (n + 1)\") :=\n  let glean_component_4 := glean_component_2 (n)\n  let glean_component_5 := glean_component_3 (n)\n  let glean_component_7 := glean_component_6 (glean_component_4) (glean_component_5)\n  glean_component_7\n",
+      "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (n : (gleanExpectedTerm% \"Nat\")), (gleanExpectedTerm% \"n + (n + 1) = n + (n + 1)\")\n"
+    },
+    {
+      "id": "R09-Subtype-multioutput",
+      "expected": "valid",
+      "status": "valid",
+      "passed": true,
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "n",
+            "name": "n",
+            "type": "Nat"
+          }
+        ],
+        "goal": "0 ≤ n",
+        "nodes": [
+          {
+            "id": "n",
+            "kind": "input",
+            "ref": "n"
+          },
+          {
+            "id": "make",
+            "kind": "construct",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "{ k : Nat // 0 ≤ k }",
+            "body": "⟨x, Nat.zero_le x⟩",
+            "outputs": [
+              {
+                "id": "val",
+                "name": "value",
+                "type": "Nat",
+                "term": "value.val"
+              },
+              {
+                "id": "property",
+                "name": "nonnegative",
+                "type": "0 ≤ value.val",
+                "term": "value.property"
+              }
+            ]
+          },
+          {
+            "id": "use",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "k",
+                "name": "k",
+                "type": "Nat"
+              },
+              {
+                "id": "hk",
+                "name": "hk",
+                "type": "0 ≤ k"
+              }
+            ],
+            "outputType": "0 ≤ k",
+            "body": "hk"
+          }
+        ],
+        "edges": [
+          {
+            "id": "n_out_make_x",
+            "source": "n",
+            "output": "out",
+            "target": "make",
+            "input": "x"
+          },
+          {
+            "id": "make_val_use_k",
+            "source": "make",
+            "output": "val",
+            "target": "use",
+            "input": "k"
+          },
+          {
+            "id": "make_property_use_hk",
+            "source": "make",
+            "output": "property",
+            "target": "use",
+            "input": "hk"
+          }
+        ],
+        "result": {
+          "node": "use",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "sourceMap": {
+        "root/make": {
+          "startLine": 28,
+          "endLine": 30
+        },
+        "root/make/val": {
+          "startLine": 31,
+          "endLine": 34
+        },
+        "root/make/property": {
+          "startLine": 35,
+          "endLine": 38
+        },
+        "root/use": {
+          "startLine": 39,
+          "endLine": 41
+        },
+        "root": {
+          "startLine": 42,
+          "endLine": 47
+        }
+      },
+      "result": {
+        "jobId": "38c6f210a1f14261a5add0c1198a07f5",
+        "status": "valid",
+        "phase": "complete",
+        "verified": true,
+        "kernelAccepted": true,
+        "audit": {
+          "axioms": [],
+          "standardAxioms": [],
+          "customAxioms": [],
+          "hasSorry": false,
+          "policy": "strict",
+          "policyAccepted": true
+        },
+        "diagnostics": [
+          {
+            "filename": "Requirement.lean",
+            "line": 31,
+            "column": 69,
+            "severity": "warning",
+            "message": "Variable name `value` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _value\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`"
+          }
+        ],
+        "filename": "Requirement.lean",
+        "projectId": "glean",
+        "target": "glean_proof",
+        "policy": "strict",
+        "sourceHash": "edeeb81f5173b3d3f1a8815793febc50ff43a2ddcfd04e961e4e4fae293ba382",
+        "lean": {
+          "output": "Requirement.lean:31:68: warning: Variable name `value` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _value\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\n",
+          "durationMs": 7541
+        }
+      },
+      "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (x : (gleanTerm% \"Nat\")) : (gleanTerm% \"{ k : Nat // 0 ≤ k }\") :=\n  (gleanTerm% \"⟨x, Nat.zero_le x⟩\")\n\nnoncomputable def glean_component_2 (x : (gleanTerm% \"Nat\")) : (let value := (glean_component_1 x); (gleanTerm% \"Nat\")) :=\n  let value := (glean_component_1 x)\n  (gleanTerm% \"value.val\")\n\nnoncomputable def glean_component_3 (x : (gleanTerm% \"Nat\")) : (let value := (glean_component_1 x); (gleanTerm% \"0 ≤ value.val\")) :=\n  let value := (glean_component_1 x)\n  (gleanTerm% \"value.property\")\n\nnoncomputable def glean_component_6 (k : (gleanTerm% \"Nat\")) (hk : (gleanTerm% \"0 ≤ k\")) : (gleanTerm% \"0 ≤ k\") :=\n  (gleanTerm% \"hk\")\n\ntheorem glean_proof (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"0 ≤ n\") :=\n  let glean_component_4 := glean_component_2 (n)\n  let glean_component_5 := glean_component_3 (n)\n  let glean_component_7 := glean_component_6 (glean_component_4) (glean_component_5)\n  glean_component_7\n",
+      "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (n : (gleanExpectedTerm% \"Nat\")), (gleanExpectedTerm% \"0 ≤ n\")\n"
+    },
+    {
+      "id": "R09-Subtype-wrong-projection",
+      "expected": "invalid",
+      "status": "invalid",
+      "passed": true,
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "n",
+            "name": "n",
+            "type": "Nat"
+          }
+        ],
+        "goal": "0 ≤ n",
+        "nodes": [
+          {
+            "id": "n",
+            "kind": "input",
+            "ref": "n"
+          },
+          {
+            "id": "make",
+            "kind": "construct",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "{ k : Nat // 0 ≤ k }",
+            "body": "⟨x, Nat.zero_le x⟩",
+            "outputs": [
+              {
+                "id": "val",
+                "name": "value",
+                "type": "Nat",
+                "term": "value.val"
+              },
+              {
+                "id": "property",
+                "name": "nonnegative",
+                "type": "0 ≤ value.val",
+                "term": "True.intro"
+              }
+            ]
+          },
+          {
+            "id": "use",
+            "kind": "script",
+            "inputs": [
+              {
+                "id": "k",
+                "name": "k",
+                "type": "Nat"
+              },
+              {
+                "id": "hk",
+                "name": "hk",
+                "type": "0 ≤ k"
+              }
+            ],
+            "outputType": "0 ≤ k",
+            "body": "hk"
+          }
+        ],
+        "edges": [
+          {
+            "id": "n_out_make_x",
+            "source": "n",
+            "output": "out",
+            "target": "make",
+            "input": "x"
+          },
+          {
+            "id": "make_val_use_k",
+            "source": "make",
+            "output": "val",
+            "target": "use",
+            "input": "k"
+          },
+          {
+            "id": "make_property_use_hk",
+            "source": "make",
+            "output": "property",
+            "target": "use",
+            "input": "hk"
+          }
+        ],
+        "result": {
+          "node": "use",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "sourceMap": {
+        "root/make": {
+          "startLine": 28,
+          "endLine": 30
+        },
+        "root/make/val": {
+          "startLine": 31,
+          "endLine": 34
+        },
+        "root/make/property": {
+          "startLine": 35,
+          "endLine": 38
+        },
+        "root/use": {
+          "startLine": 39,
+          "endLine": 41
+        },
+        "root": {
+          "startLine": 42,
+          "endLine": 47
+        }
+      },
+      "result": {
+        "jobId": "332b50e00de44cc0a297bb397202faf9",
+        "status": "invalid",
+        "phase": "complete",
+        "verified": false,
+        "kernelAccepted": false,
+        "audit": null,
+        "diagnostics": [
+          {
+            "filename": "Requirement.lean",
+            "line": 31,
+            "column": 69,
+            "severity": "warning",
+            "message": "Variable name `value` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _value\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`"
+          },
+          {
+            "filename": "Requirement.lean",
+            "line": 37,
+            "column": 3,
+            "severity": "error",
+            "message": "Type mismatch\n  True.intro\nhas type\n  True\nbut is expected to have type\n  let value := glean_component_1 x;\n  0 ≤ value.val"
+          }
+        ],
+        "filename": "Requirement.lean",
+        "projectId": "glean",
+        "target": "glean_proof",
+        "policy": "strict",
+        "sourceHash": "253d33e63e28f4b03afc9f3261075812c73ff83dd1c9f90fb61445112675d88f",
+        "lean": {
+          "output": "Requirement.lean:31:68: warning: Variable name `value` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _value\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\nRequirement.lean:37:2: error: Type mismatch\n  True.intro\nhas type\n  True\nbut is expected to have type\n  let value := glean_component_1 x;\n  0 ≤ value.val\n",
+          "durationMs": 4193
+        }
+      },
+      "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (x : (gleanTerm% \"Nat\")) : (gleanTerm% \"{ k : Nat // 0 ≤ k }\") :=\n  (gleanTerm% \"⟨x, Nat.zero_le x⟩\")\n\nnoncomputable def glean_component_2 (x : (gleanTerm% \"Nat\")) : (let value := (glean_component_1 x); (gleanTerm% \"Nat\")) :=\n  let value := (glean_component_1 x)\n  (gleanTerm% \"value.val\")\n\nnoncomputable def glean_component_3 (x : (gleanTerm% \"Nat\")) : (let value := (glean_component_1 x); (gleanTerm% \"0 ≤ value.val\")) :=\n  let value := (glean_component_1 x)\n  (gleanTerm% \"True.intro\")\n\nnoncomputable def glean_component_6 (k : (gleanTerm% \"Nat\")) (hk : (gleanTerm% \"0 ≤ k\")) : (gleanTerm% \"0 ≤ k\") :=\n  (gleanTerm% \"hk\")\n\ntheorem glean_proof (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"0 ≤ n\") :=\n  let glean_component_4 := glean_component_2 (n)\n  let glean_component_5 := glean_component_3 (n)\n  let glean_component_7 := glean_component_6 (glean_component_4) (glean_component_5)\n  glean_component_7\n",
+      "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (n : (gleanExpectedTerm% \"Nat\")), (gleanExpectedTerm% \"0 ≤ n\")\n"
+    },
+    {
+      "id": "R09-Exists-scoped",
+      "expected": "valid",
+      "status": "valid",
+      "passed": true,
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "h",
+            "name": "h",
+            "type": "∃ n : Nat, n = n"
+          }
+        ],
+        "goal": "∃ n : Nat, n = n",
+        "nodes": [
+          {
+            "id": "h",
+            "kind": "input",
+            "ref": "h"
+          },
+          {
+            "id": "case",
+            "kind": "cases",
+            "inputs": [
+              {
+                "id": "h",
+                "name": "h",
+                "type": "∃ n : Nat, n = n"
+              }
+            ],
+            "scrutinee": "h",
+            "outputType": "∃ n : Nat, n = n",
+            "branches": [
+              {
+                "id": "witness",
+                "constructor": "Exists.intro",
+                "binders": [
+                  {
+                    "id": "n",
+                    "name": "n",
+                    "type": "Nat"
+                  },
+                  {
+                    "id": "hn",
+                    "name": "hn",
+                    "type": "n = n"
+                  }
+                ],
+                "nodes": [
+                  {
+                    "id": "n",
+                    "kind": "input",
+                    "ref": "n"
+                  },
+                  {
+                    "id": "hn",
+                    "kind": "input",
+                    "ref": "hn"
+                  },
+                  {
+                    "id": "use",
+                    "kind": "script",
+                    "inputs": [
+                      {
+                        "id": "n",
+                        "name": "n",
+                        "type": "Nat"
+                      },
+                      {
+                        "id": "hn",
+                        "name": "hn",
+                        "type": "n = n"
+                      }
+                    ],
+                    "outputType": "∃ n : Nat, n = n",
+                    "body": "⟨n, hn⟩"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "n_out_use_n",
+                    "source": "n",
+                    "output": "out",
+                    "target": "use",
+                    "input": "n"
+                  },
+                  {
+                    "id": "hn_out_use_hn",
+                    "source": "hn",
+                    "output": "out",
+                    "target": "use",
+                    "input": "hn"
+                  }
+                ],
+                "result": {
+                  "node": "use",
+                  "output": "out"
+                }
+              }
+            ]
+          }
+        ],
+        "edges": [
+          {
+            "id": "h_out_case_h",
+            "source": "h",
+            "output": "out",
+            "target": "case",
+            "input": "h"
+          }
+        ],
+        "result": {
+          "node": "case",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "sourceMap": {
+        "root/case/witness/use": {
+          "startLine": 28,
+          "endLine": 30
+        },
+        "root/case": {
+          "startLine": 31,
+          "endLine": 38
+        },
+        "root": {
+          "startLine": 39,
+          "endLine": 42
+        }
+      },
+      "result": {
+        "jobId": "597f0abe4fec4dc09ae385e216e0456e",
+        "status": "valid",
+        "phase": "complete",
+        "verified": true,
+        "kernelAccepted": true,
+        "audit": {
+          "axioms": [],
+          "standardAxioms": [],
+          "customAxioms": [],
+          "hasSorry": false,
+          "policy": "strict",
+          "policyAccepted": true
+        },
+        "diagnostics": [],
+        "filename": "Requirement.lean",
+        "projectId": "glean",
+        "target": "glean_proof",
+        "policy": "strict",
+        "sourceHash": "5caabfe02118c4f7e0458725a7f9d2f6dd078c5aa2f1192086bd1e8f96421521",
+        "lean": {
+          "output": "/var/folders/bl/_h2n2k_d41g3q3fwxvy0gppr0000gn/T/glean-source-x72jx4lv/GleanExpectedd3322fd43e324c528f761090aeb48a8d.lean:28:37: warning: Variable name `h` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _h\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\n",
+          "durationMs": 7582
+        }
+      },
+      "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_2 (n : (gleanTerm% \"Nat\")) (hn : (gleanTerm% \"n = n\")) : (gleanTerm% \"∃ n : Nat, n = n\") :=\n  (gleanTerm% \"⟨n, hn⟩\")\n\nnoncomputable def glean_component_1 (h : (gleanTerm% \"∃ n : Nat, n = n\")) : (gleanTerm% \"∃ n : Nat, n = n\") :=\n  match h with\n  | Exists.intro n hn =>\n    let n : (gleanTerm% \"Nat\") := n\n    let hn : (gleanTerm% \"n = n\") := hn\n    let glean_component_3 := glean_component_2 (n) (hn)\n    glean_component_3\n\ntheorem glean_proof (h : (gleanTerm% \"∃ n : Nat, n = n\")) : (gleanTerm% \"∃ n : Nat, n = n\") :=\n  let glean_component_4 := glean_component_1 (h)\n  glean_component_4\n",
+      "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (h : (gleanExpectedTerm% \"∃ n : Nat, n = n\")), (gleanExpectedTerm% \"∃ n : Nat, n = n\")\n"
+    },
+    {
+      "id": "R09-Exists-witness-escape",
+      "expected": "invalid",
+      "status": "invalid",
+      "passed": true,
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "h",
+            "name": "h",
+            "type": "∃ n : Nat, n = n"
+          }
+        ],
+        "goal": "True",
+        "nodes": [
+          {
+            "id": "h",
+            "kind": "input",
+            "ref": "h"
+          },
+          {
+            "id": "case",
+            "kind": "cases",
+            "inputs": [
+              {
+                "id": "h",
+                "name": "h",
+                "type": "∃ n : Nat, n = n"
+              }
+            ],
+            "scrutinee": "h",
+            "outputType": "Nat",
+            "branches": [
+              {
+                "id": "witness",
+                "constructor": "Exists.intro",
+                "binders": [
+                  {
+                    "id": "n",
+                    "name": "n",
+                    "type": "Nat"
+                  },
+                  {
+                    "id": "hn",
+                    "name": "hn",
+                    "type": "n = n"
+                  }
+                ],
+                "nodes": [
+                  {
+                    "id": "n",
+                    "kind": "input",
+                    "ref": "n"
+                  },
+                  {
+                    "id": "hn",
+                    "kind": "input",
+                    "ref": "hn"
+                  },
+                  {
+                    "id": "use",
+                    "kind": "script",
+                    "inputs": [
+                      {
+                        "id": "n",
+                        "name": "n",
+                        "type": "Nat"
+                      },
+                      {
+                        "id": "hn",
+                        "name": "hn",
+                        "type": "n = n"
+                      }
+                    ],
+                    "outputType": "Nat",
+                    "body": "n"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "n_out_use_n",
+                    "source": "n",
+                    "output": "out",
+                    "target": "use",
+                    "input": "n"
+                  },
+                  {
+                    "id": "hn_out_use_hn",
+                    "source": "hn",
+                    "output": "out",
+                    "target": "use",
+                    "input": "hn"
+                  }
+                ],
+                "result": {
+                  "node": "use",
+                  "output": "out"
+                }
+              }
+            ]
+          },
+          {
+            "id": "truth",
+            "kind": "script",
+            "inputs": [],
+            "outputType": "True",
+            "body": "True.intro"
+          }
+        ],
+        "edges": [
+          {
+            "id": "h_out_case_h",
+            "source": "h",
+            "output": "out",
+            "target": "case",
+            "input": "h"
+          }
+        ],
+        "result": {
+          "node": "truth",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "sourceMap": {
+        "root/truth": {
+          "startLine": 28,
+          "endLine": 30
+        },
+        "root/case/witness/use": {
+          "startLine": 31,
+          "endLine": 33
+        },
+        "root/case": {
+          "startLine": 34,
+          "endLine": 41
+        },
+        "root": {
+          "startLine": 42,
+          "endLine": 46
+        }
+      },
+      "result": {
+        "jobId": "61a9bd454f7b4a14ba4067544f94f422",
+        "status": "invalid",
+        "phase": "complete",
+        "verified": false,
+        "kernelAccepted": false,
+        "audit": null,
+        "diagnostics": [
+          {
+            "filename": "Requirement.lean",
+            "line": 31,
+            "column": 63,
+            "severity": "warning",
+            "message": "Variable name `hn` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _hn\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`"
+          },
+          {
+            "filename": "Requirement.lean",
+            "line": 35,
+            "column": 3,
+            "severity": "error",
+            "message": "Tactic `cases` failed with a nested error:\nTactic `induction` failed: recursor `Exists.casesOn` can only eliminate into `Prop`\n\nmotive : (∃ n, n = n) → Sort ?u.14\nh_1 : (n : Nat) → (hn : n = n) → motive ⋯\nh✝ : ∃ n, n = n\n⊢ motive h✝ after processing\n  _\nthe dependent pattern matcher can solve the following kinds of equations\n- <var> = <term> and <term> = <var>\n- <term> = <term> where the terms are definitionally equal\n- <constructor> = <constructor>, examples: List.cons x xs = List.cons y ys, and List.cons x xs = List.nil"
+          },
+          {
+            "filename": "Requirement.lean",
+            "line": 44,
+            "column": 7,
+            "severity": "warning",
+            "message": "Variable name `glean_component_6` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _glean_component_6\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`"
+          }
+        ],
+        "filename": "Requirement.lean",
+        "projectId": "glean",
+        "target": "glean_proof",
+        "policy": "strict",
+        "sourceHash": "e8233e534c35addd89ea492ac30d370ed96bc58aaa811a38d2795d3fa7d45852",
+        "lean": {
+          "output": "Requirement.lean:31:62: warning: Variable name `hn` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _hn\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\nRequirement.lean:35:2: error(nested.lean.propRecLargeElim): Tactic `cases` failed with a nested error:\nTactic `induction` failed: recursor `Exists.casesOn` can only eliminate into `Prop`\n\nmotive : (∃ n, n = n) → Sort ?u.14\nh_1 : (n : Nat) → (hn : n = n) → motive ⋯\nh✝ : ∃ n, n = n\n⊢ motive h✝ after processing\n  _\nthe dependent pattern matcher can solve the following kinds of equations\n- <var> = <term> and <term> = <var>\n- <term> = <term> where the terms are definitionally equal\n- <constructor> = <constructor>, examples: List.cons x xs = List.cons y ys, and List.cons x xs = List.nil\nRequirement.lean:44:6: warning: Variable name `glean_component_6` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _glean_component_6\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\n",
+          "durationMs": 3818
+        }
+      },
+      "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1  : (gleanTerm% \"True\") :=\n  (gleanTerm% \"True.intro\")\n\nnoncomputable def glean_component_4 (n : (gleanTerm% \"Nat\")) (hn : (gleanTerm% \"n = n\")) : (gleanTerm% \"Nat\") :=\n  (gleanTerm% \"n\")\n\nnoncomputable def glean_component_3 (h : (gleanTerm% \"∃ n : Nat, n = n\")) : (gleanTerm% \"Nat\") :=\n  match h with\n  | Exists.intro n hn =>\n    let n : (gleanTerm% \"Nat\") := n\n    let hn : (gleanTerm% \"n = n\") := hn\n    let glean_component_5 := glean_component_4 (n) (hn)\n    glean_component_5\n\ntheorem glean_proof (h : (gleanTerm% \"∃ n : Nat, n = n\")) : (gleanTerm% \"True\") :=\n  let glean_component_2 := glean_component_1 \n  let glean_component_6 := glean_component_3 (h)\n  glean_component_2\n",
+      "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (h : (gleanExpectedTerm% \"∃ n : Nat, n = n\")), (gleanExpectedTerm% \"True\")\n"
+    },
+    {
+      "id": "R13-equality-chain",
+      "expected": "valid",
+      "status": "invalid",
+      "passed": false,
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "n",
+            "name": "n",
+            "type": "Nat"
+          }
+        ],
+        "goal": "n + 0 + 0 = n",
+        "nodes": [
+          {
+            "id": "n",
+            "kind": "input",
+            "ref": "n"
+          },
+          {
+            "id": "calc",
+            "kind": "calc",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x + 0 + 0 = x",
+            "start": "x + 0 + 0",
+            "steps": [
+              {
+                "id": "first",
+                "relation": "=",
+                "term": "x + 0",
+                "proof": "by rfl"
+              },
+              {
+                "id": "second",
+                "relation": "=",
+                "term": "x",
+                "proof": "by rfl"
+              }
+            ]
+          }
+        ],
+        "edges": [
+          {
+            "id": "n_out_calc_x",
+            "source": "n",
+            "output": "out",
+            "target": "calc",
+            "input": "x"
+          }
+        ],
+        "result": {
+          "node": "calc",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "sourceMap": {
+        "root/calc": {
+          "startLine": 28,
+          "endLine": 32
+        },
+        "root": {
+          "startLine": 33,
+          "endLine": 36
+        }
+      },
+      "result": {
+        "jobId": "70ced5a4fc1c4087b6fd7b7bf77229ad",
+        "status": "invalid",
+        "phase": "complete",
+        "verified": false,
+        "kernelAccepted": false,
+        "audit": null,
+        "diagnostics": [
+          {
+            "filename": "Requirement.lean",
+            "line": 31,
+            "column": 5,
+            "severity": "error",
+            "message": "invalid 'calc' step, left-hand side is\n  ?m.39 : ?m.42\nbut previous right-hand side is\n  x + 0 : Nat"
+          }
+        ],
+        "filename": "Requirement.lean",
+        "projectId": "glean",
+        "target": "glean_proof",
+        "policy": "strict",
+        "sourceHash": "02619d59382bf3d5454266f9512dcc94d0dd7c5c213519890b03d144ee83a195",
+        "lean": {
+          "output": "Requirement.lean:31:4: error: invalid 'calc' step, left-hand side is\n  ?m.39 : ?m.42\nbut previous right-hand side is\n  x + 0 : Nat\n",
+          "durationMs": 1089
+        }
+      },
+      "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (x : (gleanTerm% \"Nat\")) : (gleanTerm% \"x + 0 + 0 = x\") :=\n  calc\n    (gleanTerm% \"x + 0 + 0\") = (gleanTerm% \"x + 0\") := (gleanTerm% \"by rfl\")\n    (gleanTerm% \"x + 0\") = (gleanTerm% \"x\") := (gleanTerm% \"by rfl\")\n\ntheorem glean_proof (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n + 0 + 0 = n\") :=\n  let glean_component_2 := glean_component_1 (n)\n  glean_component_2\n",
+      "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (n : (gleanExpectedTerm% \"Nat\")), (gleanExpectedTerm% \"n + 0 + 0 = n\")\n"
+    },
+    {
+      "id": "R13-equality-wrong-step",
+      "expected": "invalid",
+      "status": "invalid",
+      "passed": true,
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "n",
+            "name": "n",
+            "type": "Nat"
+          }
+        ],
+        "goal": "n + 0 + 0 = n",
+        "nodes": [
+          {
+            "id": "n",
+            "kind": "input",
+            "ref": "n"
+          },
+          {
+            "id": "calc",
+            "kind": "calc",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x + 0 + 0 = x",
+            "start": "x + 0 + 0",
+            "steps": [
+              {
+                "id": "first",
+                "relation": "=",
+                "term": "x + 3",
+                "proof": "by rfl"
+              },
+              {
+                "id": "second",
+                "relation": "=",
+                "term": "x",
+                "proof": "by rfl"
+              }
+            ]
+          }
+        ],
+        "edges": [
+          {
+            "id": "n_out_calc_x",
+            "source": "n",
+            "output": "out",
+            "target": "calc",
+            "input": "x"
+          }
+        ],
+        "result": {
+          "node": "calc",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "sourceMap": {
+        "root/calc": {
+          "startLine": 28,
+          "endLine": 32
+        },
+        "root": {
+          "startLine": 33,
+          "endLine": 36
+        }
+      },
+      "result": {
+        "jobId": "cd8fa6e9715a481d94f10aaf9ae07d85",
+        "status": "invalid",
+        "phase": "complete",
+        "verified": false,
+        "kernelAccepted": false,
+        "audit": null,
+        "diagnostics": [
+          {
+            "filename": "Requirement.lean",
+            "line": 30,
+            "column": 68,
+            "severity": "error",
+            "message": "Tactic `rfl` failed: The left-hand side\n  x + 0 + 0\nis not definitionally equal to the right-hand side\n  x + 3\n\nx : Nat\n⊢ x + 0 + 0 = x + 3"
+          },
+          {
+            "filename": "Requirement.lean",
+            "line": 31,
+            "column": 5,
+            "severity": "error",
+            "message": "invalid 'calc' step, left-hand side is\n  ?m.39 : ?m.42\nbut previous right-hand side is\n  x + 3 : Nat"
+          }
+        ],
+        "filename": "Requirement.lean",
+        "projectId": "glean",
+        "target": "glean_proof",
+        "policy": "strict",
+        "sourceHash": "f140aec7e330ec6621f31685546b674a138eb2f8513a84fb99632946319db671",
+        "lean": {
+          "output": "Requirement.lean:30:67: error: Tactic `rfl` failed: The left-hand side\n  x + 0 + 0\nis not definitionally equal to the right-hand side\n  x + 3\n\nx : Nat\n⊢ x + 0 + 0 = x + 3\nRequirement.lean:31:4: error: invalid 'calc' step, left-hand side is\n  ?m.39 : ?m.42\nbut previous right-hand side is\n  x + 3 : Nat\n",
+          "durationMs": 1183
+        }
+      },
+      "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (x : (gleanTerm% \"Nat\")) : (gleanTerm% \"x + 0 + 0 = x\") :=\n  calc\n    (gleanTerm% \"x + 0 + 0\") = (gleanTerm% \"x + 3\") := (gleanTerm% \"by rfl\")\n    (gleanTerm% \"x + 3\") = (gleanTerm% \"x\") := (gleanTerm% \"by rfl\")\n\ntheorem glean_proof (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n + 0 + 0 = n\") :=\n  let glean_component_2 := glean_component_1 (n)\n  glean_component_2\n",
+      "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (n : (gleanExpectedTerm% \"Nat\")), (gleanExpectedTerm% \"n + 0 + 0 = n\")\n"
+    },
+    {
+      "id": "R13-inequality-chain",
+      "expected": "valid",
+      "status": "invalid",
+      "passed": false,
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "n",
+            "name": "n",
+            "type": "Nat"
+          }
+        ],
+        "goal": "n ≤ n + 2",
+        "nodes": [
+          {
+            "id": "n",
+            "kind": "input",
+            "ref": "n"
+          },
+          {
+            "id": "calc",
+            "kind": "calc",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x ≤ x + 2",
+            "start": "x",
+            "steps": [
+              {
+                "id": "first",
+                "relation": "≤",
+                "term": "x + 1",
+                "proof": "Nat.le_succ x"
+              },
+              {
+                "id": "second",
+                "relation": "≤",
+                "term": "x + 2",
+                "proof": "Nat.le_succ (x + 1)"
+              }
+            ]
+          }
+        ],
+        "edges": [
+          {
+            "id": "n_out_calc_x",
+            "source": "n",
+            "output": "out",
+            "target": "calc",
+            "input": "x"
+          }
+        ],
+        "result": {
+          "node": "calc",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "sourceMap": {
+        "root/calc": {
+          "startLine": 28,
+          "endLine": 32
+        },
+        "root": {
+          "startLine": 33,
+          "endLine": 36
+        }
+      },
+      "result": {
+        "jobId": "6be03f246088404f87088fbabe4721db",
+        "status": "invalid",
+        "phase": "complete",
+        "verified": false,
+        "kernelAccepted": false,
+        "audit": null,
+        "diagnostics": [
+          {
+            "filename": "Requirement.lean",
+            "line": 31,
+            "column": 5,
+            "severity": "error",
+            "message": "invalid 'calc' step, left-hand side is\n  ?m.22 : ?m.25\nbut previous right-hand side is\n  x + 1 : Nat"
+          }
+        ],
+        "filename": "Requirement.lean",
+        "projectId": "glean",
+        "target": "glean_proof",
+        "policy": "strict",
+        "sourceHash": "c5a074f3f00552e6516bf07506087b6411e8945dceffd5ac97cb22ae94f40178",
+        "lean": {
+          "output": "Requirement.lean:31:4: error: invalid 'calc' step, left-hand side is\n  ?m.22 : ?m.25\nbut previous right-hand side is\n  x + 1 : Nat\n",
+          "durationMs": 1184
+        }
+      },
+      "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (x : (gleanTerm% \"Nat\")) : (gleanTerm% \"x ≤ x + 2\") :=\n  calc\n    (gleanTerm% \"x\") ≤ (gleanTerm% \"x + 1\") := (gleanTerm% \"Nat.le_succ x\")\n    (gleanTerm% \"x + 1\") ≤ (gleanTerm% \"x + 2\") := (gleanTerm% \"Nat.le_succ (x + 1)\")\n\ntheorem glean_proof (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n ≤ n + 2\") :=\n  let glean_component_2 := glean_component_1 (n)\n  glean_component_2\n",
+      "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (n : (gleanExpectedTerm% \"Nat\")), (gleanExpectedTerm% \"n ≤ n + 2\")\n"
+    },
+    {
+      "id": "R13-inequality-wrong-step",
+      "expected": "invalid",
+      "status": "invalid",
+      "passed": true,
+      "fixture": {
+        "version": 3,
+        "name": "Independent requirement audit",
+        "projectId": "glean",
+        "imports": [],
+        "policy": "strict",
+        "inputs": [
+          {
+            "id": "n",
+            "name": "n",
+            "type": "Nat"
+          }
+        ],
+        "goal": "n ≤ n + 2",
+        "nodes": [
+          {
+            "id": "n",
+            "kind": "input",
+            "ref": "n"
+          },
+          {
+            "id": "calc",
+            "kind": "calc",
+            "inputs": [
+              {
+                "id": "x",
+                "name": "x",
+                "type": "Nat"
+              }
+            ],
+            "outputType": "x ≤ x + 2",
+            "start": "x",
+            "steps": [
+              {
+                "id": "first",
+                "relation": "≤",
+                "term": "x + 3",
+                "proof": "Nat.le_succ x"
+              },
+              {
+                "id": "second",
+                "relation": "≤",
+                "term": "x + 2",
+                "proof": "Nat.le_succ (x + 1)"
+              }
+            ]
+          }
+        ],
+        "edges": [
+          {
+            "id": "n_out_calc_x",
+            "source": "n",
+            "output": "out",
+            "target": "calc",
+            "input": "x"
+          }
+        ],
+        "result": {
+          "node": "calc",
+          "output": "out"
+        },
+        "modules": []
+      },
+      "sourceMap": {
+        "root/calc": {
+          "startLine": 28,
+          "endLine": 32
+        },
+        "root": {
+          "startLine": 33,
+          "endLine": 36
+        }
+      },
+      "result": {
+        "jobId": "94afed26e1f64be19ae79bed6fded2b7",
+        "status": "invalid",
+        "phase": "complete",
+        "verified": false,
+        "kernelAccepted": false,
+        "audit": null,
+        "diagnostics": [
+          {
+            "filename": "Requirement.lean",
+            "line": 30,
+            "column": 48,
+            "severity": "error",
+            "message": "Type mismatch\n  Nat.le_succ x\nhas type\n  x ≤ x.succ\nbut is expected to have type\n  x ≤ x + 3"
+          },
+          {
+            "filename": "Requirement.lean",
+            "line": 31,
+            "column": 5,
+            "severity": "error",
+            "message": "invalid 'calc' step, left-hand side is\n  ?m.22 : ?m.25\nbut previous right-hand side is\n  x + 3 : Nat"
+          }
+        ],
+        "filename": "Requirement.lean",
+        "projectId": "glean",
+        "target": "glean_proof",
+        "policy": "strict",
+        "sourceHash": "e839de5d45bd8191eea9347d7f020707cf44d92c93e4ad19a470e2f224ccd1d5",
+        "lean": {
+          "output": "Requirement.lean:30:47: error: Type mismatch\n  Nat.le_succ x\nhas type\n  x ≤ x.succ\nbut is expected to have type\n  x ≤ x + 3\nRequirement.lean:31:4: error: invalid 'calc' step, left-hand side is\n  ?m.22 : ?m.25\nbut previous right-hand side is\n  x + 3 : Nat\n",
+          "durationMs": 1192
+        }
+      },
+      "generatedCode": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\nnoncomputable def glean_component_1 (x : (gleanTerm% \"Nat\")) : (gleanTerm% \"x ≤ x + 2\") :=\n  calc\n    (gleanTerm% \"x\") ≤ (gleanTerm% \"x + 3\") := (gleanTerm% \"Nat.le_succ x\")\n    (gleanTerm% \"x + 3\") ≤ (gleanTerm% \"x + 2\") := (gleanTerm% \"Nat.le_succ (x + 1)\")\n\ntheorem glean_proof (n : (gleanTerm% \"Nat\")) : (gleanTerm% \"n ≤ n + 2\") :=\n  let glean_component_2 := glean_component_1 (n)\n  glean_component_2\n",
+      "expectedSource": "import Lean\nset_option autoImplicit false\nset_option linter.defProp false\nopen Lean Elab Term in\nelab \"gleanExpectedTerm% \" text:str : term <= expectedType => do\n  let stx ← match Parser.runParserCategory (← getEnv) `term text.getString with\n    | .ok parsed => pure parsed\n    | .error message => throwError message\n  let stx := stx.rewriteBottomUp (Syntax.setInfo text.raw.getHeadInfo)\n  let result ← elabTerm stx expectedType\n  synthesizeSyntheticMVarsNoPostponing\n  let result ← instantiateMVars result\n  let env ← getEnv\n  let mut pending := result.getUsedConstants.toList\n  let mut seen : NameSet := {}\n  while !pending.isEmpty do\n    let name := pending.head!\n    pending := pending.tail!\n    unless seen.contains name do\n      seen := seen.insert name\n      if name.toString.startsWith \"glean_component_\" || name.toString.startsWith \"glean_module_\" || name == `glean_proof then\n        throwError \"Component fragments may use only explicit inputs and imported declarations, not generated helpers\"\n      if (env.getModuleIdxFor? name).isNone then\n        if let some ci := env.find? name then\n          pending := ci.getUsedConstantsAsSet.toList ++ pending\n  return result\n\ndef glean_expected_type : Prop := ∀ (n : (gleanExpectedTerm% \"Nat\")), (gleanExpectedTerm% \"n ≤ n + 2\")\n"
+    }
+  ]
+}

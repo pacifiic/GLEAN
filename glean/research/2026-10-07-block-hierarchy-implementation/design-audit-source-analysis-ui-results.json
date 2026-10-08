@@ -1,0 +1,36 @@
+{
+  "provenance": {
+    "uploadedActualSorryDependency": true,
+    "uploadedUiStatus": "실제 명령 분석 1개 · 분석 완료 · 미검증",
+    "uploadUnverified": true,
+    "currentFileExplicit": true,
+    "installedDisclaimer": true,
+    "installedReferenceType": "Irrational Real.pi",
+    "referenceReceived": true,
+    "uploadedBodyNotAttachedToReference": true,
+    "lookupRequest": {
+      "projectId": "mathlib",
+      "imports": [],
+      "declaration": "irrational_pi"
+    },
+    "controlledInstalledRecord": true,
+    "historicalCacheLabel": "저장된 선언 분석 1개 · 다시 분석해 현재 출처를 확인하세요."
+  },
+  "lateStart": {
+    "cacheCount": 0,
+    "renderedCards": 0,
+    "oldJobCancelled": true,
+    "runEnabled": true
+  },
+  "latePoll": {
+    "cacheCount": 0,
+    "renderedCards": 0,
+    "oldJobCancelled": true,
+    "runEnabled": true
+  },
+  "lateLookup": {
+    "installedPanels": 0,
+    "cacheCount": 1,
+    "status": "소스 또는 프로젝트 변경 · 선언 분석을 다시 읽어 주세요."
+  }
+}

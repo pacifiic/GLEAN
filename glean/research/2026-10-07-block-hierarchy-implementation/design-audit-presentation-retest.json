@@ -1,0 +1,46 @@
+{
+  "nonCasesExtraBranches": {
+    "validation": null,
+    "normalizationError": null
+  },
+  "manualHideOccurrences": {
+    "callA": [
+      "B"
+    ],
+    "callB": [],
+    "definitionHidden": [],
+    "restoredA": [
+      "n:B"
+    ],
+    "warnings": [],
+    "expectedCallB": []
+  },
+  "hideAfterDiagnostic": {
+    "temporary": {
+      "nodes": [],
+      "expanded": []
+    },
+    "collapsed": true,
+    "projected": [
+      {
+        "id": "A",
+        "group": null
+      },
+      {
+        "id": "@container:g",
+        "group": "g"
+      },
+      {
+        "id": "@hidden:B",
+        "group": null
+      }
+    ],
+    "expectedTemporaryExpanded": []
+  },
+  "emptyContainer": {
+    "rejected": true,
+    "error": "빈 그룹은 묶을 수 없습니다.",
+    "unchanged": true,
+    "finiteCoordinates": null
+  }
+}

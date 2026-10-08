@@ -1,0 +1,26 @@
+{
+  "id": "type-error",
+  "title": "의도적인 오류 · P를 Q 자리에 연결",
+  "description": "Q → R은 Q의 증명을 요구하지만 P의 증명이 연결되어 있습니다. 검증 시 이 연결이 거부되는지 확인하고, f의 타입을 P → R로 바꾸어 고쳐 보세요.",
+  "graph": {
+    "version": 1,
+    "name": "deliberate_type_error",
+    "propositions": ["P", "Q", "R"],
+    "assumptions": [
+      {"id": "hp", "type": "P"},
+      {"id": "f", "type": "Q → R"}
+    ],
+    "goal": "R",
+    "nodes": [
+      {"id": "f", "kind": "assumption", "ref": "f", "x": 100, "y": 100},
+      {"id": "hp", "kind": "assumption", "ref": "hp", "x": 100, "y": 320},
+      {"id": "apply", "kind": "apply", "x": 420, "y": 190},
+      {"id": "goal", "kind": "goal", "x": 740, "y": 190}
+    ],
+    "edges": [
+      {"id": "e1", "source": "f", "target": "apply", "input": "fn"},
+      {"id": "e2", "source": "hp", "target": "apply", "input": "arg"},
+      {"id": "e3", "source": "apply", "target": "goal", "input": "proof"}
+    ]
+  }
+}

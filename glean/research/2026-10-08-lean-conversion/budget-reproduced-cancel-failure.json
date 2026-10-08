@@ -1,0 +1,90 @@
+{
+  "kind": "controlled budget acceptance; no Lean invocation",
+  "passed": 13,
+  "total": 14,
+  "cases": [
+    {
+      "case": "ordinary_budget_120_and_client_override_ignored",
+      "pass": true,
+      "evidence": 120
+    },
+    {
+      "case": "context_budget_240_is_per_job",
+      "pass": true,
+      "evidence": 240
+    },
+    {
+      "case": "strict_policy_unchanged",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "case": "source_context_configuration_bounded_to_240",
+      "pass": true,
+      "evidence": [
+        "0",
+        "-1",
+        "241",
+        "inf",
+        "nan",
+        "240",
+        "None"
+      ]
+    },
+    {
+      "case": "two_active_slots_unchanged",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "case": "ordinary_job_past_120_times_out",
+      "pass": true,
+      "evidence": "timeout"
+    },
+    {
+      "case": "compound_job_past_120_still_runs",
+      "pass": true,
+      "evidence": "complete"
+    },
+    {
+      "case": "compound_job_past_240_times_out",
+      "pass": true,
+      "evidence": "timeout"
+    },
+    {
+      "case": "cancelled_compound_job_cannot_start_another_phase",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "case": "late_finish_cannot_verify_cancelled_job",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "case": "cancel_releases_slot_without_changing_normal_budget",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "case": "cancel_stops_running_compound_child_process",
+      "pass": false,
+      "evidence": [
+        {
+          "exception": "PermissionError",
+          "message": "[Errno 1] Operation not permitted"
+        }
+      ]
+    },
+    {
+      "case": "raw_source_POST_cannot_select_compound_budget",
+      "pass": true,
+      "evidence": 120
+    },
+    {
+      "case": "ordinary_graph_POST_cannot_select_compound_budget",
+      "pass": true,
+      "evidence": 120
+    }
+  ]
+}

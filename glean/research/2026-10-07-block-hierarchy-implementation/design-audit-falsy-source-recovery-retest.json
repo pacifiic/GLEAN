@@ -1,0 +1,59 @@
+{
+  "absentNoDownload": true,
+  "kind": "actual source-analysis outer corrupt view normalization and actual app recovery-download listener; controlled DOM, no native UI or Lean job",
+  "results": [
+    {
+      "original": 0,
+      "warningVisible": true,
+      "exactStoredOriginal": true,
+      "downloads": 1,
+      "exactExport": true
+    },
+    {
+      "original": false,
+      "warningVisible": true,
+      "exactStoredOriginal": true,
+      "downloads": 1,
+      "exactExport": true
+    },
+    {
+      "original": null,
+      "warningVisible": true,
+      "exactStoredOriginal": true,
+      "downloads": 1,
+      "exactExport": true
+    },
+    {
+      "original": "broken",
+      "warningVisible": true,
+      "exactStoredOriginal": true,
+      "downloads": 1,
+      "exactExport": true
+    },
+    {
+      "kind": "top-level",
+      "original": 0,
+      "downloads": 1,
+      "exactExport": true
+    },
+    {
+      "kind": "top-level",
+      "original": false,
+      "downloads": 1,
+      "exactExport": true
+    },
+    {
+      "kind": "top-level",
+      "original": null,
+      "downloads": 1,
+      "exactExport": true
+    },
+    {
+      "kind": "top-level",
+      "original": "broken",
+      "downloads": 1,
+      "exactExport": true
+    }
+  ],
+  "appHash": "b3a2d92f6377fb418e04cecfe0ec25e8de54788caf4354b20072bb0ece94cf65"
+}

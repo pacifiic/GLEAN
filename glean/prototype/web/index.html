@@ -1,0 +1,144 @@
+<!-- Copyright (c) 2026 GLEAN contributors. Released under Apache 2.0. -->
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#dededb">
+  <title>GLEAN · 증명을 연결하다</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/workspace.css">
+  <link rel="stylesheet" href="/focus-mode.css">
+  <link rel="stylesheet" href="/ribbon.css">
+  <link rel="stylesheet" href="/capsules.css">
+  <link rel="stylesheet" href="/modules.css">
+  <link rel="stylesheet" href="/recovery-lean.css">
+  <link rel="stylesheet" href="/typed.css">
+  <link rel="stylesheet" href="/visibility.css">
+</head>
+<body>
+  <header class="app-header">
+    <a class="brand" href="/" aria-label="GLEAN 홈"><span class="brand-mark" aria-hidden="true">g<span>·</span></span><span>GLEAN<small>GRASSHOPPER × LEAN</small></span></a>
+    <div class="header-divider"></div><div class="connection-state"><span class="connection-dot" id="health-dot"></span><span id="health-label">Lean 연결 확인 중…</span></div>
+    <div class="header-actions"><button id="undo-button" class="button quiet" title="실행 취소 (⌘/Ctrl+Z)" disabled>↶ 취소</button><button id="redo-button" class="button quiet" title="다시 실행 (⌘/Ctrl+Shift+Z)" disabled>↷ 다시</button><button id="recover-button" class="button quiet" title="이전 자동 저장본 복원">이전 초안</button><button id="panels-button" class="button quiet" aria-haspopup="dialog" aria-expanded="false">패널 · 레이아웃</button><button id="import-button" class="button quiet">열기</button><button id="save-button" class="button quiet">그래프 저장 <span aria-hidden="true">↗</span></button><button id="check-button" class="button primary"><span aria-hidden="true">▷</span> Lean으로 검증</button></div>
+    <input id="file-input" type="file" accept=".lean,.json,text/plain,application/json" hidden>
+  </header>
+  <section class="component-ribbon" aria-label="컴포넌트 도구 모음">
+    <nav class="ribbon-categories" aria-label="컴포넌트 분류">
+      <button class="ribbon-category" data-ribbon-category="all" aria-pressed="true">전체</button>
+      <button class="ribbon-category" data-ribbon-category="params" aria-pressed="false">Params</button>
+      <button class="ribbon-category" data-ribbon-category="logic" aria-pressed="false">Logic</button>
+      <button class="ribbon-category" data-ribbon-category="proof" aria-pressed="false">Proof</button>
+      <span class="ribbon-caption">Visual programming for formal proofs</span>
+    </nav>
+    <div class="ribbon-content">
+      <div class="ribbon-group" data-ribbon-group="params">
+        <div class="ribbon-tools">
+          <button class="ribbon-tool" data-ribbon-command="assumption" title="선택한 가정의 파라미터 노드 추가"><span class="ribbon-icon parameter" aria-hidden="true">h</span><span>가정 추가</span></button>
+          <button class="ribbon-tool" data-ribbon-command="context" title="명제, 가정과 목표 편집"><span class="ribbon-icon" aria-hidden="true">∀</span><span>가정·목표</span></button>
+        </div><div class="ribbon-group-label">Params · 매개변수</div>
+      </div>
+      <div class="ribbon-group" data-ribbon-group="logic">
+        <div class="ribbon-tools">
+          <button class="ribbon-tool" data-add="apply" title="Apply · 함수와 인자를 연결"><span class="ribbon-icon" aria-hidden="true">→</span><span>함수 적용</span></button>
+          <button class="ribbon-tool" data-add="pair" title="Pair · 두 증명의 논리곱"><span class="ribbon-icon" aria-hidden="true">∧</span><span>논리곱</span></button>
+          <button class="ribbon-tool" data-add="left" title="First · 논리곱의 왼쪽 증명"><span class="ribbon-icon" aria-hidden="true">π₁</span><span>왼쪽 추출</span></button>
+          <button class="ribbon-tool" data-add="right" title="Second · 논리곱의 오른쪽 증명"><span class="ribbon-icon" aria-hidden="true">π₂</span><span>오른쪽 추출</span></button>
+          <button class="ribbon-tool" data-ribbon-command="modules" title="재사용 함수와 접기 그룹"><span class="ribbon-icon" aria-hidden="true">ƒ</span><span>모듈</span></button>
+        </div><div class="ribbon-group-label">Logic · 논리 연산</div>
+      </div>
+      <div class="ribbon-group" data-ribbon-group="proof">
+        <div class="ribbon-tools">
+          <button class="ribbon-tool" data-ribbon-command="verify" title="현재 그래프를 Lean 커널로 검증"><span class="ribbon-icon proof" aria-hidden="true">✓</span><span>검증</span></button>
+          <button class="ribbon-tool" data-ribbon-command="source" title="생성된 Lean 코드 패널 열기"><span class="ribbon-icon proof" aria-hidden="true">λ</span><span>Lean 코드</span></button>
+          <button class="ribbon-tool" data-ribbon-command="examples" title="예제 그래프 패널 열기"><span class="ribbon-icon proof" aria-hidden="true">▧</span><span>예제</span></button>
+        </div><div class="ribbon-group-label">Proof · 커널 검증</div>
+      </div>
+      <div class="ribbon-identity"><strong>G[LEAN]</strong>Connect. Compose. Prove.</div>
+    </div>
+  </section>
+  <main class="workspace">
+    <aside class="left-panel">
+      <section class="context-section" data-panel="context">
+        <div class="section-heading"><span class="eyebrow">01 / CONTEXT</span><span class="tiny-badge">∀</span></div>
+        <h2>증명 속성</h2><p class="section-description">명제 · 주어진 가정 · 증명할 목표</p>
+        <p id="context-scope-hint" class="module-context-hint" hidden>함수의 입력·출력 타입은 고정입니다. 내부 노드와 연결을 편집하면 모든 인스턴스에 적용됩니다.</p>
+        <div id="lean-properties" hidden>
+          <p class="section-description">실제 Lean 프로젝트에서 소스와 목표를 편집합니다.</p>
+          <label class="field">Lean 프로젝트<select id="lean-project"><option value="glean">GLEAN · Lean 4</option><option value="mathlib">mathlib · Lean 4</option></select></label>
+          <p id="lean-project-status" class="section-description"></p>
+          <label class="field">검증할 정리<input id="lean-target" placeholder="irrational_pi" maxlength="512" spellcheck="false"></label>
+          <label class="field">공리 정책<select id="lean-policy"><option value="standard">표준 Lean 공리 허용</option><option value="strict">공리 없이 증명</option></select></label>
+          <p class="section-description">sorryAx와 사용자 정의 공리는 검증 완료로 표시하지 않습니다.</p>
+          <div class="section-heading"><b>소스 선언</b><small>행으로 이동</small></div><div id="lean-declarations"></div>
+        </div>
+        <div id="typed-properties" hidden></div><form id="context-form" autocomplete="off">
+          <label class="field">정리 이름<input id="theorem-name" maxlength="100" required spellcheck="false"></label>
+          <label class="field">명제<span class="field-hint">쉼표로 구분 · P, Q, R</span><input id="propositions" maxlength="500" required spellcheck="false"></label>
+          <div class="field-label">가정 <button type="button" id="add-assumption" class="text-button">+ 추가</button></div>
+          <div id="assumptions-list"></div>
+          <label class="field goal-field">목표 <span aria-hidden="true">⊢</span><input id="goal-type" maxlength="512" required spellcheck="false"></label>
+          <p class="syntax-hint">논리식: <code>→</code> 또는 <code>-&gt;</code>, <code>∧</code> 또는 <code>/&#92;</code>, 괄호</p>
+          <button type="submit" id="apply-context" class="button context-apply">설정 적용</button>
+        </form>
+      </section>
+      <section class="palette-section" data-panel="components">
+        <div class="section-heading"><span class="eyebrow">02 / COMPONENTS</span><span class="muted">+ 클릭하여 추가</span></div>
+        <h2>논리 도구</h2>
+        <label class="field compact">가정 노드<select id="assumption-select" aria-label="추가할 가정"></select></label>
+        <button id="add-assumption-node" class="component assumption-component"><span class="component-symbol">h</span><span>가정 가져오기<small>주어진 증명 · Assumption</small></span><span class="component-plus">+</span></button>
+        <div class="component-grid">
+          <button class="component" data-add="apply"><span class="component-symbol">→</span><span>함수 적용<small>Apply</small></span></button>
+          <button class="component" data-add="pair"><span class="component-symbol">∧</span><span>논리곱 만들기<small>Pair</small></span></button>
+          <button class="component" data-add="left"><span class="component-symbol">π₁</span><span>왼쪽 꺼내기<small>First</small></span></button>
+          <button class="component" data-add="right"><span class="component-symbol">π₂</span><span>오른쪽 꺼내기<small>Second</small></span></button>
+        </div>
+      </section>
+    </aside>
+
+    <section class="editor-panel" aria-label="노드 증명 편집기">
+      <div class="canvas-header"><div><span class="eyebrow">PROOF CANVAS</span><h1 id="graph-title">새로운 증명</h1></div><span id="graph-count" class="count-label">0 nodes</span><div class="canvas-tools"><button id="zoom-out" class="icon-button" aria-label="축소">−</button><span id="zoom-label">100%</span><button id="zoom-in" class="icon-button" aria-label="확대">+</button><span class="toolbar-divider"></span><button id="fit-button" class="button quiet small">전체 보기</button><button id="fullscreen-button" class="button quiet small" aria-pressed="false" title="그래프만 전체화면으로 보기">⛶ 전체화면</button></div></div>
+      <div id="module-breadcrumb" class="module-breadcrumb" hidden><button id="module-back-button" class="button quiet small">← 메인 그래프</button><span id="module-scope-name"></span></div>
+      <div id="lean-workbench" class="lean-workbench" hidden><section id="lean-file-block" class="lean-file-block"><article id="lean-source-capsule" class="lean-source-capsule"><header id="lean-file-title">Lean 원본 파일</header><p id="lean-file-meta"></p><small id="lean-file-origin"></small><p id="lean-file-analysis-status">분석 전 · 미검증</p><div><button id="lean-file-open" class="button quiet small">소스 열기</button><button id="lean-file-original" class="button quiet small">원본 파일 저장</button><button id="lean-file-index" class="button quiet small">선언 / 의존 분석</button><button id="lean-file-index-cancel" class="button quiet small" hidden>분석 취소</button></div></article><section id="lean-file-declarations"></section></section><div id="lean-source-content"><button id="lean-file-back" class="button quiet small">파일 블록으로 돌아가기</button>
+        <div class="lean-editor-toolbar"><span id="lean-session-status">Lean 프로젝트 연결 대기</span><label class="lean-line-jump">행 <input id="lean-goto-line" type="number" min="1" value="1" aria-label="이동할 소스 행"></label><button id="lean-goto-button" class="button quiet small">이동</button><button id="lean-context-button" class="button quiet small">커서의 목표·가정 읽기</button></div>
+        <div class="lean-editor-area"><pre id="lean-line-numbers" aria-hidden="true"></pre><textarea id="lean-editor" spellcheck="false" aria-label="Lean 소스 편집기" wrap="off"></textarea></div>
+        <div class="lean-editor-footer"><span id="lean-cursor">Ln 1, Col 1</span><span>소스 편집 · 실제 Lean 목표/지역 문맥</span></div></div>
+      </div>
+      <div id="presentation-warning" class="presentation-warning" role="alert" hidden><span id="presentation-warning-text"></span><button id="presentation-recovery-download" class="button quiet small">원본 표현 저장</button></div><div class="graph-checkbar"><span id="graph-checkstate" role="status">미검증</span><button id="graph-check-run" class="button quiet small">Lean 검사</button><button id="graph-check-cancel" class="button quiet small" hidden>검사 취소</button></div><details id="graph-inline-details" class="graph-inline-details"><summary>진단 / 오류 위치</summary><div id="graph-inline-diagnostics"></div></details><div id="graph-visibility"></div><div id="typed-workbench" hidden></div><div id="canvas" class="canvas" tabindex="0" aria-label="노드 캔버스. 노드를 끌어 이동하고 출력과 입력 포트를 차례로 선택하세요.">
+        <div class="canvas-watermark" aria-hidden="true">GLEAN / DEFINITION</div>
+        <div id="world" class="world"><div id="groups"></div><svg id="wires" aria-hidden="true"><g id="wire-paths"></g><path id="pending-wire" hidden></path></svg><div id="nodes"></div></div>
+        <label class="preview-control">보기 <select id="preview-mode"><option value="all">전체</option><option value="selected">선택만</option><option value="dependencies">선택의 의존 범위</option></select><button id="inspect-button" class="button quiet small">Inspector / Watch</button></label><div class="canvas-tip" id="canvas-tip"><span aria-hidden="true">◉</span> 출력 포트 → 입력 포트 순서로 연결하세요</div>
+        <div id="selection-toolbar" class="selection-toolbar" hidden><span id="selected-label"></span><input id="module-name" aria-label="모듈 이름" placeholder="모듈 이름" maxlength="80"><button id="group-button" class="button quiet small">그룹으로 접기</button><button id="module-button" class="button quiet small">함수로 만들기</button><button id="ungroup-button" class="button quiet small" hidden>그룹 해제</button><button id="disconnect-button" class="button quiet small">입력 해제</button><button id="delete-button" class="button danger small">삭제</button></div>
+      </div>
+      <section id="source-panel" class="source-panel" data-panel="source" aria-label="생성된 Lean 코드">
+        <div class="source-heading"><div><span class="code-icon" aria-hidden="true">⌘</span><strong>Lean 코드</strong><span id="source-note" class="source-note">그래프에서 생성된 증명</span></div><button id="export-button" class="button quiet small" disabled>.lean 내보내기 ↗</button></div>
+        <div class="code-area"><div id="line-numbers" class="line-numbers" aria-hidden="true"></div><pre id="source-code" tabindex="0">노드를 연결한 뒤 ‘Lean으로 검증’을 누르세요.
+완성된 그래프가 실행 가능한 Lean 코드로 변환됩니다.</pre></div>
+      </section>
+      <footer class="editor-footer"><span><kbd>Shift + 클릭</kbd> 여러 노드 선택 · <kbd>휠</kbd> 확대·축소</span><span id="save-state">로컬 작업 공간</span></footer>
+      <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+    </section>
+
+    <aside class="right-panel">
+      <section class="modules-section" data-panel="modules"><div class="section-heading"><span class="eyebrow">FUNCTIONS & GROUPS</span><span>ƒ</span></div><h2>모듈 라이브러리</h2><p class="section-description">Shift + 클릭으로 연산을 선택한 뒤 함수로 만드세요. 입력과 출력이 자동으로 정해집니다.</p><div class="module-guide"><b>함수</b> 재사용 · 내부 편집 · Lean 함수 생성<br><b>그룹</b> 한 캡슐로 접기 · 펼치기 · 배치 정리</div><div id="module-library"></div></section>
+      <section class="review-section" data-panel="inspector"><span class="eyebrow">INSPECTOR / WATCH</span><h2>포트와 증명항</h2><div id="node-inspector"><p class="muted">노드 또는 입력 포트를 선택하세요.</p></div><button id="watch-pin" class="button quiet small" disabled>선택을 Watch에 고정</button><div id="watch-list"></div><hr><span class="eyebrow">PROOF NOTEBOOK</span><h3>단계와 A/B 문서</h3><label class="field">기록 이름<input id="notebook-name" value="A"></label><label class="field">단계 설명<textarea id="notebook-description" rows="2"></textarea></label><button id="bookmark-add" class="button quiet small">현재 단계 기록</button><button id="variant-save" class="button quiet small">A/B 문서 저장</button><button id="notebook-export" class="button quiet small">작업 기록 내보내기</button><div id="notebook-list"></div></section>
+      <section class="verification-section" data-panel="verification">
+        <div class="section-heading"><span class="eyebrow">03 / VERIFICATION</span><span class="lean-badge">L∃∀N 4</span></div>
+        <h2>증명 확인</h2>
+        <div id="status-card" class="status-card unverified" role="status" aria-live="polite"><div class="status-icon" id="status-icon" aria-hidden="true">○</div><div><h3 id="status-title">검증 대기</h3><p id="status-description">그래프를 완성하고 Lean 커널로 확인하세요.</p></div></div>
+        <div id="lean-context-view" hidden><div class="lean-context-heading"><b>커서의 목표 · 지역 가정</b><span id="lean-context-position"></span></div><pre id="lean-goal-summary" hidden></pre><pre id="lean-goals">증명 안에 커서를 놓고 목표를 읽으세요.</pre><details><summary>표현식 타입</summary><pre id="lean-hover"></pre></details></div>
+        <button id="lean-cancel-button" class="button quiet" hidden>검사 취소</button>
+        <div id="compute-options" class="compute-options"><label class="field">Data Dam<select id="compute-mode"><option value="manual">수동 · 편집 시 타입 미리보기</option><option value="auto">자동 · 편집 후 Lean 검증</option></select></label><button id="preview-button" class="button quiet small">타입 미리보기</button><button id="cancel-check" class="button quiet small">실행 취소</button><small>미리보기는 커널 검증이 아닙니다.</small></div><label id="graph-check-options" class="field">검사 범위<select id="graph-check-scope"><option value="all">전체 노드 (엄격)</option><option value="goal">목표에 필요한 노드</option></select></label>
+        <div class="audit-row"><span>검증 기준</span><strong>Lean 커널 + 공리 검사</strong></div>
+        <div id="diagnostics" class="diagnostics"></div><details id="workspace-diagnostics" hidden><summary>목표 밖 작업 노드</summary><div id="workspace-diagnostic-items"></div></details>
+        <details id="lean-output" hidden><summary>Lean 실행 로그</summary><pre id="lean-output-text"></pre></details>
+      </section>
+      <section class="examples-section" data-panel="examples"><div class="section-heading"><span class="eyebrow">EXAMPLE GALLERY</span><span aria-hidden="true">↗</span></div><h2>작은 증명에서 시작하기</h2><button id="pi-source-button" class="button quiet">π 무리성 · 실제 Lean 311줄 열기</button><button id="typed-new-button" class="button quiet">+ 수학 LeanScript 그래프</button><button id="lean-new-button" class="button quiet">+ Lean 소스 만들기</button><div id="examples-list" class="examples-list"><p class="muted">예제 불러오는 중…</p></div><button id="new-button" class="button quiet new-button">+ 빈 증명 만들기</button></section>
+      <section class="help-panel" data-panel="help"><section class="guide-section"><span class="eyebrow">HOW IT WORKS</span><ol><li><b>가정을 준비하세요</b><span>왼쪽에서 명제와 주어진 조건을 정합니다.</span></li><li><b>논리를 연결하세요</b><span>출력과 입력 포트를 눌러 증명을 구성합니다.</span></li><li><b>Lean으로 확인하세요</b><span>타입과 증명이 맞는지 실제 커널이 검사합니다.</span></li></ol></section>
+      <div class="scope-note"><span class="eyebrow">편집 범위</span><p>그래프는 명제·함수 적용·논리곱을 다룹니다. .lean 파일은 소스 편집기에서 열고 실제 목표·지역 가정을 확인할 수 있습니다. 의존 타입과 증명 분기의 노드 편집은 다음 단계입니다.</p></div>
+      </section>
+    </aside>
+  </main>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

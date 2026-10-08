@@ -1,0 +1,233 @@
+/* Copyright (c) 2026 GLEAN contributors. Released under Apache 2.0. */
+.wire {
+  stroke:#4e4e4e;
+  stroke-width:1.7;
+  opacity:.9;
+  stroke-linecap:round;
+}
+
+.wire.highlight {
+  stroke:#4c8b26;
+  stroke-width:2.2;
+}
+
+.wire.invalid {
+  stroke:#c23828;
+}
+
+.wire.pending {
+  stroke:#478622;
+  stroke-width:1.7;
+  stroke-dasharray:4 4;
+}
+
+.node {
+  width:160px;
+  border:1px solid #747474;
+  border-radius:15px;
+  background:linear-gradient(#fafafa 0%,#e8e8e8 18%,#c6c6c6 78%,#b8b8b8 100%);
+  color:#272727;
+  box-shadow:inset 0 1px 0 #fff,0 2px 2px #0002;
+  cursor:grab;
+}
+
+.node:active {
+  cursor:grabbing;
+}
+
+.node.assumption {
+  background:linear-gradient(#fffbd9,#fff4a4 28%,#e4ce6a 100%);
+  border-color:#9f8d48;
+}
+
+.node.goal {
+  background:linear-gradient(#fafafa 0%,#e8e8e8 18%,#c6c6c6 78%,#b8b8b8 100%);
+  border-color:#747474;
+}
+
+.node.selected,.node.pending-source {
+  background:linear-gradient(#e0f5c5,#a7d47d 30%,#77b14d 100%);
+  border-color:#407324;
+  box-shadow:inset 0 1px 0 #f5ffe9,0 0 0 1px #71a74d,0 2px 3px #0002;
+}
+
+.node.warning {
+  background:linear-gradient(#ffe8c4,#ffc075 30%,#e49a45 100%);
+  border-color:#a26826;
+}
+
+.node.error {
+  background:linear-gradient(#ffcfc7,#ec9a8b 30%,#ce6e60 100%);
+  border-color:#9b4033;
+  box-shadow:inset 0 1px 0 #ffe8e0,0 2px 3px #0002;
+}
+
+.node:is(.warning,.error).selected {
+  box-shadow:inset 0 1px 0 #fff8,0 0 0 2px #599137,0 2px 3px #0002;
+}
+
+.node.goal.verified {
+  border-color:#4d7e38;
+}
+
+.node header,.node.assumption header,.node.goal header {
+  position:absolute;
+  left:37px;
+  right:37px;
+  top:4px;
+  bottom:22px;
+  height:auto;
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:1px;
+  background:transparent;
+  border:0;
+  border-radius:0;
+  pointer-events:none;
+}
+
+.node .node-symbol,.node.goal .node-symbol {
+  min-width:0;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:24px;
+  font-weight:500;
+  line-height:26px;
+  color:#333;
+  text-shadow:0 1px 0 #fff9;
+}
+
+.node .node-name,.node.goal .node-name {
+  flex:none;
+  width:100%;
+  text-align:center;
+  color:#333;
+  font-size:9px;
+  line-height:14px;
+  font-weight:550;
+}
+
+.node .node-kind {
+  display:none;
+}
+
+.node.assumption header {
+  left:12px;
+  right:12px;
+  top:4px;
+  bottom:24px;
+  flex-direction:row;
+  gap:7px;
+}
+
+.node.assumption .node-symbol {
+  font-size:17px;
+  line-height:20px;
+  color:#6a5720;
+}
+
+.node.assumption .node-name {
+  width:auto;
+  max-width:105px;
+  font:11px/20px var(--mono);
+  color:#4e431f;
+}
+
+.node .port-label {
+  position:absolute;
+  left:9px;
+  max-width:30px;
+  font-size:9px;
+  line-height:14px;
+  color:#424242;
+  transform:translateY(-50%);
+  white-space:nowrap;
+  pointer-events:none;
+}
+
+.node .port {
+  position:absolute;
+  width:18px;
+  height:18px;
+  right:auto;
+  margin:0;
+  padding:0;
+  border:0;
+  background:transparent;
+  border-radius:50%;
+  box-shadow:none;
+  transform:translate(-50%,-50%);
+  z-index:1;
+  cursor:crosshair;
+}
+
+.node .port::before {
+  content:"";
+  position:absolute;
+  width:7px;
+  height:7px;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  border:1px solid #484848;
+  border-radius:50%;
+  background:#f7f7f7;
+  box-shadow:0 1px 0 #fff8;
+}
+
+.node .port.output::before,.node .port.connected::before {
+  background:#626262;
+}
+
+.node .port:hover,.node .port:focus-visible {
+  background:#71a64630;
+  box-shadow:0 0 0 2px #63983d90;
+}
+
+.node .port:hover::before,.node .port:focus-visible::before {
+  background:#4d8d24;
+  border-color:#365d22;
+}
+
+.node .node-type {
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:22px;
+  padding:1px 9px 2px;
+  border-top:1px solid #0002;
+  border-radius:0 0 14px 14px;
+  background:#ffffff40;
+  color:#292929;
+  font:13px/18px Georgia,"Apple SD Gothic Neo",serif;
+  text-align:center;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
+}
+
+.node.assumption .node-type {
+  bottom:3px;
+  border:0;
+  background:transparent;
+  color:#57481f;
+}
+
+.node .node-state {
+  position:absolute;
+  top:5px;
+  right:8px;
+  color:#53472a;
+  font:bold 10px/12px var(--mono);
+  pointer-events:none;
+}
+
+.node.error .node-state {
+  color:#7c271d;
+}
+
+.node.goal.verified .node-state {
+  color:#316823;
+}

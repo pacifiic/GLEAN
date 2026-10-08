@@ -1,0 +1,24 @@
+{
+  "pendingBody": {
+    "visibleBody": "by exact True.intro",
+    "savedBody": "by exact True.intro",
+    "checkedBody": "by exact True.intro",
+    "onChangeCount": 1
+  },
+  "signatureStatus": {
+    "affectedCard": "이번 변경의 영향 호출\nroot/call",
+    "lastVisibleStatus": [
+      "unverified",
+      "타입 그래프 변경됨",
+      "Lean 검증을 다시 실행하세요."
+    ]
+  },
+  "branchModuleBatch": {
+    "accepted": true,
+    "count": 2,
+    "sources": [
+      "a",
+      "b"
+    ]
+  }
+}

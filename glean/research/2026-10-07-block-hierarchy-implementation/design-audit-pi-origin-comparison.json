@@ -1,0 +1,69 @@
+{
+  "declName": "irrational_pi",
+  "type": "Irrational Real.pi",
+  "baseline": {
+    "path": "/Users/moonone/GLEAN/glean/research/2026-10-07-pi-audit/reference/Irrational.lean",
+    "sha256": "0c041eca65dd0f02330634e15db157fb07e79db045b078c8cc3bfd7b14c321cf",
+    "installedPath": "/Users/moonone/GLEAN/.glean-tools/mathlib-audit/mathlib4/Mathlib/Analysis/Real/Pi/Irrational.lean",
+    "installedSha256": "0c041eca65dd0f02330634e15db157fb07e79db045b078c8cc3bfd7b14c321cf",
+    "sameInstalledBytes": true,
+    "actualPriorRunRecord": "/Users/moonone/GLEAN/glean/research/2026-10-07-pi-audit/evidence/reference-runs.json",
+    "actualPriorAxiomLog": "/Users/moonone/GLEAN/glean/research/2026-10-07-pi-audit/evidence/reference-wrappers.log",
+    "actualPriorAxiomExcerpt": [
+      "'irrational_pi' depends on axioms: [propext, Classical.choice, Quot.sound]",
+      "'glean_irrational_pi' depends on axioms: [propext, Classical.choice, Quot.sound]"
+    ],
+    "note": "Prior genuine original/reuse Lean runs; no new baseline lookup or kernel job."
+  },
+  "uploaded": {
+    "path": "/Users/moonone/GLEAN/glean/research/2026-10-07-block-hierarchy-implementation/design-audit-uploaded-pi-sorry.lean",
+    "sha256": "9f644f34c4a4242bf54e84aeb49358df46544dd87297fcb929bdf2811e1c8eb1",
+    "actualDeclaration": {
+      "type": "Irrational Real.pi",
+      "range": {
+        "startLine": 281,
+        "startCharacter": 0,
+        "endLine": 282,
+        "endCharacter": 7
+      },
+      "private": false,
+      "name": "irrational_pi",
+      "kind": "Lean.ConstantKind.thm",
+      "directDependencies": [
+        "Real.pi",
+        "sorryAx",
+        "instOfNatNat",
+        "Lean.Name.num",
+        "Lean.Name.str",
+        "Lean.Name.anonymous",
+        "Irrational",
+        "Nat",
+        "Lean.Name",
+        "OfNat.ofNat",
+        "Bool.false"
+      ]
+    },
+    "hasErrors": false,
+    "verified": false,
+    "diagnostics": [
+      {
+        "severity": "warning",
+        "message": "declaration uses `sorry`",
+        "line": 281,
+        "column": 16
+      }
+    ]
+  },
+  "sameFullnameDifferentSource": true,
+  "lookupAttempt": {
+    "method": "lookup_declaration mathlib/import Mathlib.Analysis.Real.Pi.Irrational/name irrational_pi",
+    "result": "TimeoutExpired at configured 45 seconds",
+    "retry": false
+  },
+  "requiredProductBehavior": {
+    "analysisIsNotVerification": true,
+    "installedEnvironmentCallMustHaveInstalledOrigin": true,
+    "installedCallDoesNotReuseUploadedBody": true,
+    "uploadEligibilityMustNotFollowNameEquality": true
+  }
+}

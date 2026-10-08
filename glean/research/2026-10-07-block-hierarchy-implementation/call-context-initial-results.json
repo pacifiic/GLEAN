@@ -1,0 +1,1106 @@
+{
+  "kind": "actual product event callbacks / small DOM model / controlled fetch, not native UI or kernel",
+  "hashes": {
+    "typedEditor": "adfa68b3124cc91b0d7427c64bc33104d60cfe779c8f867db093ed489298b422",
+    "presentation": "d9983b668e730933dfae7e49e043c381093cf3105f740bfe996e3d3401bc5631",
+    "visibilityTools": "71523d4100952b74c139d7166a769923dd7d5bb553ae6ab3956ce246db61874d"
+  },
+  "cases": [
+    {
+      "id": "hide-delete-prunes-saved-hidden-id",
+      "pass": true,
+      "hidden": [],
+      "warnings": []
+    },
+    {
+      "id": "group-delete-prunes-saved-child-id",
+      "pass": true,
+      "containers": [
+        {
+          "id": "container_f9158cdc",
+          "name": "그룹 1",
+          "children": [],
+          "collapsed": true,
+          "x": 600,
+          "y": 300
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "id": "deleting-last-isolation-target-safely-ends-frame",
+      "pass": true,
+      "visible": [
+        "n",
+        "zero"
+      ]
+    },
+    {
+      "id": "new-node-is-immediately-in-current-isolation",
+      "pass": true,
+      "added": "nat_068e675d"
+    },
+    {
+      "id": "presentation-events-preserve-result-and-do-not-request-check",
+      "pass": true,
+      "requests": 1,
+      "layoutCommits": 1,
+      "navigationCommits": 0
+    },
+    {
+      "id": "hidden-delete-undo-redo-restores-presentation-atomically",
+      "pass": true,
+      "beforeHidden": [
+        "n:spare"
+      ],
+      "afterHidden": []
+    },
+    {
+      "id": "group-delete-undo-redo-restores-membership-atomically",
+      "pass": true,
+      "beforeChildren": [
+        "n:spare"
+      ],
+      "afterChildren": []
+    },
+    {
+      "id": "actual-typed-open-emits-warning-and-preserves-original",
+      "pass": true,
+      "warning": [
+        "root: 손상된 범위 표현을 복구했습니다."
+      ],
+      "originalPreserved": true
+    },
+    {
+      "id": "call-A-B-displayed-context-observation",
+      "pass": true,
+      "a": {
+        "trail": [
+          {
+            "scopeId": "root",
+            "nodeId": "callA",
+            "definitionId": "outer"
+          }
+        ],
+        "display": [
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "루트",
+            "value": ""
+          },
+          {
+            "tag": "span",
+            "text": "혼합 블록 · 3단 중첩과 재사용 > 큰 증명 A · n=3 [큰 증명 블록]",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "상위로 돌아가기",
+            "value": ""
+          },
+          {
+            "tag": "details",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "summary",
+            "text": "컴포넌트 ▾",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "입력",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "Nat",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "LeanScript",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "선언 참조",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "함수 호출",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "생성·분해",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "Calc",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "Cases / Join",
+            "value": ""
+          },
+          {
+            "tag": "details",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "summary",
+            "text": "더보기 ▾",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "+ 코드 부모",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "+ 그래프 부모",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "문서 / 함수",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "선택 의존 보기",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "전체 보기",
+            "value": ""
+          },
+          {
+            "tag": "span",
+            "text": "100%",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "100%",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "선택 맞춤",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "details",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "summary",
+            "text": "보기 ▾",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "선택 숨기기",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "선택만 보기",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "수동 숨김 해제",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "현재 캔버스 전부 표시",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "그룹으로 묶기",
+            "value": ""
+          },
+          {
+            "tag": "details",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "summary",
+            "text": "숨긴 항목 0개",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "input",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "span",
+            "text": "호출별 보기 · 본문 편집은 모든 호출에 적용",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "svg",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "path",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "title",
+            "text": "n_in.out → nested.n\n제공: 미확정\n요구 (현재 문맥): 미확정\n범위: module/outer",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "article",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "header",
+            "text": "자연수 n",
+            "value": ""
+          },
+          {
+            "tag": "small",
+            "text": "공개 입력",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "out ●",
+            "value": ""
+          },
+          {
+            "tag": "article",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "header",
+            "text": "내부 증명 호출",
+            "value": ""
+          },
+          {
+            "tag": "small",
+            "text": "공유 함수 호출",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "● n",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "out ●",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "내부 열기",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "span",
+            "text": "TYPED LEAN COMPONENTS",
+            "value": ""
+          },
+          {
+            "tag": "label",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "span",
+            "text": "문서 이름",
+            "value": ""
+          },
+          {
+            "tag": "input",
+            "text": "",
+            "value": "혼합 블록 · 3단 중첩과 재사용"
+          },
+          {
+            "tag": "label",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "span",
+            "text": "프로젝트",
+            "value": ""
+          },
+          {
+            "tag": "select",
+            "text": "",
+            "value": "glean"
+          },
+          {
+            "tag": "option",
+            "text": "glean",
+            "value": "glean"
+          },
+          {
+            "tag": "option",
+            "text": "mathlib",
+            "value": "mathlib"
+          },
+          {
+            "tag": "label",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "span",
+            "text": "import 모듈 (한 줄에 하나)",
+            "value": ""
+          },
+          {
+            "tag": "textarea",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "label",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "span",
+            "text": "공리 정책",
+            "value": ""
+          },
+          {
+            "tag": "select",
+            "text": "",
+            "value": "strict"
+          },
+          {
+            "tag": "option",
+            "text": "standard",
+            "value": ""
+          },
+          {
+            "tag": "option",
+            "text": "strict",
+            "value": ""
+          },
+          {
+            "tag": "label",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "span",
+            "text": "함수 입력",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "input",
+            "text": "",
+            "value": "n"
+          },
+          {
+            "tag": "input",
+            "text": "",
+            "value": "Nat"
+          },
+          {
+            "tag": "button",
+            "text": "↑",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "×",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "+ 입력",
+            "value": ""
+          },
+          {
+            "tag": "label",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "span",
+            "text": "최종 목표 / 함수 출력 타입",
+            "value": ""
+          },
+          {
+            "tag": "textarea",
+            "text": "",
+            "value": "n + 0 = n"
+          },
+          {
+            "tag": "button",
+            "text": "시그니처 적용",
+            "value": ""
+          },
+          {
+            "tag": "label",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "span",
+            "text": "이 범위의 결과",
+            "value": ""
+          },
+          {
+            "tag": "select",
+            "text": "",
+            "value": "{\"node\":\"nested\",\"output\":\"out\"}"
+          },
+          {
+            "tag": "option",
+            "text": "n_in · out",
+            "value": "{\"node\":\"n_in\",\"output\":\"out\"}"
+          },
+          {
+            "tag": "option",
+            "text": "nested · out",
+            "value": "{\"node\":\"nested\",\"output\":\"out\"}"
+          },
+          {
+            "tag": "button",
+            "text": "결과 지정",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "+ 재사용 함수 정의",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "ƒ 덧셈 보조 증명",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "ƒ 연결된 내부 블록",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "ƒ 큰 증명 블록",
+            "value": ""
+          }
+        ]
+      },
+      "b": {
+        "trail": [
+          {
+            "scopeId": "root",
+            "nodeId": "callB",
+            "definitionId": "outer"
+          }
+        ],
+        "display": [
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "루트",
+            "value": ""
+          },
+          {
+            "tag": "span",
+            "text": "혼합 블록 · 3단 중첩과 재사용 > 큰 증명 B · n=5 [큰 증명 블록]",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "상위로 돌아가기",
+            "value": ""
+          },
+          {
+            "tag": "details",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "summary",
+            "text": "컴포넌트 ▾",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "입력",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "Nat",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "LeanScript",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "선언 참조",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "함수 호출",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "생성·분해",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "Calc",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "Cases / Join",
+            "value": ""
+          },
+          {
+            "tag": "details",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "summary",
+            "text": "더보기 ▾",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "+ 코드 부모",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "+ 그래프 부모",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "문서 / 함수",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "선택 의존 보기",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "전체 보기",
+            "value": ""
+          },
+          {
+            "tag": "span",
+            "text": "100%",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "100%",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "선택 맞춤",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "details",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "summary",
+            "text": "보기 ▾",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "선택 숨기기",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "선택만 보기",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "수동 숨김 해제",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "현재 캔버스 전부 표시",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "그룹으로 묶기",
+            "value": ""
+          },
+          {
+            "tag": "details",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "summary",
+            "text": "숨긴 항목 0개",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "input",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "span",
+            "text": "호출별 보기 · 본문 편집은 모든 호출에 적용",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "svg",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "path",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "title",
+            "text": "n_in.out → nested.n\n제공: 미확정\n요구 (현재 문맥): 미확정\n범위: module/outer",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "article",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "header",
+            "text": "자연수 n",
+            "value": ""
+          },
+          {
+            "tag": "small",
+            "text": "공개 입력",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "out ●",
+            "value": ""
+          },
+          {
+            "tag": "article",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "header",
+            "text": "내부 증명 호출",
+            "value": ""
+          },
+          {
+            "tag": "small",
+            "text": "공유 함수 호출",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "● n",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "out ●",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "내부 열기",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "span",
+            "text": "TYPED LEAN COMPONENTS",
+            "value": ""
+          },
+          {
+            "tag": "label",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "span",
+            "text": "문서 이름",
+            "value": ""
+          },
+          {
+            "tag": "input",
+            "text": "",
+            "value": "혼합 블록 · 3단 중첩과 재사용"
+          },
+          {
+            "tag": "label",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "span",
+            "text": "프로젝트",
+            "value": ""
+          },
+          {
+            "tag": "select",
+            "text": "",
+            "value": "glean"
+          },
+          {
+            "tag": "option",
+            "text": "glean",
+            "value": "glean"
+          },
+          {
+            "tag": "option",
+            "text": "mathlib",
+            "value": "mathlib"
+          },
+          {
+            "tag": "label",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "span",
+            "text": "import 모듈 (한 줄에 하나)",
+            "value": ""
+          },
+          {
+            "tag": "textarea",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "label",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "span",
+            "text": "공리 정책",
+            "value": ""
+          },
+          {
+            "tag": "select",
+            "text": "",
+            "value": "strict"
+          },
+          {
+            "tag": "option",
+            "text": "standard",
+            "value": ""
+          },
+          {
+            "tag": "option",
+            "text": "strict",
+            "value": ""
+          },
+          {
+            "tag": "label",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "span",
+            "text": "함수 입력",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "input",
+            "text": "",
+            "value": "n"
+          },
+          {
+            "tag": "input",
+            "text": "",
+            "value": "Nat"
+          },
+          {
+            "tag": "button",
+            "text": "↑",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "×",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "+ 입력",
+            "value": ""
+          },
+          {
+            "tag": "label",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "span",
+            "text": "최종 목표 / 함수 출력 타입",
+            "value": ""
+          },
+          {
+            "tag": "textarea",
+            "text": "",
+            "value": "n + 0 = n"
+          },
+          {
+            "tag": "button",
+            "text": "시그니처 적용",
+            "value": ""
+          },
+          {
+            "tag": "label",
+            "text": "",
+            "value": ""
+          },
+          {
+            "tag": "span",
+            "text": "이 범위의 결과",
+            "value": ""
+          },
+          {
+            "tag": "select",
+            "text": "",
+            "value": "{\"node\":\"nested\",\"output\":\"out\"}"
+          },
+          {
+            "tag": "option",
+            "text": "n_in · out",
+            "value": "{\"node\":\"n_in\",\"output\":\"out\"}"
+          },
+          {
+            "tag": "option",
+            "text": "nested · out",
+            "value": "{\"node\":\"nested\",\"output\":\"out\"}"
+          },
+          {
+            "tag": "button",
+            "text": "결과 지정",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "+ 재사용 함수 정의",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "ƒ 덧셈 보조 증명",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "ƒ 연결된 내부 블록",
+            "value": ""
+          },
+          {
+            "tag": "button",
+            "text": "ƒ 큰 증명 블록",
+            "value": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "call-A-B-view-shows-distinct-call-identity-and-arguments",
+      "pass": true,
+      "displayDiffers": true
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "fixtureSha256": "24c3638480ac5867d6951c2cc31695b07e9283412907bdc7d0ccfb08f4610f71",
+  "adapterSha256": "571d5ce3f6964736e586fcc2512184083399a30af694ffd74a827cc819c4e8e8",
+  "resultSha256": "a5bc887a2ce0424c056d78def2500cfdbc386ffc81f1807847c7c67d24047151",
+  "projectId": "glean",
+  "toolchain": "leanprover/lean4:v4.34.1",
+  "analysisOnly": true,
+  "hasErrors": true
+}

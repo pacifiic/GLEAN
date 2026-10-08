@@ -1,0 +1,262 @@
+{
+  "method": "actual GraphCheckService -> SourceCheckService -> expected signature and kernel audit; serial jobs",
+  "startedAt": "2026-10-08T00:50:10+0900",
+  "productHashes": {
+    "typed_graph.py": "ab67fa1bfa1f20b4202e046ab4a18454a9b4c64901acc965e153e59961dca812",
+    "graph_jobs.py": "9c6932620f1ed6213b2724b664c6d964f8343ceb69b205b7e00b03c737e17a89",
+    "source_check.py": "98482a0dd2db1f3135f629fc19b2070b011cdd6e1f47afc798e74603ea059428",
+    "limits.py": "f8f8c5f225a9b7add3a03b575ed8db70438ddb797456dd86d185b240005d4d35"
+  },
+  "cases": [
+    {
+      "name": "long-product-64k-valid",
+      "size": "64k",
+      "control": "valid",
+      "bodyBytes": 65530,
+      "bodyLines": 1193,
+      "bodyHash": "9f965714946be6bdc8c7a47f11972d049ca409d6cb8188b54a82bf81b36bf4e0",
+      "graphJsonBytes": 67337,
+      "sourceBytes": 68598,
+      "sourceHash": "6bf36d0fffd9c0c124a6d5844e60a10d480614c01db23d34c3756e5bc1108507",
+      "expectedSourceHash": "918d11b28903c5349c53182b59fd3124c6beaa2585f5357f777082660b6b0751",
+      "wallSeconds": 21.455,
+      "status": "invalid",
+      "verified": false,
+      "kernelAccepted": false,
+      "audit": null,
+      "environment": {
+        "schema": 1,
+        "projectId": "glean",
+        "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+        "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+        "projectFiles": {
+          "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+          "lake-manifest.json": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+          "lakefile.lean": null,
+          "lakefile.toml": "a3500f3a6618de5748b6135a580e2b4357a9936564a0a43a9decbdb94f101580"
+        },
+        "sourceStateHash": "8ffb9345a4d0f588f2b5b1c670c5218151c94edf7203ebc22bee65f1def53b8d",
+        "dependencies": [],
+        "compiledArtifacts": {
+          "kind": "path-size-mtime-metadata",
+          "count": 10089,
+          "hash": "eff39cb727636d1b135ecdb35e3c8e15e665997e6a4f2255310687c6f71cb748"
+        },
+        "leanSearchPaths": [
+          "/Users/moonone/GLEAN/glean/.lake/build/lib/lean",
+          "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+        ],
+        "gitCommit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+        "gitDirty": true,
+        "changedLeanInputs": null,
+        "sourceIdentityKind": "source-content-in-parent-git",
+        "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+        "manifestHash": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+        "environmentHash": "37f0a53954eb4d24b534f46a7921b2ed8aea314cfd6e3649073cb750028555fd",
+        "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+      },
+      "diagnostics": [
+        {
+          "severity": "error",
+          "message": "독립 커널 재검사 또는 대상 정리의 공리 검사에 실패했습니다."
+        }
+      ],
+      "lean": {
+        "output": "uncaught exception: maximum recursion depth has been reached\nuse `set_option maxRecDepth <num>` to increase limit\nuse `set_option diagnostics true` to get diagnostic information\n",
+        "durationMs": 21418
+      },
+      "pass": false
+    },
+    {
+      "name": "long-product-64k-wrong-ending",
+      "size": "64k",
+      "control": "wrong-ending",
+      "bodyBytes": 65526,
+      "bodyLines": 1193,
+      "bodyHash": "a0cd23115a00a88fb0fa527956a1bf125629e855b497804698abe5311c6a3918",
+      "graphJsonBytes": 67333,
+      "sourceBytes": 68594,
+      "sourceHash": "13cc1f64916d6dbd397c166837901d0ccf7794f6e92bab35ce05d38d3db959ea",
+      "expectedSourceHash": "918d11b28903c5349c53182b59fd3124c6beaa2585f5357f777082660b6b0751",
+      "wallSeconds": 7.49,
+      "status": "invalid",
+      "verified": false,
+      "kernelAccepted": false,
+      "audit": null,
+      "environment": {
+        "schema": 1,
+        "projectId": "glean",
+        "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+        "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+        "projectFiles": {
+          "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+          "lake-manifest.json": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+          "lakefile.lean": null,
+          "lakefile.toml": "a3500f3a6618de5748b6135a580e2b4357a9936564a0a43a9decbdb94f101580"
+        },
+        "sourceStateHash": "e7848b2fa923572d53f4f3549b6eebb0de0bbc2d911c4811da6291f37a90d08e",
+        "dependencies": [],
+        "compiledArtifacts": {
+          "kind": "path-size-mtime-metadata",
+          "count": 10089,
+          "hash": "eff39cb727636d1b135ecdb35e3c8e15e665997e6a4f2255310687c6f71cb748"
+        },
+        "leanSearchPaths": [
+          "/Users/moonone/GLEAN/glean/.lake/build/lib/lean",
+          "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+        ],
+        "gitCommit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+        "gitDirty": true,
+        "changedLeanInputs": null,
+        "sourceIdentityKind": "source-content-in-parent-git",
+        "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+        "manifestHash": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+        "environmentHash": "9eb212590f2c3a5f99c927b6446d2d450e82b4e4ac1388b11c900de58ceb4935",
+        "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+      },
+      "diagnostics": [
+        {
+          "severity": "error",
+          "message": "Lean이 소스를 거부했습니다. Lean 출력에서 원인을 확인해 주세요."
+        },
+        {
+          "filename": "GLEAN_FRAGMENT_1",
+          "line": 1193,
+          "column": 3,
+          "severity": "error",
+          "message": "Type mismatch\n  True.intro\nhas type\n  True\nbut is expected to have type\n  n + 0 = n",
+          "graphLocation": "root/proof",
+          "fragmentField": "body",
+          "bodyLine": 1193,
+          "bodyColumn": 3,
+          "columnEncoding": "unicode"
+        }
+      ],
+      "lean": {
+        "output": "GLEAN_FRAGMENT_1:1193:2: error: Type mismatch\n  True.intro\nhas type\n  True\nbut is expected to have type\n  n + 0 = n\n",
+        "durationMs": 7424
+      },
+      "pass": true
+    },
+    {
+      "name": "long-product-1m-valid",
+      "size": "1m",
+      "control": "valid",
+      "bodyBytes": 1048483,
+      "bodyLines": 10281,
+      "bodyHash": "8b8ad61bdda3b1f598f3dab08f7adfa11246133f7ed0838f52798f7bc2426eab",
+      "graphJsonBytes": 1059376,
+      "sourceBytes": 1060639,
+      "sourceHash": "4cf8c975447c6b6ed3bc8062b91462ee9d40735dddf3799563c2aacbdc70e5a4",
+      "expectedSourceHash": "918d11b28903c5349c53182b59fd3124c6beaa2585f5357f777082660b6b0751",
+      "wallSeconds": 35.947,
+      "status": "invalid",
+      "verified": false,
+      "kernelAccepted": false,
+      "audit": null,
+      "environment": {
+        "schema": 1,
+        "projectId": "glean",
+        "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+        "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+        "projectFiles": {
+          "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+          "lake-manifest.json": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+          "lakefile.lean": null,
+          "lakefile.toml": "a3500f3a6618de5748b6135a580e2b4357a9936564a0a43a9decbdb94f101580"
+        },
+        "sourceStateHash": "d8724b8eb3a4d453e80d9176a102b985053db652987cf63394058262c68cbcd6",
+        "dependencies": [],
+        "compiledArtifacts": {
+          "kind": "path-size-mtime-metadata",
+          "count": 10089,
+          "hash": "eff39cb727636d1b135ecdb35e3c8e15e665997e6a4f2255310687c6f71cb748"
+        },
+        "leanSearchPaths": [
+          "/Users/moonone/GLEAN/glean/.lake/build/lib/lean",
+          "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+        ],
+        "gitCommit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+        "gitDirty": true,
+        "changedLeanInputs": null,
+        "sourceIdentityKind": "source-content-in-parent-git",
+        "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+        "manifestHash": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+        "environmentHash": "403f358708e20bcfb8b7f642cad0e94af7311785022a58c702d0b1e2131a415e",
+        "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+      },
+      "diagnostics": [
+        {
+          "severity": "error",
+          "message": "독립 커널 재검사 또는 대상 정리의 공리 검사에 실패했습니다."
+        }
+      ],
+      "lean": {
+        "output": "uncaught exception: maximum recursion depth has been reached\nuse `set_option maxRecDepth <num>` to increase limit\nuse `set_option diagnostics true` to get diagnostic information\n",
+        "durationMs": 35756
+      },
+      "pass": false
+    },
+    {
+      "name": "long-product-1m-wrong-ending",
+      "size": "1m",
+      "control": "wrong-ending",
+      "bodyBytes": 1048479,
+      "bodyLines": 10281,
+      "bodyHash": "324719c858f6bcd5b5b040eb8f0661b4811632e6a9a39b73c76c88b3d56cd827",
+      "graphJsonBytes": 1059372,
+      "sourceBytes": 1060635,
+      "sourceHash": "42939f0fe9c5e7f1fe9953fee47de7cda8e5aaa738a360fee747a8c01739088a",
+      "expectedSourceHash": "918d11b28903c5349c53182b59fd3124c6beaa2585f5357f777082660b6b0751",
+      "wallSeconds": 120.184,
+      "status": "error",
+      "verified": false,
+      "kernelAccepted": false,
+      "audit": null,
+      "environment": {
+        "schema": 1,
+        "projectId": "glean",
+        "leanVersion": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+        "leanBinaryHash": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+        "projectFiles": {
+          "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+          "lake-manifest.json": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+          "lakefile.lean": null,
+          "lakefile.toml": "a3500f3a6618de5748b6135a580e2b4357a9936564a0a43a9decbdb94f101580"
+        },
+        "sourceStateHash": "b2ff228a506fe4bb96f1dfe3f1ca70b9c4754f3c85f56d87063022b32b32f135",
+        "dependencies": [],
+        "compiledArtifacts": {
+          "kind": "path-size-mtime-metadata",
+          "count": 10089,
+          "hash": "eff39cb727636d1b135ecdb35e3c8e15e665997e6a4f2255310687c6f71cb748"
+        },
+        "leanSearchPaths": [
+          "/Users/moonone/GLEAN/glean/.lake/build/lib/lean",
+          "/Users/moonone/GLEAN/.glean-tools/lean-4.34.1-darwin_aarch64/lib/lean"
+        ],
+        "gitCommit": "a05bff4fcd339309fccbdc40a4c27555ca4916a3",
+        "gitDirty": true,
+        "changedLeanInputs": null,
+        "sourceIdentityKind": "source-content-in-parent-git",
+        "toolchainHash": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+        "manifestHash": "4b7e820bf5b14cc1ce94f74ad4cc46a031523650b14ffa40aa94603fa39b0754",
+        "environmentHash": "819561ff2ccc06c9648fb93e351651f794d02af42be08145a6e27df23efc3195",
+        "hashScope": "Lean binary and project/package source identity plus configuration content; compiled libraries use metadata, not a full content attestation"
+      },
+      "diagnostics": [
+        {
+          "severity": "error",
+          "message": "Lean 검사가 120초를 초과했습니다."
+        }
+      ],
+      "lean": {
+        "output": "",
+        "durationMs": 120107
+      },
+      "pass": false
+    }
+  ],
+  "completedAt": "2026-10-08T00:53:15+0900",
+  "pass": false
+}
